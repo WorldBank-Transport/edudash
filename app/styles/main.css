@@ -160,123 +160,123 @@ h1 {
     }
 }
 .preload {
-display:none;
+    display:none;
 }
 
 html, body {
-margin: 0px;
-padding: 0px;
-border: 0px;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }
 
 h1 {
-font-family: 'Open Sans', sans-serif;
-color: black;
+    font-family: 'Open Sans', sans-serif;
+    color: black;
 }
 
 /*The content below this is all related to the tables*/
 
 #schooltablescontainer {
-width: 940px;
-margin: 0 auto;
-margin-top: 30px;
+    width: 940px;
+    margin: 0 auto;
+    margin-top: 30px;
 }
 
 .scroll {
 overflow-y: scroll;
 overflow-x: hidden;
-height: 550px;
-width: 460px;
-float:left;
-border: 1px solid #e3e3e3;
-margin-left: 5px;
-margin-bottom: 20px;
+    height: 550px;
+    width: 460px;
+    float:left;
+    border: 1px solid #e3e3e3;
+    margin-left: 5px;
+    margin-bottom: 20px;
 }
 
 table.schools {
-table-layout: fixed;
-width: 450px;
-font-family: 'Open Sans', sans-serif;
-text-align: center;
-border-collapse: collapse;
+    table-layout: fixed;
+    width: 450px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    border-collapse: collapse;
 }
 
 table.schools a:link, a:visited, a:hover, a:visited {
-color:inherit;
-text-decoration: none;
+    color:inherit;
+    text-decoration: none;
 }
 
 table.schools tr:hover {
-background-color: #b9e5f5;
+    background-color: #b9e5f5;
 }
 
 table.schools td {
-height: 55px;
-white-space: nowrap;
+    height: 55px;
+    white-space: nowrap;
 }
 
 table.schools td.rank {
-color: #6b6b6b;
-font-weight: 600;
-font-size: 24px;
-width: 25px;
-text-align: right;
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 24px;
+    width: 25px;
+    text-align: right;
 }
 
 table.schools td.name {
-color: #6b6b6b;
-font-weight: 600;
-font-size: 16px;
-width: 240px;
-text-align:left;
-padding-left: 20px;
-overflow: hidden;
-text-overflow: ellipsis;
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 16px;
+    width: 240px;
+    text-align:left;
+    padding-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 table.schools td.passrategreen {
-color: #38a21c;
-font-weight: 400;
-font-size: 24px;
-width: 55px;
+    color: #38a21c;
+    font-weight: 400;
+    font-size: 24px;
+    width: 55px;
 }
 
 table.schools td.passratered {
-color: #f56053;
-font-weight: 400;
-font-size: 24px;
-width: 55px;
+    color: #f56053;
+    font-weight: 400;
+    font-size: 24px;
+    width: 55px;
 }
 
 table.schools p {
-text-transform: uppercase;
-font-size: 11px;
-font-weight: 300;
-color: #717171;
-line-height: 12px;
-margin-top: 0px;
-margin-bottom: 0px;
-margin-bottom: 0px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+    color: #717171;
+    line-height: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 p.tableheader {
-background-color: #05a2dc;
-width: 224px;
-height: 30px;
-border-radius: 15px;
-text-align: center;
-font-family: 'Open Sans', sans-serif;
-color: white;
-font-weight: 400;
-font-size: 14px;
-float:left;
-margin-left: 120px;
-margin-right: 120px;
+    background-color: #05a2dc;
+    width: 224px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    float:left;
+    margin-left: 120px;
+    margin-right: 120px;
 }
 
 img.face {
-margin-top: 5px;
-margin-right: 5px;
-display: inline-block;
-vertical-align: text-bottom;
+    margin-top: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: text-bottom;
 }
