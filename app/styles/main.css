@@ -313,3 +313,7 @@ div.cartodb-share a{
     border: 1px solid #DDDDDD;
     border-radius: 0;
 }
+.search-schools,
+.search-schools input{
+    min-width: 200px;
+}

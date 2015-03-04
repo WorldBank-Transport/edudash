@@ -17,9 +17,10 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.select'
   ])
-  .config ($routeProvider) ->
+  .config ($routeProvider, uiSelectConfig) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/main.html'
@@ -41,4 +42,5 @@ angular
         controller: 'BrnCtrl'
       .otherwise
         redirectTo: '/'
+    uiSelectConfig.theme = 'select2';
 

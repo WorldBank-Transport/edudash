@@ -45,6 +45,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             cartodb_logo: false
 
         $scope.activeMap = 0
+        $scope.activeItem = null
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
           # layer 0 is the base layer, layer 1 is cartodb layer

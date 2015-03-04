@@ -22,12 +22,21 @@
     </div>
 </div>
 
-<ul class="nav nav-tabs" style="width: 58.333%">
-    <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
-    <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
-    <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
-    <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
-</ul>
+<div class="row">
+    <div class="col-sm-7">
+        <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
+            <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
+            <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
+            <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-5">
+        <ui-select multiple ng-model="activeItem" class="search-schools">
+        </ui-select>
+    </div>
+</div>
+
 
 <div class="map-widget container-fluid">
     <div class="row map-widget-row">
