@@ -3,10 +3,10 @@ body {
   height: 100%;
   width: 100%;
   display: block;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
     color: #444;
 }
 
@@ -286,6 +286,11 @@ img.face {
 }
 .perfomance-gauges{
     height: 180px;
+}
+.dial-title{
+    color: #05a2dc;
+    font-weight: bold;
+    font-size:16px;
 }
 .list-horizontal li{
     display: inline-block;

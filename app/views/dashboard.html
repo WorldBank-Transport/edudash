@@ -1,8 +1,22 @@
 <div class="page-header">
-  <h1 class="text-center text-muted">{{ title }}</h1>
+  <h1 class="text-center"><small>{{ title }}</small></h1>
 </div>
 
 <div class="container perfomance-gauges">
+    <div class="row">
+        <div class="col-sm-4 text-center">
+            <p class="dial-title">Change since 2012</p>
+            <img src="images/gauge_{{ schoolType }}_1.png">
+        </div>
+        <div class="col-sm-4 text-center">
+            <p class="dial-title">Pupil-teacher ratio</p>
+            <img src="images/gauge_{{ schoolType }}_2.png">
+        </div>
+        <div class="col-sm-4 text-center">
+            <p class="dial-title">Avarage pass rate</p>
+            <img src="images/gauge_{{ schoolType }}_3.png">
+        </div>
+    </div>
 </div>
 
 <div class="map-widget container-fluid">
@@ -27,7 +41,7 @@
     <div class="scroll">
         <table class="schools">
             <tr ng-repeat="school in bestSchools">
-                <td class="rank">{{ school.rank_2014 }}.</td>
+                <td class="rank">{{ $index + 1 }}.</td>
                 <td class="name"><a href="#">{{ school.name }}</a><p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
                 <td class="passrategreen">{{ school.pass_2014 }}%</td>
             </tr>
