@@ -285,12 +285,13 @@ img.face {
     vertical-align: text-bottom;
 }
 .perfomance-gauges{
-    height: 180px;
+    padding-bottom: 30px
 }
 .dial-title{
     color: #05a2dc;
     font-weight: bold;
     font-size:16px;
+    margin-bottom: 2px
 }
 .list-horizontal li{
     display: inline-block;
@@ -301,4 +302,14 @@ img.face {
 .footer .list-horizontal li{
     color: #F5F5F5;
     padding: 20px 30px;
+}
+div.cartodb-share a{
+    width: 30px;
+    height: 30px;
+}
+.nav-tabs > li > a{
+    background: #EEEEEE;
+    margin-right: 0px;
+    border: 1px solid #DDDDDD;
+    border-radius: 0;
 }

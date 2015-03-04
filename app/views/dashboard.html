@@ -6,18 +6,28 @@
     <div class="row">
         <div class="col-sm-4 text-center">
             <p class="dial-title">Change since 2012</p>
-            <img src="images/gauge_{{ schoolType }}_1.png">
+            <small class="text-muted">Click for details</small><br>
+            <img ng-src="images/gauge_{{ schoolType }}_1.png">
         </div>
         <div class="col-sm-4 text-center">
             <p class="dial-title">Pupil-teacher ratio</p>
-            <img src="images/gauge_{{ schoolType }}_2.png">
+            <small class="text-muted">Click for details</small><br>
+            <img ng-src="images/gauge_{{ schoolType }}_2.png">
         </div>
         <div class="col-sm-4 text-center">
             <p class="dial-title">Avarage pass rate</p>
-            <img src="images/gauge_{{ schoolType }}_3.png">
+            <small class="text-muted">Click for details</small><br>
+            <img ng-src="images/gauge_{{ schoolType }}_3.png">
         </div>
     </div>
 </div>
+
+<ul class="nav nav-tabs" style="width: 58.333%">
+    <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
+    <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
+    <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
+    <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
+</ul>
 
 <div class="map-widget container-fluid">
     <div class="row map-widget-row">

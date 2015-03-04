@@ -32,7 +32,29 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         mostImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE change_13_14 IS NOT NULL ORDER BY change_13_14 DESC LIMIT 100"
         leastImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY change_13_14 ASC LIMIT 100"
 
-        cartodb.createVis 'map', mapLayers[$scope.schoolType]
+        map = null
+        layers = null
+        mapOptions =
+            shareable: false
+            title: false
+            description: false
+            search: false
+            tiles_loader: true
+            zoom: 6
+            layer_selector: false
+            cartodb_logo: false
+
+        $scope.activeMap = 0
+
+        cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
+          # layer 0 is the base layer, layer 1 is cartodb layer
+          # setInteraction is disabled by default
+            layers = lyrs
+            layers[1].setInteraction(true)
+            layers[1].on 'featureOver', (e, pos, latlng, data) ->
+                cartodb.log.log(data)
+            # you can get the native map to work with it
+            map = vis.getNativeMap()
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
             $scope.bestSchools = data.rows
@@ -45,4 +67,13 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         $http.get(apiRoot, {params: { q: leastImprovedSchoolsSql, api_key: apiKey }}).success (data) ->
             $scope.leastImprovedSchools = data.rows
+
+        $scope.showLayer = (tag) ->
+            if tag?
+                $scope.activeMap = tag
+                for i in [0, 1, 2, 3]
+                    if i == tag
+                        layers[1].getSubLayer(i).show()
+                    else
+                        layers[1].getSubLayer(i).hide()
 ]
