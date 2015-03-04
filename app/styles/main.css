@@ -17,6 +17,10 @@ h1 {
   padding-left: 15px;
   padding-right: 15px;
 }
+.footer{
+    background-color: #05a2dc;
+    min-height: 100px;
+}
 
 #main-nav.navbar-default {
     background-color: #05a2dc;
@@ -279,4 +283,14 @@ img.face {
     margin-right: 5px;
     display: inline-block;
     vertical-align: text-bottom;
+}
+.list-horizontal li{
+    display: inline-block;
+}
+.footer a{
+    color: #F5F5F5;
+}
+.footer .list-horizontal li{
+    color: #F5F5F5;
+    padding: 20px 30px;
 }
