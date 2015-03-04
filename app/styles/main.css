@@ -284,6 +284,9 @@ img.face {
     display: inline-block;
     vertical-align: text-bottom;
 }
+.perfomance-gauges{
+    height: 180px;
+}
 .list-horizontal li{
     display: inline-block;
 }

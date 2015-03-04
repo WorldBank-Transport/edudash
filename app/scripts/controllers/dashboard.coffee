@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$location', '$window', '$routeParams', '$http', 'cartodb'
+    '$scope', '$window', '$routeParams', '$http', 'cartodb'
  
-    ($scope, $location, $window, $routeParams, $http, cartodb) ->
+    ($scope, $window, $routeParams, $http, cartodb) ->
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
@@ -18,8 +18,12 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             'secondary': 'http://worldbank.cartodb.com/api/v2/viz/0d9008a8-c1d2-11e4-9470-0e4fddd5de28/viz.json'
         if $routeParams.type == secondary
             $scope.schoolType = secondary
-        else
+            $scope.title = 'Secondary School Dashboard'
+        else if $routeParams.type == primary
             $scope.schoolType = primary
+            $scope.title = 'Primary School Dashboard'
+        else
+            $window.location.href = '/'
         
         apiRoot = 'http://wbank.cartodb.com/api/v2/sql'
         apiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
