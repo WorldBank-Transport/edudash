@@ -22,20 +22,31 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-7">
-        <ul class="nav nav-tabs">
-            <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
-            <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
-            <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
-            <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
-        </ul>
-    </div>
-    <div class="col-sm-5">
-        <ui-select multiple ng-model="activeItem" class="search-schools">
-        </ui-select>
+<div class="container-fluid map-nav">
+    <div class="row">
+        <div class="col-sm-7">
+            <ul class="nav nav-tabs">
+                <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
+                <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
+                <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
+                <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-5">
+            <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
+                <ui-select-match placeholder="Search school by name or code ..">{{ $select.selected.name }}</ui-select-match>
+                <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
+                    <div ng-bind-html="school.name | highlight: $select.search"></div>
+                    <small class="text-muted">
+                        center code: {{school.code}}<br>
+                        district: <span ng-bind-html="''+school.district | highlight: $select.search"></span>
+                    </small>
+                </ui-select-choices>
+            </ui-select>
+        </div>
     </div>
 </div>
+
 
 
 <div class="map-widget container-fluid">
@@ -44,6 +55,12 @@
             <div id="map"></div>
         </div>
         <div class="col-md-5 map-details">
+            <div class="container-fluid">
+                <div ng-if="activeMap!=3" >
+                    <h3>{{ selectedSchool.name }}</h3>
+                    <small class="text-muted">{{ selectedSchool.code }}</small>
+                </div>
+            </div>
         </div>
     </div>
 </div>

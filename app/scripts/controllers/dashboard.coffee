@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$http', 'cartodb'
+    '$scope', '$window', '$routeParams', '$http', 'cartodb', '_'
  
-    ($scope, $window, $routeParams, $http, cartodb) ->
+    ($scope, $window, $routeParams, $http, cartodb, _) ->
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
@@ -25,12 +25,15 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         else
             $window.location.href = '/'
         
+        $scope.searchText = "dar"
+        
         apiRoot = 'http://wbank.cartodb.com/api/v2/sql'
         apiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
         bestSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 ASC LIMIT 100"
         worstSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 DESC LIMIT 100"
         mostImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE change_13_14 IS NOT NULL ORDER BY change_13_14 DESC LIMIT 100"
         leastImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY change_13_14 ASC LIMIT 100"
+        # schoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014"
 
         map = null
         layers = null
@@ -46,6 +49,8 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         $scope.activeMap = 0
         $scope.activeItem = null
+        $scope.schoolsChoices = []
+        $scope.selectedSchool = {}
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
           # layer 0 is the base layer, layer 1 is cartodb layer
@@ -54,7 +59,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             layers[1].setInteraction(true)
             layers[1].on 'featureOver', (e, pos, latlng, data) ->
                 cartodb.log.log(data)
-            # you can get the native map to work with it
+            # you can get the native map to woOrk with it
             map = vis.getNativeMap()
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
@@ -69,6 +74,13 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $http.get(apiRoot, {params: { q: leastImprovedSchoolsSql, api_key: apiKey }}).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
+        # $http.get(apiRoot, {params: { q: schoolsSql, api_key: apiKey }}).success (data) ->
+        #    $scope.schools = data.rows
+        #    $scope.bestSchools = _.first($scope.schools, 100)
+        #    $scope.worstSchools = _.last($scope.schools, 100).reverse()
+        #    $scope.mostImprovedSchools = _.first(_.sortBy($scope.schools, 'change_13_14'), 100)
+        #   $scope.leastImprovedSchools = _.first(_.sortBy($scope.schools, 'change_13_14'), 100)
+
         $scope.showLayer = (tag) ->
             if tag?
                 $scope.activeMap = tag
@@ -77,4 +89,18 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                         layers[1].getSubLayer(i).show()
                     else
                         layers[1].getSubLayer(i).hide()
+
+        $scope.getSchoolsChoices = (query) ->
+            if query?
+                $scope.searchText = query
+                searchSQL = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE " +
+                    "(name ilike '%#{ $scope.searchText }%' OR code ilike '%#{ $scope.searchText }%') LIMIT 10"
+                $http.get(apiRoot, {params: { q: searchSQL, api_key: apiKey }}).success (data) ->
+                    $scope.schoolsChoices = data.rows
+
+        $scope.setSchool = (item, model) ->
+            $scope.selectedSchool = item
+            $scope.activeMap = 0
+            $scope.showLayer(0)
+            map.setView [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude], 9
 ]

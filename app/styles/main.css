@@ -315,5 +315,11 @@ div.cartodb-share a{
 }
 .search-schools,
 .search-schools input{
-    min-width: 200px;
+    min-width: 300px;
+}
+.container-fluid.map-nav{
+    padding-left: 0;
+}
+.select2-highlighted .text-muted{
+    color: #EEEEF5
 }

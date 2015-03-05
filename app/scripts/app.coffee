@@ -42,5 +42,5 @@ angular
         controller: 'BrnCtrl'
       .otherwise
         redirectTo: '/'
-    uiSelectConfig.theme = 'select2';
+    uiSelectConfig.theme = 'bootstrap';
 
