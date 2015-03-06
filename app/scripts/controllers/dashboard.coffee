@@ -123,9 +123,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
                 # $scope.selectedSchool.pass_by_10 = parseInt item.pass_2014/10
             $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
-            
 
         $scope.getTimes = (n) ->
             new Array(n)
-            
 ]
