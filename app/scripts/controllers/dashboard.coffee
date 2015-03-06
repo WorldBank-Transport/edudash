@@ -124,6 +124,107 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 # $scope.selectedSchool.pass_by_10 = parseInt item.pass_2014/10
             $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
 
+            # TODO: cleaner way?
+            # Ensure the parent div has been fully rendered
+            setTimeout( (() -> drawPassOverTime(item)), 1000)
+
+        getDimensions = (selector) ->
+          pn = d3.select(selector).node().parentNode
+          h = d3.select(selector).style('height').replace('px', '')
+          w = d3.select(selector).style('width').replace('px', '')
+          {h: h, w: w}
+
+        drawPassOverTime = (item) ->
+          selector = "#widget #passOverTime"
+
+          # TODO hardcoded date
+          years = _.range(2012,2015)
+          values = years.map((x) -> item["pass_" + x])
+          data = _.zip(years, values).map( (x) -> {"key": x[0], "val": x[1]})
+
+          dim = getDimensions(selector)
+          h = 150
+          w = dim.w
+          margin =
+            top: 20
+            right: 20
+            bottom: 20
+            left: 20
+
+          width = w - margin.left - margin.right
+          height = h - margin.top - margin.bottom
+
+          x = d3.scale.linear()
+            .range([0, width])
+            .domain([years[0], years[years.length-1]])
+
+          y = d3.scale.linear()
+            .range([height, 0])
+            .domain([0, 100])
+
+          xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickValues(years)
+            .tickFormat(d3.format("0000"))
+
+          # TODO: smooth transition instead of re-draw
+          $(selector + " svg").remove()
+
+          # create the svg if it does not already exist
+          svg = d3.select(selector + " svg");
+
+          if !svg[0][0]
+            svg = d3.select(selector).append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            # transform within the margins
+              .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis)
+
+          else
+            svg = svg.select('g')
+
+          line = d3.svg.line()
+            .x((d) -> x(d.key))
+            .y((d)-> y(d.val))
+
+          svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", line)
+
+          node = svg.append("g").selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+
+          findColorClass = (x) ->
+            if x < 35
+              "circle-poor"
+            else if 35 <= x < 50
+              "circle-medium"
+            else
+              "circle-good"
+
+          radius = 15
+          node.append("circle")
+            .attr("class", (d) -> "dot " + findColorClass(d.val))
+            .attr("cx", (d) -> x(d.key))
+            .attr("cy", (d) -> y(d.val))
+            .attr("r", radius)
+
+          node.append("text")
+            .attr("class", "dotlabel")
+            .attr("x", (d) -> x(d.key) - radius/1.5)
+            .attr("y", (d) -> y(d.val) + radius/4)
+            .text((d) -> d.val + "%")
+
         $scope.getTimes = (n) ->
             new Array(n)
 ]
