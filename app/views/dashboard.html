@@ -56,9 +56,96 @@
         </div>
         <div class="col-md-5 map-details">
             <div class="container-fluid">
-                <div ng-if="activeMap!=3" >
-                    <h3>{{ selectedSchool.name }}</h3>
-                    <small class="text-muted">{{ selectedSchool.code }}</small>
+                <div ng-if="activeMap!=3 && selectedSchool|exists" id="schoolinfo" class="container-fluid">
+                    <p class="schoolname">{{ selectedSchool.name }}</p>
+                    <p class="code">{{ selectedSchool.code }}</p>
+                    <div id="widget" class="first">
+                        <p class="widgettitle">2014 pass rate</p>
+                        <div class="row" ng-if="selectedSchool.pass_2014 <= 40">
+                            <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
+                            <div class="col-xs-10">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                    ng-src="images/passrate_student_red.png">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                    ng-src="images/passrate_student_grey.png">
+                            </div>
+                        </div>
+                        <div class="row" ng-if="selectedSchool.pass_2014 > 40 && selectedSchool.pass_2014 < 60">
+                            <div class="col-xs-2"><p class="widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p></div>
+                            <div class="col-xs-10">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                    ng-src="images/passrate_student_yellow.png">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                    ng-src="images/passrate_student_grey.png">
+                            </div>
+                        </div>
+                        <div class="row" ng-if="selectedSchool.pass_2014 >= 60">
+                            <div class="col-xs-2"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
+                            <div class="col-xs-10">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                    ng-src="images/passrate_student_green.png">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                    ng-src="images/passrate_student_grey.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="widget">
+                        <p class="widgettitle">change since 2013</p>
+                        <p class="widgetnumber">
+                            <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
+                            <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
+                            <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
+                            <span ng-class="{
+                                    'text-red': selectedSchool.change_13_14 < 0,
+                                    'text-yellow': selectedSchool.change_13_14 == 0,
+                                    'text-green': selectedSchool.change_13_14 > 0}">
+                                {{ selectedSchool.change_13_14 }}%
+                            </span>
+                        </p>
+                    </div>
+                    <div id="widget">
+                        <p class="widgettitle">national ranking</p>
+                        <p class="widgetnumber">{{ selectedSchool.rank_2014 }}</p>
+                    </div>
+                    <div id="widget" ng-if="selectedSchool.pt_ratio|exists">
+                        <p class="widgettitle">pupil teacher ratio</p>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span class="widgetnumber">
+                                    <span ng-class="{
+                                            'text-red': selectedSchool.pt_ratio > 50,
+                                        '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
+                                            'text-yellow': selectedSchool.pt_ratio < 35}">
+                                    {{ selectedSchool.pt_ratio }}
+                                </span>
+                                <img src="images/ptr_teacher.png" class="teacher">
+                            </div>
+                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio < 35">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                    ng-src="images/ptr_student_yellow.png">
+                            </div>
+                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                    ng-src="images/ptr_student_green.png">
+                            </div>
+                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio > 50">
+                                <img
+                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                    ng-src="images/ptr_student_red.png">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="widget">
+                        <p class="widgettitle">pass rates over time</p>
+                    </div>
                 </div>
             </div>
         </div>

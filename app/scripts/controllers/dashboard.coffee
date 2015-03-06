@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$http', 'cartodb', '_'
+    '$scope', '$window', '$routeParams', '$http', 'cartodb', 'L', '_'
  
-    ($scope, $window, $routeParams, $http, cartodb, _) ->
+    ($scope, $window, $routeParams, $http, cartodb, L, _) ->
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
@@ -51,6 +51,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $scope.activeItem = null
         $scope.schoolsChoices = []
         $scope.selectedSchool = {}
+        schoolMarker = null
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
           # layer 0 is the base layer, layer 1 is cartodb layer
@@ -98,9 +99,32 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 $http.get(apiRoot, {params: { q: searchSQL, api_key: apiKey }}).success (data) ->
                     $scope.schoolsChoices = data.rows
 
+        markSchool = (latlng) ->
+            # markerIcon = L.icon
+            #    iconUrl: 'images/marker2.png'
+            markerIcon = L.AwesomeMarkers.icon
+                markerColor: 'blue'
+                icon: 'map-marker'
+            unless schoolMarker?
+                schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo(map)
+            else
+                schoolMarker.setLatLng(latlng, {icon: markerIcon})
+
         $scope.setSchool = (item, model) ->
             $scope.selectedSchool = item
             $scope.activeMap = 0
             $scope.showLayer(0)
-            map.setView [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude], 9
+            latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
+            markSchool latlng
+            map.setView latlng, 9
+            if item.pass_2014 < 10 && item.pass_2014 > 0
+                $scope.selectedSchool.pass_by_10 = 1
+            else
+                $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
+            $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
+            
+
+        $scope.getTimes = (n) ->
+            new Array(n)
+            
 ]
