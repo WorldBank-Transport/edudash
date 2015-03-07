@@ -117,7 +117,7 @@ h1 {
 
 .map-widget{
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: block;
 }
 .row.map-widget-row{
@@ -128,10 +128,12 @@ h1 {
 .map-details{
     display: block;
     height: 100%;
+    overflow: auto;
 }
 .map-container{
     padding-right: 0;
     padding-left: 0;
+    overflow: hidden;
 }
 .navbar{
     margin-bottom: 0;
