@@ -272,7 +272,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
           data = _.zip(years, values).map( (x) -> {"key": x[0], "val": x[1]})
 
           dim = getDimensions(selector)
-          h = 150
+          h = 100
           w = dim.w
           margin =
             top: 20
@@ -350,7 +350,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
           node.append("text")
             .attr("class", "dotlabel")
-            .attr("x", (d) -> x(d.key) - radius/1.5)
+            .attr("x", (d) -> x(d.key) - radius/1.3)
             .attr("y", (d) -> y(d.val) + radius/4)
             .text((d) -> d.val + "%")
 
