@@ -49,14 +49,17 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $scope.activeMap = 0
         $scope.activeItem = null
         $scope.schoolsChoices = []
-        $scope.selectedSchool = {}
+        $scope.selectedSchool = ''
         schoolMarker = null
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
             layers = lyrs
             layers[1].setInteraction(true)
-            layers[1].on 'featureOver', (e, pos, latlng, data) ->
-                cartodb.log.log(data)
+            layers[1].on 'featureClick', (e, pos, latlng, data) ->
+                if $scope.activeMap != 3
+                    schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
+                    $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
+                        $scope.setSchool data.rows[0], null, false
             map = vis.getNativeMap()
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
@@ -116,10 +119,11 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             else
                 schoolMarker.setLatLng(latlng, {icon: markerIcon})
 
-        $scope.setSchool = (item, model) ->
+        $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
-            $scope.activeMap = 0
-            $scope.showLayer(0)
+            unless showAllSchools? and showAllSchools == false
+                $scope.activeMap = 0
+                $scope.showLayer(0)
             try
                 # Silence invalid/null coordinates
                 latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
