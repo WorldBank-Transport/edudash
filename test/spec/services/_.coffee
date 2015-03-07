@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'Service: ', ->
+describe 'Service: _', ->
 
   # load the service's module
   beforeEach module 'edudashApp'
 
   # instantiate service
-   = {}
-  beforeEach inject (__) ->
-     = __
+  _ = {}
+  beforeEach inject (___) ->
+    _ = __
 
   it 'should do something', ->
-    expect(!!).toBe true
+    expect(!!_).toBe true
