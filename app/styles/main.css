@@ -435,3 +435,31 @@ margin-top: 5px;
 vertical-align: middle;
 margin-left: 5px;
 }
+
+/* Pass rates widget */
+
+#passOverTime .line {
+  fill: none;
+  stroke: #E6E9EA;
+  stroke-width: 4px;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.dotlabel {
+  stroke: white;
+}
+
+.circle-poor {
+  fill:  #f56053;
+}
+
+.circle-medium {
+  fill: #e9c941;
+}
+
+.circle-good {
+  fill: #38a21c;
+}
