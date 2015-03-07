@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$http', 'cartodb', 'L', '_'
+    '$scope', '$window', '$routeParams', '$http', 'cartodb', 'L', '_', '$q'
  
-    ($scope, $window, $routeParams, $http, cartodb, L, _) ->
+    ($scope, $window, $routeParams, $http, cartodb, L, _, $q) ->
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
@@ -75,6 +75,25 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $http.get(apiRoot, {params: { q: leastImprovedSchoolsSql, api_key: apiKey }}).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
+        $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
+            $scope.bestSchools = data.rows
+
+        getSchoolRegionRank = (region, id) ->
+          schoolRankSql = "SELECT pos FROM
+                            (SELECT cartodb_id, rank() OVER (PARTITION BY region ORDER BY rank_2014 ASC) AS pos
+                              FROM wbank.tz_#{ $scope.schoolType}_cleaned_dashboard WHERE region = '#{region}') AS tmp
+                            WHERE cartodb_id = #{id}"
+
+          $http.get(apiRoot, {params: { q: schoolRankSql, api_key: apiKey }})
+
+        getSchoolDistrictRank = (region, district, id) ->
+          schoolRankSql = "SELECT pos FROM
+                            (SELECT cartodb_id, rank() OVER (PARTITION BY district ORDER BY rank_2014 ASC) AS pos
+                              FROM wbank.tz_#{ $scope.schoolType}_cleaned_dashboard WHERE region = '#{region}' AND district = '#{district}') AS tmp
+                            WHERE cartodb_id = #{id}"
+
+          $http.get(apiRoot, {params: { q: schoolRankSql, api_key: apiKey }})
+
         # $http.get(apiRoot, {params: { q: schoolsSql, api_key: apiKey }}).success (data) ->
         #    $scope.schools = data.rows
         #    $scope.bestSchools = _.first($scope.schools, 100)
@@ -126,13 +145,123 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
-            setTimeout( (() -> drawPassOverTime(item)), 1000)
+            setTimeout( () ->
+              drawPassOverTime(item)
+              drawNationalRanking(item)
+            , 500)
 
         getDimensions = (selector) ->
           pn = d3.select(selector).node().parentNode
           h = d3.select(selector).style('height').replace('px', '')
           w = d3.select(selector).style('width').replace('px', '')
           {h: h, w: w}
+
+        drawNationalRanking = (item) ->
+          selector = "#widget #nationalRanking"
+
+          # TODO: assumes 2014
+          nr = item.rank_2014
+
+          # ranking of worst school nationally
+          worst = $scope.worstSchools[0].rank_2014
+
+          $q.all([
+            getSchoolRegionRank(item.region, item.cartodb_id)
+            getSchoolDistrictRank(item.region, item.district, item.cartodb_id)
+          ]).then (data) ->
+            rr = data[0].data.rows[0].pos
+            dr = data[1].data.rows[0].pos
+
+
+            dim = getDimensions(selector)
+            h = 100
+            w = dim.w
+            margin =
+              top: 20
+              right: 25
+              bottom: 20
+              left: 10
+
+            width = w - margin.left - margin.right
+            height = h - margin.top - margin.bottom
+
+            x = d3.scale.linear()
+              .range([0, width])
+              .domain([worst,1])
+
+            y = d3.scale.linear()
+              .range([0,height])
+              .domain([0, 100])
+
+            # TODO: smooth transition instead of re-draw
+            $(selector + " svg").remove()
+
+            svg = d3.select(selector).append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            # transform within the margins
+              .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+            n = 5
+            section = width/n
+
+            svg.append("line")
+              .attr("x1", 0)
+              .attr("y1", y(50))
+              .attr("x2", section)
+              .attr("y2", y(50))
+              .attr("stroke-width", 8)
+              .attr("stroke", "red")
+
+            svg.append("line")
+              .attr("x1", section)
+              .attr("y1", y(50))
+              .attr("x2", section * (n-1))
+              .attr("y2", y(50))
+              .attr("stroke-width", 8)
+              .attr("stroke", "orange")
+
+            svg.append("line")
+              .attr("x1", section * (n-1))
+              .attr("y1", y(50))
+              .attr("x2", width)
+              .attr("y2", y(50))
+              .attr("stroke-width", 8)
+              .attr("stroke", "green")
+
+            svg.append("path")
+              .attr("d", d3.svg.symbol().type("triangle-down"))
+              .attr("transform",  "translate(" + x(nr) + "," + (y(50)-8) + ")")
+
+            svg.append("text")
+              .attr("class", "widgetnumber")
+              .attr("x", x(nr)-9)
+              .attr("y", y(50)-18)
+              .text((d) -> nr)
+
+            rg = svg.append("g")
+              .attr("transform", "translate(" + 10 + "," + (y(50)+35) + ")")
+
+            rg.append("path")
+              .attr("d", d3.svg.symbol().type("triangle-up"))
+              .attr("transform",  "rotate(90)")
+
+            rg.append("text")
+              .attr("class", "widgettitle")
+              .attr("x", 10)
+              .attr("y", 4)
+              .text((d) -> "Regional Rank  #{rr}")
+
+            rg.append("path")
+              .attr("d", d3.svg.symbol().type("triangle-up"))
+              .attr("transform",  "translate(" + (width/2) + ",0) rotate(90)")
+
+            rg.append("text")
+              .attr("class", "widgettitle")
+              .attr("x", (width/2) + 10)
+              .attr("y", 4)
+              .text((d) -> "District Rank  #{dr}")
 
         drawPassOverTime = (item) ->
           selector = "#widget #passOverTime"
