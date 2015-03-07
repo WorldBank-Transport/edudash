@@ -300,24 +300,17 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
           # TODO: smooth transition instead of re-draw
           $(selector + " svg").remove()
 
-          # create the svg if it does not already exist
-          svg = d3.select(selector + " svg");
+          svg = d3.select(selector).append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          # transform within the margins
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-          if !svg[0][0]
-            svg = d3.select(selector).append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            # transform within the margins
-              .append("g")
-              .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-            svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis)
-
-          else
-            svg = svg.select('g')
+          svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
 
           line = d3.svg.line()
             .x((d) -> x(d.key))
