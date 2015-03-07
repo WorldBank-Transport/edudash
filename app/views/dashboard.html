@@ -24,7 +24,7 @@
 
 <div class="container-fluid map-nav">
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
                 <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
@@ -32,10 +32,10 @@
                 <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
             </ul>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="row">
                 <div class="col-xs-2 text-right" style="padding-right: 1px"><img src="images/searchicon.png"></div>
-                <div class="col-xs-10">
+                <div class="col-xs-9">
                     <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
                         <ui-select-match placeholder="Search school by name or code ..">{{ $select.selected.name }}</ui-select-match>
                         <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
@@ -56,101 +56,198 @@
 
 <div class="map-widget container-fluid">
     <div class="row map-widget-row">
-        <div class="col-md-7 map-container">
+        <div class="col-md-6 map-container">
             <div id="map"></div>
         </div>
-        <div class="col-md-5 map-details">
+        <div class="col-md-6 map-details">
             <div class="container-fluid">
-                <div ng-if="activeMap!=3 && selectedSchool|exists" id="schoolinfo" class="container-fluid">
-                    <p class="schoolname">{{ selectedSchool.name }}</p>
-                    <p class="code">{{ selectedSchool.code }}</p>
-                    <div id="widget" class="first">
-                        <p class="widgettitle">2014 pass rate</p>
-                        <div class="row" ng-if="selectedSchool.pass_2014 <= 40">
-                            <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
-                            <div class="col-xs-10">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                    ng-src="images/passrate_student_red.png">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                    ng-src="images/passrate_student_grey.png">
-                            </div>
-                        </div>
-                        <div class="row" ng-if="selectedSchool.pass_2014 > 40 && selectedSchool.pass_2014 < 60">
-                            <div class="col-xs-2"><p class="widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p></div>
-                            <div class="col-xs-10">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                    ng-src="images/passrate_student_yellow.png">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                    ng-src="images/passrate_student_grey.png">
-                            </div>
-                        </div>
-                        <div class="row" ng-if="selectedSchool.pass_2014 >= 60">
-                            <div class="col-xs-2"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
-                            <div class="col-xs-10">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                    ng-src="images/passrate_student_green.png">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                    ng-src="images/passrate_student_grey.png">
-                            </div>
+                <div ng-if="activeMap==3">
+                    <div ng-if="schoolType=='primary'">
+                        <div id="districtinfo">
+                            <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Best performing districts</p>
+                            <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Worst performing districts</p>
+                            <div style="clear: both;"></div>
+
+                            <table class="districts">
+                                <tr><td class="rank">1.</td><td class="name">Arusha Urban</td><td class="passrategreen">92%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Moshi Urban</td><td class="passrategreen">90%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Biharamulo</td><td class="passrategreen">88%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Mpanda Urban</td><td class="passrategreen">88%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Kinondoni</td><td class="passrategreen">86%</td></tr>
+                            </table>
+
+                            <table class="districts" style="margin-left: 35px;">
+                                <tr><td class="rank">1.</td><td class="name">Gairo</td><td class="passratered">25%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Mkalama</td><td class="passratered">25%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Nzega</td><td class="passratered">27%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Kalambo</td><td class="passratered">30%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Momba</td><td class="passratered">30%</td></tr>
+                            </table>
+
+                            <div style="clear: both;"></div>
+
+                            <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Most improved districts</p>
+                            <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Least improved districts</p>
+                            <div style="clear: both;"></div>
+
+                            <table class="districts">
+                                <tr><td class="rank">1.</td><td class="name">Tunduru</td><td class="passrategreen">34%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Nanyumbu</td><td class="passrategreen">26%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Mpanda Urban</td><td class="passrategreen">25%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Ukerewe</td><td class="passrategreen">24%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Mpanda</td><td class="passrategreen">23%</td></tr>
+                            </table>
+
+                            <table class="districts" style="margin-left: 35px;">
+                                <tr><td class="rank">1.</td><td class="name">Pangani</td><td class="passratered">-9%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Shinyanga Urban</td><td class="passratered">-7%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Mkinga</td><td class="passratered">-6%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Kigoma Urban</td><td class="passratered">-6%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Kibaha</td><td class="passratered">-5%</td></tr>
+                            </table>
+
                         </div>
                     </div>
-                    <div id="widget">
-                        <p class="widgettitle">change since 2013</p>
-                        <p class="widgetnumber">
-                            <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
-                            <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
-                            <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
-                            <span ng-class="{
-                                    'text-red': selectedSchool.change_13_14 < 0,
-                                    'text-yellow': selectedSchool.change_13_14 == 0,
-                                    'text-green': selectedSchool.change_13_14 > 0}">
-                                {{ selectedSchool.change_13_14 }}%
-                            </span>
-                        </p>
+                    <div ng-if="schoolType=='secondary'">
+                        <div id="districtinfo">
+
+                            <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Best performing districts</p>
+                            <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Worst performing districts</p>
+                            <div style="clear: both;"></div>
+
+                            <table class="districts">
+                                <tr><td class="rank">1.</td><td class="name">Arusha Urban</td><td class="passrategreen">88%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Moshi Urban</td><td class="passrategreen">85%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Biharamulo</td><td class="passrategreen">85%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Biharamulo</td><td class="passrategreen">83%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Kinondoni</td><td class="passrategreen">81%</td></tr>
+                            </table>
+
+                            <table class="districts" style="margin-left: 35px;">
+                                <tr><td class="rank">1.</td><td class="name">Momba</td><td class="passratered">30%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Kalambo</td><td class="passratered">35%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Nzega</td><td class="passratered">35%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Simanjiro</td><td class="passratered">37%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Hanang</td><td class="passratered">40%</td></tr>
+                            </table>
+
+                            <div style="clear: both;"></div>
+
+                            <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Most improved districts</p>
+                            <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Least improved districts</p>
+                            <div style="clear: both;"></div>
+
+                            <table class="districts">
+                                <tr><td class="rank">1.</td><td class="name">Tunduru</td><td class="passrategreen">31%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Nanyumbu</td><td class="passrategreen">27%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Ukerewe</td><td class="passrategreen">23%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Kiteto</td><td class="passrategreen">21%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Sikonge</td><td class="passrategreen">21%</td></tr>
+                            </table>
+
+                            <table class="districts" style="margin-left: 35px;">
+                                <tr><td class="rank">1.</td><td class="name">Kaskazini A</td><td class="passratered">-16%</td></tr>
+                                <tr><td class="rank">2.</td><td class="name">Mkoani</td><td class="passratered">-15%</td></tr>
+                                <tr><td class="rank">3.</td><td class="name">Nyasa</td><td class="passratered">-14%</td></tr>
+                                <tr><td class="rank">4.</td><td class="name">Wete</td><td class="passratered">-10%</td></tr>
+                                <tr><td class="rank">5.</td><td class="name">Chake Chake</td><td class="passratered">-10%</td></tr>
+                            </table>
+
+                        </div>
                     </div>
-                    <div id="widget">
-                        <p class="widgettitle">national ranking</p>
-                        <div id="nationalRanking"></div>
-                    </div>
-                    <div id="widget" ng-if="selectedSchool.pt_ratio|exists">
-                        <p class="widgettitle">pupil teacher ratio</p>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <span class="widgetnumber">
-                                    <span ng-class="{
-                                            'text-red': selectedSchool.pt_ratio > 50,
-                                        '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
-                                            'text-yellow': selectedSchool.pt_ratio < 35}">
-                                    {{ selectedSchool.pt_ratio }}
+                </div>
+                <div ng-if="activeMap!=3">
+                    <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
+                        <p class="schoolname">{{ selectedSchool.name }}</p>
+                        <p class="code">{{ selectedSchool.code }}</p>
+                        <div id="widget" class="first">
+                            <p class="widgettitle">2014 pass rate</p>
+                            <div class="row" ng-if="selectedSchool.pass_2014 <= 40">
+                                <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
+                                <div class="col-xs-10">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                        ng-src="images/passrate_student_red.png">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                        ng-src="images/passrate_student_grey.png">
+                                </div>
+                            </div>
+                            <div class="row" ng-if="selectedSchool.pass_2014 > 40 && selectedSchool.pass_2014 < 60">
+                                <div class="col-xs-2"><p class="widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p></div>
+                                <div class="col-xs-10">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                        ng-src="images/passrate_student_yellow.png">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                        ng-src="images/passrate_student_grey.png">
+                                </div>
+                            </div>
+                            <div class="row" ng-if="selectedSchool.pass_2014 >= 60">
+                                <div class="col-xs-2"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
+                                <div class="col-xs-10">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                        ng-src="images/passrate_student_green.png">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                        ng-src="images/passrate_student_grey.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="widget">
+                            <p class="widgettitle">change since 2013</p>
+                            <p class="widgetnumber">
+                                <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
+                                <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
+                                <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
+                                <span ng-class="{
+                                        'text-red': selectedSchool.change_13_14 < 0,
+                                        'text-yellow': selectedSchool.change_13_14 == 0,
+                                        'text-green': selectedSchool.change_13_14 > 0}">
+                                    {{ selectedSchool.change_13_14 }}%
                                 </span>
-                                <img src="images/ptr_teacher.png" class="teacher">
-                            </div>
-                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio < 35">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                    ng-src="images/ptr_student_yellow.png">
-                            </div>
-                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                    ng-src="images/ptr_student_green.png">
-                            </div>
-                            <div class="col-xs-8" ng-if="selectedSchool.pt_ratio > 50">
-                                <img
-                                    ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                    ng-src="images/ptr_student_red.png">
+                            </p>
+                        </div>
+                        <div id="widget">
+                            <p class="widgettitle">national ranking</p>
+                            <div id="nationalRanking"></div>
+                        </div>
+                        <div id="widget" ng-if="selectedSchool.pt_ratio|exists">
+                            <p class="widgettitle">pupil teacher ratio</p>
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <span class="widgetnumber">
+                                        <span ng-class="{
+                                                'text-red': selectedSchool.pt_ratio > 50,
+                                            '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
+                                                'text-yellow': selectedSchool.pt_ratio < 35}">
+                                        {{ selectedSchool.pt_ratio }}
+                                    </span>
+                                    <img src="images/ptr_teacher.png" class="teacher">
+                                </div>
+                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio < 35">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                        ng-src="images/ptr_student_yellow.png">
+                                </div>
+                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                        ng-src="images/ptr_student_green.png">
+                                </div>
+                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio > 50">
+                                    <img
+                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                        ng-src="images/ptr_student_red.png">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="widget">
-                      <p class="widgettitle">pass rates over time</p>
-                      <div id="passOverTime"></div>
+                        <div id="widget">
+                          <p class="widgettitle">pass rates over time</p>
+                          <div id="passOverTime"></div>
+                        </div>
                     </div>
                 </div>
             </div>

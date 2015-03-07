@@ -365,6 +365,7 @@ div.cartodb-share a{
     margin-bottom: 8px;
 }
 
+/* School info */
 #schoolinfo {
     margin: 0 auto;
     -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
@@ -394,46 +395,137 @@ div.cartodb-share a{
 }
 
 #schoolinfo #widget {
-position: relative;
-top: 30px;
-border-left: 3px solid #e1e1e1;
-padding-left: 10px;
-margin-top: 30px;
+    position: relative;
+    top: 30px;
+    border-left: 3px solid #e1e1e1;
+    padding-left: 10px;
+    margin-top: 30px;
 }
 
 #schoolinfo #widget.first {
-position: relative;
-top: 30px;
-border-left: 3px solid #e1e1e1;
-padding-left: 10px;
-margin-top: 0px;
+    position: relative;
+    top: 30px;
+    border-left: 3px solid #e1e1e1;
+    padding-left: 10px;
+    margin-top: 0px;
 } 
 
 #schoolinfo p.widgettitle {
-font-size: 11px;
-font-weight: 800;
-color: #828282;
-text-transform: uppercase;
-margin-top: 0px;
-margin-bottom: 0px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #828282;
+    text-transform: uppercase;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 #schoolinfo .widgetnumber {
-font-size: 30px;
-font-weight: 800;
-color: #3a3a3a;
-margin-top: 0px;
-margin-bottom: 2px;
+    font-size: 30px;
+    font-weight: 800;
+    color: #3a3a3a;
+    margin-top: 0px;
+    margin-bottom: 2px;
 }
 
 #schoolinfo img.arrow {
-margin-right: 5px;
+    margin-right: 5px;
 }
 
 #schoolinfo img.teacher {
-margin-top: 5px;
-vertical-align: middle;
-margin-left: 5px;
+    margin-top: 5px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/* Distict info */
+
+#districtinfo {
+    margin: 0 auto;
+    width: 600px;
+    height: 580px;
+    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd);
+    position: relative;
+    background-color: white;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+p.tableheaderdistrict {
+    background-color: #05a2dc;
+    width: 220px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    float:left;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 50px;
+}
+
+table.districts {
+    table-layout: fixed;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    border-collapse: collapse;
+    float: left;
+}
+
+table.districts td {
+    /*border-bottom: 1px dotted #e3e3e3;*/
+    height: 35px;
+    white-space: nowrap;
+}
+
+table.districts td.rank {
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 24px;
+    width: 25px;
+    text-align: right;
+}
+
+table.districts td.name {
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 16px;
+    width: 150px;
+    text-align:left;
+    padding-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.districts td.passrategreen {
+    color: #38a21c;
+    font-weight: 400;
+    font-size: 24px;
+    width: 55px;
+}
+
+table.districts td.passratered {
+    color: #f56053;
+    font-weight: 400;
+    font-size: 24px;
+    width: 55px;
+}
+
+table.districts p {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+    color: #717171;
+    line-height: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 /* Pass rates widget */
