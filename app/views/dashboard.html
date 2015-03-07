@@ -22,6 +22,7 @@
     </div>
 </div>
 
+<div id="anchor-map"></div>
 <div class="container-fluid map-nav">
     <div class="row">
         <div class="col-sm-6">
@@ -268,7 +269,7 @@
         <table class="schools">
             <tr ng-repeat="school in bestSchools">
                 <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name"><a href="#">{{ school.name }}</a><p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
+                <td class="name" ng-click="setSchool(school);anchorScroll()">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
                 <td class="passrategreen">{{ school.pass_2014 }}%</td>
             </tr>
         </table>
@@ -278,7 +279,7 @@
         <table class="schools">
             <tr ng-repeat="school in worstSchools">
                 <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
+                <td class="name" ng-click="setSchool(school);anchorScroll()">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
                 <td class="passratered">{{ school.pass_2014 }}%</td>
             </tr>
         </table>
@@ -292,7 +293,7 @@
         <table class="schools">
             <tr ng-repeat="school in mostImprovedSchools">
                 <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name"><a href="#">{{ school.name }}</a><p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
+                <td class="name" ng-click="setSchool(school);anchorScroll()">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
                 <td class="passrategreen">{{ school.change_13_14 }}%</td>
             </tr>
         </table>
@@ -302,7 +303,7 @@
         <table class="schools">
             <tr ng-repeat="school in leastImprovedSchools">
                 <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
+                <td class="name" ng-click="setSchool(school);anchorScroll()">{{ school.name }}<p>{{ school.district }} District<br>{{ school.region }} Region</br></p></td>
                 <td class="passratered">{{ school.change_13_14 }}%</td>
             </tr>
         </table>

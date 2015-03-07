@@ -236,6 +236,7 @@ table.schools td.name {
     padding-left: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 table.schools td.passrategreen {

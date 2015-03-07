@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$http', 'cartodb', 'L', '_', '$q'
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'cartodb', 'L', '_', '$q'
  
-    ($scope, $window, $routeParams, $http, cartodb, L, _, $q) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, cartodb, L, _, $q) ->
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
@@ -344,4 +344,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         $scope.getTimes = (n) ->
             new Array(n)
+
+        $scope.anchorScroll = () ->
+            $anchorScroll()
 ]
