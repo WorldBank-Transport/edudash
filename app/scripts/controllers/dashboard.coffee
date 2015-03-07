@@ -53,6 +53,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $scope.selectedSchool = ''
         schoolMarker = null
         $scope.openMapFilter = false
+        $scope.openSchoolLegend = false
         $scope.passRange =
             min: 0
             max: 100
@@ -113,6 +114,9 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter
 
+        $scope.toggleSchoolLegend = () ->
+            $scope.openSchoolLegend = !$scope.openSchoolLegend
+
         updateMap = () ->
             if $scope.activeMap != 3
                 layers[1].getSubLayer(0).setSQL(
@@ -124,7 +128,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                         WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
                         AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
                 layers[1].getSubLayer(2).setSQL(
-                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_bestworstimproved
+                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
                         WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
                         AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
 

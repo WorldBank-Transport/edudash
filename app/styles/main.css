@@ -144,8 +144,8 @@ h1 {
 }
 .map-control-container{
     position: absolute;
-    left: 10px;
-    bottom: 40px;
+    left: 7px;
+    bottom: 7px;
 }
 .map-control{
     background: #FFF;
@@ -153,9 +153,15 @@ h1 {
     border: 1px solid #C0C0C0;
     min-width: 170px;
     display: block;
+    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd);
+    margin: 10px
 }
 .map-control-header{
     padding: 7px;
+    color: #05a2dc;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -548,6 +554,45 @@ table.districts p {
     margin-top: 0px;
     margin-bottom: 0px;
     margin-bottom: 0px;
+}
+
+/* Legends */
+#legend {
+    color: #828282;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    text-align: left;
+    padding: 10px;
+}
+
+#legend.schools {
+    background-color: white;
+}
+
+#legend p.title {
+    color: #05a2dc;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+
+#legend a:link {
+    color: #05a2dc;
+}
+
+#legend a:link, a:visited, a:hover {
+    color: #05a2dc;
+    text-decoration: none;
+}
+
+#legend.districts {
+    background-color: white;
+    position: absolute;
+    bottom: 7px;
+    left: 7px;
+    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd);
 }
 
 /* Pass rates widget */
