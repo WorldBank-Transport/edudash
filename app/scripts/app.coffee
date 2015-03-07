@@ -18,7 +18,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.select'
+    'ui.select',
+    'ui-rangeSlider'
   ])
   .config ($routeProvider, uiSelectConfig) ->
     $routeProvider

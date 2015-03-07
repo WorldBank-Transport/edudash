@@ -142,6 +142,21 @@ h1 {
     height: 100%;
     display: block;
 }
+.map-control-container{
+    position: absolute;
+    left: 10px;
+    bottom: 40px;
+}
+.map-control{
+    background: #FFF;
+    border-radius: 2px;
+    border: 1px solid #C0C0C0;
+    min-width: 170px;
+    display: block;
+}
+.map-control-header{
+    padding: 7px;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */

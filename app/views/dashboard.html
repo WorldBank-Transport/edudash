@@ -21,6 +21,26 @@
                 <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)">Districts</a></li>
             </ul>
             <div id="map"></div>
+            <div ng-if="activeMap!=3" class="map-control-container">
+                <div class="map-control container-fluid">
+                    <div class="text-info map-control-header">
+                        Map Filters
+                        <a ng-if="openMapFilter" ng-click="toggleMapFilter()" class="pull-right">[-]</a>
+                        <a ng-if="!openMapFilter" ng-click="toggleMapFilter()" class="pull-right">[+]</a>
+                    </div>
+                    <div class="map-control-body" ng-show="openMapFilter">
+                        <div>
+                            <label>Pass rate: {{ passRange.min }}% - {{ passRange.max }}%</label>
+                            <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>                    
+                        </div>
+                        <div>
+                            <label>Pupil teacher ratio: {{ ptRange.min }} - {{ ptRange.max }}</label>
+                            <div range-slider min="0" max="200" model-min="ptRange.min" model-max="ptRange.max"></div>                    
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
         <div class="col-md-6 map-details">
             <div class="">

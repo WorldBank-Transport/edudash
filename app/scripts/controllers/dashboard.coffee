@@ -52,6 +52,13 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         $scope.schoolsChoices = []
         $scope.selectedSchool = ''
         schoolMarker = null
+        $scope.openMapFilter = false
+        $scope.passRange =
+            min: 0
+            max: 100
+        $scope.ptRange =
+            min: 0
+            max: 200
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
             layers = lyrs
@@ -103,6 +110,26 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     else
                         layers[1].getSubLayer(i).hide()
 
+        $scope.toggleMapFilter = () ->
+            $scope.openMapFilter = !$scope.openMapFilter
+
+        updateMap = () ->
+            if $scope.activeMap != 3
+                layers[1].getSubLayer(0).setSQL(
+                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
+                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
+                layers[1].getSubLayer(1).setSQL(
+                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
+                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
+                layers[1].getSubLayer(2).setSQL(
+                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_bestworstimproved
+                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
+
+        $scope.updateMap = _.debounce(updateMap, 500)
+
         $scope.getSchoolsChoices = (query) ->
             if query?
                 $scope.searchText = query
@@ -110,6 +137,18 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     "(name ilike '%#{ $scope.searchText }%' OR code ilike '%#{ $scope.searchText }%') LIMIT 10"
                 $http.get(apiRoot, {params: { q: searchSQL, api_key: apiKey }}).success (data) ->
                     $scope.schoolsChoices = data.rows
+
+        $scope.$watch 'passRange', ((newVal, oldVal) ->
+            unless _.isEqual(newVal, oldVal)
+                $scope.updateMap()
+            return
+        ), true
+
+        $scope.$watch 'ptRange', ((newVal, oldVal) ->
+            unless _.isEqual(newVal, oldVal)
+                $scope.updateMap()
+            return
+        ), true
 
         markSchool = (latlng) ->
             markerIcon = L.AwesomeMarkers.icon
@@ -347,4 +386,5 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         $scope.anchorScroll = () ->
             $anchorScroll()
+
 ]
