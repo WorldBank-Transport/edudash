@@ -581,7 +581,9 @@ table.districts p {
     color: #05a2dc;
 }
 
-#legend a:link, a:visited, a:hover {
+#legend a:link,
+#legend a:visited,
+#legend a:hover {
     color: #05a2dc;
     text-decoration: none;
 }
@@ -621,4 +623,51 @@ table.districts p {
 
 .circle-good {
   fill: #38a21c;
+}
+/* General content */
+#generalcontent {
+	width: 800px;
+	margin: 0 auto;
+	font-family: 'Open Sans', sans-serif;
+	color: #05a2dc;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 24px;
+	margin-top: 25px;
+    min-height: 400px;
+}
+
+#generalcontent p {
+	
+}
+
+#generalcontent p.text {
+	color: #717171;
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 20px;
+	text-align: left;
+}
+
+#generalcontent a:hover,
+#generalcontent a:hover a:visited,
+#generalcontent a:hover a:link {
+	color: #05a2dc;
+	font-weight: 400;
+	text-decoration: none;
+}
+
+#generalcontent a.boxlink {
+	background-color: #05a2dc;
+	color: #FFFFFF;
+	font-weight: 300;
+	font-size: 18px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-right: 10%;
+	margin-left: 10%;
+}
+
+#generalcontent a.boxlink:hover {
+	background-color: #2ab4e7;
 }
