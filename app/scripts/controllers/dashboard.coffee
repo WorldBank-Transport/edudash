@@ -33,7 +33,6 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         worstSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 DESC LIMIT 100"
         mostImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE change_13_14 IS NOT NULL ORDER BY change_13_14 DESC LIMIT 100"
         leastImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY change_13_14 ASC LIMIT 100"
-        # schoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014"
 
         map = null
         layers = null
@@ -54,13 +53,10 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         schoolMarker = null
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
-          # layer 0 is the base layer, layer 1 is cartodb layer
-          # setInteraction is disabled by default
             layers = lyrs
             layers[1].setInteraction(true)
             layers[1].on 'featureOver', (e, pos, latlng, data) ->
                 cartodb.log.log(data)
-            # you can get the native map to woOrk with it
             map = vis.getNativeMap()
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
@@ -94,13 +90,6 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
           $http.get(apiRoot, {params: { q: schoolRankSql, api_key: apiKey }})
 
-        # $http.get(apiRoot, {params: { q: schoolsSql, api_key: apiKey }}).success (data) ->
-        #    $scope.schools = data.rows
-        #    $scope.bestSchools = _.first($scope.schools, 100)
-        #    $scope.worstSchools = _.last($scope.schools, 100).reverse()
-        #    $scope.mostImprovedSchools = _.first(_.sortBy($scope.schools, 'change_13_14'), 100)
-        #   $scope.leastImprovedSchools = _.first(_.sortBy($scope.schools, 'change_13_14'), 100)
-
         $scope.showLayer = (tag) ->
             if tag?
                 $scope.activeMap = tag
@@ -119,8 +108,6 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     $scope.schoolsChoices = data.rows
 
         markSchool = (latlng) ->
-            # markerIcon = L.icon
-            #    iconUrl: 'images/marker2.png'
             markerIcon = L.AwesomeMarkers.icon
                 markerColor: 'blue'
                 icon: 'map-marker'
@@ -140,7 +127,6 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 $scope.selectedSchool.pass_by_10 = 1
             else
                 $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
-                # $scope.selectedSchool.pass_by_10 = parseInt item.pass_2014/10
             $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
 
             # TODO: cleaner way?
