@@ -33,16 +33,21 @@
             </ul>
         </div>
         <div class="col-sm-5">
-            <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
-                <ui-select-match placeholder="Search school by name or code ..">{{ $select.selected.name }}</ui-select-match>
-                <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
-                    <div ng-bind-html="school.name | highlight: $select.search"></div>
-                    <small class="text-muted">
-                        center code: {{school.code}}<br>
-                        district: <span ng-bind-html="''+school.district | highlight: $select.search"></span>
-                    </small>
-                </ui-select-choices>
-            </ui-select>
+            <div class="row">
+                <div class="col-xs-2 text-right" style="padding-right: 1px"><img src="images/searchicon.png"></div>
+                <div class="col-xs-10">
+                    <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
+                        <ui-select-match placeholder="Search school by name or code ..">{{ $select.selected.name }}</ui-select-match>
+                        <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
+                            <div ng-bind-html="school.name | highlight: $select.search"></div>
+                            <small class="text-muted">
+                                center code: {{school.code}}<br>
+                                district: <span ng-bind-html="''+school.district | highlight: $select.search"></span>
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
         </div>
     </div>
 </div>
