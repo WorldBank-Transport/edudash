@@ -45,6 +45,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             zoom: 6
             layer_selector: false
             cartodb_logo: false
+            scrollwheel: true
 
         $scope.activeMap = 0
         $scope.activeItem = null
