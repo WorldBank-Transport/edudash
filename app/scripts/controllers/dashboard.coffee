@@ -184,8 +184,8 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
-              drawPassOverTime(item)
               drawNationalRanking(item)
+              drawPassOverTime(item)
             , 400)
 
         getDimensions = (selector) ->
