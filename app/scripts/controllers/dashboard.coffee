@@ -272,11 +272,14 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               .attr("d", d3.svg.symbol().type("triangle-down"))
               .attr("transform",  "translate(" + x(nr) + "," + (y(50)-8) + ")")
 
-            svg.append("text")
+            label = svg.append("text")
               .attr("class", "widgetnumber")
-              .attr("x", x(nr)-9)
-              .attr("y", y(50)-18)
-              .text((d) -> nr)
+              .text(nr)
+
+            bbox = label.node().getBBox()
+
+            label.attr("x", x(nr) - bbox.width/2)
+                  .attr("y", y(50)-18)
 
             rg = svg.append("g")
               .attr("transform", "translate(" + 10 + "," + (y(50)+35) + ")")
