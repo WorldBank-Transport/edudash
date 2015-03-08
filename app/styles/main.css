@@ -163,6 +163,32 @@ h1 {
     margin-top: 0px;
     margin-bottom: 5px;
 }
+/* Map hover */
+.map-container div.cartodb-tooltip {
+    position: absolute;
+    display: none;
+    min-width: 120px;
+    max-width: 180px;
+    overflow-y: hidden;
+    left: 20px !important;
+    top: 100px !important;
+    z-index: 5;
+}
+.map-container div.cartodb-tooltip h4{
+    color: #828282;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-weight: 600;
+    font-size: 11px;
+}
+.map-container div.cartodb-tooltip p{
+    color: #05a2dc;
+    font-weight: 300;
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
@@ -358,37 +384,6 @@ div.cartodb-share a{
 .select2-highlighted .text-muted{
     color: #EEEEF5
 }
-.cartodb-tooltip-content {
-    background-color: white;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-    font-size: 15px;
-    text-align: left;
-    position: absolute;
-    top: 7px;
-    left: 7px;
-    padding: 10px;
-    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd);
-}
-
-.cartodb-tooltip-content {
-    color: #828282;
-    text-transform: uppercase;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    font-weight: 600;
-    font-size: 11px;
-}
-
-.cartodb-tooltip-content {
-    color: #05a2dc;
-    font-weight: 300;
-    font-size: 15px;
-    margin-top: 0px;
-    margin-bottom: 8px;
-}
-
 /* School info */
 #schoolinfo {
     margin: 0 auto;
