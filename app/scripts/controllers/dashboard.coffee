@@ -186,7 +186,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             setTimeout( () ->
               drawPassOverTime(item)
               drawNationalRanking(item)
-            , 500)
+            , 400)
 
         getDimensions = (selector) ->
           pn = d3.select(selector).node().parentNode
