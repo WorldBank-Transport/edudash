@@ -311,7 +311,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
           dim = getDimensions(selector)
           h = 100
-          w = dim.w
+          w = 350 #dim.w
           margin =
             top: 20
             right: 20
