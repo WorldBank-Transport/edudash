@@ -250,7 +250,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               .attr("x2", section)
               .attr("y2", y(50))
               .attr("stroke-width", 8)
-              .attr("stroke", "red")
+              .attr("stroke", "#ef4c54")
 
             svg.append("line")
               .attr("x1", section)
@@ -258,7 +258,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               .attr("x2", section * (n-1))
               .attr("y2", y(50))
               .attr("stroke-width", 8)
-              .attr("stroke", "orange")
+              .attr("stroke", "#989898")
 
             svg.append("line")
               .attr("x1", section * (n-1))
@@ -266,7 +266,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               .attr("x2", width)
               .attr("y2", y(50))
               .attr("stroke-width", 8)
-              .attr("stroke", "green")
+              .attr("stroke", "#80c651")
 
             svg.append("path")
               .attr("d", d3.svg.symbol().type("triangle-down"))
