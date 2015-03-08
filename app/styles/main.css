@@ -606,6 +606,7 @@ table.districts p {
 
 .dotlabel {
   stroke: white;
+  font-size: 12px;
 }
 
 .circle-poor {
