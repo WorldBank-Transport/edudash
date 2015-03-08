@@ -387,8 +387,8 @@ div.cartodb-share a{
 /* School info */
 #schoolinfo {
     margin: 0 auto;
-    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd);
+    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd); 
+    filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
     padding-top: 5px;
     padding-left: 15px;
