@@ -1,20 +1,10 @@
 
 <div id="anchor-map"></div>
-<div class="container-fluid map-nav">
-    <div class="row">
-        <div class="col-sm-6">
-        </div>
-        <div class="col-sm-6">
-        </div>
-    </div>
-</div>
-
-
 
 <div class="map-widget container-fluid">
     <div class="row map-widget-row">
         <div class="col-md-6 map-container">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" id="nav-tabs-dashboard">
                 <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
                 <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
                 <li role="presentation" ng-class="{active: activeMap==2}"><a ng-click="showLayer(2)">Best & Worst Improvements</a></li>
