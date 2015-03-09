@@ -27,7 +27,12 @@ h1 {
     border: none;
     border-radius: 0;
 }
-
+.page-header{
+    margin: 5px 0 15px;
+    font-weight: 800;
+    color: #777;
+    font-size: 15px
+}
 .navbar-default .navbar-nav > li > a{
     color: #F0F0F0;
 }
