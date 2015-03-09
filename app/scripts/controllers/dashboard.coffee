@@ -42,6 +42,8 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             description: false
             search: false
             tiles_loader: true
+            center_lat: -7.199
+            center_lon: 34.1894
             zoom: 6
             layer_selector: false
             cartodb_logo: false
@@ -69,6 +71,11 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
                     $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
                         $scope.setSchool data.rows[0], null, false
+            layers[1].on 'mouseover', () ->
+                $('.leaflet-container').css('cursor', 'pointer')
+            layers[1].on 'mouseout', () ->
+                $('.leaflet-container').css('cursor', '-webkit-grab')
+                $('.leaflet-container').css('cursor', '-moz-grab')
             map = vis.getNativeMap()
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
@@ -195,7 +202,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
           {h: h, w: w}
 
         drawNationalRanking = (item) ->
-          selector = "#widget #nationalRanking"
+          selector = ".widget #nationalRanking"
 
           # TODO: assumes 2014
           nr = item.rank_2014
@@ -218,7 +225,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               top: 20
               right: 25
               bottom: 20
-              left: 10
+              left: 40
 
             width = w - margin.left - margin.right
             height = h - margin.top - margin.bottom
@@ -249,31 +256,35 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               .attr("y1", y(50))
               .attr("x2", section)
               .attr("y2", y(50))
-              .attr("stroke-width", 8)
+              .attr("stroke-width", 4)
               .attr("stroke", "#ef4c54")
 
             svg.append("line")
-              .attr("x1", section)
+              .attr("x1", section + 2)
               .attr("y1", y(50))
               .attr("x2", section * (n-1))
               .attr("y2", y(50))
-              .attr("stroke-width", 8)
+              .attr("stroke-width", 4)
               .attr("stroke", "#989898")
 
             svg.append("line")
-              .attr("x1", section * (n-1))
+              .attr("x1", section * (n-1) + 2)
               .attr("y1", y(50))
               .attr("x2", width)
               .attr("y2", y(50))
-              .attr("stroke-width", 8)
+              .attr("stroke-width", 4)
               .attr("stroke", "#80c651")
 
             svg.append("path")
               .attr("d", d3.svg.symbol().type("triangle-down"))
+              .attr("fill": "#a1a1a1")
+              
+              
               .attr("transform",  "translate(" + x(nr) + "," + (y(50)-8) + ")")
 
             label = svg.append("text")
               .attr("class", "widgetnumber")
+              .attr("fill": "#a1a1a1")
               .text(nr)
 
             bbox = label.node().getBBox()
@@ -286,26 +297,30 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
             rg.append("path")
               .attr("d", d3.svg.symbol().type("triangle-up"))
+              .attr("fill", "#a1a1a1")
               .attr("transform",  "rotate(90)")
 
             rg.append("text")
               .attr("class", "widgettitle")
               .attr("x", 10)
               .attr("y", 4)
+              .attr("fill", "#a1a1a1")
               .text((d) -> "Regional Rank  #{rr}")
 
             rg.append("path")
               .attr("d", d3.svg.symbol().type("triangle-up"))
+              .attr("fill", "#a1a1a1")
               .attr("transform",  "translate(" + (width/2) + ",0) rotate(90)")
 
             rg.append("text")
               .attr("class", "widgettitle")
               .attr("x", (width/2) + 10)
               .attr("y", 4)
+              .attr("fill", "#a1a1a1")
               .text((d) -> "District Rank  #{dr}")
 
         drawPassOverTime = (item) ->
-          selector = "#widget #passOverTime"
+          selector = ".widget #passOverTime"
 
           # TODO hardcoded date
           years = _.range(2012,2015)
@@ -351,6 +366,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
           svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
+            .attr("fill", "#a1a1a1")
             .call(xAxis)
 
           line = d3.svg.line()

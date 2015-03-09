@@ -1,9 +1,10 @@
 
 <div id="anchor-map"></div>
 
-<div class="map-widget container-fluid">
-    <div class="row map-widget-row">
-        <div class="col-md-6 map-container">
+<table class="map-widget container-fluid">
+    <tbody style="width: 100%; display:block">
+    <tr class="row map-widget-row">
+        <td class="col-md-8 map-container">
             <ul class="nav nav-tabs" id="nav-tabs-dashboard">
                 <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)">Schools</a></li>
                 <li role="presentation" ng-class="{active: activeMap==1}"><a ng-click="showLayer(1)">Best & Worst Perfomance</a></li>
@@ -56,9 +57,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 map-details">
-            <div class="">
+        </td>
+        <td class="col-md-4 map-details">
+            <div class="map-details-container">
                 <div class="page-header">
                   <div class="text-center"><strong>{{ title }}</strong></div>
                 </div>
@@ -67,21 +68,21 @@
                         <div class="col-sm-4 text-center">
                             <p class="dial-title">Change since 2012</p>
                             <small class="text-muted">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_1.png">
+                            <img ng-src="images/gauge_{{ schoolType }}_1.png" class="img-dial">
                         </div>
                         <div class="col-sm-4 text-center">
                             <p class="dial-title">Pupil-teacher ratio</p>
                             <small class="text-muted">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_2.png">
+                            <img ng-src="images/gauge_{{ schoolType }}_2.png" class="img-dial">
                         </div>
                         <div class="col-sm-4 text-center">
                             <p class="dial-title">Avarage pass rate</p>
                             <small class="text-muted">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_3.png">
+                            <img ng-src="images/gauge_{{ schoolType }}_3.png" class="img-dial">
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-bottom: 10px">
                     <div class="col-xs-2 text-right" style="padding-right: 1px"><img src="images/searchicon.png"></div>
                     <div class="col-xs-9">
                         <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
@@ -198,7 +199,7 @@
                             <img ng-if="selectedSchool.rank_2014 <= 100" class="pull-right top-school-badge" src="images/topschoolbadge.png">
                         </p>
                         <p class="code">{{ selectedSchool.code }}</p>
-                        <div id="widget" class="first">
+                        <div class="widget first">
                             <p class="widgettitle">2014 pass rate</p>
                             <div class="row" ng-if="selectedSchool.pass_2014 <= 40">
                                 <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
@@ -234,7 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="widget">
+                        <div class="widget">
                             <p class="widgettitle">change since 2013</p>
                             <p class="widgetnumber">
                                 <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
@@ -248,50 +249,55 @@
                                 </span>
                             </p>
                         </div>
-                        <div id="widget">
+                        <div class="widget">
                             <p class="widgettitle">national ranking</p>
-                            <div id="nationalRanking"></div>
+                            <div id="nationalRanking" class="text-muted"></div>
                         </div>
-                        <div id="widget" ng-if="selectedSchool.pt_ratio|exists">
+                        <div class="widget" ng-if="selectedSchool.pt_ratio|exists">
                             <p class="widgettitle">pupil teacher ratio</p>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <span class="widgetnumber">
-                                        <span ng-class="{
-                                                'text-red': selectedSchool.pt_ratio > 50,
-                                            '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
-                                                'text-yellow': selectedSchool.pt_ratio < 35}">
-                                        {{ selectedSchool.pt_ratio }}
-                                    </span>
-                                    <img src="images/ptr_teacher.png" class="teacher">
-                                </div>
-                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio < 35">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                        ng-src="images/ptr_student_yellow.png">
-                                </div>
-                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                        ng-src="images/ptr_student_green.png">
-                                </div>
-                                <div class="col-xs-9" ng-if="selectedSchool.pt_ratio > 50">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                                        ng-src="images/ptr_student_red.png">
-                                </div>
-                            </div>
+                            <table>
+                                <tbody>
+                                    <tr class="row">
+                                        <td class="widgetnumber" style="width: 115px">
+                                            <span class="widgetnumber">
+                                                <span ng-class="{
+                                                        'text-red': selectedSchool.pt_ratio > 50,
+                                                    '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
+                                                        'text-yellow': selectedSchool.pt_ratio < 35}">
+                                                {{ selectedSchool.pt_ratio }}
+                                            </span>
+                                            <img src="images/ptr_teacher.png" class="teacher">
+                                        </td>
+                                        <td class="" ng-if="selectedSchool.pt_ratio < 35">
+                                            <img
+                                                ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                                ng-src="images/ptr_student_yellow.png">
+                                        </td>
+                                        <td class="" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
+                                            <img
+                                                ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                                ng-src="images/ptr_student_green.png">
+                                        </td>
+                                        <td class="" ng-if="selectedSchool.pt_ratio > 50">
+                                            <img
+                                                ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
+                                                ng-src="images/ptr_student_red.png">
+                                        </td>
+                                    </tr>                                
+                                </tbody>
+                            </table>
                         </div>
-                        <div id="widget">
+                        <div class="widget">
                           <p class="widgettitle">pass rates over time</p>
                           <div id="passOverTime"></div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <!--This is where the school tables begin-->
 
