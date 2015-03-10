@@ -206,7 +206,7 @@
                         <p class="code">{{ selectedSchool.code }}</p>
                         <div class="widget first">
                             <p class="widgettitle">2014 pass rate</p>
-                            <div class="row" ng-if="selectedSchool.pass_2014 <= 40">
+                            <div class="row" ng-if="selectedSchool.pass_2014 < 40">
                                 <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
                                 <div class="col-xs-10">
                                     <img
@@ -217,7 +217,7 @@
                                         ng-src="images/passrate_student_grey.png">
                                 </div>
                             </div>
-                            <div class="row" ng-if="selectedSchool.pass_2014 > 40 && selectedSchool.pass_2014 < 60">
+                            <div class="row" ng-if="selectedSchool.pass_2014 >= 40 && selectedSchool.pass_2014 < 60">
                                 <div class="col-xs-2"><p class="widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p></div>
                                 <div class="col-xs-10">
                                     <img
@@ -263,7 +263,7 @@
                             <table>
                                 <tbody>
                                     <tr class="row">
-                                        <td class="widgetnumber" style="width: 115px">
+                                        <td>
                                             <span class="widgetnumber">
                                                 <span ng-class="{
                                                         'text-red': selectedSchool.pt_ratio > 50,
@@ -271,6 +271,8 @@
                                                         'text-yellow': selectedSchool.pt_ratio < 35}">
                                                 {{ selectedSchool.pt_ratio }}
                                             </span>
+                                        </td>
+                                        <td>
                                             <img src="images/ptr_teacher.png" class="teacher">
                                         </td>
                                         <td class="" ng-if="selectedSchool.pt_ratio < 35">
