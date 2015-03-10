@@ -20,14 +20,14 @@
                         <a ng-if="!openMapFilter" ng-click="toggleMapFilter()" class="pull-right">[+]</a>
                     </div>
                     <div class="map-control-body" ng-show="openMapFilter">
-                        <div>
+                        <small>
                             <label>Pass rate: {{ passRange.min }}% - {{ passRange.max }}%</label>
                             <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>                    
-                        </div>
-                        <div>
+                        </small>
+                        <small>
                             <label>Pupil teacher ratio: {{ ptRange.min }} - {{ ptRange.max }}</label>
-                            <div range-slider min="0" max="200" model-min="ptRange.min" model-max="ptRange.max"></div>                    
-                        </div>
+                            <div range-slider min="0" max="1000" model-min="ptRange.min" model-max="ptRange.max"></div>                    
+                        </small>
                     </div>
                 </div>
 

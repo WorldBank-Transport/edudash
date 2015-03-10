@@ -56,12 +56,14 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         schoolMarker = null
         $scope.openMapFilter = false
         $scope.openSchoolLegend = false
+        ptMin = 0
+        ptMax = 1000
         $scope.passRange =
             min: 0
             max: 100
         $scope.ptRange =
-            min: 0
-            max: 200
+            min: ptMin
+            max: ptMax
 
         cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
             layers = lyrs
@@ -126,18 +128,30 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         updateMap = () ->
             if $scope.activeMap != 3
-                layers[1].getSubLayer(0).setSQL(
-                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
-                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
-                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
-                layers[1].getSubLayer(1).setSQL(
-                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
-                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
-                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
-                layers[1].getSubLayer(2).setSQL(
-                        "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
-                        WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
-                        AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.passRange.max })")
+                # Include schools with no pt_ratio are also shown when the pt limits in extremeties
+                if $scope.ptRange.min == ptMin and $scope.ptRange.max = ptMax
+                    layers[1].getSubLayer(0).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })")
+                    layers[1].getSubLayer(1).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })")
+                    layers[1].getSubLayer(2).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })")
+                else
+                    layers[1].getSubLayer(0).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.ptRange.max })")
+                    layers[1].getSubLayer(1).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.ptRange.max })")
+                    layers[1].getSubLayer(2).setSQL(
+                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
+                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 < #{ $scope.passRange.max })
+                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio < #{ $scope.ptRange.max })")
 
         $scope.updateMap = _.debounce(updateMap, 500)
 

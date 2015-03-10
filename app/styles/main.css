@@ -164,7 +164,8 @@ h1 {
     background: #FFF;
     border-radius: 2px;
     border: 1px solid #C0C0C0;
-    max-width: 185px;
+    max-width: 250px;
+    min-width: 120px;
     display: block;
     -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd);
@@ -181,7 +182,7 @@ h1 {
     position: absolute;
     display: none;
     min-width: 120px;
-    max-width: 180px;
+    max-width: 250px;
     overflow-y: hidden;
     left: 20px !important;
     top: 100px !important;
