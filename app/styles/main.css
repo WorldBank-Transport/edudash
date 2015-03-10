@@ -242,33 +242,33 @@ h1 {
 }
 
 /*The content below this is all related to the tables*/
-
 #schooltablescontainer {
     width: 940px;
     margin: 0 auto;
-    margin-top: 30px;
+
 }
 
 .scroll {
-overflow-y: scroll;
-overflow-x: hidden;
-    height: 550px;
-    width: 460px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 360px;
+    width: 360px;
     float:left;
     border: 1px solid #e3e3e3;
-    margin-left: 5px;
+    margin-left: 50px;
+    margin-right: 50px;
     margin-bottom: 20px;
 }
 
 table.schools {
     table-layout: fixed;
-    width: 450px;
+    width: 350px;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     border-collapse: collapse;
 }
 
-table.schools a:link, a:visited, a:hover, a:visited {
+table.schools a:link, a:visited, a:hover {
     color:inherit;
     text-decoration: none;
 }
@@ -278,55 +278,44 @@ table.schools tr:hover {
 }
 
 table.schools td {
-    height: 55px;
+    border-bottom: 1px dotted #e3e3e3;
+    height: 35px;
     white-space: nowrap;
 }
 
 table.schools td.rank {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 24px;
-    width: 25px;
+    font-size: 14px;
+    width: 15px;
     text-align: right;
 }
 
 table.schools td.name {
     color: #6b6b6b;
-    font-weight: 600;
-    font-size: 16px;
-    width: 240px;
+    font-weight: 400;
+    font-size: 14px;
+    width: 150px;
     text-align:left;
-    padding-left: 20px;
+    padding-left: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
 }
 
 table.schools td.passrategreen {
     color: #38a21c;
     font-weight: 400;
-    font-size: 24px;
-    width: 55px;
+    font-size: 16px;
+    width: 35px;
 }
 
 table.schools td.passratered {
     color: #f56053;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 16px;
     width: 55px;
 }
-#schoolinfo .widgetnumber.text-red,
-.text-red{
-    color: #f56053;
-}
-#schoolinfo .widgetnumber.text-green,
-.text-green{
-    color: #38a21c;
-}
-#schoolinfo .widgetnumber.text-yellow,
-.text-yellow{
-    color: #e9c941;
-}
+
 table.schools p {
     text-transform: uppercase;
     font-size: 11px;
@@ -359,6 +348,8 @@ img.face {
     display: inline-block;
     vertical-align: text-bottom;
 }
+
+/* ----------------- */
 .perfomance-gauges{
     padding-bottom: 30px
 }
@@ -484,22 +475,9 @@ div.cartodb-share a{
 
 /* Distict info */
 
-#districtinfo {
-    margin: 0 auto;
-    width: 600px;
-    height: 580px;
-    position: relative;
-    background-color: white;
-    padding-top: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 10px;
-    font-family: 'Open Sans', sans-serif;
-}
-
 p.tableheaderdistrict {
     background-color: #05a2dc;
-    width: 220px;
+    width: 200px;
     height: 30px;
     border-radius: 15px;
     text-align: center;
@@ -508,8 +486,8 @@ p.tableheaderdistrict {
     font-weight: 400;
     font-size: 14px;
     float:left;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
     margin-top: 50px;
 }
 
@@ -530,8 +508,8 @@ table.districts td {
 table.districts td.rank {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 24px;
-    width: 25px;
+    font-size: 14px;
+    width: 20px;
     text-align: right;
 }
 
@@ -539,9 +517,9 @@ table.districts td.name {
     color: #6b6b6b;
     font-weight: 600;
     font-size: 16px;
-    width: 150px;
+    width: 125px;
     text-align:left;
-    padding-left: 20px;
+    padding-left: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -549,15 +527,15 @@ table.districts td.name {
 table.districts td.passrategreen {
     color: #38a21c;
     font-weight: 400;
-    font-size: 24px;
-    width: 55px;
+    font-size: 18px;
+    width: 40px;
 }
 
 table.districts td.passratered {
     color: #f56053;
     font-weight: 400;
-    font-size: 24px;
-    width: 55px;
+    font-size: 18px;
+    width: 40px;
 }
 
 table.districts p {
@@ -642,50 +620,50 @@ table.districts p {
 }
 /* General content */
 #generalcontent {
-	width: 800px;
-	margin: 0 auto;
-	font-family: 'Open Sans', sans-serif;
-	color: #05a2dc;
-	font-weight: 400;
-	font-size: 20px;
-	line-height: 24px;
-	margin-top: 25px;
-    min-height: 400px;
+    width: 800px;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    color: #05a2dc;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 25px;
+    min-height: 600px;
 }
 
 #generalcontent p {
-	
+    
 }
 
 #generalcontent p.text {
-	color: #717171;
-	font-weight: 300;
-	font-size: 14px;
-	line-height: 20px;
-	text-align: left;
+    color: #717171;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
 }
 
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,
 #generalcontent a:hover a:link {
-	color: #05a2dc;
-	font-weight: 400;
-	text-decoration: none;
+    color: #05a2dc;
+    font-weight: 400;
+    text-decoration: none;
 }
 #generalcontent .boxlink-container{
     margin: 20px 0;
 }
 #generalcontent a.boxlink {
-	background-color: #05a2dc;
-	color: #FFFFFF;
-	font-weight: 300;
-	font-size: 18px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-right: 10%;
-	margin-left: 10%;
+    background-color: #05a2dc;
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 #generalcontent a.boxlink:hover {
-	background-color: #2ab4e7;
+    background-color: #2ab4e7;
 }
