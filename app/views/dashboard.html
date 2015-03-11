@@ -192,7 +192,65 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="activeMap!=3">
+
+                <div ng-if="activeMap==2">
+                    <div id="schooltablescontainer">
+                        <p class="tableheader"><img src="images/happy.png" class="face">Most improved schools</p>
+
+                        <div style="clear: both;"></div>
+                        <div class="scroll">
+                            <table class="schools">
+                                <tr ng-repeat="school in mostImprovedSchools">
+                                    <td class="rank">{{ $index + 1 }}.</td>
+                                    <td class="name" ng-click="setSchool(school, null, false);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
+                                    <td class="passrategreen">{{ school.change_13_14 }}%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <p class="tableheader"><img src="images/sad.png" class="face">Least improved schools</p>
+                        <div class="scroll"> 
+                            <table class="schools">
+                                <tr ng-repeat="school in leastImprovedSchools">
+                                    <td class="rank">{{ $index + 1 }}.</td>
+                                    <td class="name" ng-click="setSchool(school, null, false);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
+                                    <td class="passratered">{{ school.change_13_14 }}%</td>
+                                </tr>
+                            </table>
+                        </div>
+                     </div>
+                </div>
+
+                <div  ng-if="activeMap==1">
+                    <div id="schooltablescontainer">
+
+                        <p class="tableheader"><img src="images/happy.png" class="face">Best performing schools</p>
+                         
+                        <div class="scroll">
+                            <table class="schools">
+                                <tr ng-repeat="school in bestSchools">
+                                    <td class="rank">{{ $index + 1 }}.</td>
+                                    <td class="name" ng-click="setSchool(school, null, false);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
+                                    <td class="passrategreen">{{ school.pass_2014 }}%</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <p class="tableheader"><img src="images/sad.png" class="face">Worst performing schools</p>
+
+                        <div class="scroll">
+                            <table class="schools">
+                                <tr ng-repeat="school in worstSchools">
+                                    <td class="rank">{{ $index + 1 }}.</td>
+                                    <td class="name" ng-click="setSchool(school, null, false);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
+                                    <td class="passratered">{{ school.pass_2014 }}%</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="activeMap==0">
                     <div ng-hide="selectedSchool|exists" class="container-fluid">
                         <div id="schoolinfo-plaholder" class="text-center">
                             Explore the map and click on a school to get started.
@@ -305,62 +363,5 @@
     </tr>
     </tbody>
 </table>
-
-<!--This is where the school tables begin-->
-
-<div id="schooltablescontainer">
-
-    <p class="tableheader"><img src="images/happy.png" class="face">Best performing schools</p>
-    <p class="tableheader"><img src="images/sad.png" class="face">Worst performing schools</p>
-
-    <div style="clear: both;"></div>
-     
-    <div class="scroll">
-        <table class="schools">
-            <tr ng-repeat="school in bestSchools">
-                <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name" ng-click="setSchool(school);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
-                <td class="passrategreen">{{ school.pass_2014 }}%</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="scroll">
-        <table class="schools">
-            <tr ng-repeat="school in worstSchools">
-                <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name" ng-click="setSchool(school);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
-                <td class="passratered">{{ school.pass_2014 }}%</td>
-            </tr>
-        </table>
-    </div>
-     
-    <p class="tableheader"><img src="images/happy.png" class="face">Most improved schools</p>
-    <p class="tableheader"><img src="images/sad.png" class="face">Least improved schools</p>
-
-    <div style="clear: both;"></div>
-    <div class="scroll">
-        <table class="schools">
-            <tr ng-repeat="school in mostImprovedSchools">
-                <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name" ng-click="setSchool(school);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
-                <td class="passrategreen">{{ school.change_13_14 }}%</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="scroll"> 
-        <table class="schools">
-            <tr ng-repeat="school in leastImprovedSchools">
-                <td class="rank">{{ $index + 1 }}.</td>
-                <td class="name" ng-click="setSchool(school);anchorScroll()"><strong>{{ school.name }}</strong><p>{{ school.district }} District, {{ school.region }} Region</br></p></td>
-                <td class="passratered">{{ school.change_13_14 }}%</td>
-            </tr>
-        </table>
-    </div>
  
- </div>
- 
- <div class="clearfix"></div>
- <!--This is where the school tables end-->
-
+<div class="clearfix"></div>

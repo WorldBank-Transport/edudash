@@ -244,17 +244,14 @@ h1 {
 
 /*The content below this is all related to the tables*/
 #schooltablescontainer {
-    width: 940px;
-    margin: 10px auto;
-
+    margin: 20px auto;
 }
 
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 360px;
+    height: 260px;
     width: 360px;
-    float:left;
     border: 1px solid #e3e3e3;
     margin-left: 50px;
     margin-right: 50px;
@@ -301,6 +298,7 @@ table.schools td.name {
     padding-left: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 table.schools td.passrategreen {
