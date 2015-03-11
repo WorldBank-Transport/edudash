@@ -69,7 +69,9 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             layers = lyrs
             layers[1].setInteraction(true)
             layers[1].on 'featureClick', (e, pos, latlng, data) ->
-                if $scope.activeMap != 3
+                if $scope.activeMap == 3
+                    $scope.setMapView(pos, 9, 0)
+                else
                     schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
                     $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
                         $scope.setSchool data.rows[0], null, false
@@ -183,6 +185,15 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo(map)
             else
                 schoolMarker.setLatLng(latlng, {icon: markerIcon})
+
+        $scope.setMapView = (latlng, zoom, tab) ->
+            if tab?
+                $scope.$apply ()->
+                    $scope.activeMap = tab
+                $scope.showLayer(tab)
+            unless zoom?
+                zoom = 9
+            map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
