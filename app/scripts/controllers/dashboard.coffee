@@ -74,7 +74,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 else
                     schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
                     $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
-                        $scope.setSchool data.rows[0], null, false
+                        $scope.setSchool data.rows[0]
             layers[1].on 'mouseover', () ->
                 $('.leaflet-container').css('cursor', 'pointer')
             layers[1].on 'mouseout', () ->
@@ -216,8 +216,9 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
-              drawNationalRanking(item)
-              drawPassOverTime(item)
+              if $scope.activeMap == 0
+                drawNationalRanking(item)
+                drawPassOverTime(item)
             , 400)
 
         getDimensions = (selector) ->

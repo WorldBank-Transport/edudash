@@ -380,6 +380,7 @@ div.cartodb-share a{
     margin-right: 0px;
     border: 1px solid #DDDDDD;
     border-radius: 0;
+    cursor: pointer
 }
 .search-schools,
 .search-schools input{
@@ -459,7 +460,7 @@ div.cartodb-share a{
     color: #3a3a3a;
     margin-top: 0px;
     margin-bottom: 2px;
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #schoolinfo img.arrow {
@@ -527,6 +528,7 @@ table.districts td.name {
     padding-left: 8px;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 table.districts td.passrategreen {
