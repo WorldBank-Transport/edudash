@@ -348,10 +348,13 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         drawPassOverTime = (item) ->
           selector = ".widget #passOverTime"
 
-          # TODO hardcoded date
-          years = _.range(2012,2015)
+          curYear = new Date().getFullYear()
+          years = _.range(2012, curYear)
           values = years.map((x) -> item["pass_" + x])
           data = _.zip(years, values).map( (x) -> {"key": x[0], "val": x[1]})
+
+          # remove years with no data
+          data = data.filter( (x) -> x.val )
 
           dim = getDimensions(selector)
           h = 100
@@ -410,25 +413,30 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             .append("g")
 
           findColorClass = (x) ->
-            if x < 35
+            if x < 40
               "circle-poor"
-            else if 35 <= x < 50
+            else if 40 <= x < 60
               "circle-medium"
             else
               "circle-good"
 
           radius = 15
+          # add a small buffer to prevent overlap with x axi
+          padding = -5
           node.append("circle")
             .attr("class", (d) -> "dot " + findColorClass(d.val))
             .attr("cx", (d) -> x(d.key))
-            .attr("cy", (d) -> y(d.val))
+            .attr("cy", (d) -> y(d.val) + padding)
             .attr("r", radius)
 
-          node.append("text")
+          label = node.append("text")
             .attr("class", "dotlabel")
-            .attr("x", (d) -> x(d.key) - radius/1.3)
-            .attr("y", (d) -> y(d.val) + radius/4)
             .text((d) -> d.val + "%")
+
+          bbox = label.node().getBBox()
+
+          label.attr("x", (d) -> x(d.key) - bbox.width/2)
+               .attr("y", (d) -> y(d.val) + radius/4 + padding)
 
         $scope.getTimes = (n) ->
             new Array(n)
