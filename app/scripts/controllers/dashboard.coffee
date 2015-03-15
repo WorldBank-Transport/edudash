@@ -421,16 +421,18 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
               "circle-good"
 
           radius = 15
+          # add a small buffer to prevent overlap with x axi
+          padding = -5
           node.append("circle")
             .attr("class", (d) -> "dot " + findColorClass(d.val))
             .attr("cx", (d) -> x(d.key))
-            .attr("cy", (d) -> y(d.val))
+            .attr("cy", (d) -> y(d.val) + padding)
             .attr("r", radius)
 
           node.append("text")
             .attr("class", "dotlabel")
             .attr("x", (d) -> x(d.key) - radius/1.3)
-            .attr("y", (d) -> y(d.val) + radius/4)
+            .attr("y", (d) -> y(d.val) + radius/4 + padding)
             .text((d) -> d.val + "%")
 
         $scope.getTimes = (n) ->
