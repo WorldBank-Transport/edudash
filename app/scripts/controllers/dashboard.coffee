@@ -348,10 +348,13 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         drawPassOverTime = (item) ->
           selector = ".widget #passOverTime"
 
-          # TODO hardcoded date
-          years = _.range(2012,2015)
+          curYear = new Date().getFullYear()
+          years = _.range(2012, curYear)
           values = years.map((x) -> item["pass_" + x])
           data = _.zip(years, values).map( (x) -> {"key": x[0], "val": x[1]})
+
+          # remove years with no data
+          data = data.filter( (x) -> x.val )
 
           dim = getDimensions(selector)
           h = 100
