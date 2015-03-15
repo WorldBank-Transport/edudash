@@ -258,7 +258,9 @@
                     <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
                         <p class="schoolname">
                             {{ selectedSchool.name }}
-                            <img ng-if="selectedSchool.rank_2014 <= 100" class="pull-right top-school-badge" src="images/topschoolbadge.png">
+                            <span class="pull-right top-school-badge">
+                                <img ng-if="selectedSchool.rank_2014 <= 100" src="images/topschoolbadge.png">
+                            </span>
                         </p>
                         <p class="code">
                             {{ selectedSchool.code }}
