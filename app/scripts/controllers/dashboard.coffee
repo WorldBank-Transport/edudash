@@ -413,9 +413,9 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             .append("g")
 
           findColorClass = (x) ->
-            if x < 35
+            if x < 40
               "circle-poor"
-            else if 35 <= x < 50
+            else if 40 <= x < 70
               "circle-medium"
             else
               "circle-good"
