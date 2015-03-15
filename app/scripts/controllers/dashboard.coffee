@@ -429,11 +429,14 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             .attr("cy", (d) -> y(d.val) + padding)
             .attr("r", radius)
 
-          node.append("text")
+          label = node.append("text")
             .attr("class", "dotlabel")
-            .attr("x", (d) -> x(d.key) - radius/1.3)
-            .attr("y", (d) -> y(d.val) + radius/4 + padding)
             .text((d) -> d.val + "%")
+
+          bbox = label.node().getBBox()
+
+          label.attr("x", (d) -> x(d.key) - bbox.width/2)
+               .attr("y", (d) -> y(d.val) + radius/4 + padding)
 
         $scope.getTimes = (n) ->
             new Array(n)
