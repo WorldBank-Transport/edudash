@@ -260,6 +260,8 @@
                             {{ selectedSchool.name }}
                             <span class="pull-right top-school-badge">
                                 <img ng-if="selectedSchool.rank_2014 <= 100" src="images/topschoolbadge.png">
+                                <img ng-if="schoolType == 'primary' && selectedSchool.change_13_14 >= 62" src="images/mostimprovedbadgeprimary.png">
+                                <img ng-if="schoolType == 'secondary' && selectedSchool.change_13_14 >= 55" src="images/mostimprovedbadgesecondary.png">
                             </span>
                         </p>
                         <p class="code">
