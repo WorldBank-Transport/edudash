@@ -260,7 +260,10 @@
                             {{ selectedSchool.name }}
                             <img ng-if="selectedSchool.rank_2014 <= 100" class="pull-right top-school-badge" src="images/topschoolbadge.png">
                         </p>
-                        <p class="code">{{ selectedSchool.code }}</p>
+                        <p class="code">
+                            {{ selectedSchool.code }}
+                            <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
+                        </p>
                         <div class="widget first">
                             <p class="widgettitle">2014 pass rate</p>
                             <div class="row" ng-if="selectedSchool.pass_2014 < 40">
