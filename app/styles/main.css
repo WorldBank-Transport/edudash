@@ -144,6 +144,7 @@ h1 {
 }
 .map-details-container{
     width: 450px;
+    max-width: 500px
 }
 .map-details{
     vertical-align: top;
