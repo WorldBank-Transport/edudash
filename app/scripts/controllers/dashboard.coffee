@@ -205,11 +205,15 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             unless showAllSchools? and showAllSchools == false
                 $scope.activeMap = 0
                 $scope.showLayer(0)
+            # Silence invalid/null coordinates
             try
-                # Silence invalid/null coordinates
+                if map.getZoom() < 9
+                   zoom = 9
+                else
+                    zoom = map.getZoom()
                 latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
                 markSchool latlng
-                map.setView latlng, 9
+                map.setView latlng, zoom
             catch e
                 console.log e
             if item.pass_2014 < 10 && item.pass_2014 > 0
