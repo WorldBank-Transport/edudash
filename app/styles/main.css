@@ -53,6 +53,12 @@ h1 {
     }
 }
 
+@media (max-width: 1024px){
+    .nav > li > a {
+        padding: 10px 8px;
+    }
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
@@ -142,10 +148,6 @@ h1 {
     overflow: hidden;
     width: 100%;
 }
-.map-details-container{
-    width: 450px;
-    max-width: 500px
-}
 .map-details{
     vertical-align: top;
 }
@@ -226,6 +228,12 @@ h1 {
         width: 500px;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+@media screen and (min-width: 900px) {
+    .map-details-container{
+        width: 450px;
+        max-width: 500px
     }
 }
 .preload {
