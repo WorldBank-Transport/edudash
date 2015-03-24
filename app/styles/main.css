@@ -47,9 +47,29 @@ h1 {
     background-color: #05a2dc;
 }
 
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: #0592cc;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #0592cc;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #0572ac;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #0592cc;
+}
+
 @media (max-width: 767px){
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #F3F3F4;
+    }
+    #generalcontent{
+        width: 700px;
     }
 }
 
@@ -129,7 +149,6 @@ h1 {
 
 .map-widget{
     width: 100%;
-    height: 925px;
     display: block;
 }
 .row.map-widget-row{
@@ -142,11 +161,15 @@ h1 {
     height: 100%;
     overflow: auto;
 }
+@media (min-width: 768px) {
+    .map-details{
+        max-height: 925px;
+    }
+}
 .map-container{
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
-    width: 100%;
 }
 .map-details{
     vertical-align: top;
@@ -232,10 +255,23 @@ h1 {
 }
 @media screen and (min-width: 900px) {
     .map-details-container{
-        width: 450px;
-        max-width: 500px
+        max-width: 450px;
     }
 }
+@media screen and (min-width: 768px) {
+    .map-widget{
+        height: 925px;
+    }
+    .map-control-container {
+        bottom: 230px;
+    }
+}
+@media screen and (max-width: 767px) {
+    #map{
+        height: 300px;
+    }
+}
+
 .preload {
     display:none;
 }
@@ -260,16 +296,15 @@ h1 {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 260px;
-    width: 360px;
     border: 1px solid #e3e3e3;
-    margin-left: 50px;
-    margin-right: 50px;
     margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table.schools {
     table-layout: fixed;
-    width: 350px;
+    width: 100%;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     border-collapse: collapse;
@@ -294,7 +329,7 @@ table.schools td.rank {
     color: #6b6b6b;
     font-weight: 600;
     font-size: 14px;
-    width: 15px;
+    width: 20px;
     text-align: right;
 }
 
@@ -302,7 +337,6 @@ table.schools td.name {
     color: #6b6b6b;
     font-weight: 400;
     font-size: 14px;
-    width: 150px;
     text-align:left;
     padding-left: 8px;
     overflow: hidden;
@@ -314,7 +348,7 @@ table.schools td.passrategreen {
     color: #38a21c;
     font-weight: 400;
     font-size: 16px;
-    width: 35px;
+    width: 55px;
 }
 
 table.schools td.passratered {
@@ -337,7 +371,7 @@ table.schools p {
 
 p.tableheader {
     background-color: #05a2dc;
-    width: 224px;
+    max-width: 224px;
     height: 30px;
     border-radius: 15px;
     text-align: center;
@@ -345,9 +379,8 @@ p.tableheader {
     color: white;
     font-weight: 400;
     font-size: 14px;
-    float:left;
-    margin-left: 120px;
-    margin-right: 120px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 img.face {
@@ -389,11 +422,29 @@ div.cartodb-share a{
     margin-right: 0px;
     border: 1px solid #DDDDDD;
     border-radius: 0;
-    cursor: pointer
+    cursor: pointer;
 }
+.show-sm{
+    display: none;
+}
+@media screen and (max-width: 850px){
+    .hide-sm{
+        display: none;
+    }
+    .show-sm{
+        display: block;
+    }
+}
+
+@media screen and (max-width : 480px) {
+    .nav-tabs > li > a{
+        font-size: 10px;
+    }
+}
+
 .search-schools,
 .search-schools input{
-    min-width: 300px;
+    /* min-width: 300px; */
 }
 .container-fluid.map-nav{
     padding-left: 0;
@@ -425,6 +476,16 @@ div.cartodb-share a{
     margin-right: -16px;
     top: 24px;
 }
+
+@media screen and (max-width: 850px){
+    #schoolinfo .top-school-badge{
+        top: 30px;
+    }
+    #schoolinfo .top-school-badge img{
+        width: 60%;
+    }
+}
+
 #schoolinfo p.schoolname {
     font-size: 16px;
     font-weight: 700;
@@ -473,6 +534,13 @@ div.cartodb-share a{
     margin-right: 10px;
 }
 
+@media screen and (max-width: 850px){
+    #schoolinfo .widgetnumber {
+        font-size: 18px;
+        font-weight: 800;
+    }
+}
+
 #schoolinfo img.arrow {
     margin-right: 5px;
 }
@@ -485,8 +553,9 @@ div.cartodb-share a{
 }
 
 .img-dial{
-    height: 70px;
+    max-height: 70px;
     margin-top: 5px;
+    max-width: 100%;
 }
 
 /* Distict info */
@@ -501,7 +570,6 @@ p.tableheaderdistrict {
     color: white;
     font-weight: 400;
     font-size: 14px;
-    float:left;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 50px;
@@ -512,7 +580,6 @@ table.districts {
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     border-collapse: collapse;
-    float: left;
 }
 
 table.districts td {
@@ -683,4 +750,8 @@ table.districts p {
 
 #generalcontent a.boxlink:hover {
     background-color: #2ab4e7;
+}
+
+.ui-select-bootstrap > .ui-select-match {
+    overflow: hidden;
 }
