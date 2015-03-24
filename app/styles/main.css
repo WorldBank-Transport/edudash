@@ -68,9 +68,6 @@ h1 {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #F3F3F4;
     }
-    #generalcontent{
-        width: 700px;
-    }
 }
 
 @media (max-width: 1024px){
@@ -704,7 +701,6 @@ table.districts p {
 }
 /* General content */
 #generalcontent {
-    width: 800px;
     margin: 0 auto;
     font-family: 'Open Sans', sans-serif;
     color: #05a2dc;
@@ -714,7 +710,11 @@ table.districts p {
     margin-top: 25px;
     min-height: 600px;
 }
-
+@media screen and (min-width: 850px){
+    #generalcontent {
+        width: 800px;
+    }
+}
 #generalcontent p {
     
 }
@@ -744,8 +744,16 @@ table.districts p {
     font-size: 18px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-right: 10%;
-    margin-left: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    max-width: 200px;
+}
+
+@media screen and (max-width: 768px){
+    #generalcontent a.boxlink {
+        font-size: 13px;
+    }
 }
 
 #generalcontent a.boxlink:hover {
@@ -754,4 +762,14 @@ table.districts p {
 
 .ui-select-bootstrap > .ui-select-match {
     overflow: hidden;
+}
+
+.google-form{
+    height: 800px;
+    width: 760px
+}
+@media screen and (max-width: 768px){
+    .google-form{
+        width: 100%;
+    }
 }
