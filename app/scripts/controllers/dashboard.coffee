@@ -136,7 +136,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         updateMap = () ->
             if $scope.activeMap != 3
                 # Include schools with no pt_ratio are also shown when the pt limits in extremeties
-                if $scope.ptRange.min == ptMin and $scope.ptRange.max = ptMax
+                if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
                     layers[1].getSubLayer(0).setSQL(
                             "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
                             WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })")
