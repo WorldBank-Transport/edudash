@@ -26,7 +26,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             $window.location.href = '/'
         
         $scope.searchText = "dar"
-        
+
         apiRoot = 'http://wbank.cartodb.com/api/v2/sql'
         apiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
         bestSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 ASC LIMIT 100"

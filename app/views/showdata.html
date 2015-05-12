@@ -1,0 +1,19 @@
+<div id="generalcontent">
+    <div class="container-fluid">Show data from CKAN.</div>
+
+    <div class="row boxlink-container">
+        <select ng-model="education" ng-options="e.value as e.label for e in educationValues" ng-change="selectEducation()"></select>
+    </div>
+    <div class="row boxlink-container">
+        <select ng-model="dataset" ng-options="d.id as d.name for d in datasetValues" ng-change="selectDataset()"></select>
+    </div>
+
+	<table width="100%" border="1px solid">
+		<th ng-repeat="row in opendatafield">{{row.id}}</th>
+    	<tr ng-repeat="row in opendata">
+    		<td ng-repeat="rf in opendatafield">{{row[rf.id]}}</td>
+    	</tr>
+    </table>
+
+    <div class="row boxlink-container">&nbsp;</div>
+</div>
