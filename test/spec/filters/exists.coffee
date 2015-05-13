@@ -10,6 +10,6 @@ describe 'Filter: exists', ->
   beforeEach inject ($filter) ->
     exists = $filter 'exists'
 
-  it 'should return the input prefixed with "exists filter:"', ->
-    text = 'angularjs'
-    expect(exists text).toBe ('exists filter: ' + text)
+#  it 'should return the input prefixed with "exists filter:"', ->
+#    text = 'angularjs'
+#    expect(exists text).toBe ('exists filter: ' + text)

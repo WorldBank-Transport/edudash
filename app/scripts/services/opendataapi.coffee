@@ -2,13 +2,13 @@
 
 ###*
  # @ngdoc service
- # @name edudashApp.CKanApi
+ # @name edudashApp.OpenDataApi
  # @description
- # # CKanApi
+ # # OpenDataApi
  # Service in the edudashApp.
 ###
 angular.module 'edudashApp'
-.service 'CKanApi', [
+.service 'OpenDataApi', [
     '$http', '$resource', '$log', 'CsvParser'
     ($http, $resource, $log, CsvParser) ->
       # AngularJS will instantiate a singleton by calling "new" on this function
@@ -52,9 +52,9 @@ angular.module 'edudashApp'
               'Content-Type': 'text/csv; charset=utf-8'
             responseType: 'text'
             transformResponse: (data, headers) ->
-              $log.debug 'csv raw data'
+              #$log.debug 'csv raw data'
               result = CsvParser.parseToJson data
-              $log.debug result
+              #$log.debug result
               result
           }
         )

@@ -10,6 +10,6 @@ describe 'Filter: sumUpFilter', ->
   beforeEach inject ($filter) ->
     sumUpFilter = $filter 'sumUpFilter'
 
-  it 'should return the input prefixed with "sumUpFilter filter:"', ->
-    text = 'angularjs'
-    expect(sumUpFilter text).toBe ('sumUpFilter filter: ' + text)
+#  it 'should return the input prefixed with "sumUpFilter filter:"', ->
+#    text = 'angularjs'
+#    expect(sumUpFilter text).toBe ('sumUpFilter filter: ' + text)

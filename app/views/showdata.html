@@ -12,12 +12,12 @@
     </div>
 
 	<table width="100%" border="1px solid">
-		<th ng-repeat="row in opendatafield">{{row}}</th>
+		<th ng-repeat="field in opendatafield">{{field}}</th>
     	<tr ng-repeat="row in resultValue=(opendata | filter:searchText)">
     		<td ng-repeat="rf in opendatafield">{{row[rf]}}</td>
     	</tr>
         <tr>
-            <td ng-repeat="rf in opendatafield">{{resultValue | sumUpFilter: rf}}</td>
+            <td ng-repeat="field in opendatafield">{{resultValue | sumUpFilter: field}}</td>
         </tr>
     </table>
     <div class="row boxlink-container">
