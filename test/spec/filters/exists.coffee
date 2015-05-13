@@ -10,6 +10,10 @@ describe 'Filter: exists', ->
   beforeEach inject ($filter) ->
     exists = $filter 'exists'
 
-  it 'should return the input prefixed with "exists filter:"', ->
+  it 'should be true for a defined variable', ->
     text = 'angularjs'
-    expect(exists text).toBe ('exists filter: ' + text)
+    expect(exists text).toBe true
+
+  it 'should be false for an undefined variable', ->
+    nothing = undefined
+    expect(exists nothing).toBe false
