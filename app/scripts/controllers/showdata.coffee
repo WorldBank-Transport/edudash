@@ -11,8 +11,10 @@ angular.module 'edudashApp'
 .controller 'ShowdataCtrl', [
     '$scope', '$log', 'CKanApi'
     ($scope, $log, CKanApi) ->
-      CKanApi.getdata().then (data) ->
-        $log.debug data.result.records
+
+      simpleCSV = 'http://opendata.go.tz/sw/dataset/3de642ad-fac1-46d8-a95b-e4a10be184db/resource/3221ccb4-3b75-4137-a8bd-471a436ed7a5/download/Enrolment-by-Regions.csv'
+      CKanApi.getCsv(simpleCSV).getDataSet (data) ->
+        #$log.debug data.result.records
         $scope.opendata = data.result.records
         $scope.opendatafield = data.result.fields
 
@@ -25,14 +27,16 @@ angular.module 'edudashApp'
         {value: 'elimu-ya-sekondari', label: 'Secondary'},
         {value: 'elimu-ya-watu-wazima-na-elimu-nje-ya-mfumo-rasmi', label: 'Adult and Non-Formal Education'}
       ]
+      $scope.sumUp =
+        total: 25
 
       $scope.education = 'elimu-ya-msingi'
 
       CKanApi.getDatasetType($scope.education).then (data) ->
         $scope.datasetValues = data.result.resources
 
-      CKanApi.getCsvValue().then (data) ->
-        $log.debug data
+#      CKanApi.getCsv('http://opendata.go.tz/sw/dataset/3de642ad-fac1-46d8-a95b-e4a10be184db/resource/3221ccb4-3b75-4137-a8bd-471a436ed7a5/download/Enrolment-by-Regions.csv').getDataSet (data) ->
+#        $log.debug data
 
       $scope.selectEducation = () ->
         $log.debug $scope.education
@@ -43,7 +47,7 @@ angular.module 'edudashApp'
 
       $scope.selectDataset = () ->
         $log.debug $scope.dataset
-        CKanApi.getDataset($scope.dataset).then (data) ->
+        CKanApi.getCsv($scope.dataset).getDataSet (data) ->
           $log.debug data.result
           $scope.opendatafield = data.result.fields
           $scope.opendata = data.result.records
