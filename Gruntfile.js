@@ -155,7 +155,15 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+        overrides: {
+          'leaflet': {
+            'main': [
+              'dist/leaflet-src.js',
+              'dist/leaflet.css'
+            ]
+          }
+        }
       }
     },
 
