@@ -39,20 +39,10 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                 ORDER BY change_13_14 DESC LIMIT 100"
         leastImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY change_13_14 ASC LIMIT 100"
 
-        map = null
-        layers = null
-        mapOptions =
-            shareable: false
-            title: false
-            description: false
-            search: false
-            tiles_loader: true
-            center_lat: -7.199
-            center_lon: 34.1894
+        map = L.map 'map',
+            center: [-7.199, 34.1894],
             zoom: 6
-            layer_selector: false
-            cartodb_logo: false
-            scrollwheel: true
+        layers = []
 
         $scope.activeMap = 0
         $scope.activeItem = null
@@ -70,22 +60,30 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             min: ptMin
             max: ptMax
 
-        cartodb.createVis("map", mapLayers[$scope.schoolType], mapOptions).done (vis, lyrs) ->
-            layers = lyrs
-            layers[1].setInteraction(true)
-            layers[1].on 'featureClick', (e, pos, latlng, data) ->
-                if $scope.activeMap == 3
-                    $scope.setMapView(pos, 9, 0)
-                else
-                    schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
-                    $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
-                        $scope.setSchool data.rows[0]
-            layers[1].on 'mouseover', () ->
-                $('.leaflet-container').css('cursor', 'pointer')
-            layers[1].on 'mouseout', () ->
-                $('.leaflet-container').css('cursor', '-webkit-grab')
-                $('.leaflet-container').css('cursor', '-moz-grab')
-            map = vis.getNativeMap()
+
+        # add the basemap
+        cartodb.createLayer map, mapLayers[$scope.schoolType], layerIndex: 0
+            .addTo map
+            .done (basemap) -> layers[0] = basemap
+
+        cartodb.createLayer map, mapLayers[$scope.schoolType], layerIndex: 1
+            .addTo map
+            .done (layer) ->
+                layers[1] = layer
+                layers[1].setInteraction(true)
+                layers[1].on 'featureClick', (e, pos, latlng, data) ->
+                    if $scope.activeMap == 3
+                        $scope.setMapView(pos, 9, 0)
+                    else
+                        schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
+                        $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
+                            $scope.setSchool data.rows[0]
+                layers[1].on 'mouseover', () ->
+                    $('.leaflet-container').css('cursor', 'pointer')
+                layers[1].on 'mouseout', () ->
+                    $('.leaflet-container').css('cursor', '-webkit-grab')
+                    $('.leaflet-container').css('cursor', '-moz-grab')
+                $scope.showLayer 0
 
         $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
             $scope.bestSchools = data.rows
