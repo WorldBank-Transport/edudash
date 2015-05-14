@@ -8,7 +8,7 @@ describe 'Service: _', ->
   # instantiate service
   _ = {}
   beforeEach inject (___) ->
-    _ = __
+    _ = ___
 
   it 'should do something', ->
     expect(!!_).toBe true

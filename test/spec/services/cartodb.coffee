@@ -2,13 +2,4 @@
 
 describe 'Service: cartodb', ->
 
-  # load the service's module
-  beforeEach module 'edudashApp'
-
-  # instantiate service
-  cartodb = {}
-  beforeEach inject (_cartodb_) ->
-    cartodb = _cartodb_
-
-  it 'should do something', ->
-    expect(!!cartodb).toBe true
+  # there is not a meaningful way to test cartodb...

@@ -1,19 +1,19 @@
 'use strict'
 
-describe 'Controller: DashboardsCtrl', ->
+describe 'Controller: DashboardCtrl', ->
 
-  # load the controller's module
-  beforeEach module 'edudashApp'
+  # load the app and mock out dashboard controller's dependencies
+  beforeEach module 'edudashApp',
+    cartodb:
+      createLayer: -> addTo: -> done: -> null
+    L:
+      map: -> null
 
-  DashboardCtrl = {}
-  scope = {}
+  # inject the controller and get its scope
+  $scope = null
+  beforeEach inject ($rootScope, $controller) ->
+    $scope = $rootScope.$new()
+    $controller('DashboardCtrl', {$scope: $scope})
 
-  # Initialize the controller and a mock scope
-  beforeEach inject ($controller, $rootScope) ->
-    scope = $rootScope.$new()
-    DashboardsCtrl = $controller 'DashboardsCtrl', {
-      $scope: scope
-    }
-
-  it 'should attach a list of awesomeThings to the scope', ->
-    expect(scope.awesomeThings.length).toBe 3
+  it 'should define `activeMap` on $scope', ->
+    expect($scope.activeMap?).toBe(true)
