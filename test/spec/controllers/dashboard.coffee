@@ -1,6 +1,6 @@
 'use strict'
 
-describe 'Controller: DashboardsCtrl', ->
+describe 'Controller: DashboardCtrl', ->
 
   # load the controller's module
   beforeEach module 'edudashApp'
@@ -11,6 +11,6 @@ describe 'Controller: DashboardsCtrl', ->
   # Initialize the controller and a mock scope
   beforeEach inject ($controller, $rootScope) ->
     scope = $rootScope.$new()
-    DashboardsCtrl = $controller 'DashboardsCtrl', {
+    DashboardCtrl = $controller 'DashboardCtrl', {
       $scope: scope
     }
