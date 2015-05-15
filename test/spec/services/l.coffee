@@ -10,5 +10,5 @@ describe 'Service: L', ->
   beforeEach inject (_L_) ->
     L = _L_
 
-#  it 'should do something', ->
-#    expect(!!L).toBe true
+  # there is not a meaningful way to test leaflet, at least until we drop
+  # cartodb
