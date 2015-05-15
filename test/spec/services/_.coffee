@@ -10,5 +10,5 @@ describe 'Service: _', ->
   beforeEach inject (___) ->
     _ = ___
 
-  it 'should do something', ->
-    expect(!!_).toBe true
+#  it 'should do something', ->
+#    expect(!!_).toBe true

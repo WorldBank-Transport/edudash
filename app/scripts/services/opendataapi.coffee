@@ -2,20 +2,18 @@
 
 ###*
  # @ngdoc service
- # @name edudashApp.CKanApi
+ # @name edudashApp.OpenDataApi
  # @description
- # # CKanApi
+ # # OpenDataApi
  # Service in the edudashApp.
 ###
 angular.module 'edudashApp'
-.service 'CKanApi', [
-    '$http', '$resource', '$log'
-    ($http, $resource, $log) ->
+.service 'OpenDataApi', [
+    '$http', '$resource', '$log', 'CsvParser'
+    ($http, $resource, $log, CsvParser) ->
       # AngularJS will instantiate a singleton by calling "new" on this function
       corsApi = 'https://cors-anywhere.herokuapp.com'
       apiRoot = '/opendata.go.tz/api/action/'
-      oapiRoot = 'http://wbank.cartodb.com/api/v2/sql'
-      oapiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
 
       getdata: () ->
         $params =
@@ -35,16 +33,29 @@ angular.module 'edudashApp'
         req = $resource(corsApi + apiRoot + 'package_show')
         req.get($params).$promise
 
-      getodata: () ->
-        $params =
-          q: 'SELECT * FROM wbank.tz_primary_cleaned_dashboard ORDER BY rank_2014 ASC LIMIT 100'
-          api_key: oapiKey
-        $http.get(oapiRoot, {params: $params})
+      getCsv: (file) ->
+        file = file.replace(/^(http|https):\/\//gm, '')
+        resourceUrl = corsApi + '/' + file
+        $resource(resourceUrl, {},
+          getDataSet: {
+            method: 'GET'
+            isArray: false
+            headers:
+              'Content-Type': 'text/csv; charset=utf-8'
+            responseType: 'text'
+            transformResponse: (data, headers) ->
+              #$log.debug 'csv raw data'
+              result = CsvParser.parseToJson data
+              #$log.debug result
+              result
+          }
+        )
 
-      getCsvValue: () ->
-        resourceUrl = corsApi + '/opendata.go.tz/sw/dataset/12777377-33b6-463c-8055-91245d033c49/resource/82090966-ca83-433c-a535-167fc13225ac/download/Enrollment-of-Students-in-Secondary-Schools-by-School-2012.csv'
-        req = $resource(resourceUrl)
-        req.get().$promise
+#        .success (data, status) ->
+#          $log.debug 'csv raw data' + status
+#          $log.debug CsvParser.parseToJson data
+#        req = $resource(resourceUrl)
+#        req.get().$promise
 
       getMyData: () ->
         [

@@ -8,36 +8,21 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashApp').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'cartodb', 'L', '_', '$q'
- 
-    ($scope, $window, $routeParams, $anchorScroll, $http, cartodb, L, _, $q) ->
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'cartodb', 'L', '_', '$q', 'WorldBankApi', "$log"
+
+    ($scope, $window, $routeParams, $anchorScroll, $http, cartodb, L, _, $q, WorldBankApi, $log) ->
         primary = 'primary'
         secondary = 'secondary'
-        mapLayers =
-            'primary': 'http://worldbank.cartodb.com/api/v2/viz/a031f6f0-c1d0-11e4-966d-0e4fddd5de28/viz.json'
-            'secondary': 'http://worldbank.cartodb.com/api/v2/viz/0d9008a8-c1d2-11e4-9470-0e4fddd5de28/viz.json'
-        if $routeParams.type == secondary
-            $scope.schoolType = secondary
-            $scope.title = 'Secondary School Dashboard'
-        else if $routeParams.type == primary
-            $scope.schoolType = primary
-            $scope.title = 'Primary School Dashboard'
-        else
-            $window.location.href = '/'
-        
-        $scope.searchText = "dar"
+        title =
+          primary: 'Primary School Dashboard'
+          secondary: 'Secondary School Dashboard'
 
-        apiRoot = 'http://wbank.cartodb.com/api/v2/sql'
-        apiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
-        bestSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 ASC LIMIT 100"
-        worstSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY rank_2014 DESC LIMIT 100"
-        if $scope.schoolType == primary
-            mostImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE change_13_14 IS NOT NULL
-                ORDER BY change_13_14 DESC LIMIT 300"
-        else
-            mostImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE change_13_14 IS NOT NULL
-                ORDER BY change_13_14 DESC LIMIT 100"
-        leastImprovedSchoolsSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard ORDER BY change_13_14 ASC LIMIT 100"
+        $scope.schoolType = $routeParams.type
+        $scope.title = title[$routeParams.type]
+        if $routeParams.type isnt primary and $routeParams.type isnt secondary
+          $window.location.href = '/'
+
+        $scope.searchText = "dar"
 
         map = L.map 'map',
             center: [-7.199, 34.1894],
@@ -61,12 +46,12 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             max: ptMax
 
 
-        # add the basemap
-        cartodb.createLayer map, mapLayers[$scope.schoolType], layerIndex: 0
+        # add the basemap layer 0
+        cartodb.createLayer map, WorldBankApi.getLayer($scope.schoolType), layerIndex: 0
             .addTo map
             .done (basemap) -> layers[0] = basemap
-
-        cartodb.createLayer map, mapLayers[$scope.schoolType], layerIndex: 1
+        # add the layer 1 for schoold
+        cartodb.createLayer map, WorldBankApi.getLayer($scope.schoolType), layerIndex: 1
             .addTo map
             .done (layer) ->
                 layers[1] = layer
@@ -75,8 +60,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     if $scope.activeMap == 3
                         $scope.setMapView(pos, 9, 0)
                     else
-                        schoolSql = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE cartodb_id=#{ data.cartodb_id }"
-                        $http.get(apiRoot, {params: { q: schoolSql, api_key: apiKey }}).success (data) ->
+                        WorldBankApi.getSchooldByCartoDb($scope.schoolType , data.cartodb_id).success (data) ->
                             $scope.setSchool data.rows[0]
                 layers[1].on 'mouseover', () ->
                     $('.leaflet-container').css('cursor', 'pointer')
@@ -85,45 +69,22 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
                     $('.leaflet-container').css('cursor', '-moz-grab')
                 $scope.showLayer 0
 
-        $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
+        WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
             $scope.bestSchools = data.rows
 
-        $http.get(apiRoot, {params: { q: worstSchoolsSql, api_key: apiKey }}).success (data) ->
+        WorldBankApi.getWorstSchool($scope.schoolType).success (data) ->
             $scope.worstSchools = data.rows
 
-        $http.get(apiRoot, {params: { q: mostImprovedSchoolsSql, api_key: apiKey }}).success (data) ->
+        WorldBankApi.mostImprovedSchools($scope.schoolType).success (data) ->
             $scope.mostImprovedSchools = data.rows
 
-        $http.get(apiRoot, {params: { q: leastImprovedSchoolsSql, api_key: apiKey }}).success (data) ->
+        WorldBankApi.leastImprovedSchools($scope.schoolType).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
-        $http.get(apiRoot, {params: { q: bestSchoolsSql, api_key: apiKey }}).success (data) ->
-            $scope.bestSchools = data.rows
-
-        getSchoolRegionRank = (region, id) ->
-          schoolRankSql = "SELECT pos FROM
-                            (SELECT cartodb_id, rank() OVER (PARTITION BY region ORDER BY rank_2014 ASC) AS pos
-                              FROM wbank.tz_#{ $scope.schoolType}_cleaned_dashboard WHERE region = '#{region}') AS tmp
-                            WHERE cartodb_id = #{id}"
-
-          $http.get(apiRoot, {params: { q: schoolRankSql, api_key: apiKey }})
-
-        getSchoolDistrictRank = (region, district, id) ->
-          schoolRankSql = "SELECT pos FROM
-                            (SELECT cartodb_id, rank() OVER (PARTITION BY district ORDER BY rank_2014 ASC) AS pos
-                              FROM wbank.tz_#{ $scope.schoolType}_cleaned_dashboard WHERE region = '#{region}' AND district = '#{district}') AS tmp
-                            WHERE cartodb_id = #{id}"
-
-          $http.get(apiRoot, {params: { q: schoolRankSql, api_key: apiKey }})
-
         $scope.showLayer = (tag) ->
-            if tag?
-                $scope.activeMap = tag
-                for i in [0, 1, 2, 3]
-                    if i == tag
-                        layers[1].getSubLayer(i).show()
-                    else
-                        layers[1].getSubLayer(i).hide()
+          if tag?
+            $scope.activeMap = tag
+            [0..3].map (i) -> if i == tag then layers[1].getSubLayer(i).show() else layers[1].getSubLayer(i).hide()
 
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter
@@ -132,41 +93,20 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             $scope.openSchoolLegend = !$scope.openSchoolLegend
 
         updateMap = () ->
-            if $scope.activeMap != 3
-                # Include schools with no pt_ratio are also shown when the pt limits in extremeties
-                if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
-                    layers[1].getSubLayer(0).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })")
-                    layers[1].getSubLayer(1).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })")
-                    layers[1].getSubLayer(2).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })")
-                else
-                    layers[1].getSubLayer(0).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_dashboard
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })
-                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio <= #{ $scope.ptRange.max })")
-                    layers[1].getSubLayer(1).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstperformance
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })
-                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio <= #{ $scope.ptRange.max })")
-                    layers[1].getSubLayer(2).setSQL(
-                            "SELECT * FROM tz_#{ $scope.schoolType }_cleaned_topworstimproved
-                            WHERE (pass_2014 >= #{ $scope.passRange.min } AND pass_2014 <= #{ $scope.passRange.max })
-                            AND (pt_ratio >= #{ $scope.ptRange.min } AND pt_ratio <= #{ $scope.ptRange.max })")
+          if $scope.activeMap != 3
+            # Include schools with no pt_ratio are also shown when the pt limits in extremeties
+            if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
+                WorldBankApi.updateLayers(layers, $scope.schoolType, $scope.passRange)
+            else
+                WorldBankApi.updateLayersPt(layers, $scope.schoolType, $scope.passRange, $scope.ptRange)
 
         $scope.updateMap = _.debounce(updateMap, 500)
 
         $scope.getSchoolsChoices = (query) ->
             if query?
+              WorldBankApi.getSchoolsChoices($scope.schoolType, query).success (data) ->
                 $scope.searchText = query
-                searchSQL = "SELECT * FROM wbank.tz_#{ $scope.schoolType }_cleaned_dashboard WHERE " +
-                    "(name ilike '%#{ $scope.searchText }%' OR code ilike '%#{ $scope.searchText }%') LIMIT 10"
-                $http.get(apiRoot, {params: { q: searchSQL, api_key: apiKey }}).success (data) ->
-                    $scope.schoolsChoices = data.rows
+                $scope.schoolsChoices = data.rows
 
         $scope.$watch 'passRange', ((newVal, oldVal) ->
             unless _.isEqual(newVal, oldVal)
@@ -244,19 +184,16 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
           worst = $scope.worstSchools[0].rank_2014
 
           $q.all([
-            getSchoolRegionRank(item.region, item.cartodb_id)
-            getSchoolDistrictRank(item.region, item.district, item.cartodb_id)
+            WorldBankApi.getSchoolRegionRank($scope.schoolType, item.region, item.cartodb_id)
+            WorldBankApi.getSchoolDistrictRank($scope.schoolType, item.region, item.district, item.cartodb_id)
           ]).then (data) ->
             rr = data[0].data.rows[0].pos
             dr = data[1].data.rows[0].pos
 
-
             dim = getDimensions(selector)
             h = 100
-            if dim.w > 400
-                w = 400
-            else
-                w = dim.w 
+            w = (w = 400 if dim.w > 400) or dim.w
+
             margin =
               top: 20
               right: 25
@@ -314,8 +251,6 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
             svg.append("path")
               .attr("d", d3.svg.symbol().type("triangle-down"))
               .attr("fill": "#a1a1a1")
-              
-              
               .attr("transform",  "translate(" + x(nr) + "," + (y(50)-8) + ")")
 
             label = svg.append("text")
@@ -360,7 +295,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
           curYear = new Date().getFullYear()
           years = _.range(2012, curYear)
-          values = years.map((x) -> item["pass_" + x])
+          values = years.map (x) -> item["pass_" + x]
           data = _.zip(years, values).map( (x) -> {"key": x[0], "val": x[1]})
 
           # remove years with no data
@@ -368,10 +303,8 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
           dim = getDimensions(selector)
           h = 100
-          if dim.w > 350
-            w = 350
-          else
-            w = dim.w
+          w = (w = 350 if dim.w > 350) or dim.w
+
           margin =
             top: 20
             right: 20

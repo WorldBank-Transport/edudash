@@ -328,10 +328,10 @@
                                 <div class="col-xs-3"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
                                 <div class="col-xs-9">
                                     <img
-                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
+                                        ng-repeat="i in [0..selectedSchool.pass_by_10] track by $index"
                                         ng-src="images/passrate_student_green.png">
                                     <img
-                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                                        ng-repeat="i in [0..selectedSchool.fail_by_10] track by $index"
                                         ng-src="images/passrate_student_grey.png">
                                 </div>
                             </div>
@@ -365,7 +365,7 @@
                                                         'text-red': selectedSchool.pt_ratio > 50,
                                                     '   text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
                                                         'text-yellow': selectedSchool.pt_ratio < 35}">
-                                                {{ selectedSchool.pt_ratio }}
+                                                {{ selectedSchool.pt_ratio }}</span>
                                             </span>
                                         </td>
                                         <td>
