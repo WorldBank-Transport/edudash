@@ -14,8 +14,6 @@ angular.module 'edudashApp'
       # AngularJS will instantiate a singleton by calling "new" on this function
       corsApi = 'https://cors-anywhere.herokuapp.com'
       apiRoot = '/opendata.go.tz/api/action/'
-      oapiRoot = 'http://wbank.cartodb.com/api/v2/sql'
-      oapiKey = 'ad10ae57cef93e98482aabcf021a738a028c168b'
 
       getdata: () ->
         $params =
@@ -34,12 +32,6 @@ angular.module 'edudashApp'
           id: level
         req = $resource(corsApi + apiRoot + 'package_show')
         req.get($params).$promise
-
-      getodata: () ->
-        $params =
-          q: 'SELECT * FROM wbank.tz_primary_cleaned_dashboard ORDER BY rank_2014 ASC LIMIT 100'
-          api_key: oapiKey
-        $http.get(oapiRoot, {params: $params})
 
       getCsv: (file) ->
         file = file.replace(/^(http|https):\/\//gm, '')

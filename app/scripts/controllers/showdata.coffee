@@ -18,9 +18,6 @@ angular.module 'edudashApp'
         $scope.opendata = data.result.records
         $scope.opendatafield = data.result.fields
 
-      OpenDataApi.getodata().success (data) ->
-        $scope.mydata = data.rows
-
       $scope.educationValues = [
         {value: 'elimu-ya-awali', label: 'Pre-Primary Education'},
         {value: 'elimu-ya-msingi', label: 'Primary'},
