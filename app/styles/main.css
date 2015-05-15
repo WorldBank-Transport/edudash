@@ -38,6 +38,19 @@ h1 {
     color: #F0F0F0;
 }
 
+.navbar.announcement-bar {
+    background-color: #047ba7;
+    border: none;
+    border-radius: 0;
+    height: 50px;
+    transition: min-height ease 0.3s,
+                height ease 0.3s;
+}
+.navbar.announcement-bar.ng-enter {
+    height: 0;
+    min-height: 0;
+}
+
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > .open > a,
