@@ -12,6 +12,10 @@ angular.module('edudashApp').factory 'announcements', ['$http', ($http) ->
   message = null
   messageListeners = []
 
+  # $http.get '/announcements'
+  #   .success messageRecieved
+  #   .error () -> console.error 'Failed to get announcements'
+  ## Once we have the announcements endpoint, the above can be uncommented and the following line removed
   window.setTimeout (() -> messageRecieved 'Some announcement: ...'), 200
 
   messageRecieved = (newMessage) ->
