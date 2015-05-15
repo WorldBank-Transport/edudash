@@ -1,8 +1,7 @@
-angular.module('edudashApp').controller 'announcements', [
-  '$scope',
-  ($scope) ->
-    $scope.message = 'hello'
-]
 angular.module('edudashApp').directive 'announcements', ->
   restrict: 'E',
-  templateUrl: 'views/announcements.html'
+  templateUrl: 'views/announcements.html',
+  controller: ['$scope', 'announceService', ($scope, announceService) ->
+      $scope.message = ''
+      announceService((message) -> $scope.message = message)
+  ]
