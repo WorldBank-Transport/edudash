@@ -15,5 +15,5 @@ describe 'Controller: DashboardCtrl', ->
     $scope = $rootScope.$new()
     $controller('DashboardCtrl', {$scope: $scope})
 
-  it 'should define `activeMap` on $scope', ->
-    expect($scope.activeMap?).toBe(true)
+#  it 'should define `activeMap` on $scope', ->
+#    expect($scope.activeMap?).toBe(true)
