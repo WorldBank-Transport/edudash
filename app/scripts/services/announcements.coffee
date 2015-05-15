@@ -1,4 +1,14 @@
-angular.module('edudashApp').factory 'announceService', ['$http', ($http) ->
+'use strict'
+
+###*
+ # @ngdoc service
+ # @name edudashApp.announcements
+ # @description
+ # # Announcements Service
+ # Fetches and updates listeners when new announcments are available
+###
+
+angular.module('edudashApp').factory 'announcements', ['$http', ($http) ->
   message = null
   messageListeners = []
 
