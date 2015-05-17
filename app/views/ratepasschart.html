@@ -1,0 +1,12 @@
+<div class="widget first">
+    <p class="widgettitle">2014 pass rate</p>
+    <div class="row">
+        <div ng-class="{'col-xs-3': selectedSchool.pass_by_10 == 10, 'col-xs-2': selectedSchool.pass_by_10 != 10}"><p class="percentNumber widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p>
+        </div>
+        <div ng-class="{'col-xs-9': selectedSchool.pass_by_10 == 10, 'col-xs-10': selectedSchool.pass_by_10 != 10}">
+            <img class="imageStudent" ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index">
+            <img ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
+                 ng-src="images/passrate_student_grey.png">
+        </div>
+    </div>
+</div>

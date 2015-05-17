@@ -289,53 +289,7 @@
                             {{ selectedSchool.code }}
                             <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
                         </p>
-                        <div class="widget first">
-                            <p class="widgettitle">2014 pass rate</p>
-                            <div class="row" ng-if="selectedSchool.pass_2014 < 40">
-                                <div class="col-xs-2"><p class="widgetnumber text-red">{{ selectedSchool.pass_2014 }}%</p></div>
-                                <div class="col-xs-10">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                        ng-src="images/passrate_student_red.png">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                        ng-src="images/passrate_student_grey.png">
-                                </div>
-                            </div>
-                            <div class="row" ng-if="selectedSchool.pass_2014 >= 40 && selectedSchool.pass_2014 < 60">
-                                <div class="col-xs-2"><p class="widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p></div>
-                                <div class="col-xs-10">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                        ng-src="images/passrate_student_yellow.png">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                        ng-src="images/passrate_student_grey.png">
-                                </div>
-                            </div>
-                            <div class="row" ng-if="selectedSchool.pass_2014 >= 60 && selectedSchool.pass_2014 < 100">
-                                <div class="col-xs-2"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
-                                <div class="col-xs-10">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"
-                                        ng-src="images/passrate_student_green.png">
-                                    <img
-                                        ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                                        ng-src="images/passrate_student_grey.png">
-                                </div>
-                            </div>
-                            <div class="row" ng-if="selectedSchool.pass_2014 == 100">
-                                <div class="col-xs-3"><p class="widgetnumber text-green">{{ selectedSchool.pass_2014 }}%</p></div>
-                                <div class="col-xs-9">
-                                    <img
-                                        ng-repeat="i in [0..selectedSchool.pass_by_10] track by $index"
-                                        ng-src="images/passrate_student_green.png">
-                                    <img
-                                        ng-repeat="i in [0..selectedSchool.fail_by_10] track by $index"
-                                        ng-src="images/passrate_student_grey.png">
-                                </div>
-                            </div>
-                        </div>
+                        <rate-pass-chart min="4" max="6"></rate-pass-chart>
                         <div class="widget" ng-if="selectedSchool.change_13_14|exists">
                             <p class="widgettitle">change since 2013</p>
                             <p class="widgetnumber">
