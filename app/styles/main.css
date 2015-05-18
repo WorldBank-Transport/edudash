@@ -786,3 +786,31 @@ table.districts p {
         width: 100%;
     }
 }
+
+.passrategreen{
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_green.png);
+    background-repeat: no-repeat;
+}
+.passrategrey{
+    position: absolute;
+    width: 20px;
+    background-image: url(../images/passrate_student_grey.png);
+    background-repeat: no-repeat;
+}
+.passratered{
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_red.png);
+    background-repeat: no-repeat;
+}
+.passrateyellow{
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_yellow.png);
+    background-repeat: no-repeat;
+}

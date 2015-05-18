@@ -10,7 +10,7 @@ angular.module 'edudashApp'
 .directive 'ratePassChart', [
     '$log'
     ($log) ->
-      restrict: 'EA'
+      restrict: 'E'
       templateUrl: 'views/ratepasschart.html'
       link: (scope, element, attrs) ->
         max = attrs.max
@@ -19,16 +19,17 @@ angular.module 'edudashApp'
           if scope.selectedSchool? then element.show() else element.hide()
           pass = scope.selectedSchool.pass_by_10
           if pass >= max
-            src = 'images/passrate_student_green.png'
+            imageClass = 'passrategreen'
             textClass = 'text-gree'
           else if pass >= min and pass < max
-            src = 'images/passrate_student_yellow.png';
+            imageClass = 'passrateyellow';
             textClass = 'text-yellow'
           else
-            src = 'images/passrate_student_red.png';
+            imageClass = 'passratered';
             textClass = 'text-red'
 
-          element.find('.imageStudent').attr('src', src)
+          element.find('.passrate').attr('class', "passrate #{imageClass}")
+          element.find('.passrategrey').attr('style', "height: #{40-4*pass}px")
           element.find('.percentNumber').attr('class', "percentNumber widgetnumber #{textClass}")
 
         scope.$watch 'selectedSchool', (newValue, oldValue) ->
