@@ -15,9 +15,3 @@ describe 'Directive: ratePassChart', ->
     element = $compile(element) scope
     expect(element.text()).toBe ''
 
-  it 'should make element red chart', inject ($compile) ->
-    scope.selectedSchool =
-      pass_by_10: 4
-    element = angular.element '<rate-pass-chart></rate-pass-chart>'
-    element = $compile(element) scope
-    expect(element.text()).toBe ''
