@@ -131,8 +131,7 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
 
         $scope.setMapView = (latlng, zoom, tab) ->
             if tab?
-                $scope.$apply ()->
-                    $scope.activeMap = tab
+                $scope.activeMap = tab
                 $scope.showLayer(tab)
             unless zoom?
                 zoom = 9
