@@ -30,9 +30,9 @@
     <![endif]-->
 
     <div id="main-header">
-      <div>Education Dashboard</div>
+      <div translate="dashboard.title">Education Dashboard</div>
     </div>
-
+    <lang-selector></lang-selector>
     <announcements></announcements>
 
     <nav class="navbar navbar-default" id="main-nav">
@@ -48,18 +48,17 @@
 
         <div class="collapse navbar-collapse" id="main-nav-items">
           <ul class="nav navbar-nav">
-            <li><a href="#/">Home <span class="sr-only">(current)</span></a></li>
+            <li><a href="#/" translate="menu.home"><span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dashboards <span class="caret"></span></a>
+              <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" translate="menu.dashboard">Dashboards <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a ng-href="#/dashboard/primary/">Primary</a></li>
-                <li><a ng-href="#/dashboard/secondary/">Secondary</a></li>
+                <li><a ng-href="#/dashboard/primary/" translate="menu.primary">Primary</a></li>
+                <li><a ng-href="#/dashboard/secondary/" translate="menu.secondary">Secondary</a></li>
               </ul>
             </li>
-            <li><a href="#/data">Data</a></li>
-            <li><a href="#/speakout">Speak out</a></li>
-            <li><a>Kiswahili</a></li>
-            <li><a href="#/showdata">Show Data</a></li>
+            <li><a href="#/data" translate="menu.data">Data</a></li>
+            <li><a href="#/speakout" translate="menu.speakout">Speak out</a></li>
+            <li><a href="#/showdata" translate="menu.showdata">Show Data</a></li>
           </ul>
         </div>
       </div>
@@ -71,9 +70,9 @@
       <div class="container">
         <div class="text-center">
           <ul class="list-horizontal">
-            <li><a ng-href="#/">Home</a></li>
-            <li><a ng-href="#/data">Data</a></li>
-            <li><a ng-href="#/speakout">Speak out</a></li>
+            <li><a ng-href="#/" translate="menu.home">Home</a></li>
+            <li><a ng-href="#/data" translate="menu.data">Data</a></li>
+            <li><a ng-href="#/speakout" translate="menu.speakout">Speak out</a></li>
           </ul>            
         </div>
 
@@ -122,6 +121,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/d3/d3.js"></script>
@@ -154,6 +154,7 @@
     <script src="scripts/services/opendataapi.js"></script>
     <script src="scripts/services/worldbankapi.js"></script>
     <script src="scripts/directives/highcharttest.js"></script>
+    <script src="scripts/directives/langselector.js"></script>
     <!-- endbuild -->
 
   </body>
