@@ -162,6 +162,14 @@ module.exports = function (grunt) {
               'dist/leaflet-src.js',
               'dist/leaflet.css'
             ]
+          },
+          'highcharts': {
+            'main': [
+              'highcharts.js',
+              'highcharts-more.js',
+              'modules/exporting.js',
+              'modules/solid-gauge.js'
+            ]
           }
         }
       }
