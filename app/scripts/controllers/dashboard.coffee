@@ -8,11 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'cartodb', 'L', '_', '$q', 'WorldBankApi', "$log"
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'L', '_', '$q', 'WorldBankApi', '$log', '$translate',
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, cartodb, L, _, $q, WorldBankApi, $log, $translate) ->
-
-
+    ($scope, $window, $routeParams, $anchorScroll, $http, L, _, $q, WorldBankApi, $log, $translate) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -26,10 +24,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.searchText = "dar"
 
-        map = L.map 'map',
-            center: [-7.199, 34.1894],
-            zoom: 6
-        layers = []
+        $scope.layers = []
 
         $scope.activeMap = 0
         $scope.activeItem = null
@@ -47,30 +42,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             min: ptMin
             max: ptMax
 
-
-        # add the basemap layer 0
-        cartodb.createLayer map, WorldBankApi.getLayer($scope.schoolType), layerIndex: 0
-            .addTo map
-            .done (basemap) -> layers[0] = basemap
-        # add the layer 1 for schoold
-        cartodb.createLayer map, WorldBankApi.getLayer($scope.schoolType), layerIndex: 1
-            .addTo map
-            .done (layer) ->
-                layers[1] = layer
-                layers[1].setInteraction(true)
-                layers[1].on 'featureClick', (e, pos, latlng, data) ->
-                    if $scope.activeMap == 3
-                        $scope.setMapView(pos, 9, 0)
-                    else
-                        WorldBankApi.getSchooldByCartoDb($scope.schoolType , data.cartodb_id).success (data) ->
-                            $scope.setSchool data.rows[0]
-                layers[1].on 'mouseover', () ->
-                    $('.leaflet-container').css('cursor', 'pointer')
-                layers[1].on 'mouseout', () ->
-                    $('.leaflet-container').css('cursor', '-webkit-grab')
-                    $('.leaflet-container').css('cursor', '-moz-grab')
-                $scope.showLayer 0
-
         WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
             $scope.bestSchools = data.rows
 
@@ -86,7 +57,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.showLayer = (tag) ->
           if tag?
             $scope.activeMap = tag
-            [0..3].map (i) -> if i == tag then layers[1].getSubLayer(i).show() else layers[1].getSubLayer(i).hide()
+            [0..3].map (i) -> if i == tag then $scope.layers[1].getSubLayer(i).show() else $scope.layers[1].getSubLayer(i).hide()
 
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter
@@ -98,9 +69,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           if $scope.activeMap != 3
             # Include schools with no pt_ratio are also shown when the pt limits in extremeties
             if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
-                WorldBankApi.updateLayers(layers, $scope.schoolType, $scope.passRange)
+                WorldBankApi.updateLayers($scope.layers, $scope.schoolType, $scope.passRange)
             else
-                WorldBankApi.updateLayersPt(layers, $scope.schoolType, $scope.passRange, $scope.ptRange)
+                WorldBankApi.updateLayersPt($scope.layers, $scope.schoolType, $scope.passRange, $scope.ptRange)
 
         $scope.updateMap = _.debounce(updateMap, 500)
 
@@ -127,7 +98,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 markerColor: 'blue'
                 icon: 'map-marker'
             unless schoolMarker?
-                schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo(map)
+                schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo($scope.map)
             else
                 schoolMarker.setLatLng(latlng, {icon: markerIcon})
 
@@ -137,7 +108,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.showLayer(tab)
             unless zoom?
                 zoom = 9
-            map.setView latlng, zoom
+            $scope.map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
@@ -146,13 +117,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.showLayer(0)
             # Silence invalid/null coordinates
             try
-                if map.getZoom() < 9
+                if $scope.map.getZoom() < 9
                    zoom = 9
                 else
-                    zoom = map.getZoom()
+                    zoom = $scope.map.getZoom()
                 latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
                 markSchool latlng
-                map.setView latlng, zoom
+                $scope.map.setView latlng, zoom
             catch e
                 console.log e
             if item.pass_2014 < 10 && item.pass_2014 > 0

@@ -21,7 +21,14 @@
                 </li>
                 <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)" translate="tab.districts">Districts</a></li>
             </ul>
-            <div id="map"></div>
+
+            <div
+                id="map"
+                map="map"
+                layers="layers"
+                school-type="schoolType"
+                show-layer="showLayer"></div>
+
             <div ng-if="activeMap!=3" class="map-control-container">
                 <div class="map-control container-fluid">
                     <div class="text-info map-control-header">
