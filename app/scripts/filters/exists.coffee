@@ -8,7 +8,7 @@
  # # exists
  # Filter in the edudashApp.
 ###
-angular.module('edudashApp')
+angular.module('edudashAppFil')
     .filter 'exists', ->
         (input) ->
             if input? and input.length? and input.length <= 0

@@ -6,7 +6,7 @@
  # @description
  # # highchartTest
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppDir'
   .directive 'highchartTest', [
     '$log'
     ($log) ->

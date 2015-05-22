@@ -3,7 +3,7 @@
 describe 'Directive: ratePassChart', ->
 
   # load the directive's module
-  beforeEach module 'edudashApp'
+  beforeEach module 'edudashAppDir'
 
   scope = {}
 

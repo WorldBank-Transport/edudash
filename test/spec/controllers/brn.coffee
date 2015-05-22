@@ -3,7 +3,7 @@
 describe 'Controller: BrnCtrl', ->
 
   # load the controller's module
-  beforeEach module 'edudashApp'
+  beforeEach module 'edudashAppCtrl'
 
   BrnCtrl = {}
   scope = {}

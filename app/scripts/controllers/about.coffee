@@ -7,7 +7,7 @@
  # # AboutCtrl
  # Controller of the edudashApp
 ###
-angular.module('edudashApp')
+angular.module('edudashAppCtrl')
   .controller 'AboutCtrl', ($scope) ->
     $scope.awesomeThings = [
       'HTML5 Boilerplate'

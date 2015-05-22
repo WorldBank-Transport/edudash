@@ -6,7 +6,7 @@
  # @description
  # # ratePassChart
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppDir'
 .directive 'ratePassChart', [
     '$log'
     ($log) ->

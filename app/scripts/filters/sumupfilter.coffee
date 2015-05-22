@@ -8,7 +8,7 @@
  # # sumUpFilter
  # Filter in the edudashApp.
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppFil'
 .filter 'sumUpFilter', [
     '$log'
     ($log) ->

@@ -8,7 +8,7 @@
  # Fetches and updates listeners when new announcments are available
 ###
 
-angular.module('edudashApp').factory 'announcements', ['$http', ($http) ->
+angular.module('edudashAppSrv').factory 'announcements', ['$http', ($http) ->
   message = null
   messageListeners = []
 

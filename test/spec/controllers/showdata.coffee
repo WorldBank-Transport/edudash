@@ -3,7 +3,7 @@
 describe 'Controller: ShowdataCtrl', ->
 
   # load the controller's module
-  beforeEach module 'edudashApp'
+  beforeEach module 'edudashAppCtrl'
 
   ShowdataCtrl = {}
   scope = {}
@@ -13,6 +13,19 @@ describe 'Controller: ShowdataCtrl', ->
     scope = $rootScope.$new()
     ShowdataCtrl = $controller 'ShowdataCtrl', {
       $scope: scope
+      $log: {}
+      OpenDataApi:
+        getCsv: ->
+          getDataSet: ->
+            data:
+              result:
+                fields: []
+                records: []
+        getDatasetType: ->
+          then: ->
+            data:
+              result:
+                resources: []
     }
 
   it 'should attach a list of awesomeThings to the scope', ->

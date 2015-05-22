@@ -6,8 +6,13 @@
  # @description
  # # langSelector
 ###
-angular.module 'edudashApp'
-  .directive 'langSelector', [
+angular.module('i18nEdudashApp', [
+  'ngCookies',
+  'ngMessages',
+  'ngResource',
+  'pascalprecht.translate'])
+
+  .directive('langSelector', [
     "$log", "$translate"
     ($log, $translate) ->
       restrict: 'E'
@@ -30,4 +35,12 @@ angular.module 'edudashApp'
         scope.changeLanguage = (key) ->
           $log.debug 'lang selected: ' + key
           $translate.use(key)
-  ]
+  ])
+  .config ($translateProvider) ->
+    $translateProvider.useStaticFilesLoader(
+      prefix: 'scripts/i18n/locale_'
+      suffix: '.json'
+    )
+    $translateProvider.preferredLanguage('en');
+    $translateProvider.useSanitizeValueStrategy('escaped');
+

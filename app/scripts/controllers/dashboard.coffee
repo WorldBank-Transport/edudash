@@ -7,7 +7,7 @@
  # # DashboardsCtrl
  # Controller of the edudashApp
 ###
-angular.module('edudashApp').controller 'DashboardCtrl', [
+angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'cartodb', 'L', '_', '$q', 'WorldBankApi', "$log"
 
     ($scope, $window, $routeParams, $anchorScroll, $http, cartodb, L, _, $q, WorldBankApi, $log, $translate) ->

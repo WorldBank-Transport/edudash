@@ -7,7 +7,7 @@
  # # Announcements bar
  # showing the latest news/updates
 ###
-angular.module('edudashApp').directive 'announcements', ->
+angular.module('edudashAppDir').directive 'announcements', ->
   restrict: 'E',
   templateUrl: 'views/announcements.html',
   controller: ['$scope', 'announcements', ($scope, announcements) ->
