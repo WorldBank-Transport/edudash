@@ -43,7 +43,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             max: ptMax
 
 
-        leafletData.getMap('map').then (map) ->
+        mapId = 'map'
+
+
+        leafletData.getMap(mapId).then (map) ->
           # initialize the map view
           map.setView [-7.199, 34.1894], 6
 
@@ -128,7 +131,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 markerColor: 'blue'
                 icon: 'map-marker'
             unless schoolMarker?
-                schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo($scope.map)
+                leafletData.getMap(mapId).then (map) ->
+                    schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo(map)
             else
                 schoolMarker.setLatLng(latlng, {icon: markerIcon})
 
@@ -138,7 +142,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.showLayer(tab)
             unless zoom?
                 zoom = 9
-            $scope.map.setView latlng, zoom
+            leafletData.getMap(mapId).then (map) ->
+                map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
@@ -146,16 +151,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.activeMap = 0
                 $scope.showLayer(0)
             # Silence invalid/null coordinates
-            try
-                if $scope.map.getZoom() < 9
-                   zoom = 9
-                else
-                    zoom = $scope.map.getZoom()
-                latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
-                markSchool latlng
-                $scope.map.setView latlng, zoom
-            catch e
-                console.log e
+            leafletData.getMap(mapId).then (map) ->
+              try
+                  if map.getZoom() < 9
+                     zoom = 9
+                  else
+                      zoom = map.getZoom()
+                  latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
+                  markSchool latlng
+                  map.setView latlng, zoom
+              catch e
+                  console.log e
             if item.pass_2014 < 10 && item.pass_2014 > 0
                 $scope.selectedSchool.pass_by_10 = 1
             else
