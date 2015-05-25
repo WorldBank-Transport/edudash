@@ -33,7 +33,6 @@ angular.module('i18nEdudashApp', [
           }
         ]
         scope.changeLanguage = (key) ->
-          $log.debug 'lang selected: ' + key
           $translate.use(key)
   ])
   .config ($translateProvider) ->

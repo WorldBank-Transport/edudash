@@ -1,28 +1,29 @@
 <div id="generalcontent">
     <div class="container-fluid">
-	Explore the data behind the dashboard.
+	{{'data.title'| translate}}
 	<p class="text">
-		This Education Dashboard is built on open data released by the Government of Tanzania. The raw data is published on the Government's <a href="http://www.opendata.go.tz" target="_blank">open data portal</a> in machine-readable format with a license that encourages re-use. The data behind this education dashboard come from Ministry of Education, NECTA, and the National Bureau of Statistics.
+		{{'data.paragh1'| translate}}<a href="http://www.opendata.go.tz" target="_blank" translate="data.link.opendata">open data portal</a>{{'data.paragh2'| translate}}
 	</p>
 	
     <p class="text-center boxlink-container">
-        <a href="http://www.opendata.go.tz" class="boxlink" target="_blank">Open Data Portal</a>
+        <a href="http://www.opendata.go.tz" class="boxlink" target="_blank" translate="data.link.opendata">Open Data Portal</a>
     </p>
 
-	<p class="text">
+	<p class="text" translate="data.text">
 		To prepare the raw data into cleaned datasets for these visualizations, a suite of free and open-source tools were used. These include Open Refine, Fusion Tables, and qGIS.
 	</p>
 
     <div class="row boxlink-container">
-        <div class="col-xs-4 text-center"><a href="http://www.openrefine.org" class="boxlink" target="_blank">Open Refine</a></div>
-        <div class="col-xs-4 text-center"><a href="https://www.google.com/fusiontables/data?dsrcid=implicit&pli=1" class="boxlink" target="_blank">Fusion Tables</a></div>
-        <div class="col-xs-4 text-center"><a href="http://www.qgis.org" class="boxlink" target="_blank">Quantum GIS</a></div>
+        <div class="col-xs-4 text-center"><a href="http://www.openrefine.org" class="boxlink" target="_blank" translate="data.link.openrefine">Open Refine</a></div>
+        <div class="col-xs-4 text-center"><a href="https://www.google.com/fusiontables/data?dsrcid=implicit&pli=1" class="boxlink" target="_blank" translate="data.link.fusiontable">Fusion Tables</a></div>
+        <div class="col-xs-4 text-center"><a href="http://www.qgis.org" class="boxlink" target="_blank" translate="data.link.quatumgis">Quantum GIS</a></div>
     </div>
 
-	<p class="text">
+	<p class="text" translate="data.paragh.end">
 		The cleaned datasets are visualized into maps using CartoDB, another free tool. Click below to explore the cleaned datasets.
 	</p>
 	<p class="text-center boxlink-container">
-		<a href="https://worldbank.cartodb.com/u/wbank/datasets" class="boxlink" target="_blank">CartoDB</a>
+		<a href="https://worldbank.cartodb.com/u/wbank/datasets" class="boxlink" target="_blank" translate="data.link.cartodb">CartoDB</a>
 	</p>
+    </div>
 </div>
