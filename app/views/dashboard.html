@@ -6,20 +6,20 @@
     <div class="row map-widget-row">
         <div class="col-sm-8 map-container">
             <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-                <li role="presentation" ng-class="{active: activeMap==0}"><a ng-click="showLayer(0)" translate="tab.school">Schools</a></li>
-                <li role="presentation" ng-class="{active: activeMap==1}">
-                    <a ng-click="showLayer(1)">
-                        <span class="hide-sm" translate="tab.best-worst-performance">Best & Worst Perfomance</span>
+                <li role="presentation" ng-class="{active: activeMap=='schools'}"><a ng-click="showLayer('schools')" translate="tab.school">Schools</a></li>
+                <li role="presentation" ng-class="{active: activeMap=='performance'}">
+                    <a ng-click="showLayer('performance')">
+                        <span class="hide-sm" translate="tab.best-worst-performance'">Best & Worst Perfomance</span>
                         <span class="show-sm" translate="tab.best-worst">Best & Worst</span>
                     </a>
                 </li>
-                <li role="presentation" ng-class="{active: activeMap==2}">
-                    <a ng-click="showLayer(2)">
+                <li role="presentation" ng-class="{active: activeMap=='improvement'}">
+                    <a ng-click="showLayer('improvement')">
                         <span class="hide-sm" translate="tab.best-worst-improvements">Best & Worst Improvements</span>
                         <span class="show-sm" translate="tab.improvements">Improvements</span>
                     </a>
                 </li>
-                <li role="presentation" ng-class="{active: activeMap==3}"><a ng-click="showLayer(3)" translate="tab.districts">Districts</a></li>
+                <li role="presentation" ng-class="{active: activeMap=='districts'}"><a ng-click="showLayer('districts')" translate="tab.districts">Districts</a></li>
             </ul>
 
             <div
@@ -29,7 +29,7 @@
                 school-type="schoolType"
                 show-layer="showLayer"></div>
 
-            <div ng-if="activeMap!=3" class="map-control-container">
+            <div ng-if="activeMap!='districts'" class="map-control-container">
                 <div class="map-control container-fluid">
                     <div class="text-info map-control-header">
                         <span ng-click="toggleMapFilter()" translate="map.filter">Map filters</span>
@@ -65,7 +65,7 @@
                 </div>
             </div>
             
-            <div ng-if="activeMap==3">
+            <div ng-if="activeMap=='districts'">
                 <div class="map-control container-fluid">
                     <div id="legend" class="districts">
                         <p class="title" translate="map.legend">Legend</p>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </form>
-                <div ng-if="activeMap==3">
+                <div ng-if="activeMap=='districts'">
                     <div ng-if="schoolType=='primary'">
                         <div id="districtinfo" class="container-fluid">
 
@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                <div ng-if="activeMap==2">
+                <div ng-if="activeMap=='improvement'">
                     <div id="schooltablescontainer">
                         <p class="tableheader"><img src="images/happy.png" class="face" translate="chart.top.most-improved-schools">Most improved schools</p>
                         <div class="scroll">
@@ -178,7 +178,7 @@
                      </div>
                 </div>
 
-                <div  ng-if="activeMap==1">
+                <div  ng-if="activeMap=='performance'">
                     <div id="schooltablescontainer">
 
                         <p class="tableheader"><img src="images/happy.png" class="face" translate="chart.top.best-performing-schools">Best performing schools</p>
@@ -205,7 +205,7 @@
                     </div>
                 </div>
 
-                <div ng-if="activeMap==0">
+                <div ng-if="activeMap=='schools'">
                     <div ng-hide="selectedSchool|exists" class="container-fluid">
                         <div id="schoolinfo-plaholder" class="text-center" translate="map.tooltip">
                             Explore the map and click on a school to get started.

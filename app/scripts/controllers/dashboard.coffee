@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', 'L', '_', '$q', 'WorldBankApi', '$log', '$translate',
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', 'L', '_', '$q', 'WorldBankApi', 'layersSrv', '$log', '$translate',
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, L, _, $q, WorldBankApi, $log, $translate) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, L, _, $q, WorldBankApi, layersSrv, $log, $translate) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -24,9 +24,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.searchText = "dar"
 
-        layers = []
+        layers = {}
 
-        $scope.activeMap = 0
+        $scope.activeMap = 'schools'
         $scope.activeItem = null
         $scope.schoolsChoices = []
         $scope.selectedSchool = ''
@@ -45,6 +45,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         mapId = 'map'
 
+        cartodbLayers = [  # ordered to align with the cartoDB subLayer index
+          'schools',
+          'performance',
+          'improvement',
+          'districts',
+        ]
+
 
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
@@ -54,24 +61,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           L.tileLayer '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
             .addTo map
 
-          # add the layer 1 for schoold
-          cartodb.createLayer map, WorldBankApi.getLayer($scope.schoolType), layerIndex: 1
-            .addTo map
-            .done (layer) ->
-              layers[1] = layer
-              layers[1].setInteraction(true)
-              layers[1].on 'featureClick', (e, pos, latlng, data) ->
-                if $scope.activeMap == 3
-                  $scope.setMapView(pos, 9, 0)
+          # add the cartodb layers
+          cartoURL = WorldBankApi.getLayer $scope.schoolType
+          cartodbLayers.forEach (id, i) ->
+            layers[id] = layersSrv.addCartodbLayer id, cartoURL, i, mapId
+            layers[id].then (layer) -> layer.raw.then (rawLayer) ->
+              rawLayer.on 'featureClick', (e, pos, latlng, data) ->
+                if $scope.activeMap == 'districts'
+                  $scope.setMapView pos, 9, 'schools'
                 else
-                  WorldBankApi.getSchooldByCartoDb($scope.schoolType , data.cartodb_id).success (data) ->
-                    $scope.setSchool data.rows[0]
-              layers[1].on 'mouseover', () ->
-                $('.leaflet-container').css('cursor', 'pointer')
-              layers[1].on 'mouseout', () ->
-                $('.leaflet-container').css('cursor', '-webkit-grab')
-                $('.leaflet-container').css('cursor', '-moz-grab')
-              $scope.showLayer 0
+                  WorldBankApi.getSchooldByCartoDb $scope.schoolType, data.cartodb_id
+                    .success (data) ->
+                      $scope.setSchool data.rows[0]
+
+          # set up the initial view
+          $scope.showLayer 'schools'
 
 
         WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
@@ -86,10 +90,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         WorldBankApi.leastImprovedSchools($scope.schoolType).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
-        $scope.showLayer = (tag) ->
-          if tag?
-            $scope.activeMap = tag
-            [0..3].map (i) -> if i == tag then layers[1].getSubLayer(i).show() else layers[1].getSubLayer(i).hide()
+        $scope.showLayer = (view) ->
+          $scope.activeMap = view
+          cartodbLayers.forEach (id) ->
+            if id == view
+              layers[id].then (layer) -> layer.show()
+            else
+              layers[id].then (layer) -> layer.hide()
 
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter
@@ -98,7 +105,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.openSchoolLegend = !$scope.openSchoolLegend
 
         updateMap = () ->
-          if $scope.activeMap != 3
+          if $scope.activeMap != 'districts'
             # Include schools with no pt_ratio are also shown when the pt limits in extremeties
             if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
                 WorldBankApi.updateLayers(layers, $scope.schoolType, $scope.passRange)
@@ -135,10 +142,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
                 schoolMarker.setLatLng(latlng, {icon: markerIcon})
 
-        $scope.setMapView = (latlng, zoom, tab) ->
-            if tab?
-                $scope.activeMap = tab
-                $scope.showLayer(tab)
+        $scope.setMapView = (latlng, zoom, view) ->
+            if view?
+                $scope.activeMap = view
+                $scope.showLayer(view)
             unless zoom?
                 zoom = 9
             leafletData.getMap(mapId).then (map) ->
@@ -147,8 +154,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
-                $scope.activeMap = 0
-                $scope.showLayer(0)
+                $scope.activeMap = 'schools'
+                $scope.showLayer('schools')
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->
               try
@@ -170,7 +177,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
-              if $scope.activeMap == 0
+              if $scope.activeMap == 'schools'
                 drawNationalRanking(item)
                 drawPassOverTime(item)
             , 400)
