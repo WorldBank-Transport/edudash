@@ -68,4 +68,6 @@ angular.module('edudashApp').factory 'layersSrv', [
               setLatLng: layer.setLatLng
               raw: layer
       layers[id]
+
+    awesomeIcon: (options) -> L.AwesomeMarkers.icon options
 ]

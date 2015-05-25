@@ -8,9 +8,9 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', 'L', '_', '$q', 'WorldBankApi', 'layersSrv', '$log', '$translate',
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', '$log', '$translate',
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, L, _, $q, WorldBankApi, layersSrv, $log, $translate) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, $log, $translate) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -133,9 +133,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         markSchool = (latlng) ->
           unless schoolMarker?
-            icon = L.AwesomeMarkers.icon
-              markerColor: 'blue'
-              icon: 'map-marker'
+            icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
             schoolMarker = layersSrv.marker 'school-marker', latlng, {icon: icon}, mapId
 
           schoolMarker.then (marker) ->
