@@ -17,9 +17,21 @@ angular.module('edudashApp').factory 'layersSrv', [
 
     cartodbLayers = {}
 
+    addTileLayer: (id, url, mapId) ->
+      unless layers[id]?
+        layers[id] = $q (resolve, reject) ->
+          leafletData.getMap(mapId).then (map) ->
+            layer = L.tileLayer url
+            layer.addTo map
+            resolve
+              show: -> map.addLayer layer
+              hide: -> map.removeLayer layer
+              raw: layer
+        layers[id]
+
     addCartodbLayer: (id, url, subLayer, mapId) ->
 
-      if not cartodbLayers[mapId]?
+      unless cartodbLayers[mapId]?
         cartodbLayers[mapId] = {}
 
       unless layers[id]?

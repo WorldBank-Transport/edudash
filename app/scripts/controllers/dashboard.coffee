@@ -58,8 +58,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           map.setView [-7.199, 34.1894], 6
 
           # add the basemap
-          L.tileLayer '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-            .addTo map
+          layersSrv.addTileLayer 'gray', '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', mapId
 
           # add the cartodb layers
           cartoURL = WorldBankApi.getLayer $scope.schoolType
