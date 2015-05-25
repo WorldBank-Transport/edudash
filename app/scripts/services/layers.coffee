@@ -27,10 +27,9 @@ angular.module('edudashApp').factory 'layersSrv', [
               show: -> map.addLayer layer
               hide: -> map.removeLayer layer
               raw: layer
-        layers[id]
+      layers[id]
 
     addCartodbLayer: (id, url, subLayer, mapId) ->
-
       unless cartodbLayers[mapId]?
         cartodbLayers[mapId] = {}
 
@@ -56,5 +55,17 @@ angular.module('edudashApp').factory 'layersSrv', [
                 layer.getSubLayer(subLayer).hide()
               raw: layerPromise
 
+      layers[id]
+
+    marker: (id, latlng, options, mapId) ->
+      unless layers[id]?
+        layers[id] = $q (resolve, reject) ->
+          leafletData.getMap(mapId).then (map) ->
+            layer = L.marker latlng, options
+            resolve
+              show: () -> map.addLayer layer
+              hide: () -> map.removeLayer layer
+              setLatLng: layer.setLatLng
+              raw: layer
       layers[id]
 ]

@@ -132,14 +132,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         ), true
 
         markSchool = (latlng) ->
-            markerIcon = L.AwesomeMarkers.icon
-                markerColor: 'blue'
-                icon: 'map-marker'
-            unless schoolMarker?
-                leafletData.getMap(mapId).then (map) ->
-                    schoolMarker = L.marker(latlng, {icon: markerIcon}).addTo(map)
-            else
-                schoolMarker.setLatLng(latlng, {icon: markerIcon})
+          unless schoolMarker?
+            icon = L.AwesomeMarkers.icon
+              markerColor: 'blue'
+              icon: 'map-marker'
+            schoolMarker = layersSrv.marker 'school-marker', latlng, {icon: icon}, mapId
+
+          schoolMarker.then (marker) ->
+            marker.raw.setLatLng latlng
+            marker.show()
 
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
