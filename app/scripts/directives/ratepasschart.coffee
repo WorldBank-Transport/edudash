@@ -19,17 +19,17 @@ angular.module 'edudashAppDir'
           if scope.selectedSchool? then element.show() else element.hide()
           pass = scope.selectedSchool.pass_by_10
           if pass >= max
-            imageClass = 'passrategreen'
+            imageClass = 'mypassrategreen'
             textClass = 'text-gree'
           else if pass >= min and pass < max
-            imageClass = 'passrateyellow';
+            imageClass = 'mypassrateyellow';
             textClass = 'text-yellow'
           else
-            imageClass = 'passratered';
+            imageClass = 'mypassratered';
             textClass = 'text-red'
 
           element.find('.passrate').attr('class', "passrate #{imageClass}")
-          element.find('.passrategrey').attr('style', "height: #{40-4*pass}px")
+          element.find('.mypassrategrey').attr('style', "height: #{40-4*pass}px")
           element.find('.percentNumber').attr('class', "percentNumber widgetnumber #{textClass}")
 
         scope.$watch 'selectedSchool', (newValue, oldValue) ->

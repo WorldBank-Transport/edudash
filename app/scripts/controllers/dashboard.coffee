@@ -391,4 +391,63 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.anchorScroll = () ->
             $anchorScroll()
 
+        # TODO get this data from a service
+        if $scope.schoolType is secondary
+          $scope.bpdistrics = [
+            {location: [-3.4331517184, 36.6737179684], name: 'Arusha Municipal', rate: 88}
+            {location: [-3.3663947031, 37.4195272817], name: 'Moshi Municipal', rate: 85}
+            {location: [-2.7369939879, 31.2561260741], name: 'Biharamulo', rate: 83}
+            {location: [-6.7262543392, 39.1409173665], name: 'Kinondoni', rate: 81}
+          ]
+          $scope.wpdistrics = [
+            {location: [-8.8089448541, 32.4249572752], name: 'Momba', rate: 30}
+            {location: [-8.5151689606, 31.526046175], name: 'Kalambo', rate: 35}
+            {location: [-4.385454233, 33.0116723459], name: 'Nzega', rate: 35}
+            {location: [-4.3178931578, 37.0915398416], name: 'Simanjiro', rate: 37}
+            {location: [-4.5246418813, 35.2997811577], name: 'Hanang', rate: 40}
+          ]
+          $scope.midistrics = [
+            {location: [-10.9539928285, 37.283801768], name: 'Tunduru', rate: 31}
+            {location: [-11.027686889, 38.409135053], name: 'Nanyumbu', rate: 27}
+            {location: [-1.9956045687, 33.0136140625], name: 'Ukerewe', rate: 23}
+            {location: [-5.2234611886, 36.7583348837], name: 'Kiteto', rate: 21}
+            {location: [-6.0371763509, 33.0949829143], name: 'Sikonge', rate: 21}
+          ]
+          $scope.lidistrics = [
+            {location: [-5.8562823817,39.3055393524], name: 'Kaskazini A', rate: -16}
+            {location: [-5.3782568911,39.7056630242], name: 'Mkoani', rate: -15}
+            {location: [-11.1633258866,34.8725674647], name: 'Nyasa', rate: -14}
+            {location: [-5.0968020918,39.7660922987], name: 'Wete', rate: -10}
+            {location: [-5.2476201852,39.7699560598], name: 'Chake Chake', rate: -10}
+          ]
+        else
+          $scope.bpdistrics = [
+            {name: 'Arusha Municipal', rate: 92, location: [-3.3434370928, 36.6866081666]}
+            {name: 'Moshi Municipal', rate: 90,location: [-3.3456197671, 37.3408697955]}
+            {name: 'Biharamulo', rate: 88, location: [-2.7369939879, 31.2561260741]}
+            {name: 'Mpanda Urban', rate: 88, location: [-6.4080885938, 30.9894323986]}
+            {name: 'Kinondoni', rate: 86, location: [-6.7262543392, 39.1409173665]}
+          ]
+          $scope.wpdistrics = [
+            {name: 'Gairo', rate: 25, location: [-6.2032375409,37.0067288437]}
+            {name: 'Mkalama', rate: 25, location: [-4.1976105604,34.7147749689]}
+            {name: 'Nzega', rate: 27, location: [-4.385454233,33.0116723459]}
+            {name: 'Kalambo', rate: 30,location: [-8.5151689606,31.5260461757]}
+            {name: 'Momba', rate: 30, location: [-8.8089448541,32.4249572752]}
+          ]
+          $scope.midistrics = [
+            {name: 'Tunduru', rate: 35, location: [-10.9539928285,37.283801768]}
+            {name: 'Nanyumbu', rate: 26, location: [-11.027686889,38.409135053]}
+            {name: 'Mpanda Urban', rate: 25, location: [-6.4080885938,30.9894323986]}
+            {name: 'Ukerewe', rate: 24, location: [-1.9956045687,33.0136140625]}
+            {name: 'Mpanda', rate: 23, location: [-6.0300901028,30.56419613]}
+          ]
+          $scope.lidistrics = [
+            {name: 'Pangani', rate: -9, location: [-5.5920471331,38.8164028284]}
+            {name: 'Shinyanga Municipal', rate: -7, location: [-3.6233536528,33.4445364936]}
+            {name: 'Mkinga', rate: -6, location: [-4.7459693661, 38.9243345442]}
+            {name: 'Kigoma Municipal', rate: -6, location: [-4.8895048727, 29.6652013888]}
+            {name: 'Kibaha', rate: -5, location: [-6.8174266213, 38.5509159068]}
+          ]
+
 ]

@@ -1,0 +1,10 @@
+<div class="col-lg-6">
+    <p class="tableheaderdistrict"><img ng-src="images/{{districtListTileEmoticon}}.png" class="face">{{districtListTile | translate}}</p>
+
+    <table class="districts">
+        <tr ng-repeat="district in tdlData track by $index">
+            <td class="rank">{{$index + 1}}.</td>
+            <td class="name" ng-click="setMapView(district.location, 9, 0)">{{district.name}}</td>
+            <td ng-class="{'passratered': districtListTileEmoticon == 'sad', 'passrategreen': districtListTileEmoticon == 'happy'}">{{district.rate}}%</td></tr>
+    </table>
+</div>

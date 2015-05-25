@@ -119,51 +119,12 @@
                         <div id="districtinfo" class="container-fluid">
 
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Best performing districts</p>
-
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-3.3434370928,36.6866081666], 9, 0)">Arusha Municipal</td><td class="passrategreen">92%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-3.3456197671,37.3408697955], 9, 0)">Moshi Municipal</td><td class="passrategreen">90%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-2.7369939879,31.2561260741], 9, 0)">Biharamulo</td><td class="passrategreen">88%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-6.4080885938,30.9894323986], 9, 0)">Mpanda Urban</td><td class="passrategreen">88%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-6.7262543392,39.1409173665], 9, 0)">Kinondoni</td><td class="passrategreen">86%</td></tr>
-                                    </table>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Worst performing districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-6.2032375409,37.0067288437], 9, 0)">Gairo</td><td class="passratered">25%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-4.1976105604,34.7147749689], 9, 0)">Mkalama</td><td class="passratered">25%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-4.385454233,33.0116723459], 9, 0)">Nzega</td><td class="passratered">27%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-8.5151689606,31.5260461757], 9, 0)">Kalambo</td><td class="passratered">30%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-8.8089448541,32.4249572752], 9, 0)">Momba</td><td class="passratered">30%</td></tr>
-                                    </table>
-                                </div>
+                                <top-district-list title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
+                                <top-district-list title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/happy.png" class="face">Most improved districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-10.9539928285,37.283801768], 9, 0)">Tunduru</td><td class="passrategreen">34%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-11.027686889,38.409135053], 9, 0)">Nanyumbu</td><td class="passrategreen">26%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-6.4080885938,30.9894323986], 9, 0)">Mpanda Urban</td><td class="passrategreen">25%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-1.9956045687,33.0136140625], 9, 0)">Ukerewe</td><td class="passrategreen">24%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-6.0300901028,30.56419613], 9, 0)">Mpanda</td><td class="passrategreen">23%</td></tr>
-                                    </table>
-                                
-                                </div>
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/sad.png" class="face">Least improved districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-5.5920471331,38.8164028284], 9, 0)">Pangani</td><td class="passratered">-9%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-3.6233536528,33.4445364936], 9, 0)">Shinyanga Municipal</td><td class="passratered">-7%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-4.7459693661, 38.9243345442], 9, 0)">Mkinga</td><td class="passratered">-6%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-4.8895048727, 29.6652013888], 9, 0)">Kigoma Municipal</td><td class="passratered">-6%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-6.8174266213, 38.5509159068], 9, 0)">Kibaha</td><td class="passratered">-5%</td></tr>
-                                    </table>
-                                </div>
+                                <top-district-list title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
+                                <top-district-list title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
                             </div>
                         </div>
                     </div>
@@ -172,50 +133,12 @@
                         <div id="districtinfo" class="container-fluid">
 
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/happy.png" class="face" translate="chart.top.best-performing">Best performing districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-3.4331517184, 36.6737179684], 9, 0)">Arusha Municipal</td><td class="passrategreen">88%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-3.3663947031, 37.4195272817], 9, 0)">Moshi Municipal</td><td class="passrategreen">85%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-2.7369939879, 31.2561260741], 9, 0)">Biharamulo</td><td class="passrategreen">83%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-6.7262543392, 39.1409173665], 9, 0)">Kinondoni</td><td class="passrategreen">81%</td></tr>
-                                    </table>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/sad.png" translate="chart.top.worst-performing" class="face">Worst performing districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-8.8089448541, 32.4249572752], 9, 0)">Momba</td><td class="passratered">30%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-8.5151689606, 31.526046175], 9, 0)">Kalambo</td><td class="passratered">35%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-4.385454233, 33.0116723459], 9, 0)">Nzega</td><td class="passratered">35%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-4.3178931578, 37.0915398416], 9, 0)">Simanjiro</td><td class="passratered">37%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-4.5246418813, 35.2997811577], 9, 0)">Hanang</td><td class="passratered">40%</td></tr>
-                                    </table>
-                                </div>
+                                <top-district-list title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
+                                <top-district-list title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
                             </div>
-
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/happy.png" class="face" translate="chart.top.most-improved">Most improved districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-10.9539928285, 37.283801768], 9, 0)">Tunduru</td><td class="passrategreen">31%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-11.027686889, 38.409135053], 9, 0)">Nanyumbu</td><td class="passrategreen">27%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-1.9956045687, 33.0136140625], 9, 0)">Ukerewe</td><td class="passrategreen">23%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-5.2234611886, 36.7583348837], 9, 0)">Kiteto</td><td class="passrategreen">21%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-6.0371763509, 33.0949829143], 9, 0)">Sikonge</td><td class="passrategreen">21%</td></tr>
-                                    </table>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <p class="tableheaderdistrict"><img src="images/sad.png" class="face" translate="chart.top.least-improved">Least improved districts</p>
-                                    <table class="districts">
-                                        <tr><td class="rank">1.</td><td class="name" ng-click="setMapView([-5.8562823817,39.3055393524], 9, 0)">Kaskazini A</td><td class="passratered">-16%</td></tr>
-                                        <tr><td class="rank">2.</td><td class="name" ng-click="setMapView([-5.3782568911,39.7056630242], 9, 0)">Mkoani</td><td class="passratered">-15%</td></tr>
-                                        <tr><td class="rank">3.</td><td class="name" ng-click="setMapView([-11.1633258866,34.8725674647], 9, 0)">Nyasa</td><td class="passratered">-14%</td></tr>
-                                        <tr><td class="rank">4.</td><td class="name" ng-click="setMapView([-5.0968020918,39.7660922987], 9, 0)">Wete</td><td class="passratered">-10%</td></tr>
-                                        <tr><td class="rank">5.</td><td class="name" ng-click="setMapView([-5.2476201852,39.7699560598], 9, 0)">Chake Chake</td><td class="passratered">-10%</td></tr>
-                                    </table>
-                                </div>
+                                <top-district-list title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
+                                <top-district-list title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
                             </div>
 
                         </div>
