@@ -162,7 +162,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                      zoom = 9
                   else
                       zoom = map.getZoom()
-                  latlng = L.latLng($scope.selectedSchool.latitude, $scope.selectedSchool.longitude);
+                  latlng = [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude];
                   markSchool latlng
                   map.setView latlng, zoom
               catch e
