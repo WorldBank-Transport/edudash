@@ -787,27 +787,27 @@ table.districts p {
     }
 }
 
-.passrategreen{
+.mypassrategreen {
     position: absolute;
     width: 20px;
     height: 40px;
     background-image: url(../images/passrate_student_green.png);
     background-repeat: no-repeat;
 }
-.passrategrey{
+.mypassrategrey {
     position: absolute;
     width: 20px;
     background-image: url(../images/passrate_student_grey.png);
     background-repeat: no-repeat;
 }
-.passratered{
+.mypassratered {
     position: absolute;
     width: 20px;
     height: 40px;
     background-image: url(../images/passrate_student_red.png);
     background-repeat: no-repeat;
 }
-.passrateyellow{
+.mypassrateyellow {
     position: absolute;
     width: 20px;
     height: 40px;
