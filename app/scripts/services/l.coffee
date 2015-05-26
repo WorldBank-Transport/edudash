@@ -7,6 +7,6 @@
  # # L
  # Factory in the edudashApp.
 ###
-angular.module('edudashApp')
+angular.module('edudashAppSrv')
     .factory 'L', ->
         window.L

@@ -7,7 +7,7 @@
  # # ShowdataCtrl
  # Controller of the edudashApp
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppCtrl'
 .controller 'ShowdataCtrl', [
     '$scope', '$log', 'OpenDataApi'
     ($scope, $log, OpenDataApi) ->

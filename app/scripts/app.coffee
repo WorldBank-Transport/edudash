@@ -19,32 +19,11 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.select',
-    'ui-rangeSlider'
+    'ui-rangeSlider',
+    'i18nEdudashApp',
+    'edudashAppCtrl',
+    'edudashAppSrv',
+    'edudashAppDir',
+    'edudashAppFil'
   ])
-  .config ($routeProvider, uiSelectConfig) ->
-    $routeProvider
-      .when '/',
-        templateUrl: 'views/main.html'
-        controller: 'MainCtrl'
-      .when '/about',
-        templateUrl: 'views/about.html'
-        controller: 'AboutCtrl'
-      .when '/dashboard/:type',
-        templateUrl: 'views/dashboard.html'
-        controller: 'DashboardCtrl'
-      .when '/data',
-        templateUrl: 'views/data.html'
-        controller: 'DataCtrl'
-      .when '/speakout',
-        templateUrl: 'views/speakout.html'
-        controller: 'SpeakoutCtrl'
-      .when '/brn',
-        templateUrl: 'views/brn.html'
-        controller: 'BrnCtrl'
-      .when '/showdata',
-        templateUrl: 'views/showdata.html'
-        controller: 'ShowdataCtrl'
-      .otherwise
-        redirectTo: '/'
-    uiSelectConfig.theme = 'bootstrap';
 

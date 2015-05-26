@@ -3,7 +3,7 @@
 describe 'Filter: exists', ->
 
   # load the filter's module
-  beforeEach module 'edudashApp'
+  beforeEach module 'edudashAppFil'
 
   # initialize a new instance of the filter before each test
   exists = {}

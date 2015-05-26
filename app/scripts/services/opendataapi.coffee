@@ -7,7 +7,7 @@
  # # OpenDataApi
  # Service in the edudashApp.
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppSrv'
 .service 'OpenDataApi', [
     '$http', '$resource', '$log', 'CsvParser'
     ($http, $resource, $log, CsvParser) ->

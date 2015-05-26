@@ -7,6 +7,6 @@
  # # cartodb
  # Factory in the edudashApp.
 ###
-angular.module('edudashApp')
+angular.module('edudashAppSrv')
     .factory 'cartodb', ->
         window.cartodb

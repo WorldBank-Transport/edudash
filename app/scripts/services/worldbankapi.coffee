@@ -7,7 +7,7 @@
  # # WorldBankApi
  # Service in the edudashApp.
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppSrv'
   .service 'WorldBankApi', [
     '$http', '$resource', '$log'
     ($http, $resource, $log) ->

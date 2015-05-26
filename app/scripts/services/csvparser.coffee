@@ -7,7 +7,7 @@
  # # CsvParser
  # Service in the edudashApp.
 ###
-angular.module 'edudashApp'
+angular.module 'edudashAppSrv'
 .service 'CsvParser', [
     '$log'
     ($log) ->
@@ -31,4 +31,4 @@ angular.module 'edudashApp'
         result:
           fields: headers
           records: result
-      ]
+    ]

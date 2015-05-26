@@ -3,7 +3,7 @@
 describe 'Controller: DashboardCtrl', ->
 
   # load the app and mock out dashboard controller's dependencies
-  beforeEach module 'edudashApp',
+  beforeEach module ['edudashAppCtrl', 'edudashAppSrv', () ->
     cartodb:
       createLayer: -> addTo: -> done: -> null
     L:
@@ -17,3 +17,4 @@ describe 'Controller: DashboardCtrl', ->
 
 #  it 'should define `activeMap` on $scope', ->
 #    expect($scope.activeMap?).toBe(true)
+  ]

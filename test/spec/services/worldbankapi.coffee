@@ -3,7 +3,7 @@
 describe 'Service: WorldBankApi', ->
 
   # load the service's module
-  beforeEach module 'edudashApp'
+  beforeEach module 'edudashAppSrv'
 
   # instantiate service
   WorldBankApi = {}
