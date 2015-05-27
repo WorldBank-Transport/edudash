@@ -8,7 +8,7 @@
  # Old D3 charts
 ###
 
-angular.module('edudashApp').factory 'chartSrv', [
+angular.module('edudashAppSrv').factory 'chartSrv', [
   '$q', 'd3', 'WorldBankApi',
   ($q, d3, WorldBankApi) ->
 

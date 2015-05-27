@@ -13,6 +13,7 @@ module.exports = (config) ->
 
     # list of files / patterns to load in the browser
     files: [
+      # 3rd-party libs
       'bower_components/angular/angular.js'
       'bower_components/angular-mocks/angular-mocks.js'
       'bower_components/angular-animate/angular-animate.js'
@@ -28,11 +29,18 @@ module.exports = (config) ->
       'bower_components/angular-translate/angular-translate.js'
       'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files'
       'bower_components/underscore/underscore.js'
+
+      # modules (must be added manually because they must be included first)
       'app/scripts/services/service.coffee'
       'app/scripts/controllers/controller.coffee'
       'app/scripts/directives/directive.coffee'
       'app/scripts/filters/filter.coffee'
+      'app/scripts/lib/leafletMap/leafletMap.coffee'
+
+      # everything else (must be after every module has been added)
       'app/scripts/**/*.coffee'
+
+      # tests
       'test/mock/**/*.coffee'
       'test/spec/**/*.coffee'
     ],

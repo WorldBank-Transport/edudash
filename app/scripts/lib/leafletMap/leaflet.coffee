@@ -7,6 +7,6 @@
  # # L
  # Factory in the edudashApp.
 ###
-angular.module('edudashAppSrv')
+angular.module('leafletMap')
     .factory 'L', ->
         window.L
