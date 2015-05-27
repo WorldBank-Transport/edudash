@@ -1,7 +1,7 @@
 'use strict'
 
 
-angular.module('edudashAppSrv').factory 'leafletData', ['$q', ($q) ->
+angular.module('leafletMap').factory 'leafletData', ['$q', ($q) ->
   maps = {}
 
   ensureInit = (id) ->

@@ -7,7 +7,7 @@
  # # Announcements bar
  # showing the latest news/updates
 ###
-angular.module('edudashAppDir').directive 'map', [
+angular.module('leafletMap').directive 'leafletMap', [
   'leafletData', 'L', '$q'
   (leafletData, L, $q) ->
     _leafletMap = null  # empty ref shared by controller and link

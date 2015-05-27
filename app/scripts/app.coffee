@@ -21,6 +21,7 @@ angular
     'ui.select',
     'ui-rangeSlider',
     'i18nEdudashApp',
+    'leafletMap',
     'edudashAppCtrl',
     'edudashAppSrv',
     'edudashAppDir',
