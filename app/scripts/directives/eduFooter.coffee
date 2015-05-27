@@ -7,6 +7,6 @@
  # # Footer
  # logo and nav
 ###
-angular.module('edudashApp').directive 'eduFooter', ->
+angular.module('edudashAppDir').directive 'eduFooter', ->
   restrict: 'E',
   templateUrl: 'views/eduFooter.html',

@@ -9,7 +9,7 @@
 ###
 
 
-angular.module('edudashApp').factory 'layersSrv', [
+angular.module('edudashAppSrv').factory 'layersSrv', [
   'leafletData', 'cartodb', 'L', '$q',
   (leafletData, cartodb, L, $q) ->
 
