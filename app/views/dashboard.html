@@ -22,9 +22,8 @@
                 <li role="presentation" ng-class="{active: activeMap=='districts'}"><a ng-click="showLayer('districts')" translate="tab.districts">Districts</a></li>
             </ul>
 
-            <div
+            <div leaflet-map
                 id="map"
-                leaflet-map="map"
                 layers="layers"
                 school-type="schoolType"
                 show-layer="showLayer"></div>
