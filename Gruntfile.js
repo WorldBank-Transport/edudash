@@ -105,6 +105,69 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
+      },
+      /**
+       * connect:rebuild
+       *
+       * Exposes an endpoint that will try to rebuild the whole project on any
+       * request to it.
+       *
+       * Intended for use on a staging server. NGINX must be configured to
+       * reverse-proxy some URL to this app so github can hit it.
+       */
+      rebuild: {
+        options: {
+          keepalive: true,
+          middleware: [
+            function rebuild(req, res, next) {
+              var spawnSync = require('child_process').spawnSync;
+
+              function write(message) {
+                grunt.log.write(message);
+                res.write(message);
+              }
+              function ok(message) {
+                grunt.log.ok(message);
+                res.write(message);
+              }
+              function debug(message) {
+                grunt.log.debug(message);
+                res.write(message);
+              }
+              function warn(message) {
+                grunt.log.warn('Warning: ' + message);
+                res.write(message);
+              }
+
+              function run(cmd, args) {
+                write('Running ' + cmd + ' ' + args.join(' ') + '\n');
+                var result = spawnSync(cmd, args);
+                if (result.stdout.length) { write(result.stdout); }
+                if (result.stderr.length) { warn(result.stderr); }
+                if (result.error) {
+                  warn('Command ' + cmd + ' failed with status ' + result.status);
+                  warn(result.error);
+                  return false;
+                }
+                ok('Finished ' + cmd + ' ' + args.join(' ') + '.\n');
+                return true;
+              }
+
+              res.write('<pre>');
+              write('Rebuilding app...\n');
+
+              if (run('git', ['pull'])) {
+                if (run('npm', ['install'])) {
+                  if (run('bower', ['install'])) {
+                    run('grunt', ['build']);
+                  }
+                }
+              }
+
+              res.end('\nBye!</pre>');
+            }
+          ]
+        }
       }
     },
 
