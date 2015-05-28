@@ -117,6 +117,7 @@ module.exports = function (grunt) {
        */
       rebuild: {
         options: {
+          port: 9002,
           keepalive: true,
           middleware: [
             function rebuild(req, res, next) {
