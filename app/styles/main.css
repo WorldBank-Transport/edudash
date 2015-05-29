@@ -34,19 +34,6 @@ body {
     color: #F0F0F0;
 }
 
-.navbar.announcement-bar {
-    background-color: #047ba7;
-    border: none;
-    border-radius: 0;
-    height: 50px;
-    transition: min-height ease 0.3s,
-                height ease 0.3s;
-}
-.navbar.announcement-bar.ng-enter {
-    height: 0;
-    min-height: 0;
-}
-
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > .open > a,
@@ -218,11 +205,6 @@ body {
     /* Remove the bottom border on the jumbotron for visual effect */
     .jumbotron {
         border-bottom: 0;
-    }
-    #main-nav-items{
-        width: 500px;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
 @media screen and (min-width: 768px) {
@@ -789,6 +771,7 @@ table.districts p {
 /*language nav*/
 .navbar-collapse.navbar-lang{
   float:right;
+  margin-left: 20px;
   background: #f0f0f0;
   margin-top:10px;
   padding-top:17px;
@@ -827,6 +810,15 @@ table.districts p {
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
   color: #1595d3;
+}
+
+/* header - announcement */
+.header-announcements {
+  clear: left;
+  float: right;
+}
+.header-announcements a {
+  padding: 10px 15px;
 }
 
 
