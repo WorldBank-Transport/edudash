@@ -105,6 +105,101 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
+      },
+      /**
+       * connect:rebuild
+       *
+       * Exposes an endpoint that will try to rebuild the whole project on any
+       * request to it.
+       *
+       * Intended for use on a staging server. NGINX must be configured to
+       * reverse-proxy some URL to this app so github can hit it.
+       */
+      rebuild: {
+        options: {
+          port: 9002,
+          keepalive: true,
+          middleware: [
+            require('body-parser').json(),
+            function rebuild(req, res) {
+
+              function writeRes(fn) { return function(msg) {
+                fn(msg);
+                if (!ended) { res.write(msg); }
+              }; }
+
+              var spawn = require('child_process').spawn,
+                  ended = false,
+                  log = writeRes(grunt.log.write),
+                  ok = writeRes(grunt.log.ok),
+                  warn = writeRes(grunt.log.warn);
+
+              function cmdString(spawnArgs) {
+                return spawnArgs[0] + ' ' + spawnArgs[1].join(' ');
+              }
+
+              function run(cmd, args) {
+                var tasks = [[cmd, args]];
+
+                function _run(spawnArgs, doneCB) {
+                  log('Running ' + cmdString(spawnArgs) + '...');
+                  var proc = spawn.apply(null, spawnArgs);
+
+                  proc.stdout.on('data', log);
+                  proc.stderr.on('data', warn);
+
+                  proc.on('close', function(code) {
+                    if (code === 0) {
+                      ok('Finished ' + cmdString(spawnArgs));
+                      doneCB();
+                    } else {
+                      warn(cmdString(spawnArgs) + ' failed with code ' + code);
+                      finish();
+                    }
+                  });
+
+                  proc.on('error', function(err) {
+                    warn('\nFailed to run ' + cmdString(spawnArgs) + '\n' + err);
+                    finish();
+                  });
+                }
+
+                (function runNext() {
+                  if (tasks.length) { _run(tasks.shift(), runNext); }
+                  else { finish(); }
+                })();
+
+                // faux-promise-ish
+                var queue = {
+                  then: function(cmd, args) {
+                    tasks.push([cmd, args]);
+                    return queue;
+                  },
+                };
+                return queue;
+              }
+
+              function finish() {
+                if (!ended) {
+                  ended = true;
+                  res.end();
+                }
+              }
+
+              if (req.body.ref) {  // it's a github webhook request
+                // stop here unless we're committing to the main branch
+                if (req.body.ref.indexOf(req.body.repository.default_branch) === -1) {  // jshint ignore:line
+                  finish();
+                  return;
+                }
+              }
+              run('git', ['pull'])
+                .then('npm', ['install'])
+                .then('bower', ['install'])
+                .then('grunt', ['build']);
+            }
+          ]
+        }
       }
     },
 
