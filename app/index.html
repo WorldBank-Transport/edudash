@@ -26,34 +26,42 @@
     <![endif]-->
 
     <div id="main-header">
-        <div>Education Dashboard</div>
+      <div class="container-fluid">
+        <div class="navbar-brand header-flag"><img src="images/tzflag.png"></div>
+        <h1>Tanzania Education Dashboard</h1>
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav-items">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="main-nav-items">
+            <ul class="nav navbar-nav">
+                <li><a href="#/">Home <span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dashboards <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a ng-href="#/dashboard/primary/">Primary</a></li>
+                        <li><a ng-href="#/dashboard/secondary/">Secondary</a></li>
+                    </ul>
+                </li>
+                <li><a href="#/data">Data</a></li>
+                <li><a href="#/speakout">Speak out</a></li>
+                <li><a>Kiswahili</a></li>
+            </ul>
+        </div>
+
+
+      </div>
     </div>
 
     <nav class="navbar navbar-default" id="main-nav">
         <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav-items">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-
-            <div class="collapse navbar-collapse" id="main-nav-items">
-                <ul class="nav navbar-nav">
-                    <li><a href="#/">Home <span class="sr-only">(current)</span></a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dashboards <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a ng-href="#/dashboard/primary/">Primary</a></li>
-                            <li><a ng-href="#/dashboard/secondary/">Secondary</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#/data">Data</a></li>
-                    <li><a href="#/speakout">Speak out</a></li>
-                    <li><a>Kiswahili</a></li>
-            </div>
+          <!-- old navigation was here-->
         </div>
     </nav>
 
@@ -66,7 +74,7 @@
                     <li><a ng-href="#/">Home</a></li>
                     <li><a ng-href="#/data">Data</a></li>
                     <li><a ng-href="#/speakout">Speak out</a></li>
-                </ul>            
+                </ul>
             </div>
 
             <p class="text-center"><img src="images/coatofarms.png"></p>

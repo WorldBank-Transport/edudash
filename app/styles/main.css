@@ -6,10 +6,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-h1 {
-    color: #444;
-}
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -132,16 +128,8 @@ h1 {
     position: relative;
     top: 0px;
     width: 100%;
-    height: 90px;
-    background-image: url('../images/tzflagbanner.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    text-align: center;
+    height: 70px;
     font-family: 'Open Sans', sans-serif;
-    color: white;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 90px;
 }
 
 .map-widget{
@@ -281,7 +269,14 @@ html, body {
 
 h1 {
     font-family: 'Open Sans', sans-serif;
-    color: black;
+    color: #1595d3;
+    text-transform: uppercase;
+    dislay:inline-block;
+    margin-top:16px;
+    font-size:18px;
+    font-weight: 700;
+    width:20%;
+    float:left;
 }
 
 /*The content below this is all related to the tables*/
@@ -458,7 +453,7 @@ div.cartodb-share a{
 }
 #schoolinfo {
     margin: 0 auto;
-    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd); 
+    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
     padding-top: 5px;
@@ -511,7 +506,7 @@ div.cartodb-share a{
     margin-top: 20px;
     border-left: 3px solid #e1e1e1;
     padding-left: 10px;
-} 
+}
 
 #schoolinfo .widgettitle {
     font-size: 11px;
@@ -716,7 +711,7 @@ table.districts p {
     }
 }
 #generalcontent p {
-    
+
 }
 
 #generalcontent p.text {
@@ -750,6 +745,7 @@ table.districts p {
     max-width: 200px;
 }
 
+
 @media screen and (max-width: 768px){
     #generalcontent a.boxlink {
         font-size: 13px;
@@ -772,4 +768,18 @@ table.districts p {
     .google-form{
         width: 100%;
     }
+}
+
+/*header*/
+.navbar-brand.header-flag{
+  float:left;
+  margin-right:10px;
+  padding-top:10px;
+  padding-left:0;
+}
+
+/*header - navigation*/
+
+.navbar-collapse{
+  float:right;
 }
