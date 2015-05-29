@@ -145,39 +145,13 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-.map-widget{
-    width: 100%;
-    display: block;
-}
-.row.map-widget-row{
-    height: 100%;
-    display: block;
-}
-.map-container,
-.map-details{
-    display: block;
-    height: 100%;
-    overflow: auto;
-}
-@media (min-width: 768px) {
-    .map-details{
-        max-height: 925px;
-    }
-}
 .map-container{
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
 }
-.map-details{
-    vertical-align: top;
-}
 .navbar{
     margin-bottom: 0;
-}
-#map{
-    height: 883px;
-    display: block;
 }
 .map-control-container{
     position: absolute;
@@ -251,22 +225,9 @@ body {
         margin-right: auto;
     }
 }
-@media screen and (min-width: 900px) {
-    .map-details-container{
-        max-width: 450px;
-    }
-}
 @media screen and (min-width: 768px) {
-    .map-widget{
-        height: 925px;
-    }
     .map-control-container {
         bottom: 230px;
-    }
-}
-@media screen and (max-width: 767px) {
-    #map{
-        height: 300px;
     }
 }
 
@@ -866,4 +827,43 @@ table.districts p {
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
   color: #1595d3;
+}
+
+
+/* Layout framework */
+
+.map-widget {
+  /* establish a positioning context for the rest of the app components */
+  position: absolute;
+  top: 70px;  /* header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+/* Map */
+.map-position-wrap {
+  position: absolute;
+  top: 42px;  /* nav height */
+  left: 0;
+  right: 500px;  /* sidebar width */
+  bottom: 0;
+}
+#map {
+  height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  position: absolute;
+  top: 42px;  /* nav height */
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  overflow-y: auto;
+}
+.sidebar .contained {  /* hack for search for now */
+  width: 500px;
+  margin: 0;
 }
