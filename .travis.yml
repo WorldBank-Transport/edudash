@@ -4,3 +4,6 @@ node_js:
 before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install'
+
+notifications:
+  slack: developmentgateway:8eysKWhd0SqnW8fZIB79i8Fw
