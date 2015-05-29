@@ -120,52 +120,74 @@ module.exports = function (grunt) {
           port: 9002,
           keepalive: true,
           middleware: [
-            function rebuild(req, res, next) {
-              var spawnSync = require('runsync').spawn;
+            function rebuild(req, res) {
+              var spawn = require('child_process').spawn,
+                  ended = false,
+                  log = writeRes(grunt.log.write),
+                  ok = writeRes(grunt.log.ok),
+                  warn = writeRes(grunt.log.warn);
 
-              function log(message) {
-                grunt.log.write(message);
-                res.write(message);
+              function cmdString(spawnArgs) {
+                return spawnArgs[0] + ' ' + spawnArgs[1].join(' ')
               }
-              function ok(message) {
-                grunt.log.ok(message);
-                res.write(message);
-              }
-              function debug(message) {
-                grunt.log.debug(message);
-                res.write(message);
-              }
-              function warn(message) {
-                grunt.log.warn('Warning: ' + message);
-                res.write(message);
-              }
+
+              function writeRes(fn) { return function(msg) {
+                fn(msg);
+                if (!ended) res.write(msg);
+              }; }
 
               function run(cmd, args) {
-                log('Running ' + cmd + ' ' + args.join(' ') + '\n');
-                var result = spawnSync(cmd, args);
-                if (result.stdout.length) { log(result.stdout); }
-                if (result.stderr.length) { warn(result.stderr); }
-                if (result.error) {
-                  warn('Command ' + cmd + ' failed with status ' + result.status);
-                  warn(result.error);
-                  return false;
+                var tasks = [[cmd, args]];
+
+                function _run(spawnArgs, doneCB) {
+                  log('Running ' + cmdString(spawnArgs) + '...');
+                  var proc = spawn.apply(null, spawnArgs);
+
+                  proc.stdout.on('data', log);
+                  proc.stderr.on('data', warn);
+
+                  proc.on('close', function(code) {
+                    if (code === 0) {
+                      ok('Finished ' + cmdString(spawnArgs));
+                      doneCB();
+                    } else {
+                      warn(cmdString(spawnArgs) + ' failed with code ' + code);
+                      finish();
+                    }
+                  });
+
+                  proc.on('error', function(err) {
+                    warn('\nFailed to run ' + cmdString(spawnArgs) + '\n' + err);
+                    finish();
+                  });
                 }
-                ok('Finished ' + cmd + ' ' + args.join(' ') + '.\n');
-                return true;
+
+                (function runNext() {
+                  if (tasks.length) _run(tasks.shift(), runNext);
+                  else { finish(); }
+                })();
+
+                // faux-promise-ish
+                var queue = {
+                  then: function(cmd, args) {
+                    tasks.push([cmd, args]);
+                    return queue;
+                  },
+                };
+                return queue;
               }
 
-              res.write('<pre>');
-              log('Rebuilding app...\n');
-
-              if (run('git', ['pull'])) {
-                if (run('npm', ['install'])) {
-                  if (run('bower', ['install'])) {
-                    run('grunt', ['build']);
-                  }
+              function finish() {
+                if (!ended) {
+                  ended = true;
+                  res.end();
                 }
               }
 
-              res.end('\nBye!</pre>');
+              run('git', ['pull'])
+                .then('npm', ['install'])
+                .then('bower', ['install'])
+                .then('grunt', ['build']);
             }
           ]
         }
