@@ -245,11 +245,11 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
-    #main-nav-items{
-        width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+#main-nav-items{
+  width: 500px;
+  margin-top:26px;
+}
+
 }
 @media screen and (min-width: 900px) {
     .map-details-container{
@@ -866,4 +866,28 @@ table.districts p {
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
   color: #1595d3;
+}
+
+/*main nav*/
+ul.main-nav{
+}
+ul.main-nav li{
+  border-right:1px solid #5b5b5b;
+  display:inline;
+  height:15px;
+}
+
+ul.main-nav li:last-child{
+  border-right:none;
+}
+
+ul.main-nav li a{
+  line-height:16px;
+  padding-top:0;
+  color:#5b5b5b;
+}
+ul.main-nav li a:hover,
+ul.main-nav li a:focus{
+  color: #1595d3;
+  background:none;
 }
