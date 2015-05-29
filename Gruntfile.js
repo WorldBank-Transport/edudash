@@ -121,7 +121,7 @@ module.exports = function (grunt) {
           keepalive: true,
           middleware: [
             function rebuild(req, res, next) {
-              var spawnSync = require('child_process').spawnSync;
+              var spawnSync = require('runsync').spawn;
 
               function log(message) {
                 grunt.log.write(message);
