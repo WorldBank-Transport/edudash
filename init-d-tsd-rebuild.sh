@@ -18,7 +18,7 @@
 #
 
 APP_NAME="TSD rebuild webhook service"
-PROCS_RUNNING=$(ps -ef | grep -v grep | grep -cw tsdapp)
+PROCS_RUNNING=$(ps -ef | grep -v grep | grep -cw "tsdapp.*grunt")
 
 case "$1" in
   start)
@@ -28,13 +28,13 @@ case "$1" in
       echo "maybe already started."
       exit 1
     fi
-    cd /opt/tsdapp/edudash/
-    su tsdapp -c grunt connect:rebuild
+    cd /opt/tsdapp/edudash-restartable/
+    su tsdapp -c 'grunt connect:rebuild &'
     echo "started."
   ;;
   stop)
     echo -n "Stopping $APP_NAME ... "
-    pkill -SIGQUIT grunt
+    su tsdapp -c 'pkill grunt'
     echo "stopped."
   ;;
   restart)

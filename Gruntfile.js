@@ -123,6 +123,11 @@ module.exports = function (grunt) {
             require('body-parser').json(),
             function rebuild(req, res) {
 
+              function writeRes(fn) { return function(msg) {
+                fn(msg);
+                if (!ended) { res.write(msg); }
+              }; }
+
               var spawn = require('child_process').spawn,
                   ended = false,
                   log = writeRes(grunt.log.write),
@@ -130,13 +135,8 @@ module.exports = function (grunt) {
                   warn = writeRes(grunt.log.warn);
 
               function cmdString(spawnArgs) {
-                return spawnArgs[0] + ' ' + spawnArgs[1].join(' ')
+                return spawnArgs[0] + ' ' + spawnArgs[1].join(' ');
               }
-
-              function writeRes(fn) { return function(msg) {
-                fn(msg);
-                if (!ended) res.write(msg);
-              }; }
 
               function run(cmd, args) {
                 var tasks = [[cmd, args]];
@@ -165,7 +165,7 @@ module.exports = function (grunt) {
                 }
 
                 (function runNext() {
-                  if (tasks.length) _run(tasks.shift(), runNext);
+                  if (tasks.length) { _run(tasks.shift(), runNext); }
                   else { finish(); }
                 })();
 
@@ -188,7 +188,7 @@ module.exports = function (grunt) {
 
               if (req.body.ref) {  // it's a github webhook request
                 // stop here unless we're committing to the main branch
-                if (req.body.ref.indexOf(req.body.repository.default_branch) === -1) {
+                if (req.body.ref.indexOf(req.body.repository.default_branch) === -1) {  // jshint ignore:line
                   finish();
                   return;
                 }
