@@ -123,7 +123,7 @@ module.exports = function (grunt) {
             function rebuild(req, res, next) {
               var spawnSync = require('child_process').spawnSync;
 
-              function write(message) {
+              function log(message) {
                 grunt.log.write(message);
                 res.write(message);
               }
@@ -141,9 +141,9 @@ module.exports = function (grunt) {
               }
 
               function run(cmd, args) {
-                write('Running ' + cmd + ' ' + args.join(' ') + '\n');
+                log('Running ' + cmd + ' ' + args.join(' ') + '\n');
                 var result = spawnSync(cmd, args);
-                if (result.stdout.length) { write(result.stdout); }
+                if (result.stdout.length) { log(result.stdout); }
                 if (result.stderr.length) { warn(result.stderr); }
                 if (result.error) {
                   warn('Command ' + cmd + ' failed with status ' + result.status);
@@ -155,7 +155,7 @@ module.exports = function (grunt) {
               }
 
               res.write('<pre>');
-              write('Rebuilding app...\n');
+              log('Rebuilding app...\n');
 
               if (run('git', ['pull'])) {
                 if (run('npm', ['install'])) {
