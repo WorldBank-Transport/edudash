@@ -6,4 +6,4 @@ before_script:
   - 'bower install'
 
 notifications:
-  slack: developmentgateway:8eysKWhd0SqnW8fZIB79i8Fw
+  slack: developmentgateway:7QfckNk7epJAbFg2zPqIropi
