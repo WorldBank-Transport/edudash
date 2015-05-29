@@ -120,7 +120,9 @@ module.exports = function (grunt) {
           port: 9002,
           keepalive: true,
           middleware: [
+            require('body-parser').json(),
             function rebuild(req, res) {
+
               var spawn = require('child_process').spawn,
                   ended = false,
                   log = writeRes(grunt.log.write),
@@ -184,6 +186,13 @@ module.exports = function (grunt) {
                 }
               }
 
+              if (req.body.ref) {  // it's a github webhook request
+                // stop here unless we're committing to the main branch
+                if (req.body.ref.indexOf(req.body.repository.default_branch) === -1) {
+                  finish();
+                  return;
+                }
+              }
               run('git', ['pull'])
                 .then('npm', ['install'])
                 .then('bower', ['install'])
