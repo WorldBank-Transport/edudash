@@ -1,35 +1,24 @@
-<div>
-  <div id="main-header">
-    <div translate="dashboard.title">Education Dashboard</div>
-  </div>
-  <lang-selector></lang-selector>
+<div id="main-header">
+  <div class="container-fluid">
+    <div class="navbar-brand header-flag"><img src="images/tzflag.png"></div>
+    <h1 translate="dashboard.title">Tanzania Education Dashboard</h1>
 
-  <nav class="navbar navbar-default" id="main-nav">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav-items">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-
-      <div class="collapse navbar-collapse" id="main-nav-items">
-        <ul class="nav navbar-nav">
-          <li><a href="#/" translate="menu.home"><span class="sr-only">(current)</span></a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" translate="menu.dashboard">Dashboards <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a ng-href="#/dashboard/primary/" translate="menu.primary">Primary</a></li>
-              <li><a ng-href="#/dashboard/secondary/" translate="menu.secondary">Secondary</a></li>
-            </ul>
-          </li>
-          <li><a href="#/data" translate="menu.data">Data</a></li>
-          <li><a href="#/speakout" translate="menu.speakout">Speak out</a></li>
-          <li><a href="#/showdata" translate="menu.showdata">Show Data</a></li>
-        </ul>
-      </div>
+    <lang-selector></lang-selector>
+    <div class="collapse navbar-collapse" id="main-nav-items">
+      <ul class="nav navbar-nav">
+        <li><a href="#/" translate="menu.home">Home <span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" translate="menu.dashboard">Dashboards <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-href="#/dashboard/primary/" translate="menu.primary">Primary</a></li>
+            <li><a ng-href="#/dashboard/secondary/" translate="menu.secondary">Secondary</a></li>
+          </ul>
+        </li>
+        <li><a href="#/data" translate="menu.data">Data</a></li>
+        <li><a href="#/speakout" translate="menu.speakout">Speak out</a></li>
+        <li><a href="#/showdata" translate="menu.showdata">Show Data</a></li>
+        <announcements class="header-announcements"></announcements>
+      </ul>
     </div>
-  </nav>
+  </div>
 </div>

@@ -6,10 +6,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-h1 {
-    color: #444;
-}
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
@@ -36,19 +32,6 @@ h1 {
 }
 .navbar-default .navbar-nav > li > a{
     color: #F0F0F0;
-}
-
-.navbar.announcement-bar {
-    background-color: #047ba7;
-    border: none;
-    border-radius: 0;
-    height: 50px;
-    transition: min-height ease 0.3s,
-                height ease 0.3s;
-}
-.navbar.announcement-bar.ng-enter {
-    height: 0;
-    min-height: 0;
 }
 
 .navbar-default .navbar-nav > li > a:focus,
@@ -145,51 +128,17 @@ h1 {
     position: relative;
     top: 0px;
     width: 100%;
-    height: 90px;
-    background-image: url('../images/tzflagbanner.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    text-align: center;
+    height: 70px;
     font-family: 'Open Sans', sans-serif;
-    color: white;
-    font-weight: 600;
-    font-size: 30px;
-    line-height: 90px;
 }
 
-.map-widget{
-    width: 100%;
-    display: block;
-}
-.row.map-widget-row{
-    height: 100%;
-    display: block;
-}
-.map-container,
-.map-details{
-    display: block;
-    height: 100%;
-    overflow: auto;
-}
-@media (min-width: 768px) {
-    .map-details{
-        max-height: 925px;
-    }
-}
 .map-container{
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
 }
-.map-details{
-    vertical-align: top;
-}
 .navbar{
     margin-bottom: 0;
-}
-#map{
-    height: 883px;
-    display: block;
 }
 .map-control-container{
     position: absolute;
@@ -257,28 +206,10 @@ h1 {
     .jumbotron {
         border-bottom: 0;
     }
-    #main-nav-items{
-        width: 500px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-@media screen and (min-width: 900px) {
-    .map-details-container{
-        max-width: 450px;
-    }
 }
 @media screen and (min-width: 768px) {
-    .map-widget{
-        height: 925px;
-    }
     .map-control-container {
         bottom: 230px;
-    }
-}
-@media screen and (max-width: 767px) {
-    #map{
-        height: 300px;
     }
 }
 
@@ -294,7 +225,14 @@ html, body {
 
 h1 {
     font-family: 'Open Sans', sans-serif;
-    color: black;
+    color: #1595d3;
+    text-transform: uppercase;
+    dislay:inline-block;
+    margin-top:16px;
+    font-size:18px;
+    font-weight: 700;
+    width:10%;
+    float:left;
 }
 
 /*The content below this is all related to the tables*/
@@ -471,7 +409,7 @@ div.cartodb-share a{
 }
 #schoolinfo {
     margin: 0 auto;
-    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd); 
+    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
     padding-top: 5px;
@@ -524,7 +462,7 @@ div.cartodb-share a{
     margin-top: 20px;
     border-left: 3px solid #e1e1e1;
     padding-left: 10px;
-} 
+}
 
 #schoolinfo .widgettitle {
     font-size: 11px;
@@ -729,7 +667,7 @@ table.districts p {
     }
 }
 #generalcontent p {
-    
+
 }
 
 #generalcontent p.text {
@@ -762,6 +700,7 @@ table.districts p {
     display: block;
     max-width: 200px;
 }
+
 
 @media screen and (max-width: 768px){
     #generalcontent a.boxlink {
@@ -813,4 +752,110 @@ table.districts p {
     height: 40px;
     background-image: url(../images/passrate_student_yellow.png);
     background-repeat: no-repeat;
+}
+
+
+/*header*/
+.navbar-brand.header-flag{
+  float:left;
+  margin-right:10px;
+  padding-top:10px;
+  padding-left:0;
+}
+
+/*header - navigation*/
+.navbar-collapse{
+  float:right;
+}
+
+/*language nav*/
+.navbar-collapse.navbar-lang{
+  float:right;
+  margin-left: 20px;
+  background: #f0f0f0;
+  margin-top:10px;
+  padding-top:17px;
+  padding-bottom:13px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.navbar-lang ul{
+  height:20px;
+  display:block;
+}
+
+.navbar-lang li{
+  border-right:1px solid #1595d3;
+  display:inline;
+}
+
+.navbar-lang li:last-child{
+  border-right:none;
+}
+
+.navbar-lang li a{
+  color: #aaaaaa;
+  padding-top:0;
+  padding-bottom:0;
+  line-height:14px;
+  outline:none;
+  -webkit-transition: color 300ms ease-in;
+  -moz-transition: color 300ms ease-in;
+  -o-transition: color 300ms ease-in;
+  transition: color 300ms ease-in;
+}
+
+.navbar-lang li a:hover,
+.navbar-lang li.active a{
+  color: #1595d3;
+}
+
+/* header - announcement */
+.header-announcements {
+  clear: left;
+  float: right;
+}
+.header-announcements a {
+  padding: 10px 15px;
+}
+
+
+/* Layout framework */
+
+.map-widget {
+  /* establish a positioning context for the rest of the app components */
+  position: absolute;
+  top: 70px;  /* header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+/* Map */
+.map-position-wrap {
+  position: absolute;
+  top: 42px;  /* nav height */
+  left: 0;
+  right: 500px;  /* sidebar width */
+  bottom: 0;
+}
+#map {
+  height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  position: absolute;
+  top: 42px;  /* nav height */
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  overflow-y: auto;
+}
+.sidebar .contained {  /* hack for search for now */
+  width: 500px;
+  margin: 0;
 }
