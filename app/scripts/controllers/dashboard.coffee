@@ -8,11 +8,11 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log', '$rootScope' ,'$location','$translate',
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
     '$timeout', 
     
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $rootScope, $location, $translate, $timeout) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
