@@ -138,6 +138,37 @@ module.exports = function (grunt) {
                 return spawnArgs[0] + ' ' + spawnArgs[1].join(' ');
               }
 
+              function notifySlack(doneCB) {
+                log('Notifying slack...\n');
+                require('fs').readFile('slackHookURL.txt', 'utf-8', function(err, URL) {
+                  if (err) {
+                    warn('Could not read URL to notify slack: ' + err);
+                    doneCB();
+                    return;
+                  }
+                  require('request').post({
+                    url: URL,
+                    body: JSON.stringify({
+                      icon_emoji: ':whale2:',
+                      username: 'staging restarted',
+                      text: 'http://edu.tsd.dgstg.org',
+                    }),
+                  }, function(err, resp, body) {
+                    if (err) {
+                      warn('Could not notify slack: ' + err);
+                      doneCB();
+                      return;
+                    } else if (resp.statusCode !== 200) {
+                      warn('Slack said no: ' + resp.statusCode + ' ' + body);
+                      doneCB();
+                      return;
+                    }
+                    ok('Sent notification to slack');
+                    doneCB();
+                  });
+                });
+              }
+
               function run(cmd, args) {
                 var tasks = [[cmd, args]];
 
@@ -165,14 +196,26 @@ module.exports = function (grunt) {
                 }
 
                 (function runNext() {
-                  if (tasks.length) { _run(tasks.shift(), runNext); }
-                  else { finish(); }
+                  var next;
+                  if (next = tasks.shift()) {
+                    if (typeof next === 'function') {
+                      next(runNext);
+                    } else {
+                      _run(next, runNext);
+                    }
+                  } else {
+                    finish();
+                  }
                 })();
 
                 // faux-promise-ish
                 var queue = {
-                  then: function(cmd, args) {
+                  thenRun: function(cmd, args) {
                     tasks.push([cmd, args]);
+                    return queue;
+                  },
+                  thenFn: function(fn) {
+                    tasks.push(fn);
                     return queue;
                   },
                 };
@@ -194,9 +237,10 @@ module.exports = function (grunt) {
                 }
               }
               run('git', ['pull'])
-                .then('npm', ['install'])
-                .then('bower', ['install'])
-                .then('grunt', ['build']);
+                .thenRun('npm', ['install'])
+                .thenRun('bower', ['install'])
+                .thenRun('grunt', ['build'])
+                .thenFn(notifySlack);
             }
           ]
         }

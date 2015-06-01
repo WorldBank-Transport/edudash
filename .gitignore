@@ -1,3 +1,7 @@
+# deploy config
+slackHookURL.txt
+
+# build stuff etc
 node_modules
 dist
 .tmp
