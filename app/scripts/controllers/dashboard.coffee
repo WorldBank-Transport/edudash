@@ -20,7 +20,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.schoolType = $routeParams.type
         $scope.title = title[$routeParams.type]
         if $routeParams.type isnt primary and $routeParams.type isnt secondary
-          $window.location.href = '/'
+          $location.patch('/');
 
         $scope.searchText = "dar"
 
