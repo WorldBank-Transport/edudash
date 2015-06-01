@@ -252,5 +252,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             {name: 'Kigoma Municipal', rate: -6, location: [-4.8895048727, 29.6652013888]}
             {name: 'Kibaha', rate: -5, location: [-6.8174266213, 38.5509159068]}
           ]
+          $scope.pupilTeacherRatio = 41
+          $scope.passrate = 58
+          $scope.passRateChange = 0
+
 
 ]

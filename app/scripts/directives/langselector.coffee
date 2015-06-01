@@ -24,10 +24,6 @@ angular.module('i18nEdudashApp', [
             label: 'English'
           }
           {
-            lang: 'es-ar'
-            label: 'Español'
-          }
-          {
             lang: 'sw-tz'
             label: 'Kiswahili'
           }
