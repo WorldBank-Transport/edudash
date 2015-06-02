@@ -822,6 +822,45 @@ table.districts p {
   color: #1595d3;
 }
 
+/*responsive behavior for language nav*/
+@media only screen and (max-width : 768px) {
+  .navbar-collapse.navbar-lang{
+    width:150px;
+    float:none;
+    display:block;
+    background:none;
+    position:absolute;
+    top:2px;
+    right:60px;
+    background: none;
+    padding-top:0;
+    padding-bottom:0;
+  }
+  .navbar-collapse.navbar-lang ul{
+    height:18px;
+  }
+  .navbar-collapse.navbar-lang li{
+    padding-bottom:10px;
+    position:relative;
+    float:left;
+    height:14px;
+  }
+  .navbar-lang li a{
+    font-size:15px;
+    line-height:10px;
+  }
+  .navbar-lang li a:hover{
+    background:none;
+  }
+}
+
+/* Language nav got extra small devices, phones */
+@media only screen and (max-width : 480px) {
+  .navbar-collapse.navbar-lang{
+    display:none;
+    /*temporary*/
+  }
+}
 
 /*main nav*/
 ul.main-nav{
@@ -892,7 +931,6 @@ ul.dropdown-menu{
   padding: 10px 15px;
 }
 
-
 /* Layout framework */
 
 .map-widget {
@@ -903,7 +941,6 @@ ul.dropdown-menu{
   right: 0;
   bottom: 0;
 }
-
 
 /* Map */
 .map-position-wrap {
