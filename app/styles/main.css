@@ -47,17 +47,17 @@ body {
     border-color: #0592cc;
 }
 
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-    background-color: #0592cc;
+.navbar-toggle{
+  background:#05a2dc;
 }
 
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: #0572ac;
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+    background-color: #0576a4;
 }
 
-.navbar-default .navbar-toggle {
-    border-color: #0592cc;
+.navbar-toggle .icon-bar{
+  background:#fff;
 }
 
 @media (max-width: 767px){
@@ -821,6 +821,7 @@ table.districts p {
 .navbar-lang li.active a{
   color: #1595d3;
 }
+
 
 /*main nav*/
 ul.main-nav{
