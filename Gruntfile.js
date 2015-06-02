@@ -105,6 +105,145 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
+      },
+      /**
+       * connect:rebuild
+       *
+       * Exposes an endpoint that will try to rebuild the whole project on any
+       * request to it.
+       *
+       * Intended for use on a staging server. NGINX must be configured to
+       * reverse-proxy some URL to this app so github can hit it.
+       */
+      rebuild: {
+        options: {
+          port: 9002,
+          keepalive: true,
+          middleware: [
+            require('body-parser').json(),
+            function rebuild(req, res) {
+
+              function writeRes(fn) { return function(msg) {
+                fn(msg);
+                if (!ended) { res.write(msg); }
+              }; }
+
+              var spawn = require('child_process').spawn,
+                  ended = false,
+                  log = writeRes(grunt.log.write),
+                  ok = writeRes(grunt.log.ok),
+                  warn = writeRes(grunt.log.warn);
+
+              function cmdString(spawnArgs) {
+                return spawnArgs[0] + ' ' + spawnArgs[1].join(' ');
+              }
+
+              function notifySlack(doneCB) {
+                log('Notifying slack...\n');
+                require('fs').readFile('slackHookURL.txt', 'utf-8', function(err, URL) {
+                  if (err) {
+                    warn('Could not read URL to notify slack: ' + err);
+                    doneCB();
+                    return;
+                  }
+                  require('request').post({
+                    url: URL,
+                    body: JSON.stringify({
+                      icon_emoji: ':whale2:',
+                      username: 'staging restarted',
+                      text: 'http://edu.tsd.dgstg.org',
+                    }),
+                  }, function(err, resp, body) {
+                    if (err) {
+                      warn('Could not notify slack: ' + err);
+                      doneCB();
+                      return;
+                    } else if (resp.statusCode !== 200) {
+                      warn('Slack said no: ' + resp.statusCode + ' ' + body);
+                      doneCB();
+                      return;
+                    }
+                    ok('Sent notification to slack');
+                    doneCB();
+                  });
+                });
+              }
+
+              function run(cmd, args) {
+                var tasks = [[cmd, args]];
+
+                function _run(spawnArgs, doneCB) {
+                  log('Running ' + cmdString(spawnArgs) + '...');
+                  var proc = spawn.apply(null, spawnArgs);
+
+                  proc.stdout.on('data', log);
+                  proc.stderr.on('data', warn);
+
+                  proc.on('close', function(code) {
+                    if (code === 0) {
+                      ok('Finished ' + cmdString(spawnArgs));
+                      doneCB();
+                    } else {
+                      warn(cmdString(spawnArgs) + ' failed with code ' + code);
+                      finish();
+                    }
+                  });
+
+                  proc.on('error', function(err) {
+                    warn('\nFailed to run ' + cmdString(spawnArgs) + '\n' + err);
+                    finish();
+                  });
+                }
+
+                (function runNext() {
+                  var next;
+                  if (next = tasks.shift()) {
+                    if (typeof next === 'function') {
+                      next(runNext);
+                    } else {
+                      _run(next, runNext);
+                    }
+                  } else {
+                    finish();
+                  }
+                })();
+
+                // faux-promise-ish
+                var queue = {
+                  thenRun: function(cmd, args) {
+                    tasks.push([cmd, args]);
+                    return queue;
+                  },
+                  thenFn: function(fn) {
+                    tasks.push(fn);
+                    return queue;
+                  },
+                };
+                return queue;
+              }
+
+              function finish() {
+                if (!ended) {
+                  ended = true;
+                  res.end();
+                }
+              }
+
+              if (req.body.ref) {  // it's a github webhook request
+                // stop here unless we're committing to the main branch
+                if (req.body.ref.indexOf(req.body.repository.default_branch) === -1) {  // jshint ignore:line
+                  finish();
+                  return;
+                }
+              }
+              run('git', ['pull'])
+                .thenRun('npm', ['install'])
+                .thenRun('bower', ['install'])
+                .thenRun('grunt', ['build'])
+                .thenFn(notifySlack);
+            }
+          ]
+        }
       }
     },
 

@@ -8,9 +8,11 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log', '$translate',
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
+    '$timeout', 
+    
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $translate) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -19,9 +21,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.schoolType = $routeParams.type
         $scope.title = title[$routeParams.type]
-        if $routeParams.type isnt primary and $routeParams.type isnt secondary
-          $window.location.href = '/'
 
+        if $routeParams.type isnt primary and $routeParams.type isnt secondary
+          $timeout (-> 
+              $location.path '/' 
+              return;
+              ) 
+        
+       
         $scope.searchText = "dar"
 
         layers = {}

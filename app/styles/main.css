@@ -34,19 +34,6 @@ body {
     color: #F0F0F0;
 }
 
-.navbar.announcement-bar {
-    background-color: #047ba7;
-    border: none;
-    border-radius: 0;
-    height: 50px;
-    transition: min-height ease 0.3s,
-                height ease 0.3s;
-}
-.navbar.announcement-bar.ng-enter {
-    height: 0;
-    min-height: 0;
-}
-
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > .open > a,
@@ -145,39 +132,13 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-.map-widget{
-    width: 100%;
-    display: block;
-}
-.row.map-widget-row{
-    height: 100%;
-    display: block;
-}
-.map-container,
-.map-details{
-    display: block;
-    height: 100%;
-    overflow: auto;
-}
-@media (min-width: 768px) {
-    .map-details{
-        max-height: 925px;
-    }
-}
 .map-container{
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
 }
-.map-details{
-    vertical-align: top;
-}
 .navbar{
     margin-bottom: 0;
-}
-#map{
-    height: 883px;
-    display: block;
 }
 .map-control-container{
     position: absolute;
@@ -245,6 +206,7 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
+<<<<<<< HEAD
 #main-nav-items{
   width: 500px;
   margin-top:26px;
@@ -255,18 +217,12 @@ body {
     .map-details-container{
         max-width: 450px;
     }
+=======
+>>>>>>> edudash-2.0
 }
 @media screen and (min-width: 768px) {
-    .map-widget{
-        height: 925px;
-    }
     .map-control-container {
         bottom: 230px;
-    }
-}
-@media screen and (max-width: 767px) {
-    #map{
-        height: 300px;
     }
 }
 
@@ -828,6 +784,7 @@ table.districts p {
 /*language nav*/
 .navbar-collapse.navbar-lang{
   float:right;
+  margin-left: 20px;
   background: #f0f0f0;
   margin-top:10px;
   padding-top:17px;
@@ -868,6 +825,7 @@ table.districts p {
   color: #1595d3;
 }
 
+<<<<<<< HEAD
 /*main nav*/
 ul.main-nav{
 }
@@ -890,4 +848,52 @@ ul.main-nav li a:hover,
 ul.main-nav li a:focus{
   color: #1595d3;
   background:none;
+=======
+/* header - announcement */
+.header-announcements {
+  clear: left;
+  float: right;
+}
+.header-announcements a {
+  padding: 10px 15px;
+}
+
+
+/* Layout framework */
+
+.map-widget {
+  /* establish a positioning context for the rest of the app components */
+  position: absolute;
+  top: 70px;  /* header height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+/* Map */
+.map-position-wrap {
+  position: absolute;
+  top: 42px;  /* nav height */
+  left: 0;
+  right: 500px;  /* sidebar width */
+  bottom: 0;
+}
+#map {
+  height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  position: absolute;
+  top: 42px;  /* nav height */
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  overflow-y: auto;
+}
+.sidebar .contained {  /* hack for search for now */
+  width: 500px;
+  margin: 0;
+>>>>>>> edudash-2.0
 }
