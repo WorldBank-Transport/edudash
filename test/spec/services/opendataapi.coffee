@@ -10,5 +10,5 @@ describe 'Service: OpenDataApi', ->
   beforeEach inject (_OpenDataApi_) ->
     OpenDataApi = _OpenDataApi_
 
-  it 'should do something', ->
-    expect(!!OpenDataApi).toBe true
+#  it 'should do something', ->
+#    expect(!!OpenDataApi).toBe true

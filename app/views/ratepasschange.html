@@ -1,0 +1,5 @@
+<div>
+    <p ng-class="{'text-green': data >= range[1], 'text-yellow': data < range[1] && data > range[0], 'text-red':data <= range[0]}"
+       style="font-size: 35px;font-weight: 900;margin-top: 0px; margin-bottom: 2px;margin-right: 10px">{{sign}}{{ data }}%</p>
+    <p style="color:#05a2dc;font-size:11;margin-bottom:2;fill:#05a2dc;width:96px;">{{'chart.dial-title'| translate}} {{ since }}</p>
+</div>

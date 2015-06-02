@@ -87,25 +87,14 @@
                 </div>
                 <div class="container-fluid perfomance-gauges">
                     <div class="row">
-                        <p class="dial-title">this is a new row for highchart</p>
-                        <highchart-test></highchart-test>
-                    </div>
-
-                    <div class="row">
                         <div class="col-xs-4 text-center">
-                            <p class="dial-title" translate="chart.dial-title">Change since 2012</p>
-                            <small class="text-muted" translate="chart.details">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_1.png" class="img-dial">
+                            <pass-rate-change range="-5,5" datasource="passRateChange"></pass-rate-change>
                         </div>
                         <div class="col-xs-4 text-center">
-                            <p class="dial-title" translate="chart.pupil-teacher-ration">Pupil-teacher ratio</p>
-                            <small class="text-muted" translate="chart.details">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_2.png" class="img-dial">
+                            <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" ranges="30,70" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>
                         </div>
                         <div class="col-xs-4 text-center">
-                            <p class="dial-title" translate="chart.average-pass-rate">Average pass rate</p>
-                            <small class="text-muted" translate="chart.details">Click for details</small><br>
-                            <img ng-src="images/gauge_{{ schoolType }}_3.png" class="img-dial">
+                            <gauge-chart title="{{'chart.average-pass-rate'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
                         </div>
                     </div>
                 </div>
