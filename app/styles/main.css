@@ -206,7 +206,6 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
-<<<<<<< HEAD
 #main-nav-items{
   width: 500px;
   margin-top:26px;
@@ -217,8 +216,6 @@ body {
     .map-details-container{
         max-width: 450px;
     }
-=======
->>>>>>> edudash-2.0
 }
 @media screen and (min-width: 768px) {
     .map-control-container {
@@ -239,12 +236,12 @@ html, body {
 h1 {
     font-family: 'Open Sans', sans-serif;
     color: #1595d3;
-    text-transform: uppercase;
+    text-transform:uppercase;
     dislay:inline-block;
     margin-top:16px;
     font-size:18px;
-    font-weight: 700;
-    width:10%;
+    font-weight:700;
+    width:15%;
     float:left;
 }
 
@@ -825,7 +822,6 @@ table.districts p {
   color: #1595d3;
 }
 
-<<<<<<< HEAD
 /*main nav*/
 ul.main-nav{
 }
@@ -848,7 +844,44 @@ ul.main-nav li a:hover,
 ul.main-nav li a:focus{
   color: #1595d3;
   background:none;
-=======
+}
+ul.main-nav li a.dropdown-toggle,
+ul.main-nav li.dropdown a.dropdown-toggle{
+  background-color: #ffffff;
+}
+
+ul.main-nav li.dropdown.open{
+background-color:#ffffff;
+}
+
+ul.main-nav li ul{
+  padding-top:10px;
+  top:20px;
+  left:0;
+  border:none;
+}
+
+ul.main-nav li ul li{
+ border-right:none;
+}
+
+ul.main-nav li ul li a{
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+#main-nav-items.nav.open > a,
+#main-nav-items.nav.open > a:hover,
+#main-nav-items.nav.open > a:focus{
+ background-color: #ffffff;
+}
+
+ul.dropdown-menu{
+  border-right:none;
+}
+.open > .dropdown-menu{background-color:none; border-top:none;}
+.open > .dropdown-menu ul li{ border-right:none;}
+
 /* header - announcement */
 .header-announcements {
   clear: left;
@@ -895,5 +928,4 @@ ul.main-nav li a:focus{
 .sidebar .contained {  /* hack for search for now */
   width: 500px;
   margin: 0;
->>>>>>> edudash-2.0
 }
