@@ -20,7 +20,7 @@ angular.module 'edudashAppDir'
           pass = scope.selectedSchool.pass_by_10
           if pass >= max
             imageClass = 'mypassrategreen'
-            textClass = 'text-gree'
+            textClass = 'text-green'
           else if pass >= min and pass < max
             imageClass = 'mypassrateyellow';
             textClass = 'text-yellow'

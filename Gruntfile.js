@@ -149,7 +149,7 @@ module.exports = function (grunt) {
                   require('request').post({
                     url: URL,
                     body: JSON.stringify({
-                      icon_emoji: ':whale2:',
+                      'icon_emoji': ':whale2:',
                       username: 'staging restarted',
                       text: 'http://edu.tsd.dgstg.org',
                     }),
@@ -196,8 +196,8 @@ module.exports = function (grunt) {
                 }
 
                 (function runNext() {
-                  var next;
-                  if (next = tasks.shift()) {
+                  var next = tasks.shift();
+                  if (next) {
                     if (typeof next === 'function') {
                       next(runNext);
                     } else {
