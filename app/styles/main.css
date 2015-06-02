@@ -210,6 +210,20 @@ body {
   width: 500px;
   margin-top:26px;
 }
+@media only screen and (max-width : 992px) {
+  #main-nav-items{
+    width: 70%;
+    position:absolute;
+    top:13px;
+    right:20px;
+  }
+  #main-nav-items ul{
+    float:right;
+  }
+}
+@media only screen and (max-width : 768px) {
+
+}
 
 }
 @media screen and (min-width: 900px) {
@@ -713,9 +727,9 @@ table.districts p {
 
 
 @media screen and (max-width: 768px){
-    #generalcontent a.boxlink {
-        font-size: 13px;
-    }
+  #generalcontent a.boxlink {
+    font-size: 13px;
+  }
 }
 
 #generalcontent a.boxlink:hover {
@@ -823,19 +837,29 @@ table.districts p {
 }
 
 /*responsive behavior for language nav*/
+@media only screen and (max-width : 992px) {
+  .navbar-collapse.navbar-lang{
+    width:165px;
+    background:none;
+    background: none;
+    padding-top:0;
+    padding-bottom:0;
+    float:right;
+
+  }
+  .navbar-lang li a{
+  font-size:13px;
+  }
+}
+
 @media only screen and (max-width : 768px) {
   .navbar-collapse.navbar-lang{
     width:150px;
     float:none;
-    display:block;
-    background:none;
     position:absolute;
     top:2px;
     right:60px;
-    background: none;
-    padding-top:0;
-    padding-bottom:0;
-  }
+}
   .navbar-collapse.navbar-lang ul{
     height:18px;
   }
