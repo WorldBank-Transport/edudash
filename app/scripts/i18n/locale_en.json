@@ -22,6 +22,7 @@
     "chart.details": "Click for details",
     "chart.pupil-teacher-ration": "PUPIL-TEACHER RATIO",
     "chart.average-pass-rate": "AVERAGE PASS RATE",
+    "chart.pass-rate-time": "PASS RATE OVER TIME",
     "school.selector-tooltip": "Search school by name or code",
     "school.center-code": "center code",
     "school.district": "district",
