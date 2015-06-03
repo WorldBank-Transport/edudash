@@ -368,15 +368,26 @@ div.cartodb-share a{
     height: 30px;
 }
 .nav-tabs > li > a{
-    background: #f6f6f6;
-    margin-right: 0px;
-    border-bottom: 1px solid #DDDDDD;
-    border-left: 1px solid #DDDDDD;
-    border-right: 1px solid #DDDDDD;
-    border-radius: 0;
-    cursor: pointer;
-    outline:none;
-    color:#aaaaaa;
+  background: #f6f6f6;
+  margin-right: 0px;
+  border-bottom: 1px solid #DDDDDD;
+  border-left: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  border-radius: 0;
+  cursor: pointer;
+  outline:none;
+  color:#aaaaaa;
+  margin-left:-1px;
+  font-size:13px;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+  background:#1aa4db;
+  color:#ffffff;
+  border:1px solid #1aa4db;
 }
 .show-sm{
     display: none;
@@ -843,7 +854,7 @@ table.districts p {
 /* Map */
 .map-position-wrap {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: 52px;  /* nav height */
   left: 0;
   right: 500px;  /* sidebar width */
   bottom: 0;
