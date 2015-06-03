@@ -42,8 +42,8 @@ module.exports = function (grunt) {
         tasks: ['newer:coffee:test', 'karma']
       },
       styles: {
-        files: ['<%= yeoman.app %>/styles/**/*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        files: ['<%= yeoman.app %>/styles/**/*.scss'],
+        tasks: ['newer:sass:dist', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -341,6 +341,22 @@ module.exports = function (grunt) {
       }
     },
 
+    // Compiles SASS to CSS
+    sass: {
+      options: {
+        sourceMap: true,
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/styles',
+          src: '**/*.scss',
+          dest: '.tmp/styles',
+          ext: '.css'
+        }]
+      },
+    },
+
     // Renames files for browser caching purposes
     filerev: {
       dist: {
@@ -502,27 +518,21 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>'
         }]
       },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '**/*.css'
-      }
     },
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
         'coffee:dist',
-        'copy:styles'
+        'sass:dist',
       ],
       test: [
         'coffee',
-        'copy:styles'
+        'sass',
       ],
       dist: [
         'coffee',
-        'copy:styles',
+        'sass',
         'imagemin',
         'svgmin'
       ]
