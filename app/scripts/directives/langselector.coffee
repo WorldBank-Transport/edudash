@@ -33,7 +33,7 @@ angular.module('i18nEdudashApp', [
   ])
   .config ($translateProvider) ->
     $translateProvider.useStaticFilesLoader(
-      prefix: 'scripts/i18n/locale_'
+      prefix: 'i18n/locale_'
       suffix: '.json'
     )
     $translateProvider.preferredLanguage('en');

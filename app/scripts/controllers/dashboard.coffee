@@ -256,6 +256,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.pupilTeacherRatio = 41
           $scope.passrate = 58
           $scope.passRateChange = 0
-
+          $scope.passratetime =
+              y: [25, 71, 45]
+              x: [2012, 2013, 2014]
 
 ]
