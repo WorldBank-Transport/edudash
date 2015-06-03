@@ -16,12 +16,12 @@ body {
   padding-right: 15px;
 }
 .footer{
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     min-height: 100px;
 }
 
 #main-nav.navbar-default {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     border: none;
     border-radius: 0;
 }
@@ -42,24 +42,24 @@ body {
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     color: #FFFFFF;
-    background-color: #05a2dc;
+    background-color: $theme-blue;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: #0592cc;
+    border-color: $theme-blue-nav;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #0592cc;
+    background-color: $theme-blue-nav;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: #0572ac;
+    background-color: $theme-blue3;
 }
 
 .navbar-default .navbar-toggle {
-    border-color: #0592cc;
+    border-color: $theme-blue-nav;
 }
 
 @media (max-width: 767px){
@@ -162,7 +162,7 @@ body {
 }
 .map-control-header{
     padding: 7px;
-    color: #05a2dc;
+    color: $theme-blue;
     margin-top: 0px;
     margin-bottom: 5px;
 }
@@ -187,7 +187,7 @@ body {
 }
 
 .map-container div.cartodb-tooltip p{
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 300;
     font-size: 15px;
     margin-top: 0px;
@@ -297,14 +297,14 @@ table.schools td.name {
 }
 
 table.schools td.passrategreen {
-    color: #38a21c;
+    color: $rank-good;
     font-weight: 400;
     font-size: 16px;
     width: 55px;
 }
 
 table.schools td.passratered {
-    color: #f56053;
+    color: $rank-poor;
     font-weight: 400;
     font-size: 16px;
     width: 55px;
@@ -322,7 +322,7 @@ table.schools p {
 }
 
 p.tableheader {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     max-width: 224px;
     height: 30px;
     border-radius: 15px;
@@ -350,7 +350,7 @@ img.face {
   padding: 0;
 }
 .dial-title{
-  color: #05a2dc;
+  color: $theme-blue;
   font-weight: bold;
   font-size:12px;
   margin-bottom: 2px
@@ -544,7 +544,7 @@ div.cartodb-share a{
 /* Distict info */
 
 p.tableheaderdistrict {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     width: 200px;
     height: 30px;
     border-radius: 15px;
@@ -592,14 +592,14 @@ table.districts td.name {
 }
 
 table.districts td.passrategreen {
-    color: #38a21c;
+    color: $rank-good;
     font-weight: 400;
     font-size: 18px;
     width: 40px;
 }
 
 table.districts td.passratered {
-    color: #f56053;
+    color: $rank-poor;
     font-weight: 400;
     font-size: 18px;
     width: 40px;
@@ -631,20 +631,20 @@ table.districts p {
 }
 
 #legend p.title {
-    color: #05a2dc;
+    color: $theme-blue;
     margin-top: 0px;
     margin-bottom: 5px;
 }
 
 
 #legend a:link {
-    color: #05a2dc;
+    color: $theme-blue;
 }
 
 #legend a:link,
 #legend a:visited,
 #legend a:hover {
-    color: #05a2dc;
+    color: $theme-blue;
     text-decoration: none;
 }
 
@@ -675,21 +675,21 @@ table.districts p {
 }
 
 .circle-poor {
-  fill:  #f56053;
+  fill:  $rank-poor;
 }
 
 .circle-medium {
-  fill: #e9c941;
+  fill: $rank-medium;
 }
 
 .circle-good {
-  fill: #38a21c;
+  fill: $rank-good;
 }
 /* General content */
 #generalcontent {
     margin: 0 auto;
     font-family: 'Open Sans', sans-serif;
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 400;
     font-size: 20px;
     line-height: 24px;
@@ -716,7 +716,7 @@ table.districts p {
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,
 #generalcontent a:hover a:link {
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 400;
     text-decoration: none;
 }
@@ -724,7 +724,7 @@ table.districts p {
     margin: 20px 0;
 }
 #generalcontent a.boxlink {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     color: #FFFFFF;
     font-weight: 300;
     font-size: 18px;
