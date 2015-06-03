@@ -14,7 +14,7 @@
 
     <div class="container-fluid">
     <div class="row map-widget-row">
-        <div class="col-sm-8 map-container">
+        <div class="col-sm-12 map-container">
             <ul class="nav nav-tabs" id="nav-tabs-dashboard">
                 <li role="presentation" ng-class="{active: activeMap=='schools'}"><a ng-click="showLayer('schools')" translate="tab.school">Schools</a></li>
                 <li role="presentation" ng-class="{active: activeMap=='performance'}">
@@ -44,11 +44,11 @@
                     <div class="map-control-body" ng-show="openMapFilter">
                         <small>
                             <label>Pass rate: {{ passRange.min }}% - {{ passRange.max }}%</label>
-                            <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>                    
+                            <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>
                         </small>
                         <small>
                             <label>Pupil teacher ratio: {{ ptRange.min }} - {{ ptRange.max }}</label>
-                            <div range-slider min="0" max="150" model-min="ptRange.min" model-max="ptRange.max"></div>                    
+                            <div range-slider min="0" max="150" model-min="ptRange.min" model-max="ptRange.max"></div>
                         </small>
                     </div>
                 </div>
@@ -64,12 +64,12 @@
                             Passrate (%):
                             <br><img src="images/legend_schools_passrate.png" style="padding-top: 9px;">
                             <br>Pupil-teacher ratio:
-                            <br><img src="images/legend_schools_ratio.png" style="padding-top: 9px;">                        
+                            <br><img src="images/legend_schools_ratio.png" style="padding-top: 9px;">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div ng-if="activeMap=='districts'">
                 <div class="map-control container-fluid">
                     <div id="legend" class="districts">
@@ -163,7 +163,7 @@
                         </div>
 
                         <p class="tableheader"><img src="images/sad.png" class="face" translate="chart.top.least-improved-schools">Least improved schools</p>
-                        <div class="scroll"> 
+                        <div class="scroll">
                             <table class="schools">
                                 <tr ng-repeat="school in leastImprovedSchools">
                                     <td class="rank">{{ $index + 1 }}.</td>
@@ -272,7 +272,7 @@
                                                 ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
                                                 ng-src="images/ptr_student_red.png">
                                         </td>
-                                    </tr>                                
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

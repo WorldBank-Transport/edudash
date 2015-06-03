@@ -136,6 +136,8 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
+    border-top:12px solid #1aa4db;
+    background:#f6f6f6;
 }
 .navbar{
     margin-bottom: 0;
@@ -366,11 +368,15 @@ div.cartodb-share a{
     height: 30px;
 }
 .nav-tabs > li > a{
-    background: #EEEEEE;
+    background: #f6f6f6;
     margin-right: 0px;
-    border: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
     border-radius: 0;
     cursor: pointer;
+    outline:none;
+    color:#aaaaaa;
 }
 .show-sm{
     display: none;
@@ -849,7 +855,7 @@ table.districts p {
 /* Sidebar */
 .sidebar {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: 65px;  /* nav height */
   right: 0;
   bottom: 0;
   width: 500px;
