@@ -876,7 +876,6 @@ table.districts p {
 .map-flyout .stat {
   margin: 1em 0;
 }
-
 .map-flyout h2, h3, h4 {
   margin: 0;
   font-size: 1em;
@@ -897,5 +896,12 @@ table.districts p {
   font-size: 1.2em;
 }
 .map-flyout .number {
-  font-size: 2.5em;
+  font-size: 2.8em;
+}
+.map-flyout .number.good {
+  color: #38a21c;
+}
+.map-flyout .stat .stat .number {
+  font-size: 2em;
+  color: #666;
 }
