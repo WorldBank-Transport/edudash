@@ -24,7 +24,7 @@ body {
     border-radius: 0;
 }
 .page-header{
-    margin: 5px 0 15px;
+    margin: 10px 0 15px;
     font-weight: 800;
     color: #777;
     font-size: 15px;
@@ -136,6 +136,8 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
+    border-top:12px solid #1aa4db;
+    background:#f6f6f6;
 }
 .navbar{
     margin-bottom: 0;
@@ -343,34 +345,65 @@ img.face {
     padding-bottom: 30px
 }
 .perfomance-gauges .col-sm-4{
-    padding: 0;
+  padding: 0;
 }
 .dial-title{
-    color: #05a2dc;
-    font-weight: bold;
-    font-size:12px;
-    margin-bottom: 2px
+  color: #05a2dc;
+  font-weight: bold;
+  font-size:12px;
+  margin-bottom: 2px
 }
 .list-horizontal li{
-    display: inline-block;
+  display: inline-block;
 }
 .footer a{
-    color: #F5F5F5;
+  color: #F5F5F5;
 }
 .footer .list-horizontal li{
     color: #F5F5F5;
     padding: 20px 30px;
 }
 div.cartodb-share a{
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
+}
+.nav-tabs{
+  display:table;
+  width:100%;
+}
+.nav-tabs > li{
+  float: none;
+  display:table-cell;
+  width:25%;
 }
 .nav-tabs > li > a{
-    background: #EEEEEE;
-    margin-right: 0px;
-    border: 1px solid #DDDDDD;
-    border-radius: 0;
-    cursor: pointer;
+  background: #f6f6f6;
+  margin-right: 0px;
+  border-left: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  border-radius: 0;
+  cursor: pointer;
+  outline:none;
+  color:#aaaaaa;
+  margin-left:-1px;
+  font-size:13px;
+  padding: 13px 0;
+  text-align:center;
+  display: table-cell;
+  width: 1%;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+  background:#1aa4db;
+  color:#ffffff;
+  border:1px solid #1aa4db;
+  -webkit-transition: all 250ms ease-in;
+  -moz-transition: all 250ms ease-in;
+  -o-transition: all 250ms ease-in;
+  transition: all 250ms ease-in;
 }
 .show-sm{
     display: none;
@@ -837,7 +870,7 @@ table.districts p {
 /* Map */
 .map-position-wrap {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: 55px;  /* nav height */
   left: 0;
   right: 500px;  /* sidebar width */
   bottom: 0;
@@ -849,7 +882,7 @@ table.districts p {
 /* Sidebar */
 .sidebar {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: 65px;  /* nav height */
   right: 0;
   bottom: 0;
   width: 500px;
