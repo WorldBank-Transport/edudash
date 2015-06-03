@@ -10,14 +10,9 @@ body {
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
-.marketing,
-.footer {
+.marketing {
   padding-left: 15px;
   padding-right: 15px;
-}
-.footer{
-    background-color: $theme-blue;
-    min-height: 100px;
 }
 
 #main-nav.navbar-default {
@@ -84,13 +79,6 @@ body {
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
 }
 
 /* Customize container */
@@ -197,8 +185,7 @@ body {
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
     .header,
-    .marketing,
-    .footer {
+    .marketing {
         padding-left: 0;
         padding-right: 0;
     }
@@ -357,13 +344,6 @@ img.face {
 }
 .list-horizontal li{
   display: inline-block;
-}
-.footer a{
-  color: #F5F5F5;
-}
-.footer .list-horizontal li{
-    color: #F5F5F5;
-    padding: 20px 30px;
 }
 div.cartodb-share a{
   width: 30px;
