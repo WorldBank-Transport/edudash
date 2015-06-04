@@ -924,11 +924,11 @@ table.districts p {
 }
 
 .text-red {
-    color: #f05e55;
+    color: $rank-poor;
 }
 .text-yellow {
-    color: #fcce39;
+    color: $rank-medium;
 }
 .text-green {
-    color: #2d991c;
+    color: $rank-good;
 }
