@@ -907,6 +907,11 @@ table.districts p {
 .bottom-toggle.legend {
   width: 50%;
 }
+.bottom-toggle.filters {
+  width: 50%;
+  left: 50%;
+  padding-left: 1px;  // gap
+}
 
 /* Sidebar */
 .sidebar {
