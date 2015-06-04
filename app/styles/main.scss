@@ -1,4 +1,5 @@
 @import "_variables";
+@import "_mixins.scss";
 
 /* Space out content a bit */
 body {
@@ -898,7 +899,7 @@ map-bottom-toggle {
     margin-top: 1px;
     background: $map-overlay;
     &.closed {
-      display: none;
+      @include sr-only;
     }
   }
 }
