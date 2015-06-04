@@ -869,7 +869,7 @@ table.districts p {
   height: $bottom-bar-height;
   background: $map-overlay;
 }
-.bottom-toggle {
+map-bottom-toggle {
   position: absolute;
   bottom: $bottom-bar-height + 1;
   header {
@@ -888,26 +888,24 @@ table.districts p {
         padding: 0 1em;
       }
     }
+    &.closed h3:before,
+    &.closed h3:after {
+      content: "▴";
+    }
   }
   .body {
     padding: 5px;
     margin-top: 1px;
     background: $map-overlay;
-  }
-  &.closed {
-    header h3:before,
-    header h3:after {
-      content: "▴"
-    }
-    .body {
+    &.closed {
       display: none;
     }
   }
 }
-.bottom-toggle.legend {
+map-bottom-toggle.legend {
   width: 50%;
 }
-.bottom-toggle.filters {
+map-bottom-toggle.filters {
   width: 50%;
   left: 50%;
   padding-left: 1px;  // gap
