@@ -861,6 +861,44 @@ table.districts p {
   height: 100%;
 }
 
+// Map bottom bar
+.bottom-white-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $bottom-bar-height;
+  background: $map-overlay;
+}
+.bottom-toggle {
+  position: absolute;
+  bottom: $bottom-bar-height + 1;
+  header {
+    height: $bottom-bar-height;
+    background: $map-overlay;
+    text-align: center;
+    h3 {
+      font-size: 1em;
+      line-height: $bottom-bar-height;
+      font-weight: bold;
+      color: $theme-blue;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "▾";
+        padding: 0 1em;
+      }
+    }
+  }
+  .body {
+    padding: 5px;
+    margin-top: 1px;
+    background: $map-overlay;
+  }
+}
+.bottom-toggle.legend {
+  width: 50%;
+}
+
 /* Sidebar */
 .sidebar {
   position: absolute;
