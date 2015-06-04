@@ -19,8 +19,11 @@ angular.module 'edudashAppDir'
         chart:
           type: 'line'
           height: 120
-          width: 550
+          width: element.parent().width()
           margin: [10, 0, 0, 0]
+          spacingLeft: 1
+        credits:
+          enabled: false
         exporting:
           enabled: false
         legend:
@@ -30,7 +33,7 @@ angular.module 'edudashAppDir'
           align: 'left'
           style:
             color: '#05a2dc'
-            fontSize: 11
+            fontSize: 10
         xAxis:
           categories: scope.data.x
           labels:

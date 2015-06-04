@@ -13,10 +13,11 @@ angular.module 'edudashAppDir'
     scope:
       data: '=datasource'
       range: '@'
+      max: '=max'
+      min: '=min'
     link: (scope, element, attrs) ->
       scope.sign = switch
         when scope.data > 0 then '+ '
         when scope.data == 0 then '= '
         else ''
-      scope.range = attrs.range.split(',')
       scope.since = 2012
