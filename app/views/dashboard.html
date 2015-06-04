@@ -88,7 +88,7 @@
                 <div class="container-fluid perfomance-gauges">
                     <div class="row col-xs-12">
                         <div class="col-xs-4 text-center">
-                            <pass-rate-change range="-5,5" datasource="passRateChange"></pass-rate-change>
+                            <pass-rate-change min="-5" max="5" datasource="passRateChange"></pass-rate-change>
                         </div>
                         <div class="col-xs-4">
                             <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" ranges="30,70" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>

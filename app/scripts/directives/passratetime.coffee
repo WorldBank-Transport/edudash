@@ -33,7 +33,7 @@ angular.module 'edudashAppDir'
           align: 'left'
           style:
             color: '#05a2dc'
-            fontSize: 11
+            fontSize: 10
         xAxis:
           categories: scope.data.x
           labels:

@@ -892,3 +892,13 @@ table.districts p {
   width: 500px;
   margin: 0;
 }
+
+.text-red {
+    color: #f05e55;
+}
+.text-yellow {
+    color: #fcce39;
+}
+.text-green {
+    color: #2d991c;
+}

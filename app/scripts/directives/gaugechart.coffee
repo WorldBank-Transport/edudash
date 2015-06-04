@@ -21,6 +21,7 @@ angular.module 'edudashAppDir'
         when value > ranges[1] then colors[2]
         else colors[1]
 
+      width = element.parent().width()
       gaugeOptions =
         chart:
           type: 'gauge'
@@ -29,18 +30,21 @@ angular.module 'edudashAppDir'
           plotBorderWidth: 0
           plotShadow: false
           height: 110
-          width: element.parent().width()
+          width: width
           margin: [0, 0, 0, 0]
           spacingLeft: 1
         credits:
           enabled: false
+        credits:
+          enabled: false
         title:
-          text: attrs.title
+          text: "<span style='font-size: 10px;'>#{attrs.title}</span>"
+          useHTML: true
           y: 70
+          x: 62
+          width: width
           style:
             color: '#05a2dc'
-            fontSize: 11
-            marginBottom: 2
         pane:
           size: '100%'
           startAngle: -90
