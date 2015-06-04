@@ -894,6 +894,15 @@ table.districts p {
     margin-top: 1px;
     background: $map-overlay;
   }
+  &.closed {
+    header h3:before,
+    header h3:after {
+      content: "▴"
+    }
+    .body {
+      display: none;
+    }
+  }
 }
 .bottom-toggle.legend {
   width: 50%;
