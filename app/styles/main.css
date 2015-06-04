@@ -893,6 +893,53 @@ table.districts p {
   margin: 0;
 }
 
+
+/* Map fly-out */
+.map-flyout {
+  position: absolute;
+  right: 500px;  /* sidebar width */
+  top: 42px;  /* nav height */
+  height: 100%;
+  width: 230px;
+  padding: 15px 30px;
+  background: hsla(0, 0%, 97%, 0.9);
+  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
+}
+.map-flyout header,
+.map-flyout .stat {
+  margin: 1em 0;
+}
+.map-flyout h2, h3, h4 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+  color: #444;
+}
+.map-flyout h4 {
+  font-style: italic;
+  color: #666;
+}
+.map-flyout .word,
+.map-flyout .number {
+  margin: 0;
+  font-weight: bold;
+  color: #05a2dc;
+}
+.map-flyout .word {
+  font-size: 1.2em;
+}
+.map-flyout .number {
+  font-size: 2.8em;
+}
+.map-flyout .number.good {
+  color: #38a21c;
+}
+.map-flyout .stat .stat .number,
+.map-flyout header .stat .number {
+  font-size: 2em;
+  color: #666;
+}
+
 .text-red {
     color: #f05e55;
 }
