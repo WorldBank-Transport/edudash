@@ -894,7 +894,7 @@ map-bottom-toggle {
     }
   }
   .body {
-    padding: 5px;
+    padding: 5px 1em;
     margin-top: 1px;
     background: $map-overlay;
     &.closed {
@@ -904,6 +904,77 @@ map-bottom-toggle {
 }
 map-bottom-toggle.legend {
   width: 50%;
+  h4 {
+    max-width: $legend-content-width;
+    margin: 15px auto 10px;
+    font-size: 1em;
+  }
+  ol {
+    max-width: $legend-content-width;
+    margin: 10px auto 20px;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: inline-block;
+    margin: 0 0.4em;
+    font-weight: bold;
+    color: #777;
+    &:before {
+      content: "";
+      display: inline-block;
+      position: relative;
+      border-radius: 100%;
+      margin-right: 0.333em;
+      vertical-align: middle;
+      top: -2px;
+    }
+  }
+  .passrate li {
+    &:before {
+      height: 1.2em;
+      width: 1.2em;
+    }
+    &.unknown:before {
+      border: 2px solid $unknown;
+    }
+    &.poor:before {
+      background: $rank-poor;
+    }
+    &.medium:before {
+      background: $rank-medium;
+    }
+    &.good:before {
+      background: $rank-good;
+    }
+  }
+  .ptratio li {
+    &.small {
+      font-size: 1em;  // stupid bootstrap (override)
+    }
+    &:before {
+      background: $unknown;
+    }
+    &.unknown:before {
+      height: 1.2em;
+      width: 1.2em;
+      background: transparent;
+      border: 2px solid $unknown;
+    }
+    &.small:before {
+      top: -1px;
+      height: 6px;
+      width: 6px;
+    }
+    &.medium:before {
+      height: 11px;
+      width: 11px;
+    }
+    &.big:before {
+      height: 16px;
+      width: 16px;
+    }
+  }
 }
 map-bottom-toggle.filters {
   width: 50%;

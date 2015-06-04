@@ -12,11 +12,24 @@
     </div>
     <div class="bottom-white-bar"></div>
 
-    <map-bottom-toggle title="Legend" class="legend">
-      <p>Legend body...</p>
+    <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
+      <h4 translate="legend.passrate">Passrate (%)</h4>
+      <ol class="passrate">
+        <li class="unknown" translate="legend.unknown">Unknown</li>
+        <li class="poor">0&ndash;40</li>
+        <li class="medium">40&ndash;60</li>
+        <li class="good">60&ndash;100</li>
+      </ol>
+      <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
+      <ol class="ptratio">
+        <li class="unknown" translate="legend.unknown">Unknown</li>
+        <li class="small">&lt; 35</li>
+        <li class="medium">35&ndash;50</li>
+        <li class="big">&gt; 50</li>
+      </ol>
     </map-bottom-toggle>
 
-    <map-bottom-toggle title="Filters" class="filters">
+    <map-bottom-toggle title="{{ 'filters.title' | translate }}" class="filters">
       <p>Filters body...</p>
     </map-bottom-toggle>
 

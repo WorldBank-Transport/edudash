@@ -1,5 +1,5 @@
 <header class="{{ closed ? 'closed' : '' }}">
-  <h3 ng-click="toggle()">Legend</h3>
+  <h3 ng-click="toggle()">{{ title }}</h3>
 </header>
 <div class="body {{ closed ? 'closed' : '' }}" ng-transclude>
   <p>legend body...</p>
