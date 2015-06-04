@@ -41,8 +41,9 @@ angular.module 'edudashAppDir'
           text: "<span style='font-size: 10px;'>#{attrs.title}</span>"
           useHTML: true
           y: 70
-          x: 62
+          x: 80
           width: width
+          align: 'center'
           style:
             color: '#05a2dc'
         pane:
