@@ -932,3 +932,19 @@ table.districts p {
 .text-green {
     color: $rank-good;
 }
+
+.big-character {
+  font-size: 36px;
+  font-weight: 900;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+}
+
+.chart-title {
+  color: #05a2dc;
+  font-size: 11px;
+  margin-bottom: 2;
+  fill: #05a2dc;
+  width: 100%;
+}

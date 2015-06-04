@@ -35,8 +35,6 @@ angular.module 'edudashAppDir'
           spacingLeft: 1
         credits:
           enabled: false
-        credits:
-          enabled: false
         title:
           text: "<span style='font-size: 10px;'>#{attrs.title}</span>"
           useHTML: true
