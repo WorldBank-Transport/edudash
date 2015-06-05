@@ -158,6 +158,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
+            $scope.selectedSchool['pupil-teacher-ration'] = 56
             unless showAllSchools? and showAllSchools == false
                 $scope.activeMap = 'schools'
                 $scope.showLayer('schools')
@@ -255,6 +256,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.pupilTeacherRatio = 41
           $scope.passrate = 58
           $scope.passRateChange = 0
-
+          $scope.passratetime =
+              y: [25, 71, 45]
+              x: [2012, 2013, 2014]
 
 ]

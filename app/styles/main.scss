@@ -1,3 +1,6 @@
+@import "_variables";
+@import "_mixins.scss";
+
 /* Space out content a bit */
 body {
   height: 100%;
@@ -8,23 +11,18 @@ body {
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
-.marketing,
-.footer {
+.marketing {
   padding-left: 15px;
   padding-right: 15px;
 }
-.footer{
-    background-color: #05a2dc;
-    min-height: 100px;
-}
 
 #main-nav.navbar-default {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     border: none;
     border-radius: 0;
 }
 .page-header{
-    margin: 5px 0 15px;
+    margin: 10px 0 15px;
     font-weight: 800;
     color: #777;
     font-size: 15px;
@@ -40,13 +38,14 @@ body {
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
     color: #FFFFFF;
-    background-color: #05a2dc;
+    background-color: $theme-blue;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: #0592cc;
+    border-color: $theme-blue-nav;
 }
 
+<<<<<<< .merge_file_a07256
 .navbar-toggle{
   background:#05a2dc;
 }
@@ -58,6 +57,19 @@ body {
 
 .navbar-toggle .icon-bar{
   background:#fff;
+=======
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: $theme-blue-nav;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: $theme-blue3;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: $theme-blue-nav;
+>>>>>>> .merge_file_a06956
 }
 
 @media (max-width: 767px){
@@ -82,13 +94,6 @@ body {
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
 }
 
 /* Customize container */
@@ -136,6 +141,8 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
+    border-top:12px solid #1aa4db;
+    background:#f6f6f6;
 }
 .navbar{
     margin-bottom: 0;
@@ -158,7 +165,7 @@ body {
 }
 .map-control-header{
     padding: 7px;
-    color: #05a2dc;
+    color: $theme-blue;
     margin-top: 0px;
     margin-bottom: 5px;
 }
@@ -183,7 +190,7 @@ body {
 }
 
 .map-container div.cartodb-tooltip p{
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 300;
     font-size: 15px;
     margin-top: 0px;
@@ -193,8 +200,7 @@ body {
 @media screen and (min-width: 768px) {
     /* Remove the padding we set earlier */
     .header,
-    .marketing,
-    .footer {
+    .marketing {
         padding-left: 0;
         padding-right: 0;
     }
@@ -317,14 +323,14 @@ table.schools td.name {
 }
 
 table.schools td.passrategreen {
-    color: #38a21c;
+    color: $rank-good;
     font-weight: 400;
     font-size: 16px;
     width: 55px;
 }
 
 table.schools td.passratered {
-    color: #f56053;
+    color: $rank-poor;
     font-weight: 400;
     font-size: 16px;
     width: 55px;
@@ -342,7 +348,7 @@ table.schools p {
 }
 
 p.tableheader {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     max-width: 224px;
     height: 30px;
     border-radius: 15px;
@@ -367,34 +373,58 @@ img.face {
     padding-bottom: 30px
 }
 .perfomance-gauges .col-sm-4{
-    padding: 0;
+  padding: 0;
 }
 .dial-title{
-    color: #05a2dc;
-    font-weight: bold;
-    font-size:12px;
-    margin-bottom: 2px
+  color: $theme-blue;
+  font-weight: bold;
+  font-size:12px;
+  margin-bottom: 2px
 }
 .list-horizontal li{
-    display: inline-block;
-}
-.footer a{
-    color: #F5F5F5;
-}
-.footer .list-horizontal li{
-    color: #F5F5F5;
-    padding: 20px 30px;
+  display: inline-block;
 }
 div.cartodb-share a{
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
+}
+.nav-tabs{
+  display:table;
+  width:100%;
+}
+.nav-tabs > li{
+  float: none;
+  display:table-cell;
+  width:25%;
 }
 .nav-tabs > li > a{
-    background: #EEEEEE;
-    margin-right: 0px;
-    border: 1px solid #DDDDDD;
-    border-radius: 0;
-    cursor: pointer;
+  background: #f6f6f6;
+  margin-right: 0px;
+  border-left: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  border-radius: 0;
+  cursor: pointer;
+  outline:none;
+  color:#aaaaaa;
+  margin-left:-1px;
+  font-size:13px;
+  padding: 13px 0;
+  text-align:center;
+  display: table-cell;
+  width: 1%;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+  background:#1aa4db;
+  color:#ffffff;
+  border:1px solid #1aa4db;
+  -webkit-transition: all 250ms ease-in;
+  -moz-transition: all 250ms ease-in;
+  -o-transition: all 250ms ease-in;
+  transition: all 250ms ease-in;
 }
 .show-sm{
     display: none;
@@ -533,7 +563,7 @@ div.cartodb-share a{
 /* Distict info */
 
 p.tableheaderdistrict {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     width: 200px;
     height: 30px;
     border-radius: 15px;
@@ -581,14 +611,14 @@ table.districts td.name {
 }
 
 table.districts td.passrategreen {
-    color: #38a21c;
+    color: $rank-good;
     font-weight: 400;
     font-size: 18px;
     width: 40px;
 }
 
 table.districts td.passratered {
-    color: #f56053;
+    color: $rank-poor;
     font-weight: 400;
     font-size: 18px;
     width: 40px;
@@ -620,20 +650,20 @@ table.districts p {
 }
 
 #legend p.title {
-    color: #05a2dc;
+    color: $theme-blue;
     margin-top: 0px;
     margin-bottom: 5px;
 }
 
 
 #legend a:link {
-    color: #05a2dc;
+    color: $theme-blue;
 }
 
 #legend a:link,
 #legend a:visited,
 #legend a:hover {
-    color: #05a2dc;
+    color: $theme-blue;
     text-decoration: none;
 }
 
@@ -664,21 +694,21 @@ table.districts p {
 }
 
 .circle-poor {
-  fill:  #f56053;
+  fill:  $rank-poor;
 }
 
 .circle-medium {
-  fill: #e9c941;
+  fill: $rank-medium;
 }
 
 .circle-good {
-  fill: #38a21c;
+  fill: $rank-good;
 }
 /* General content */
 #generalcontent {
     margin: 0 auto;
     font-family: 'Open Sans', sans-serif;
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 400;
     font-size: 20px;
     line-height: 24px;
@@ -705,7 +735,7 @@ table.districts p {
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,
 #generalcontent a:hover a:link {
-    color: #05a2dc;
+    color: $theme-blue;
     font-weight: 400;
     text-decoration: none;
 }
@@ -713,7 +743,7 @@ table.districts p {
     margin: 20px 0;
 }
 #generalcontent a.boxlink {
-    background-color: #05a2dc;
+    background-color: $theme-blue;
     color: #FFFFFF;
     font-weight: 300;
     font-size: 18px;
@@ -960,7 +990,7 @@ ul.dropdown-menu{
 .map-widget {
   /* establish a positioning context for the rest of the app components */
   position: absolute;
-  top: 70px;  /* header height */
+  top: $header-height;
   left: 0;
   right: 0;
   bottom: 0;
@@ -969,25 +999,220 @@ ul.dropdown-menu{
 /* Map */
 .map-position-wrap {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: $nav-height;
   left: 0;
-  right: 500px;  /* sidebar width */
+  right: $sidebar-width;
   bottom: 0;
 }
 #map {
   height: 100%;
 }
 
+// Map bottom bar
+.bottom-white-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $bottom-bar-height;
+  background: $map-overlay;
+}
+map-bottom-toggle {
+  position: absolute;
+  bottom: $bottom-bar-height + 1;
+  header {
+    height: $bottom-bar-height;
+    background: $map-overlay;
+    text-align: center;
+    h3 {
+      font-size: 1em;
+      line-height: $bottom-bar-height;
+      font-weight: bold;
+      color: $theme-blue;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "▾";
+        padding: 0 1em;
+      }
+    }
+    &.closed h3:before,
+    &.closed h3:after {
+      content: "▴";
+    }
+  }
+  .body {
+    padding: 5px 1em;
+    margin-top: 1px;
+    background: $map-overlay;
+    &.closed {
+      @include sr-only;
+    }
+  }
+}
+map-bottom-toggle.legend {
+  width: 50%;
+  h4 {
+    max-width: $legend-content-width;
+    margin: 15px auto 10px;
+    font-size: 1em;
+  }
+  ol {
+    max-width: $legend-content-width;
+    margin: 10px auto 20px;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: inline-block;
+    margin: 0 0.4em;
+    font-weight: bold;
+    color: #777;
+    &:before {
+      content: "";
+      display: inline-block;
+      position: relative;
+      border-radius: 100%;
+      margin-right: 0.333em;
+      vertical-align: middle;
+      top: -2px;
+    }
+  }
+  .passrate li {
+    &:before {
+      height: 1.2em;
+      width: 1.2em;
+    }
+    &.unknown:before {
+      border: 2px solid $unknown;
+    }
+    &.poor:before {
+      background: $rank-poor;
+    }
+    &.medium:before {
+      background: $rank-medium;
+    }
+    &.good:before {
+      background: $rank-good;
+    }
+  }
+  .ptratio li {
+    &.small {
+      font-size: 1em;  // stupid bootstrap (override)
+    }
+    &:before {
+      background: $unknown;
+    }
+    &.unknown:before {
+      height: 1.2em;
+      width: 1.2em;
+      background: transparent;
+      border: 2px solid $unknown;
+    }
+    &.small:before {
+      top: -1px;
+      height: 6px;
+      width: 6px;
+    }
+    &.medium:before {
+      height: 11px;
+      width: 11px;
+    }
+    &.big:before {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+map-bottom-toggle.filters {
+  width: 50%;
+  left: 50%;
+  padding-left: 1px;  // gap
+}
+
 /* Sidebar */
 .sidebar {
   position: absolute;
-  top: 42px;  /* nav height */
+  top: $nav-height;
   right: 0;
   bottom: 0;
-  width: 500px;
+  width: $sidebar-width;
   overflow-y: auto;
+  padding-top: 10px;
 }
 .sidebar .contained {  /* hack for search for now */
-  width: 500px;
+  width: $sidebar-width;
   margin: 0;
+}
+
+
+/* Map fly-out */
+.map-flyout {
+  position: absolute;
+  right: $sidebar-width;
+  top: $nav-height;
+  height: 100%;
+  width: $flyout-width;
+  padding: 15px 30px;
+  background: hsla(0, 0%, 97%, 0.9);
+  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
+}
+.map-flyout header,
+.map-flyout .stat {
+  margin: 1em 0;
+}
+.map-flyout h2, h3, h4 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+  color: #444;
+}
+.map-flyout h4 {
+  font-style: italic;
+  color: #666;
+}
+.map-flyout .word,
+.map-flyout .number {
+  margin: 0;
+  font-weight: bold;
+  color: #05a2dc;
+}
+.map-flyout .word {
+  font-size: 1.2em;
+}
+.map-flyout .number {
+  font-size: 2.8em;
+}
+.map-flyout .number.good {
+  color: #38a21c;
+}
+.map-flyout .stat .stat .number,
+.map-flyout header .stat .number {
+  font-size: 2em;
+  color: #666;
+}
+
+.text-red {
+    color: $rank-poor;
+}
+.text-yellow {
+    color: $rank-medium;
+}
+.text-green {
+    color: $rank-good;
+}
+
+.big-character {
+  font-size: 36px;
+  font-weight: 900;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+}
+
+.chart-title {
+  color: #05a2dc;
+  font-size: 11px;
+  margin-bottom: 2;
+  fill: #05a2dc;
+  width: 100%;
 }

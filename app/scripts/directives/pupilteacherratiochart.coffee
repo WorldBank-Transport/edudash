@@ -7,21 +7,26 @@
  # # ratePassChart
 ###
 angular.module 'edudashAppDir'
-.directive 'ratePassChart', [
+.directive 'pupilTeacherRatioChart', [
     '$log'
     ($log) ->
       restrict: 'E'
-      templateUrl: 'views/ratepasschart.html'
+      templateUrl: 'views/pupilteacherratiochart.html'
+      scope: {
+        selectedSchool: '=datasource'
+      }
       link: (scope, element, attrs) ->
         max = attrs.max
         min = attrs.min
+        scope.getTimes = (n) ->
+          new Array(n)
         update = () ->
           if scope.selectedSchool? then element.show() else element.hide()
-          pass = scope.selectedSchool.pass_by_10
-          if pass >= max
+          ptRatio = scope.selectedSchool['pupil-teacher-ration']
+          if ptRatio <= min
             src = 'images/passrate_student_green.png'
-            textClass = 'text-gree'
-          else if pass >= min and pass < max
+            textClass = 'text-green'
+          else if ptRatio > min and ptRatio < max
             src = 'images/passrate_student_yellow.png';
             textClass = 'text-yellow'
           else

@@ -1,0 +1,1218 @@
+@import "_variables";
+@import "_mixins.scss";
+
+/* Space out content a bit */
+body {
+  height: 100%;
+  width: 100%;
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#main-nav.navbar-default {
+    background-color: $theme-blue;
+    border: none;
+    border-radius: 0;
+}
+.page-header{
+    margin: 10px 0 15px;
+    font-weight: 800;
+    color: #777;
+    font-size: 15px;
+    padding-bottom: 15px
+}
+.navbar-default .navbar-nav > li > a{
+    color: #F0F0F0;
+}
+
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #FFFFFF;
+    background-color: $theme-blue;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: $theme-blue-nav;
+}
+
+<<<<<<< .merge_file_a03736
+.navbar-toggle{
+  background:#05a2dc;
+}
+
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+    background-color: #0576a4;
+}
+
+.navbar-toggle .icon-bar{
+  background:#fff;
+=======
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: $theme-blue-nav;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: $theme-blue3;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: $theme-blue-nav;
+>>>>>>> .merge_file_a09148
+}
+
+@media (max-width: 767px){
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #F3F3F4;
+    }
+}
+
+@media (max-width: 1024px){
+    .nav > li > a {
+        padding: 10px 8px;
+    }
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+    .container {
+        max-width: 75%;
+    }
+    .dashboard-container{
+        padding-top: 30px;
+        padding-bottom: 20px
+    }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+#main-header{
+    display: block;
+    position: relative;
+    top: 0px;
+    width: 100%;
+    height: 70px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.map-container{
+    padding-right: 0;
+    padding-left: 0;
+    overflow: hidden;
+    border-top:12px solid #1aa4db;
+    background:#f6f6f6;
+}
+.navbar{
+    margin-bottom: 0;
+}
+.map-control-container{
+    position: absolute;
+    left: 7px;
+    bottom: 7px;
+}
+.map-control{
+    background: #FFF;
+    border-radius: 2px;
+    border: 1px solid #C0C0C0;
+    max-width: 250px;
+    min-width: 120px;
+    display: block;
+    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd);
+    margin: 10px
+}
+.map-control-header{
+    padding: 7px;
+    color: $theme-blue;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+/* Map hover */
+.map-container div.cartodb-tooltip {
+    position: absolute;
+    display: none;
+    min-width: 120px;
+    max-width: 250px;
+    overflow-y: hidden;
+    left: 20px !important;
+    top: 100px !important;
+    z-index: 5;
+}
+.map-container div.cartodb-tooltip h4{
+    color: #828282;
+    text-transform: uppercase;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.map-container div.cartodb-tooltip p{
+    color: $theme-blue;
+    font-weight: 300;
+    font-size: 15px;
+    margin-top: 0px;
+    margin-bottom: 8px;
+}
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .header,
+    .marketing {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 30px;
+    }
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+        border-bottom: 0;
+    }
+#main-nav-items{
+  width: 500px;
+  margin-top:26px;
+}
+@media only screen and (max-width : 992px) {
+  #main-nav-items{
+    width: 70%;
+    position:absolute;
+    top:13px;
+    right:20px;
+  }
+  #main-nav-items ul{
+    float:right;
+  }
+}
+@media only screen and (max-width : 768px) {
+
+}
+
+}
+@media screen and (min-width: 900px) {
+    .map-details-container{
+        max-width: 450px;
+    }
+}
+@media screen and (min-width: 768px) {
+    .map-control-container {
+        bottom: 230px;
+    }
+}
+
+.preload {
+    display:none;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    color: #1595d3;
+    text-transform:uppercase;
+    dislay:inline-block;
+    margin-top:16px;
+    font-size:18px;
+    font-weight:700;
+    width:15%;
+    float:left;
+}
+
+/*The content below this is all related to the tables*/
+#schooltablescontainer {
+    margin: 20px auto;
+}
+
+.scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 260px;
+    border: 1px solid #e3e3e3;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.schools {
+    table-layout: fixed;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table.schools a:link, a:visited, a:hover {
+    color:inherit;
+    text-decoration: none;
+}
+
+table.schools tr:hover {
+    background-color: #b9e5f5;
+}
+
+table.schools td {
+    border-bottom: 1px dotted #e3e3e3;
+    height: 35px;
+    white-space: nowrap;
+}
+
+table.schools td.rank {
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 14px;
+    width: 20px;
+    text-align: right;
+}
+
+table.schools td.name {
+    color: #6b6b6b;
+    font-weight: 400;
+    font-size: 14px;
+    text-align:left;
+    padding-left: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+table.schools td.passrategreen {
+    color: $rank-good;
+    font-weight: 400;
+    font-size: 16px;
+    width: 55px;
+}
+
+table.schools td.passratered {
+    color: $rank-poor;
+    font-weight: 400;
+    font-size: 16px;
+    width: 55px;
+}
+
+table.schools p {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+    color: #717171;
+    line-height: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+p.tableheader {
+    background-color: $theme-blue;
+    max-width: 224px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.face {
+    margin-top: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: text-bottom;
+}
+
+/* ----------------- */
+.perfomance-gauges{
+    padding-bottom: 30px
+}
+.perfomance-gauges .col-sm-4{
+  padding: 0;
+}
+.dial-title{
+  color: $theme-blue;
+  font-weight: bold;
+  font-size:12px;
+  margin-bottom: 2px
+}
+.list-horizontal li{
+  display: inline-block;
+}
+div.cartodb-share a{
+  width: 30px;
+  height: 30px;
+}
+.nav-tabs{
+  display:table;
+  width:100%;
+}
+.nav-tabs > li{
+  float: none;
+  display:table-cell;
+  width:25%;
+}
+.nav-tabs > li > a{
+  background: #f6f6f6;
+  margin-right: 0px;
+  border-left: 1px solid #DDDDDD;
+  border-right: 1px solid #DDDDDD;
+  border-radius: 0;
+  cursor: pointer;
+  outline:none;
+  color:#aaaaaa;
+  margin-left:-1px;
+  font-size:13px;
+  padding: 13px 0;
+  text-align:center;
+  display: table-cell;
+  width: 1%;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+  background:#1aa4db;
+  color:#ffffff;
+  border:1px solid #1aa4db;
+  -webkit-transition: all 250ms ease-in;
+  -moz-transition: all 250ms ease-in;
+  -o-transition: all 250ms ease-in;
+  transition: all 250ms ease-in;
+}
+.show-sm{
+    display: none;
+}
+@media screen and (max-width: 850px){
+    .hide-sm{
+        display: none;
+    }
+    .show-sm{
+        display: block;
+    }
+}
+
+@media screen and (max-width : 480px) {
+    .nav-tabs > li > a{
+        font-size: 10px;
+    }
+}
+
+.search-schools,
+.search-schools input{
+    /* min-width: 300px; */
+}
+.container-fluid.map-nav{
+    padding-left: 0;
+}
+.select2-highlighted .text-muted{
+    color: #EEEEF5
+}
+/* School info */
+#schoolinfo-plaholder{
+    display: block;
+    padding: 100px 40px;
+    color: #CCC;
+    font-size: 18px;
+}
+#schoolinfo {
+    margin: 0 auto;
+    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd); */
+    position: relative;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+}
+#schoolinfo .top-school-badge{
+    position: absolute;
+    right: 0px;
+    margin-right: -16px;
+    top: 24px;
+}
+
+@media screen and (max-width: 850px){
+    #schoolinfo .top-school-badge{
+        top: 30px;
+    }
+    #schoolinfo .top-school-badge img{
+        width: 60%;
+    }
+}
+
+#schoolinfo p.schoolname {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3a3a3a;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#schoolinfo p.code {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8b8b8b;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#schoolinfo .widget {
+    position: relative;
+    border-left: 3px solid #e1e1e1;
+    padding-left: 10px;
+    margin-top: 30px;
+}
+
+#schoolinfo .widget.first {
+    position: relative;
+    margin-top: 20px;
+    border-left: 3px solid #e1e1e1;
+    padding-left: 10px;
+}
+
+#schoolinfo .widgettitle {
+    font-size: 11px;
+    font-weight: 800;
+    color: #828282;
+    text-transform: uppercase;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#schoolinfo .widgetnumber {
+    font-size: 30px;
+    font-weight: 800;
+    color: #3a3a3a;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 850px){
+    #schoolinfo .widgetnumber {
+        font-size: 18px;
+        font-weight: 800;
+    }
+}
+
+#schoolinfo img.arrow {
+    margin-right: 5px;
+}
+
+#schoolinfo img.teacher {
+    margin-right: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+    display: inline;
+}
+
+.img-dial{
+    max-height: 70px;
+    margin-top: 5px;
+    max-width: 100%;
+}
+
+/* Distict info */
+
+p.tableheaderdistrict {
+    background-color: $theme-blue;
+    width: 200px;
+    height: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 50px;
+}
+
+table.districts {
+    table-layout: fixed;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table.districts td {
+    /*border-bottom: 1px dotted #e3e3e3;*/
+    height: 35px;
+    white-space: nowrap;
+}
+
+table.districts td.rank {
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 14px;
+    width: 20px;
+    text-align: right;
+}
+
+table.districts td.name {
+    color: #6b6b6b;
+    font-weight: 600;
+    font-size: 16px;
+    width: 125px;
+    text-align:left;
+    padding-left: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+table.districts td.passrategreen {
+    color: $rank-good;
+    font-weight: 400;
+    font-size: 18px;
+    width: 40px;
+}
+
+table.districts td.passratered {
+    color: $rank-poor;
+    font-weight: 400;
+    font-size: 18px;
+    width: 40px;
+}
+
+table.districts p {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 300;
+    color: #717171;
+    line-height: 12px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+/* Legends */
+#legend {
+    color: #828282;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    text-align: left;
+    padding: 10px;
+}
+
+#legend.schools {
+    background-color: white;
+}
+
+#legend p.title {
+    color: $theme-blue;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+
+#legend a:link {
+    color: $theme-blue;
+}
+
+#legend a:link,
+#legend a:visited,
+#legend a:hover {
+    color: $theme-blue;
+    text-decoration: none;
+}
+
+#legend.districts {
+    background-color: white;
+    position: absolute;
+    bottom: 7px;
+    left: 7px;
+    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
+    filter: drop-shadow(0px 1px 5px #cdcdcd);
+}
+
+/* Pass rates widget */
+
+#passOverTime .line {
+  fill: none;
+  stroke: #E6E9EA;
+  stroke-width: 4px;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.dotlabel {
+  stroke: white;
+  font-size: 11px;
+}
+
+.circle-poor {
+  fill:  $rank-poor;
+}
+
+.circle-medium {
+  fill: $rank-medium;
+}
+
+.circle-good {
+  fill: $rank-good;
+}
+/* General content */
+#generalcontent {
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    color: $theme-blue;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 25px;
+    min-height: 600px;
+}
+@media screen and (min-width: 850px){
+    #generalcontent {
+        width: 800px;
+    }
+}
+#generalcontent p {
+
+}
+
+#generalcontent p.text {
+    color: #717171;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+}
+
+#generalcontent a:hover,
+#generalcontent a:hover a:visited,
+#generalcontent a:hover a:link {
+    color: $theme-blue;
+    font-weight: 400;
+    text-decoration: none;
+}
+#generalcontent .boxlink-container{
+    margin: 20px 0;
+}
+#generalcontent a.boxlink {
+    background-color: $theme-blue;
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    max-width: 200px;
+}
+
+
+@media screen and (max-width: 768px){
+  #generalcontent a.boxlink {
+    font-size: 13px;
+  }
+}
+
+#generalcontent a.boxlink:hover {
+    background-color: #2ab4e7;
+}
+
+.ui-select-bootstrap > .ui-select-match {
+    overflow: hidden;
+}
+
+.google-form{
+    height: 800px;
+    width: 760px
+}
+@media screen and (max-width: 768px){
+    .google-form{
+        width: 100%;
+    }
+}
+
+.mypassrategreen {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_green.png);
+    background-repeat: no-repeat;
+}
+.mypassrategrey {
+    position: absolute;
+    width: 20px;
+    background-image: url(../images/passrate_student_grey.png);
+    background-repeat: no-repeat;
+}
+.mypassratered {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_red.png);
+    background-repeat: no-repeat;
+}
+.mypassrateyellow {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url(../images/passrate_student_yellow.png);
+    background-repeat: no-repeat;
+}
+
+
+/*header*/
+.navbar-brand.header-flag{
+  float:left;
+  margin-right:10px;
+  padding-top:10px;
+  padding-left:0;
+}
+
+/*header - navigation*/
+.navbar-collapse{
+  float:right;
+}
+
+/*language nav*/
+.navbar-collapse.navbar-lang{
+  float:right;
+  margin-left: 20px;
+  background: #f0f0f0;
+  margin-top:10px;
+  padding-top:17px;
+  padding-bottom:13px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.navbar-lang ul{
+  height:20px;
+  display:block;
+}
+
+.navbar-lang li{
+  border-right:1px solid #1595d3;
+  display:inline;
+}
+
+.navbar-lang li:last-child{
+  border-right:none;
+}
+
+.navbar-lang li a{
+  color: #aaaaaa;
+  padding-top:0;
+  padding-bottom:0;
+  line-height:14px;
+  outline:none;
+  -webkit-transition: color 300ms ease-in;
+  -moz-transition: color 300ms ease-in;
+  -o-transition: color 300ms ease-in;
+  transition: color 300ms ease-in;
+}
+
+.navbar-lang li a:hover,
+.navbar-lang li.active a{
+  color: #1595d3;
+}
+
+/*responsive behavior for language nav*/
+@media only screen and (max-width : 992px) {
+  .navbar-collapse.navbar-lang{
+    width:165px;
+    background:none;
+    background: none;
+    padding-top:0;
+    padding-bottom:0;
+    float:right;
+
+  }
+  .navbar-lang li a{
+  font-size:13px;
+  }
+}
+
+@media only screen and (max-width : 768px) {
+  .navbar-collapse.navbar-lang{
+    width:150px;
+    float:none;
+    position:absolute;
+    top:2px;
+    right:60px;
+}
+  .navbar-collapse.navbar-lang ul{
+    height:18px;
+  }
+  .navbar-collapse.navbar-lang li{
+    padding-bottom:10px;
+    position:relative;
+    float:left;
+    height:14px;
+  }
+  .navbar-lang li a{
+    font-size:15px;
+    line-height:10px;
+  }
+  .navbar-lang li a:hover{
+    background:none;
+  }
+}
+
+/* Language nav got extra small devices, phones */
+@media only screen and (max-width : 480px) {
+  .navbar-collapse.navbar-lang{
+    display:none;
+    /*temporary*/
+  }
+}
+
+/*main nav*/
+ul.main-nav{
+}
+ul.main-nav li{
+  border-right:1px solid #5b5b5b;
+  display:inline;
+  height:15px;
+}
+
+ul.main-nav li:last-child{
+  border-right:none;
+}
+
+ul.main-nav li a{
+  line-height:16px;
+  padding-top:0;
+  color:#5b5b5b;
+}
+ul.main-nav li a:hover,
+ul.main-nav li a:focus{
+  color: #1595d3;
+  background:none;
+}
+ul.main-nav li a.dropdown-toggle,
+ul.main-nav li.dropdown a.dropdown-toggle{
+  background-color: #ffffff;
+}
+
+ul.main-nav li.dropdown.open{
+background-color:#ffffff;
+}
+
+ul.main-nav li ul{
+  padding-top:10px;
+  top:20px;
+  left:0;
+  border:none;
+}
+
+ul.main-nav li ul li{
+ border-right:none;
+}
+
+ul.main-nav li ul li a{
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+#main-nav-items.nav.open > a,
+#main-nav-items.nav.open > a:hover,
+#main-nav-items.nav.open > a:focus{
+ background-color: #ffffff;
+}
+
+ul.dropdown-menu{
+  border-right:none;
+}
+.open > .dropdown-menu{background-color:none; border-top:none;}
+.open > .dropdown-menu ul li{ border-right:none;}
+
+/* header - announcement */
+.header-announcements {
+  clear: left;
+  float: right;
+}
+.header-announcements a {
+  padding: 10px 15px;
+}
+
+/* Layout framework */
+
+.map-widget {
+  /* establish a positioning context for the rest of the app components */
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Map */
+.map-position-wrap {
+  position: absolute;
+  top: $nav-height;
+  left: 0;
+  right: $sidebar-width;
+  bottom: 0;
+}
+#map {
+  height: 100%;
+}
+
+// Map bottom bar
+.bottom-white-bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $bottom-bar-height;
+  background: $map-overlay;
+}
+map-bottom-toggle {
+  position: absolute;
+  bottom: $bottom-bar-height + 1;
+  header {
+    height: $bottom-bar-height;
+    background: $map-overlay;
+    text-align: center;
+    h3 {
+      font-size: 1em;
+      line-height: $bottom-bar-height;
+      font-weight: bold;
+      color: $theme-blue;
+      cursor: pointer;
+      &:before,
+      &:after {
+        content: "▾";
+        padding: 0 1em;
+      }
+    }
+    &.closed h3:before,
+    &.closed h3:after {
+      content: "▴";
+    }
+  }
+  .body {
+    padding: 5px 1em;
+    margin-top: 1px;
+    background: $map-overlay;
+    &.closed {
+      @include sr-only;
+    }
+  }
+}
+map-bottom-toggle.legend {
+  width: 50%;
+  h4 {
+    max-width: $legend-content-width;
+    margin: 15px auto 10px;
+    font-size: 1em;
+  }
+  ol {
+    max-width: $legend-content-width;
+    margin: 10px auto 20px;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: inline-block;
+    margin: 0 0.4em;
+    font-weight: bold;
+    color: #777;
+    &:before {
+      content: "";
+      display: inline-block;
+      position: relative;
+      border-radius: 100%;
+      margin-right: 0.333em;
+      vertical-align: middle;
+      top: -2px;
+    }
+  }
+  .passrate li {
+    &:before {
+      height: 1.2em;
+      width: 1.2em;
+    }
+    &.unknown:before {
+      border: 2px solid $unknown;
+    }
+    &.poor:before {
+      background: $rank-poor;
+    }
+    &.medium:before {
+      background: $rank-medium;
+    }
+    &.good:before {
+      background: $rank-good;
+    }
+  }
+  .ptratio li {
+    &.small {
+      font-size: 1em;  // stupid bootstrap (override)
+    }
+    &:before {
+      background: $unknown;
+    }
+    &.unknown:before {
+      height: 1.2em;
+      width: 1.2em;
+      background: transparent;
+      border: 2px solid $unknown;
+    }
+    &.small:before {
+      top: -1px;
+      height: 6px;
+      width: 6px;
+    }
+    &.medium:before {
+      height: 11px;
+      width: 11px;
+    }
+    &.big:before {
+      height: 16px;
+      width: 16px;
+    }
+  }
+}
+map-bottom-toggle.filters {
+  width: 50%;
+  left: 50%;
+  padding-left: 1px;  // gap
+}
+
+/* Sidebar */
+.sidebar {
+  position: absolute;
+  top: $nav-height;
+  right: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  overflow-y: auto;
+  padding-top: 10px;
+}
+.sidebar .contained {  /* hack for search for now */
+  width: $sidebar-width;
+  margin: 0;
+}
+
+
+/* Map fly-out */
+.map-flyout {
+  position: absolute;
+  right: $sidebar-width;
+  top: $nav-height;
+  height: 100%;
+  width: $flyout-width;
+  padding: 15px 30px;
+  background: hsla(0, 0%, 97%, 0.9);
+  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
+}
+.map-flyout header,
+.map-flyout .stat {
+  margin: 1em 0;
+}
+.map-flyout h2, h3, h4 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+  color: #444;
+}
+.map-flyout h4 {
+  font-style: italic;
+  color: #666;
+}
+.map-flyout .word,
+.map-flyout .number {
+  margin: 0;
+  font-weight: bold;
+  color: #05a2dc;
+}
+.map-flyout .word {
+  font-size: 1.2em;
+}
+.map-flyout .number {
+  font-size: 2.8em;
+}
+.map-flyout .number.good {
+  color: #38a21c;
+}
+.map-flyout .stat .stat .number,
+.map-flyout header .stat .number {
+  font-size: 2em;
+  color: #666;
+}
+
+.text-red {
+    color: $rank-poor;
+}
+.text-yellow {
+    color: $rank-medium;
+}
+.text-green {
+    color: $rank-good;
+}
+
+.big-character {
+  font-size: 36px;
+  font-weight: 900;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+}
+
+.chart-title {
+  color: #05a2dc;
+  font-size: 11px;
+  margin-bottom: 2;
+  fill: #05a2dc;
+  width: 100%;
+}

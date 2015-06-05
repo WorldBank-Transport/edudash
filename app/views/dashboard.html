@@ -10,11 +10,90 @@
       school-type="schoolType"
       show-layer="showLayer">
     </div>
+    <div class="bottom-white-bar"></div>
+
+    <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
+      <h4 translate="legend.passrate">Passrate (%)</h4>
+      <ol class="passrate">
+        <li class="unknown" translate="legend.unknown">Unknown</li>
+        <li class="poor">0&ndash;40</li>
+        <li class="medium">40&ndash;60</li>
+        <li class="good">60&ndash;100</li>
+      </ol>
+      <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
+      <ol class="ptratio">
+        <li class="unknown" translate="legend.unknown">Unknown</li>
+        <li class="small">&lt; 35</li>
+        <li class="medium">35&ndash;50</li>
+        <li class="big">&gt; 50</li>
+      </ol>
+    </map-bottom-toggle>
+
+    <map-bottom-toggle title="{{ 'filters.title' | translate }}" class="filters">
+      <p>Filters body...</p>
+    </map-bottom-toggle>
+
   </div>
+
+  <!-- map fly-out -->
+  <div class="map-flyout" ng-if="activeMap=='districts'">
+    <header>
+      <h2>Region Name</h2>
+      <p class="word">Simanjiro</p>
+    </header>
+    <div class="stat">
+      <h3>Number of Schools</h3>
+      <p class="number">73</p>
+      <div class="stat">
+        <h4>Government Schools</h4>
+        <p class="number">38</p>
+      </div>
+      <div class="stat">
+        <h4>Private Schools</h4>
+        <p class="number">35</p>
+      </div>
+    </div>
+    <div class="stat">
+      <h3>Average Pass Rate</h3>
+      <p class="number">51</p>
+    </div>
+    <div class="stat">
+      <h3>Rank</h3>
+      <p class="number good">51</p>
+    </div>
+  </div>
+  <div class="map-flyout" ng-if="activeMap=='schools'">
+    <header>
+      <h2>School Name</h2>
+      <p class="word">Simanjiro</p>
+    </header>
+    <div class="stat">
+      <h3>Region</h3>
+      <p class="word">Mwanza</p>
+    </div>
+    <div class="stat">
+      <h3>District</h3>
+      <p class="word">Bunda</p>
+    </div>
+    <div class="stat">
+      <h3>Ward</h3>
+      <p class="word">Nampindi</p>
+    </div>
+    <div class="stat">
+      <h3>Pass Rate</h3>
+      <p class="number good">73</p>
+    </div>
+    <div class="stat">
+      <h3>Puil-Teacher Ratio</h3>
+      <p class="number good">51</p>
+    </div>
+  </div>
+  <!-- end map flyout -->
+
 
     <div class="container-fluid">
     <div class="row map-widget-row">
-        <div class="col-sm-8 map-container">
+        <div class="col-sm-12 map-container">
             <ul class="nav nav-tabs" id="nav-tabs-dashboard">
                 <li role="presentation" ng-class="{active: activeMap=='schools'}"><a ng-click="showLayer('schools')" translate="tab.school">Schools</a></li>
                 <li role="presentation" ng-class="{active: activeMap=='performance'}">
@@ -44,11 +123,11 @@
                     <div class="map-control-body" ng-show="openMapFilter">
                         <small>
                             <label>Pass rate: {{ passRange.min }}% - {{ passRange.max }}%</label>
-                            <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>                    
+                            <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>
                         </small>
                         <small>
                             <label>Pupil teacher ratio: {{ ptRange.min }} - {{ ptRange.max }}</label>
-                            <div range-slider min="0" max="150" model-min="ptRange.min" model-max="ptRange.max"></div>                    
+                            <div range-slider min="0" max="150" model-min="ptRange.min" model-max="ptRange.max"></div>
                         </small>
                     </div>
                 </div>
@@ -64,12 +143,12 @@
                             Passrate (%):
                             <br><img src="images/legend_schools_passrate.png" style="padding-top: 9px;">
                             <br>Pupil-teacher ratio:
-                            <br><img src="images/legend_schools_ratio.png" style="padding-top: 9px;">                        
+                            <br><img src="images/legend_schools_ratio.png" style="padding-top: 9px;">
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div ng-if="activeMap=='districts'">
                 <div class="map-control container-fluid">
                     <div id="legend" class="districts">
@@ -86,15 +165,20 @@
                   <div class="text-center"><strong>{{ title }}</strong></div>
                 </div>
                 <div class="container-fluid perfomance-gauges">
-                    <div class="row">
+                    <div class="row col-xs-12">
                         <div class="col-xs-4 text-center">
-                            <pass-rate-change range="-5,5" datasource="passRateChange"></pass-rate-change>
+                            <pass-rate-change min="-5" max="5" datasource="passRateChange"></pass-rate-change>
                         </div>
-                        <div class="col-xs-4 text-center">
+                        <div class="col-xs-4">
                             <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" ranges="30,70" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>
                         </div>
-                        <div class="col-xs-4 text-center">
+                        <div class="col-xs-4">
                             <gauge-chart title="{{'chart.average-pass-rate'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
+                        </div>
+                    </div>
+                    <div class="row col-xs-12">
+                        <div class="col-xs-12">
+                            <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
                         </div>
                     </div>
                 </div>
@@ -160,7 +244,7 @@
                         </div>
 
                         <p class="tableheader"><img src="images/sad.png" class="face" translate="chart.top.least-improved-schools">Least improved schools</p>
-                        <div class="scroll"> 
+                        <div class="scroll">
                             <table class="schools">
                                 <tr ng-repeat="school in leastImprovedSchools">
                                     <td class="rank">{{ $index + 1 }}.</td>
@@ -219,6 +303,7 @@
                             <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
                         </p>
                         <rate-pass-chart min="4" max="6"></rate-pass-chart>
+                        <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
                         <div class="widget" ng-if="selectedSchool.change_13_14|exists">
                             <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                             <p class="widgetnumber">
@@ -269,7 +354,7 @@
                                                 ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
                                                 ng-src="images/ptr_student_red.png">
                                         </td>
-                                    </tr>                                
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
