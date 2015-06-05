@@ -45,7 +45,7 @@ body {
     border-color: $theme-blue-nav;
 }
 
-<<<<<<< .merge_file_a07256
+<<<<<<< .merge_file_a03736
 .navbar-toggle{
   background:#05a2dc;
 }
@@ -69,7 +69,7 @@ body {
 
 .navbar-default .navbar-toggle {
     border-color: $theme-blue-nav;
->>>>>>> .merge_file_a06956
+>>>>>>> .merge_file_a09148
 }
 
 @media (max-width: 767px){
