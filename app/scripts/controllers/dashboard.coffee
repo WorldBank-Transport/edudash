@@ -186,7 +186,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               if $scope.activeMap == 'schools'
                 console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
-                chartSrv.drawPassOverTime item
+                $scope.passratetime = chartSrv.drawPassOverTime item
+
             , 400)
 
         $scope.getTimes = (n) ->
@@ -257,8 +258,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.pupilTeacherRatio = data.rate
         $scope.passrate = 58
         $scope.passRateChange = 0
-        $scope.passratetime =
-            y: [25, 71, 45]
-            x: [2012, 2013, 2014]
+#        $scope.passratetime =
+#            y: [25, 71, 45]
+#            x: [2012, 2013, 2014]
 
 ]

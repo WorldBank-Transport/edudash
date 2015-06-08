@@ -176,11 +176,6 @@
                             <gauge-chart title="{{'chart.average-pass-rate'| translate}}" tooltip="passrate" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
                         </div>
                     </div>
-                    <div class="row col-xs-12">
-                        <div class="col-xs-12">
-                            <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
-                        </div>
-                    </div>
                 </div>
                 <form class="form-horizontal">
                     <div class="form-group contained">
@@ -359,8 +354,9 @@
                             </table>
                         </div>
                         <div class="widget">
-                          <p class="widgettitle" translate="chart.title.passrate-over-time">pass rates over time</p>
-                          <div id="passOverTime"></div>
+                            <div class="col-xs-12">
+                                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
+                            </div>
                         </div>
                     </div>
                 </div>
