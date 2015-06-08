@@ -21,8 +21,8 @@ angular.module 'edudashAppDir'
         scope.getTimes = (n) ->
           new Array(n)
         update = () ->
-          if scope.selectedSchool? then element.show() else element.hide()
-          ptRatio = scope.selectedSchool['pupil-teacher-ration']
+          if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then element.show() else element.hide()
+          ptRatio = scope.selectedSchool['pt_ratio']
           if ptRatio <= min
             src = 'images/passrate_student_green.png'
             textClass = 'text-green'
