@@ -9,10 +9,10 @@
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 
+    '$timeout', 'MetricsSrv'
     
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -253,11 +253,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             {name: 'Kigoma Municipal', rate: -6, location: [-4.8895048727, 29.6652013888]}
             {name: 'Kibaha', rate: -5, location: [-6.8174266213, 38.5509159068]}
           ]
-          $scope.pupilTeacherRatio = 41
-          $scope.passrate = 58
-          $scope.passRateChange = 0
-          $scope.passratetime =
-              y: [25, 71, 45]
-              x: [2012, 2013, 2014]
+        MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
+          $scope.pupilTeacherRatio = data.rate
+        $scope.passrate = 58
+        $scope.passRateChange = 0
+        $scope.passratetime =
+            y: [25, 71, 45]
+            x: [2012, 2013, 2014]
 
 ]

@@ -13,7 +13,7 @@ angular.module 'edudashAppSrv'
     ($http, $resource, $log, CsvParser) ->
       # AngularJS will instantiate a singleton by calling "new" on this function
       corsApi = 'https://cors-anywhere.herokuapp.com'
-      apiRoot = '/opendata.go.tz/api/action/'
+      apiRoot = '/tsd.dgstg.org/api/action/'
       datasetMapping =
         primary:
           'enrolment_district': ''
@@ -45,7 +45,7 @@ angular.module 'edudashAppSrv'
           'pupils-with-disabilities_region_2012': 'Number-of-Pupils-with-Disabilities-in-Secondary-Schools-by-Region-2012.csv'
           'pupils-with-disabilities_region_2013': 'Number-of-Pupils-with-Disabilities-in-Secondary-Schools-by-region-2013.csv'
 
-    getdata: () ->
+      getdata: () ->
         $params =
           resource_id: '3221ccb4-3b75-4137-a8bd-471a436ed7a5'
         req = $resource(corsApi + apiRoot + 'datastore_search')
@@ -55,6 +55,12 @@ angular.module 'edudashAppSrv'
         $params =
           resource_id: id
         req = $resource(corsApi + apiRoot + 'datastore_search')
+        req.get($params).$promise
+
+      dataserByQuery: (query) ->
+        $params =
+          sql: query
+        req = $resource(corsApi + apiRoot + 'datastore_search_sql')
         req.get($params).$promise
 
       getDatasetType: (level) ->
@@ -86,6 +92,61 @@ angular.module 'edudashAppSrv'
 #          $log.debug CsvParser.parseToJson data
 #        req = $resource(resourceUrl)
 #        req.get().$promise
+
+      saveData: () ->
+        data =
+          resource_id: 'eaa77110-a1cf-4eb6-ae1c-ef89c4f1e80e'
+          force: true
+          method: 'insert'
+          records: [
+            code:"S5183"
+            name:"NYABUMHANDA SECONDARY SCHOOL"
+            region:"Mwanza"
+            clean_candidates_2014:22
+            passed_candidates_2014:8
+            pass_2014:36
+            rank_2014:1892
+            more_than_40:0
+            code_2013:""
+            clean_candidates_2013:null
+            passed_candidates_2013:null
+            pass_2013:null
+            change_13_14:null
+            rank_2013:null
+            clean_candidates_2012:null
+            passed_candidates_2012:null
+            pass_2012:null
+            change_12_13:null
+            rank_2012:null
+            more_than_40_2013:null
+            ownership:""
+            ward:""
+            enrolled:""
+            teaching_staff:null
+            pt_ratio:null
+            non_teaching_staff_employed_by_school:""
+            non_teaching_staff_employed_by_government:""
+            district:""
+            longitude:32.9
+            latitude:-2.51667
+            location_is_ward:0
+            location_is_geocoder:1
+            loaction_is_district:0
+            location_is_approximate:1
+            cartodb_id:4407
+            created_at:"2015-04-06T19:08:09Z"
+            updated_at:"2015-04-06T19:08:09Z"
+          ]
+        req = $resource(corsApi + apiRoot + 'datastore_upsert', {},
+                  save: {
+                    method: 'POST'
+                    isArray: false
+                    headers: 'Authorization': '1495642d-ee14-401b-be64-19f7dfd7b23c'
+                  }
+        )
+
+        response = req.save(data)
+
 
       getMyData: () ->
         [
