@@ -2,7 +2,7 @@
 <div id="anchor-map"></div>
 
 
-<div class="map-widget">
+<div class="map-widget {{activeMap != 'districts' ? 'has-filters' : ''}}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
@@ -29,7 +29,10 @@
       </ol>
     </map-bottom-toggle>
 
-    <map-bottom-toggle title="{{ 'filters.title' | translate }}" class="filters">
+    <map-bottom-toggle
+      ng-if="activeMap!='districts'"
+      title="{{ 'filters.title' | translate }}"
+      class="filters">
       <p>Filters body...</p>
     </map-bottom-toggle>
 
