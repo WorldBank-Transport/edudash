@@ -9,10 +9,10 @@
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 
+    '$timeout', 'MetricsSrv'
     
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv) ->
         primary = 'primary'
         secondary = 'secondary'
         title =
@@ -158,7 +158,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
-            $scope.selectedSchool['pupil-teacher-ration'] = 56
             unless showAllSchools? and showAllSchools == false
                 $scope.activeMap = 'schools'
                 $scope.showLayer('schools')
@@ -186,7 +185,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               if $scope.activeMap == 'schools'
                 console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
-                chartSrv.drawPassOverTime item
+                $scope.passratetime = chartSrv.drawPassOverTime item
+
             , 400)
 
         $scope.getTimes = (n) ->
@@ -253,11 +253,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             {name: 'Kigoma Municipal', rate: -6, location: [-4.8895048727, 29.6652013888]}
             {name: 'Kibaha', rate: -5, location: [-6.8174266213, 38.5509159068]}
           ]
-          $scope.pupilTeacherRatio = 41
-          $scope.passrate = 58
-          $scope.passRateChange = 0
-          $scope.passratetime =
-              y: [25, 71, 45]
-              x: [2012, 2013, 2014]
+        MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
+          $scope.pupilTeacherRatio = data.rate
+        WorldBankApi.getGlobalPassrate($scope.schoolType).success (data) ->
+          $scope.passrate = data.rows[0].avg
+        WorldBankApi.getGlobalChange($scope.schoolType).success (data) ->
+          $scope.passRateChange = parseInt data.rows[0].avg
 
 ]

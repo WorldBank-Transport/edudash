@@ -103,4 +103,14 @@ angular.module 'edudashAppSrv'
                                       WHERE (pass_2014 >= #{ passRange.min } AND pass_2014 <= #{ passRange.max })
                                       AND (pt_ratio >= #{ ptRange.min } AND pt_ratio <= #{ ptRange.max })")
 
+      getGlobalPassrate: (educationLevel, year) ->
+        selectedYear = if year? then year else '2014'
+        schoolSql = "SELECT AVG(pass_#{selectedYear}) FROM wbank.tz_#{educationLevel}_cleaned_dashboard"
+        $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
+
+      getGlobalChange: (educationLevel) ->
+        schoolSql = "SELECT AVG(change_12_13) FROM wbank.tz_#{educationLevel}_cleaned_dashboard"
+        $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
+
+
   ]
