@@ -1,10 +1,14 @@
-@import "_variables";
-@import "_mixins.scss";
+@import "variables";
+@import "mixins";
+
+@import "layout";
+@import "flyout";
+
+@import "cartodbhacks";  // remove when cartodb is gone
+
 
 /* Space out content a bit */
 body {
-  height: 100%;
-  width: 100%;
   display: block;
   font-family: 'Open Sans', sans-serif;
 }
@@ -58,13 +62,7 @@ body {
   background:#fff;
 }
 
-@media (max-width: 767px){
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-        color: #F3F3F4;
-    }
-}
-
-@media (max-width: 1024px){
+@media (max-width: $f) {
     .nav > li > a {
         padding: 10px 8px;
     }
@@ -82,19 +80,6 @@ body {
   padding-bottom: 19px;
 }
 
-/* Customize container */
-@media (min-width: 768px) {
-    .container {
-        max-width: 75%;
-    }
-    .dashboard-container{
-        padding-top: 30px;
-        padding-bottom: 20px
-    }
-}
-.container-narrow > hr {
-  margin: 30px 0;
-}
 
 /* Main marketing message and sign up button */
 .jumbotron {
@@ -133,28 +118,7 @@ body {
 .navbar{
     margin-bottom: 0;
 }
-.map-control-container{
-    position: absolute;
-    left: 7px;
-    bottom: 7px;
-}
-.map-control{
-    background: #FFF;
-    border-radius: 2px;
-    border: 1px solid #C0C0C0;
-    max-width: 250px;
-    min-width: 120px;
-    display: block;
-    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd);
-    margin: 10px
-}
-.map-control-header{
-    padding: 7px;
-    color: $theme-blue;
-    margin-top: 0px;
-    margin-bottom: 5px;
-}
+
 /* Map hover */
 .map-container div.cartodb-tooltip {
     position: absolute;
@@ -183,7 +147,7 @@ body {
     margin-bottom: 8px;
 }
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $b) {
     /* Remove the padding we set earlier */
     .header,
     .marketing {
@@ -202,7 +166,7 @@ body {
   width: 500px;
   margin-top:26px;
 }
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width: $e) {
   #main-nav-items{
     width: 70%;
     position:absolute;
@@ -213,21 +177,8 @@ body {
     float:right;
   }
 }
-@media only screen and (max-width : 768px) {
-
 }
 
-}
-@media screen and (min-width: 900px) {
-    .map-details-container{
-        max-width: 450px;
-    }
-}
-@media screen and (min-width: 768px) {
-    .map-control-container {
-        bottom: 230px;
-    }
-}
 
 .preload {
     display:none;
@@ -415,7 +366,7 @@ div.cartodb-share a{
 .show-sm{
     display: none;
 }
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c) {
     .hide-sm{
         display: none;
     }
@@ -424,7 +375,7 @@ div.cartodb-share a{
     }
 }
 
-@media screen and (max-width : 480px) {
+@media screen and (max-width: $a) {
     .nav-tabs > li > a{
         font-size: 10px;
     }
@@ -465,7 +416,7 @@ div.cartodb-share a{
     top: 24px;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c) {
     #schoolinfo .top-school-badge{
         top: 30px;
     }
@@ -522,7 +473,7 @@ div.cartodb-share a{
     margin-right: 10px;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c) {
     #schoolinfo .widgetnumber {
         font-size: 18px;
         font-weight: 800;
@@ -701,7 +652,7 @@ table.districts p {
     margin-top: 25px;
     min-height: 600px;
 }
-@media screen and (min-width: 850px){
+@media screen and (min-width: $c) {
     #generalcontent {
         width: 800px;
     }
@@ -742,7 +693,7 @@ table.districts p {
 }
 
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: $b) {
   #generalcontent a.boxlink {
     font-size: 13px;
   }
@@ -760,7 +711,7 @@ table.districts p {
     height: 800px;
     width: 760px
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: $b) {
     .google-form{
         width: 100%;
     }
@@ -853,7 +804,7 @@ table.districts p {
 }
 
 /*responsive behavior for language nav*/
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width : $e) {
   .navbar-collapse.navbar-lang{
     width:165px;
     background:none;
@@ -868,7 +819,7 @@ table.districts p {
   }
 }
 
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : $b) {
   .navbar-collapse.navbar-lang{
     width:150px;
     float:none;
@@ -895,7 +846,7 @@ table.districts p {
 }
 
 /* Language nav got extra small devices, phones */
-@media only screen and (max-width : 480px) {
+@media only screen and (max-width: $a) {
   .navbar-collapse.navbar-lang{
     display:none;
     /*temporary*/
@@ -971,41 +922,12 @@ ul.dropdown-menu{
   padding: 10px 15px;
 }
 
-/* Layout framework */
-
-.map-widget {
-  /* establish a positioning context for the rest of the app components */
-  position: absolute;
-  top: $header-height;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-/* Map */
-.map-position-wrap {
-  position: absolute;
-  top: $nav-height;
-  left: 0;
-  right: $sidebar-width;
-  bottom: 0;
-}
-#map {
-  height: 100%;
-}
 
 // Map bottom bar
 .bottom-white-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: $bottom-bar-height;
   background: $map-overlay;
 }
 map-bottom-toggle {
-  z-index: 1;
-  position: absolute;
-  bottom: $bottom-bar-height + 1;
   header {
     height: $bottom-bar-height;
     background: $map-overlay;
@@ -1037,7 +959,6 @@ map-bottom-toggle {
   }
 }
 map-bottom-toggle.legend {
-  width: 50%;
   h4 {
     max-width: $legend-content-width;
     margin: 15px auto 10px;
@@ -1111,76 +1032,17 @@ map-bottom-toggle.legend {
   }
 }
 map-bottom-toggle.filters {
-  width: 50%;
-  left: 50%;
   padding-left: 1px;  // gap
 }
 
 /* Sidebar */
 .sidebar {
-  position: absolute;
-  top: $nav-height;
-  right: 0;
-  bottom: 0;
-  width: $sidebar-width;
-  overflow-y: auto;
   padding-top: 10px;
 }
 .sidebar .contained {  /* hack for search for now */
-  width: $sidebar-width;
   margin: 0;
 }
 
-
-/* Map fly-out */
-.map-flyout {
-  position: absolute;
-  right: $sidebar-width;
-  top: $nav-height;
-  bottom: $bottom-bar-height + 1px;
-  width: $flyout-width;
-  padding: 15px 30px;
-  background: hsla(0, 0%, 97%, 0.9);
-  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
-  overflow-y: auto;
-  .has-filters & {
-    bottom: ($bottom-bar-height + 1px) * 2;
-  }
-}
-.map-flyout header,
-.map-flyout .stat {
-  margin: 1em 0;
-}
-.map-flyout h2, h3, h4 {
-  margin: 0;
-  font-size: 1em;
-  font-weight: normal;
-  color: #444;
-}
-.map-flyout h4 {
-  font-style: italic;
-  color: #666;
-}
-.map-flyout .word,
-.map-flyout .number {
-  margin: 0;
-  font-weight: bold;
-  color: #05a2dc;
-}
-.map-flyout .word {
-  font-size: 1.2em;
-}
-.map-flyout .number {
-  font-size: 2.8em;
-}
-.map-flyout .number.good {
-  color: #38a21c;
-}
-.map-flyout .stat .stat .number,
-.map-flyout header .stat .number {
-  font-size: 2em;
-  color: #666;
-}
 
 .text-red {
     color: $rank-poor;
