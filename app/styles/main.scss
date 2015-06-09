@@ -692,15 +692,15 @@ table.districts p {
 }
 /* General content */
 #generalcontent {
-    margin: 0 auto;
-    font-family: 'Open Sans', sans-serif;
-    color: $theme-blue;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    margin-top: 25px;
-    min-height: 600px;
-    @include content-border;
+  @include content-border;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  color: $theme-blue;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  margin-top: 25px;
+  min-height: 600px;
 }
 @media screen and (min-width: 850px){
     #generalcontent {
@@ -729,16 +729,16 @@ table.districts p {
     margin: 20px 0;
 }
 #generalcontent a.boxlink {
-    background-color: $theme-blue;
-    color: #FFFFFF;
-    font-weight: 300;
-    font-size: 12px;
-    text-transform:uppercase;
-    margin: 20px auto;
-    display: block;
-    max-width: 220px;
-    padding:5px 15px;
-    @include border-radius(5px);
+  @include border-radius(5px);
+  background-color: $theme-blue;
+  color: #FFFFFF;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform:uppercase;
+  margin: 20px auto;
+  display: block;
+  max-width: 220px;
+  padding:5px 15px;
 }
 
 
