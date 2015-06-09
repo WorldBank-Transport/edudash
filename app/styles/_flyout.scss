@@ -1,0 +1,48 @@
+.map-flyout {
+  position: absolute;
+  right: $sidebar-width;
+  top: $nav-height;
+  bottom: $bottom-bar-height + 1px;
+  width: $flyout-width;
+  padding: 15px 30px;
+  background: hsla(0, 0%, 97%, 0.9);
+  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
+  overflow-y: auto;
+  .has-filters & {
+    bottom: ($bottom-bar-height + 1px) * 2;
+  }
+  header,
+  .stat {
+    margin: 1em 0;
+  }
+  h2, h3, h4 {
+    margin: 0;
+    font-size: 1em;
+    font-weight: normal;
+    color: #444;
+  }
+  h4 {
+    font-style: italic;
+    color: #666;
+  }
+  .word,
+  .number {
+    margin: 0;
+    font-weight: bold;
+    color: #05a2dc;
+  }
+  .word {
+    font-size: 1.2em;
+  }
+  .number {
+    font-size: 2.8em;
+  }
+  .number.good {
+    color: #38a21c;
+  }
+  .stat .stat .number,
+  header .stat .number {
+    font-size: 2em;
+    color: #666;
+  }
+}
