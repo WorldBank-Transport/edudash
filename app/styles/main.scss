@@ -732,14 +732,15 @@ table.districts p {
     background-color: $theme-blue;
     color: #FFFFFF;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 13px;
+    text-transform:uppercase;
     padding-left: 10px;
     padding-right: 10px;
     margin-right: auto;
     margin-left: auto;
     display: block;
     max-width: 200px;
-    padding:10px 20px;
+    padding:5px 25px;
     @include border-radius(5px);
 }
 
@@ -1209,5 +1210,7 @@ map-bottom-toggle.filters {
 .page-title{
   color: $grey-light;
   font-size:28px;
-  font-weight:100;
+  line-height:34px;
+  font-weight:300;
+  padding-top: 50px;
 }
