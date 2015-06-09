@@ -255,10 +255,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           ]
         MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
           $scope.pupilTeacherRatio = data.rate
-        $scope.passrate = 58
-        $scope.passRateChange = 0
-#        $scope.passratetime =
-#            y: [25, 71, 45]
-#            x: [2012, 2013, 2014]
+        WorldBankApi.getGlobalPassrate($scope.schoolType).success (data) ->
+          $scope.passrate = data.rows[0].avg
+        WorldBankApi.getGlobalChange($scope.schoolType).success (data) ->
+          $scope.passRateChange = parseInt data.rows[0].avg
 
 ]
