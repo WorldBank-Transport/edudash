@@ -12,7 +12,9 @@ $rank-poor: #f56053;
 
 $unknown: #aaa;
 
-$map-overlay: hsla(0, 0%, 97%, 0.9);
+$map-overlay: hsla(0, 0%, 100%, 0.9);
+$map-overlay-edge: hsla(0, 0%, 0%, 0.1);
+$map-overlay-outline: -1px -1px 0 $map-overlay-edge;
 
 // Layout
 

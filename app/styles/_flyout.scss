@@ -5,8 +5,8 @@
   bottom: $bottom-bar-height + 1px;
   width: $flyout-width;
   padding: 15px 30px;
-  background: hsla(0, 0%, 97%, 0.9);
-  border-left: 1px solid hsla(0, 0%, 85%, 0.5);
+  background: $map-overlay;
+  box-shadow: $map-overlay-outline;
   overflow-y: auto;
   .has-filters & {
     bottom: ($bottom-bar-height + 1px) * 2;
