@@ -1,12 +1,12 @@
 @import "variables";
 @import "mixins";
 
+@import "layout";
 @import "flyout";
+
 
 /* Space out content a bit */
 body {
-  height: 100%;
-  width: 100%;
   display: block;
   font-family: 'Open Sans', sans-serif;
 }
@@ -973,41 +973,12 @@ ul.dropdown-menu{
   padding: 10px 15px;
 }
 
-/* Layout framework */
-
-.map-widget {
-  /* establish a positioning context for the rest of the app components */
-  position: absolute;
-  top: $header-height;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-/* Map */
-.map-position-wrap {
-  position: absolute;
-  top: $nav-height;
-  left: 0;
-  right: $sidebar-width;
-  bottom: 0;
-}
-#map {
-  height: 100%;
-}
 
 // Map bottom bar
 .bottom-white-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: $bottom-bar-height;
   background: $map-overlay;
 }
 map-bottom-toggle {
-  z-index: 1;
-  position: absolute;
-  bottom: $bottom-bar-height + 1;
   header {
     height: $bottom-bar-height;
     background: $map-overlay;
@@ -1039,7 +1010,6 @@ map-bottom-toggle {
   }
 }
 map-bottom-toggle.legend {
-  width: 50%;
   h4 {
     max-width: $legend-content-width;
     margin: 15px auto 10px;
@@ -1113,23 +1083,14 @@ map-bottom-toggle.legend {
   }
 }
 map-bottom-toggle.filters {
-  width: 50%;
-  left: 50%;
   padding-left: 1px;  // gap
 }
 
 /* Sidebar */
 .sidebar {
-  position: absolute;
-  top: $nav-height;
-  right: 0;
-  bottom: 0;
-  width: $sidebar-width;
-  overflow-y: auto;
   padding-top: 10px;
 }
 .sidebar .contained {  /* hack for search for now */
-  width: $sidebar-width;
   margin: 0;
 }
 
