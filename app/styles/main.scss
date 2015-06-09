@@ -326,7 +326,7 @@ table.schools p {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 300;
-    color: #717171;
+    color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -614,7 +614,7 @@ table.districts p {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 300;
-    color: #717171;
+    color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -711,9 +711,9 @@ table.districts p {
 }
 
 #generalcontent p.text {
-    color: #717171;
+    color: $body-text-color;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 20px;
     text-align: left;
 }
@@ -732,15 +732,12 @@ table.districts p {
     background-color: $theme-blue;
     color: #FFFFFF;
     font-weight: 300;
-    font-size: 13px;
+    font-size: 12px;
     text-transform:uppercase;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 20px auto;
     display: block;
-    max-width: 200px;
-    padding:5px 25px;
+    max-width: 220px;
+    padding:5px 15px;
     @include border-radius(5px);
 }
 
@@ -1209,7 +1206,7 @@ map-bottom-toggle.filters {
 // homepage
 .page-title{
   color: $grey-light;
-  font-size:28px;
+  font-size:30px;
   line-height:34px;
   font-weight:300;
   padding-top: 50px;
