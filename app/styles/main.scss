@@ -127,8 +127,8 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
-    border-top:12px solid #1aa4db;
     background:#f6f6f6;
+    @include content-border;
 }
 .navbar{
     margin-bottom: 0;
@@ -243,7 +243,7 @@ h1 {
     font-family: 'Open Sans', sans-serif;
     color: #1595d3;
     text-transform:uppercase;
-    dislay:inline-block;
+    display:inline-block;
     margin-top:16px;
     font-size:18px;
     font-weight:700;
@@ -700,6 +700,7 @@ table.districts p {
     line-height: 24px;
     margin-top: 25px;
     min-height: 600px;
+    @include content-border;
 }
 @media screen and (min-width: 850px){
     #generalcontent {
@@ -1208,8 +1209,5 @@ map-bottom-toggle.filters {
 .page-title{
   color: $grey-light;
   font-size:28px;
-}
-
-.btn-link{
-  color: $theme-blue;
+  font-weight:100;
 }
