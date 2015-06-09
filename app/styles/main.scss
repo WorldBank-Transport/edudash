@@ -60,13 +60,7 @@ body {
   background:#fff;
 }
 
-@media (max-width: $b) {
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-        color: #F3F3F4;
-    }
-}
-
-@media (max-width: $f){
+@media (max-width: $f) {
     .nav > li > a {
         padding: 10px 8px;
     }
@@ -84,19 +78,6 @@ body {
   padding-bottom: 19px;
 }
 
-/* Customize container */
-@media (min-width: $b) {
-    .container {
-        max-width: 75%;
-    }
-    .dashboard-container{
-        padding-top: 30px;
-        padding-bottom: 20px
-    }
-}
-.container-narrow > hr {
-  margin: 30px 0;
-}
 
 /* Main marketing message and sign up button */
 .jumbotron {
@@ -135,28 +116,7 @@ body {
 .navbar{
     margin-bottom: 0;
 }
-.map-control-container{
-    position: absolute;
-    left: 7px;
-    bottom: 7px;
-}
-.map-control{
-    background: #FFF;
-    border-radius: 2px;
-    border: 1px solid #C0C0C0;
-    max-width: 250px;
-    min-width: 120px;
-    display: block;
-    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd);
-    margin: 10px
-}
-.map-control-header{
-    padding: 7px;
-    color: $theme-blue;
-    margin-top: 0px;
-    margin-bottom: 5px;
-}
+
 /* Map hover */
 .map-container div.cartodb-tooltip {
     position: absolute;
@@ -215,21 +175,8 @@ body {
     float:right;
   }
 }
-@media only screen and (max-width: $b) {
-
 }
 
-}
-@media screen and (min-width: $d) {
-    .map-details-container{
-        max-width: 450px;
-    }
-}
-@media screen and (min-width: $b) {
-    .map-control-container {
-        bottom: 230px;
-    }
-}
 
 .preload {
     display:none;
@@ -417,7 +364,7 @@ div.cartodb-share a{
 .show-sm{
     display: none;
 }
-@media screen and (max-width: $c){
+@media screen and (max-width: $c) {
     .hide-sm{
         display: none;
     }
@@ -467,7 +414,7 @@ div.cartodb-share a{
     top: 24px;
 }
 
-@media screen and (max-width: $c){
+@media screen and (max-width: $c) {
     #schoolinfo .top-school-badge{
         top: 30px;
     }
@@ -524,7 +471,7 @@ div.cartodb-share a{
     margin-right: 10px;
 }
 
-@media screen and (max-width: $c){
+@media screen and (max-width: $c) {
     #schoolinfo .widgetnumber {
         font-size: 18px;
         font-weight: 800;
@@ -703,7 +650,7 @@ table.districts p {
     margin-top: 25px;
     min-height: 600px;
 }
-@media screen and (min-width: $c){
+@media screen and (min-width: $c) {
     #generalcontent {
         width: 800px;
     }
@@ -744,7 +691,7 @@ table.districts p {
 }
 
 
-@media screen and (max-width: $b){
+@media screen and (max-width: $b) {
   #generalcontent a.boxlink {
     font-size: 13px;
   }
@@ -762,7 +709,7 @@ table.districts p {
     height: 800px;
     width: 760px
 }
-@media screen and (max-width: $b){
+@media screen and (max-width: $b) {
     .google-form{
         width: 100%;
     }
