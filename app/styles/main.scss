@@ -703,7 +703,6 @@ table.districts p {
 }
 @media screen and (min-width: 850px){
     #generalcontent {
-        width: 800px;
     }
 }
 #generalcontent p {
@@ -739,6 +738,8 @@ table.districts p {
     margin-left: auto;
     display: block;
     max-width: 200px;
+    padding:10px 20px;
+    @include border-radius(5px);
 }
 
 
@@ -1201,4 +1202,14 @@ map-bottom-toggle.filters {
   margin-bottom: 2;
   fill: #05a2dc;
   width: 100%;
+}
+
+// homepage
+.page-title{
+  color: $grey-light;
+  font-size:28px;
+}
+
+.btn-link{
+  color: $theme-blue;
 }
