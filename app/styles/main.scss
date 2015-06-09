@@ -60,13 +60,13 @@ body {
   background:#fff;
 }
 
-@media (max-width: 767px){
+@media (max-width: $b) {
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #F3F3F4;
     }
 }
 
-@media (max-width: 1024px){
+@media (max-width: $f){
     .nav > li > a {
         padding: 10px 8px;
     }
@@ -85,7 +85,7 @@ body {
 }
 
 /* Customize container */
-@media (min-width: 768px) {
+@media (min-width: $b) {
     .container {
         max-width: 75%;
     }
@@ -185,7 +185,7 @@ body {
     margin-bottom: 8px;
 }
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $b) {
     /* Remove the padding we set earlier */
     .header,
     .marketing {
@@ -204,7 +204,7 @@ body {
   width: 500px;
   margin-top:26px;
 }
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width: $e) {
   #main-nav-items{
     width: 70%;
     position:absolute;
@@ -215,17 +215,17 @@ body {
     float:right;
   }
 }
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width: $b) {
 
 }
 
 }
-@media screen and (min-width: 900px) {
+@media screen and (min-width: $d) {
     .map-details-container{
         max-width: 450px;
     }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: $b) {
     .map-control-container {
         bottom: 230px;
     }
@@ -417,7 +417,7 @@ div.cartodb-share a{
 .show-sm{
     display: none;
 }
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c){
     .hide-sm{
         display: none;
     }
@@ -426,7 +426,7 @@ div.cartodb-share a{
     }
 }
 
-@media screen and (max-width : 480px) {
+@media screen and (max-width: $a) {
     .nav-tabs > li > a{
         font-size: 10px;
     }
@@ -467,7 +467,7 @@ div.cartodb-share a{
     top: 24px;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c){
     #schoolinfo .top-school-badge{
         top: 30px;
     }
@@ -524,7 +524,7 @@ div.cartodb-share a{
     margin-right: 10px;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: $c){
     #schoolinfo .widgetnumber {
         font-size: 18px;
         font-weight: 800;
@@ -703,7 +703,7 @@ table.districts p {
     margin-top: 25px;
     min-height: 600px;
 }
-@media screen and (min-width: 850px){
+@media screen and (min-width: $c){
     #generalcontent {
         width: 800px;
     }
@@ -744,7 +744,7 @@ table.districts p {
 }
 
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: $b){
   #generalcontent a.boxlink {
     font-size: 13px;
   }
@@ -762,7 +762,7 @@ table.districts p {
     height: 800px;
     width: 760px
 }
-@media screen and (max-width: 768px){
+@media screen and (max-width: $b){
     .google-form{
         width: 100%;
     }
@@ -855,7 +855,7 @@ table.districts p {
 }
 
 /*responsive behavior for language nav*/
-@media only screen and (max-width : 992px) {
+@media only screen and (max-width : $e) {
   .navbar-collapse.navbar-lang{
     width:165px;
     background:none;
@@ -870,7 +870,7 @@ table.districts p {
   }
 }
 
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : $b) {
   .navbar-collapse.navbar-lang{
     width:150px;
     float:none;
@@ -897,7 +897,7 @@ table.districts p {
 }
 
 /* Language nav got extra small devices, phones */
-@media only screen and (max-width : 480px) {
+@media only screen and (max-width: $a) {
   .navbar-collapse.navbar-lang{
     display:none;
     /*temporary*/
