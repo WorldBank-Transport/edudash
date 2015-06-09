@@ -46,28 +46,16 @@ body {
 }
 
 .navbar-toggle{
-  background:#05a2dc;
+  background: $theme-blue;
 }
 
 .navbar-toggle:hover,
 .navbar-toggle:focus {
-    background-color: #0576a4;
+  background-color: $theme-blue4;
 }
 
 .navbar-toggle .icon-bar{
   background:#fff;
-}
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-    background-color: $theme-blue-nav;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: $theme-blue3;
-}
-
-.navbar-default .navbar-toggle {
-    border-color: $theme-blue-nav;
 }
 
 @media (max-width: 767px){
