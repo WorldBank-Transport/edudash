@@ -198,33 +198,22 @@
                     </div>
                 </form>
                 <div ng-if="activeMap=='districts'">
-                    <div ng-if="schoolType=='primary'">
-                        <div id="districtinfo" class="container-fluid">
-
-                            <div class="row">
-                                <top-district-list title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
-                                <top-district-list title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
-                            </div>
-                            <div class="row">
-                                <top-district-list title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
-                                <top-district-list title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
-                            </div>
+                    <div id="districtinfo" class="container-fluid">
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li role="presentation" ng-class="{active: performace}" ng-init="performace=true"><a ng-click="performace=true">Performance</a></li>
+                                <li role="presentation" ng-class="{active: !performace}"><a ng-click="performace=false">Improvement</a></li>
+                            </ul>
                         </div>
-                    </div>
-
-                    <div ng-if="schoolType=='secondary'">
-                        <div id="districtinfo" class="container-fluid">
-
-                            <div class="row">
-                                <top-district-list title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
-                                <top-district-list title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
-                            </div>
-                            <div class="row">
-                                <top-district-list title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
-                                <top-district-list title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
-                            </div>
-
+                        <div ng-show="performace">
+                            <top-district-list class="row" title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
+                            <top-district-list class="row" title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
                         </div>
+                        <div ng-hide="performace">
+                            <top-district-list class="row" title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
+                            <top-district-list class="row" title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
+                        </div>
+
                     </div>
                 </div>
 
