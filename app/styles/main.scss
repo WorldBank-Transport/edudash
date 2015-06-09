@@ -509,20 +509,22 @@ div.cartodb-share a{
 }
 
 /* Distict info */
+#districtinfo{
+ padding-right:50px;
+}
 
 p.tableheaderdistrict {
     background-color: $theme-blue;
-    width: 200px;
+    width: 205px;
     height: 30px;
     border-radius: 15px;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     color: white;
     font-weight: 400;
-    font-size: 14px;
-    margin-left: 10px;
+    font-size: 13px;
     margin-right: 10px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 table.districts {
@@ -534,14 +536,14 @@ table.districts {
 
 table.districts td {
     /*border-bottom: 1px dotted #e3e3e3;*/
-    height: 35px;
+    height: 25px;
     white-space: nowrap;
 }
 
 table.districts td.rank {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     width: 20px;
     text-align: right;
 }
@@ -549,7 +551,7 @@ table.districts td.rank {
 table.districts td.name {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 13px;
     width: 125px;
     text-align:left;
     padding-left: 8px;
