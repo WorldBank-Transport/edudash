@@ -384,12 +384,23 @@ div.cartodb-share a{
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
+  outline:none;
+}
+.ui-select-toggle{
+  outline:none;
+}
+.ui-select-bootstrap > .ui-select-choices{
+  margin-top:0;
 }
 .container-fluid.map-nav{
     padding-left: 0;
 }
 .select2-highlighted .text-muted{
     color: #EEEEF5
+}
+
+.form-horizontal{
+  margin-bottom:20px;
 }
 /* School info */
 #schoolinfo-plaholder{
@@ -403,9 +414,9 @@ div.cartodb-share a{
     /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
-    padding-top: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 15px;
+    padding-left: 30px;
+    padding-right: 20px;
     padding-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
 }
@@ -461,7 +472,7 @@ div.cartodb-share a{
     color: #828282;
     text-transform: uppercase;
     margin-top: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 9px;
 }
 
 #schoolinfo .widgetnumber {
