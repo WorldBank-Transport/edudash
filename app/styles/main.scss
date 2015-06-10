@@ -210,7 +210,7 @@ h1 {
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 260px;
+    height: 246px;
     border: 1px solid #e3e3e3;
     margin-bottom: 20px;
     margin-left: auto;
@@ -253,7 +253,7 @@ table.schools td.name {
     font-weight: 400;
     font-size: 14px;
     text-align:left;
-    padding-left: 8px;
+    padding:8px;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
@@ -308,7 +308,7 @@ img.face {
 
 /* ----------------- */
 .perfomance-gauges{
-  padding-bottom: 30px
+  padding-bottom: 20px
 }
 .perfomance-gauges .col-sm-4{
   padding: 0;
