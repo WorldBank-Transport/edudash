@@ -28,7 +28,7 @@ angular.module 'edudashAppDir'
             plotBorderWidth: 0
             plotShadow: false
             height: 110
-            width: width
+            width: width + 20
             margin: [0, 0, 0, 0]
             spacingLeft: 1
           credits:
@@ -37,8 +37,8 @@ angular.module 'edudashAppDir'
             text: "<span style='font-size: 10px;'>#{attrs.title}</span>"
             useHTML: true
             y: 70
-            x: 80
-            width: width
+            x: 70
+            width: width + 40
             align: 'center'
             style:
               color: '#05a2dc'
@@ -61,7 +61,7 @@ angular.module 'edudashAppDir'
                 format: attrs.format
                 style:
                   fontWeight: 'bold'
-                  fontSize: '14px'
+                  fontSize: '12px'
                   color: labelColor
                   textShadow: null
               dial:
@@ -117,4 +117,4 @@ angular.module 'edudashAppDir'
       datasource = attrs.datasource
       scope.$watch datasource, (newValue, oldValue) ->
         if newValue
-          update(parseFloat(newValue.toFixed(2)))
+          update(parseFloat(newValue.toFixed(1)))
