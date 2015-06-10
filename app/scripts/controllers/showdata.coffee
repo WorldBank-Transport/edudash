@@ -9,7 +9,7 @@
 ###
 angular.module 'edudashAppCtrl'
 .controller 'ShowdataCtrl', [
-    '$scope', '$log', 'OpenDataApi', 'MetricsSrv'
+    '$scope', '$log', 'OpenDataApi'
     ($scope, $log, OpenDataApi, MetricsSrv) ->
       simpleCSV = 'http://opendata.go.tz/sw/dataset/3de642ad-fac1-46d8-a95b-e4a10be184db/resource/3221ccb4-3b75-4137-a8bd-471a436ed7a5/download/Enrolment-by-Regions.csv'
       OpenDataApi.getCsv(simpleCSV).getDataSet (data) ->
@@ -51,11 +51,6 @@ angular.module 'edudashAppCtrl'
       $scope.savedata = () ->
         response = OpenDataApi.saveData()
         console.log response
-
-      $scope.passrate = () ->
-        r = MetricsSrv.getPupilTeacherRatio({level: 'primary'})
-        r.then (data) ->
-          console.log(data)
 
 
       $scope.awesomeThings = [
