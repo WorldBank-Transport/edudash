@@ -21,7 +21,7 @@
     "tab.secondary-schools-mode": "Secondary Schools",
     "legend.title": "Legend",
     "legend.unknown": "Unknown",
-    "legend.passrate": "Passrate (%)",
+    "legend.passrate": "Pass Rate",
     "legend.ptratio": "Pupil-Teacher Ratio",
     "filters.title": "filters",
     "filter.prate" : "PassRate (0% - 100%)",
