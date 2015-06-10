@@ -4,7 +4,7 @@
       id="map"
       layers="layers"
       school-type="schoolType"
-      show-layer="showLayer">
+      show-layer="showView">
     </div>
     <div class="bottom-white-bar"></div>
 
@@ -100,20 +100,36 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: activeMap=='schools'}"><a ng-click="showLayer('schools')" translate="tab.school">Schools</a></li>
-          <li role="presentation" ng-class="{active: activeMap=='performance'}">
-            <a ng-click="showLayer('performance')">
-              <span class="hide-sm" translate="tab.best-worst-performance">Best & Worst Perfomance</span>
-              <span class="show-sm" translate="tab.best-worst">Best & Worst</span>
+          <li role="presentation" ng-class="{active: activeMap=='national'}">
+            <a ng-click="showView('national')">
+              <span class="hide-sm" translate="tab.national-view">National View</span>
+              <span class="show-sm" translate="tab.national">National</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: activeMap=='improvement'}">
-            <a ng-click="showLayer('improvement')">
-              <span class="hide-sm" translate="tab.best-worst-improvements">Best & Worst Improvements</span>
-              <span class="show-sm" translate="tab.improvements">Improvements</span>
+          <li role="presentation" ng-class="{active: activeMap=='regional'}">
+            <a ng-click="showView('regional')">
+              <span class="hide-sm" translate="tab.regional-view">Regional View</span>
+              <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: activeMap=='districts'}"><a ng-click="showLayer('districts')" translate="tab.districts">Districts</a></li>
+          <li role="presentation" ng-class="{active: activeMap=='district'}">
+            <a ng-click="showView('district')">
+              <span class="hide-sm" translate="tab.district-view">District View</span>
+              <span class="show-sm" translate="tab.district">District</span>
+            </a>
+          </li>
+          <li role="presentation" ng-class="{active: schoolMode=='primary'}">
+            <a ng-click="switchSchool('primary')">
+              <span class="hide-sm" translate="tab.primary-schools-mode">Primary Schools</span>
+              <span class="show-sm" translate="tab.primary">Primary</span>
+            </a>
+          </li>
+          <li role="presentation" ng-class="{active: schoolMode=='secondary'}">
+            <a ng-click="switchSchool('secondary')">
+              <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
+              <span class="show-sm" translate="tab.secondary">Secondary</span>
+            </a>
+          </li>
         </ul>
 
         <div ng-if="activeMap!='districts'" class="map-control-container">
