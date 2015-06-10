@@ -182,8 +182,11 @@
                 </div>
                 <form class="form-horizontal">
                     <div class="form-group contained">
-                        <div class="col-xs-2 text-right control-label" style="padding-right: 1px"><img src="images/searchicon.png"></div>
+                        <div class="col-xs-2 text-right control-label" style="padding-right: 1px">
+                          <img src="images/searchicon.png" class="pull-right">
+                        </div>
                         <div class="col-xs-9">
+
                             <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
                                 <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
                                 <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">

@@ -384,10 +384,33 @@ div.cartodb-share a{
     }
 }
 
+.btn-default{
+  border-color: #ffffff;
+}
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
+  border: 1px solid #ffffff;
   outline:none;
+  border-color: #ffffff;
+}
+.search-schools{
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  border-top:2px solid #e1e1e1;
+  border-bottom:2px solid #e1e1e1;
+  .form-control{
+    &:hover{
+      background: #ffffff;
+      border: 1px solid #ffffff;
+    }
+    &:focus{
+      outline:none;
+    }
+  }
 }
 .ui-select-toggle{
   outline:none;
