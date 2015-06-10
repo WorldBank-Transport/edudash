@@ -112,6 +112,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         WorldBankApi.leastImprovedSchools($scope.schoolType).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
+        $scope.setSchoolType = (to) ->
+          $location.path "/dashboard/#{to}/"
+
         $scope.showLayer = (view) ->
           $scope.activeMap = view
           cartodbLayers.forEach (id) ->
