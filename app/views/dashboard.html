@@ -131,52 +131,6 @@
             </a>
           </li>
         </ul>
-
-        <div ng-if="activeMap!='districts'" class="map-control-container">
-          <div class="map-control container-fluid">
-            <div class="text-info map-control-header">
-              <span ng-click="toggleMapFilter()" translate="map.filter">Map filters</span>
-              <a ng-if="openMapFilter" ng-click="toggleMapFilter()" class="pull-right">[-]</a>
-              <a ng-if="!openMapFilter" ng-click="toggleMapFilter()" class="pull-right">[+]</a>
-            </div>
-            <div class="map-control-body" ng-show="openMapFilter">
-              <small>
-                <label>Pass rate: {{ passRange.min }}% - {{ passRange.max }}%</label>
-                <div range-slider min="0" max="100" model-min="passRange.min" model-max="passRange.max"></div>
-              </small>
-              <small>
-                <label>Pupil teacher ratio: {{ ptRange.min }} - {{ ptRange.max }}</label>
-                <div range-slider min="0" max="150" model-min="ptRange.min" model-max="ptRange.max"></div>
-              </small>
-            </div>
-          </div>
-
-          <div class="map-control container-fluid">
-            <div id="legend" class="schools">
-              <p class="title">
-                <span ng-click="toggleSchoolLegend()" translate="map.legend">Legend</span>
-                <a ng-if="openSchoolLegend" ng-click="toggleSchoolLegend()" class="pull-right">[-]</a>
-                <a ng-if="!openSchoolLegend" ng-click="toggleSchoolLegend()" class="pull-right">[+]</a>
-              </p>
-              <div ng-show="openSchoolLegend">
-                Passrate (%):
-                <br><img src="images/legend_schools_passrate.png" style="padding-top: 9px;">
-                <br>Pupil-teacher ratio:
-                <br><img src="images/legend_schools_ratio.png" style="padding-top: 9px;">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div ng-if="activeMap=='districts'">
-          <div class="map-control container-fluid">
-            <div id="legend" class="districts">
-              <p class="title" translate="map.legend">Legend</p>
-              {{'passrate-perc' | translate}}
-              <br><img src="images/legend_schools_passrate.png" style="padding-top: 9px;">
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="sidebar">
@@ -213,8 +167,10 @@
                   <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
                     <div ng-bind-html="school.name | highlight: $select.search"></div>
                     <small class="text-muted">
-                      {{'school.center-code' | translate}}: {{school.code}}<br>
-                      {{'school.district' | translate}}: <span ng-bind-html="''+school.district | highlight: $select.search"></span>
+                      {{'school.center-code' | translate}}: {{school.code}}
+                      <br>
+                      {{'school.district' | translate}}:
+                      <span ng-bind-html="''+school.district | highlight: $select.search"></span>
                     </small>
                   </ui-select-choices>
                 </ui-select>
