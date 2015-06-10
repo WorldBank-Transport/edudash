@@ -399,7 +399,9 @@ div.cartodb-share a{
 .select2-highlighted .text-muted{
     color: #EEEEF5
 }
-
+.ui-select-choices-row.active > a > .text-muted{
+  color:#eeeeee;
+}
 .form-horizontal{
   margin-bottom:20px;
 }
