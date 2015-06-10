@@ -1,8 +1,8 @@
 <div>
-    <div class="col-xs-3 col-sm-4 col-md-12" style="height: 64px">
+    <div class="col-md-12" style="height: 64px">
         <p ng-class="{'text-green': data >= max, 'text-yellow': data < max && data > min, 'text-red':data <= min}" class="big-character">{{sign}}{{ data }}%</p>
     </div>
-    <div class="col-xs-3 col-sm-4 col-md-12">
+    <div class="col-md-12" style="position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 0px; left: -5px; top: 64px;">
         <span class="chart-title">{{'chart.dial-title'| translate}} {{ since }}</span>
     </div>
 </div>

@@ -500,7 +500,6 @@ div.cartodb-share a{
 /* Distict info */
 
 p.tableheaderdistrict {
-    background-color: $theme-blue;
     width: 390px;
     height: 28px;
     border-radius: 5px;
@@ -512,6 +511,13 @@ p.tableheaderdistrict {
     margin-left: 1px;
     margin-right: 10px;
     margin-top: 10px;
+}
+p.tableheaderdistrictgood {
+  background-color: $rank-good;
+}
+
+p.tableheaderdistrictbad {
+  background-color: $rank-poor;
 }
 
 table.districts {
@@ -1057,11 +1063,15 @@ map-bottom-toggle.filters {
 }
 
 .big-character {
+  position: absolute;
   font-size: 36px;
   font-weight: 900;
   margin-top: 0px;
   margin-bottom: 2px;
   margin-right: 10px;
+  margin-left: 0px;
+  white-space: nowrap;
+  left: -10px;
 }
 
 .chart-title {

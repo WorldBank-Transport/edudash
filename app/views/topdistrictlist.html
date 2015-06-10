@@ -1,7 +1,8 @@
 <div class="col-md-12">
-    <p class="tableheaderdistrict"><img ng-src="images/{{districtListTileEmoticon}}.png" class="face">{{districtListTile | translate}}</p>
+    <p class="tableheaderdistrict" ng-class="{'tableheaderdistrictbad': districtListTileEmoticon == 'sad', 'tableheaderdistrictgood': districtListTileEmoticon == 'happy'}">
+        <img ng-src="images/{{districtListTileEmoticon}}.png" class="face">{{districtListTile | translate}}</p>
 
-    <table class="schools col-md-12">
+    <table class="districts col-md-12">
         <tr ng-repeat="district in tdlData track by $index">
             <td class="rank">{{$index + 1}}.</td>
             <!--TODO disable click until we have the location ng-click="setMapView(district.location, 9, 0)" -->
