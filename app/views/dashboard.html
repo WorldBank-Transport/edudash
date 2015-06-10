@@ -9,20 +9,24 @@
     <div class="bottom-white-bar"></div>
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
-      <h4><span translate="legend.passrate">Passrate</span> (%)</h4>
-      <ol class="passrate">
-        <li class="unknown" translate="legend.unknown">Unknown</li>
-        <li class="poor">0&ndash;40</li>
-        <li class="medium">40&ndash;60</li>
-        <li class="good">60&ndash;100</li>
-      </ol>
-      <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
-      <ol class="ptratio">
-        <li class="unknown" translate="legend.unknown">Unknown</li>
-        <li class="small">&lt; 35</li>
-        <li class="medium">35&ndash;50</li>
-        <li class="big">&gt; 50</li>
-      </ol>
+      <div ng-if="visMode==='passrate'">
+        <h4><span translate="legend.passrate">Passrate</span> (%)</h4>
+        <ol class="passrate">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="poor">0&ndash;40</li>
+          <li class="medium">40&ndash;60</li>
+          <li class="good">60&ndash;100</li>
+        </ol>
+      </div>
+      <div ng-if="visMode==='ptratio'">
+        <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
+        <ol class="ptratio">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="good">&lt; 35</li>
+          <li class="medium">35&ndash;50</li>
+          <li class="poor">&gt; 50</li>
+        </ol>
+      </div>
     </map-bottom-toggle>
 
     <map-bottom-toggle
@@ -172,6 +176,19 @@
               </div>
             </div>
           </form>
+
+          <div class="container-fluid" ng-hide="selectedFeature | exists">
+            <div class="col-sm-12">
+              <ul class="nav nav-tabs">
+                <li role="presentation" ng-class="{active: visMode==='passrate'}">
+                  <a ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate</a>
+                </li>
+                <li role="presentation" ng-class="{active: visMode==='ptratio'}">
+                  <a ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
             <div class="row col-xs-12">

@@ -33,7 +33,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         layers = {}
 
-        $scope.activeMap = 'schools'
+        $scope.activeMap = 'national'
         $scope.activeItem = null
         $scope.schoolsChoices = []
         $scope.selectedSchool = ''
@@ -65,6 +65,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           maxValue: 10
         };    
 
+        visModes = ['passrate', 'ptratio']
+        $scope.visMode = 'passrate'
 
         mapId = 'map'
 
@@ -114,6 +116,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setSchoolType = (to) ->
           $location.path "/dashboard/#{to}/"
+
+        $scope.setVisMode = (to) ->
+          unless (visModes.indexOf to) == -1
+            $scope.visMode = to
+          else
+            console.error 'Could not change visualization to invalid mode:', to
 
         $scope.showLayer = (view) ->
           $scope.activeMap = view
