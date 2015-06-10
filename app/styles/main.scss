@@ -210,7 +210,7 @@ h1 {
 .scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 260px;
+    height: 246px;
     border: 1px solid #e3e3e3;
     margin-bottom: 20px;
     margin-left: auto;
@@ -219,10 +219,12 @@ h1 {
 
 table.schools {
     table-layout: fixed;
-    width: 100%;
+    width: 95%;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 table.schools a:link, a:visited, a:hover {
@@ -253,7 +255,7 @@ table.schools td.name {
     font-weight: 400;
     font-size: 14px;
     text-align:left;
-    padding-left: 8px;
+    padding:8px;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
@@ -287,8 +289,8 @@ table.schools p {
 p.tableheader {
     background-color: $theme-blue;
     max-width: 224px;
-    height: 30px;
-    border-radius: 15px;
+    height: 32px;
+    border-radius: 3px;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     color: white;
@@ -299,15 +301,16 @@ p.tableheader {
 }
 
 img.face {
-    margin-top: 5px;
-    margin-right: 5px;
-    display: inline-block;
-    vertical-align: text-bottom;
+  margin-top: 6px;
+  margin-right: 5px;
+  margin-left:-6px;
+  display: inline-block;
+  vertical-align: text-bottom;
 }
 
 /* ----------------- */
 .perfomance-gauges{
-    padding-bottom: 30px
+  padding-bottom: 20px
 }
 .perfomance-gauges .col-sm-4{
   padding: 0;
@@ -381,15 +384,66 @@ div.cartodb-share a{
     }
 }
 
+.btn-default{
+  border-color: #ffffff;
+}
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
+  border: 1px solid #ffffff;
+  outline:none;
+  border-color: #ffffff;
+}
+.search-schools{
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  border-top:2px solid #e1e1e1;
+  border-bottom:2px solid #e1e1e1;
+  .form-control{
+    box-shadow: none;
+    text-transform:uppercase;
+    color:#d4d4d4;
+    font-weight:bold;
+    &:hover{
+      background: #ffffff;
+      border: 1px solid #ffffff;
+    }
+    &:focus{
+      outline:none;
+      background: #ffffff;
+      border: 1px solid #ffffff;
+    }
+  .text-muted{
+    color: #d4d4d4;
+    }
+  }
+}
+.ui-select-toggle{
+  outline:none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.ui-select-bootstrap > .ui-select-choices{
+  margin-top:0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 .container-fluid.map-nav{
     padding-left: 0;
 }
 .select2-highlighted .text-muted{
     color: #EEEEF5
+}
+.ui-select-choices-row.active > a > .text-muted{
+  color:#eeeeee;
+}
+.form-horizontal{
+  margin-bottom:20px;
 }
 /* School info */
 #schoolinfo-plaholder{
@@ -403,9 +457,9 @@ div.cartodb-share a{
     /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
-    padding-top: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-top: 15px;
+    padding-left: 30px;
+    padding-right: 20px;
     padding-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
 }
@@ -461,7 +515,7 @@ div.cartodb-share a{
     color: #828282;
     text-transform: uppercase;
     margin-top: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 9px;
 }
 
 #schoolinfo .widgetnumber {
@@ -498,26 +552,23 @@ div.cartodb-share a{
 }
 
 /* Distict info */
+#districtinfo{
+ padding-right:50px;
+}
 
 p.tableheaderdistrict {
-    width: 390px;
-    height: 28px;
-    border-radius: 5px;
-    text-align: center;
+    background-color: $theme-blue;
+    width: 207px;
+    height: 38px;
+    border-radius: 3px;
     font-family: 'Open Sans', sans-serif;
     color: white;
     font-weight: 400;
-    font-size: 14px;
-    margin-left: 1px;
+    font-size: 11px;
     margin-right: 10px;
     margin-top: 10px;
-}
-p.tableheaderdistrictgood {
-  background-color: $rank-good;
-}
-
-p.tableheaderdistrictbad {
-  background-color: $rank-poor;
+    padding-left:15px;
+    padding-top:2px;
 }
 
 table.districts {
@@ -529,14 +580,14 @@ table.districts {
 
 table.districts td {
     /*border-bottom: 1px dotted #e3e3e3;*/
-    height: 35px;
+    height: 25px;
     white-space: nowrap;
 }
 
 table.districts td.rank {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     width: 20px;
     text-align: right;
 }
@@ -544,7 +595,7 @@ table.districts td.rank {
 table.districts td.name {
     color: #6b6b6b;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 13px;
     width: 125px;
     text-align:left;
     padding-left: 8px;
