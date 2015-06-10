@@ -1092,6 +1092,10 @@ map-bottom-toggle.legend {
 }
 map-bottom-toggle.filters {
   padding-left: 1px;  // gap
+  h4 {
+    max-width: $filter-content-width;
+    font-size: 1em;
+  }
 }
 
 /* Sidebar */
