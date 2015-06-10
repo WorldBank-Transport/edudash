@@ -310,12 +310,6 @@ module.exports = function (grunt) {
               'modules/exporting.js',
               'modules/solid-gauge.js'
             ]
-          },
-          'angular-slider': {
-            'main': [
-              'slider.js',
-              'slider.css'
-            ]
           }
         }
       }

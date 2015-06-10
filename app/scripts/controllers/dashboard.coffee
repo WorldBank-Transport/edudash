@@ -48,6 +48,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.ptRange =
             min: ptMin
             max: ptMax
+        $scope.filterPassRate = {
+          range: {
+              min: 0,
+              max: 100
+          },
+          minValue: 0,
+          maxValue: 100
+        };    
+        $scope.filterPupilRatio = {
+          range: {
+              min: 0,
+              max: 10
+          },
+          minValue: 0,
+          maxValue: 10
+        };    
 
 
         mapId = 'map'
