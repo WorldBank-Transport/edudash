@@ -19,6 +19,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.select',
+    'ui.slider',
     'ui-rangeSlider',
     'i18nEdudashApp',
     'leafletMap',
