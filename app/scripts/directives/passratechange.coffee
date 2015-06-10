@@ -17,11 +17,9 @@ angular.module 'edudashAppDir'
       min: '=min'
     link: (scope, element, attrs) ->
       scope.$watch 'data', (newValue, oldValue) ->
-        debugger
         if newValue
           updateChart(newValue)
       updateChart = (data) ->
-        debugger
         scope.sign = switch
           when data > 0 then '+ '
           when data == 0 then '= '
