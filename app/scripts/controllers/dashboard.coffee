@@ -195,6 +195,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.anchorScroll = () ->
             $anchorScroll()
 
+        WorldBankApi.getPassOverTime({educationLevel: $scope.schoolType}).then (result) ->
+          parseList = chartSrv.drawPassOverTime result.data.rows[0]
+          parseList = parseList.map (x) -> {key: x.key, val: parseInt(x.val)}
+          $scope.globalpassratetime = parseList
         WorldBankApi.getTopDistricts({educationLevel: $scope.schoolType, metric: 'avg_pass_rate', order: 'DESC'}).then (result) ->
           $scope.bpdistrics = result.data.rows
         WorldBankApi.getTopDistricts({educationLevel: $scope.schoolType, metric: 'avg_pass_rate', order: 'ASC'}).then (result) ->
