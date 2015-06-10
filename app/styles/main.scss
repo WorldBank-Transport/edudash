@@ -973,6 +973,7 @@ map-bottom-toggle {
   header {
     height: $bottom-bar-height;
     background: $map-overlay;
+    box-shadow: $map-overlay-outline;
     text-align: center;
     h3 {
       font-size: 1em;
@@ -995,6 +996,7 @@ map-bottom-toggle {
     padding: 5px 1em;
     margin-top: 1px;
     background: $map-overlay;
+    box-shadow: $map-overlay-outline;
     &.closed {
       @include sr-only;
     }
@@ -1097,11 +1099,15 @@ map-bottom-toggle.filters {
 }
 
 .big-character {
+  position: absolute;
   font-size: 36px;
   font-weight: 900;
   margin-top: 0px;
   margin-bottom: 2px;
   margin-right: 10px;
+  margin-left: 0px;
+  white-space: nowrap;
+  left: -10px;
 }
 
 .chart-title {

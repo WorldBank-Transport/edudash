@@ -112,5 +112,10 @@ angular.module 'edudashAppSrv'
         schoolSql = "SELECT AVG(change_12_13) FROM wbank.tz_#{educationLevel}_cleaned_dashboard"
         $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
+      getTopDistricts: (filters) ->
+        metric = if filters.metric is 'avg_pass_rate' then 'avg_pass_1' else 'change_13_'
+        table = if filters.educationLevel is 'primary' then 'wbank.districts_primary' else 'wbank.secondary_districts'
+        schoolSql = "SELECT district_n as name, #{metric} as rate, the_geom as location FROM #{table} WHERE #{metric} IS NOT NULL ORDER BY #{metric} #{filters.order} LIMIT 5"
+        $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
   ]

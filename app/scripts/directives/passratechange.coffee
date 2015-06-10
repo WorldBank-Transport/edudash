@@ -16,8 +16,12 @@ angular.module 'edudashAppDir'
       max: '=max'
       min: '=min'
     link: (scope, element, attrs) ->
-      scope.sign = switch
-        when scope.data > 0 then '+ '
-        when scope.data == 0 then '= '
-        else ''
-      scope.since = 2012
+      scope.$watch 'data', (newValue, oldValue) ->
+        if newValue
+          updateChart(newValue)
+      updateChart = (data) ->
+        scope.sign = switch
+          when data > 0 then '+ '
+          when data == 0 then '= '
+          else ''
+        scope.since = 2012
