@@ -1,10 +1,9 @@
-<div class="map-widget {{activeMap != 'districts' ? 'has-filters' : ''}}">
+<div class="map-widget {'has-filters': mapView != 'districts'}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
       layers="layers"
-      school-type="schoolType"
-      show-layer="showView">
+      school-type="schoolType">
     </div>
     <div class="bottom-white-bar"></div>
 
@@ -30,22 +29,34 @@
     </map-bottom-toggle>
 
     <map-bottom-toggle
-        ng-if="activeMap!='districts'"
-        title="{{ 'filters.title' | translate }}"
-        class="filters">
-        <h4 translate="filter.prate">PassRate (0% - 100%)</h4>
-        <div range-slider min="0" max="100" model-min="filterPassRate.range.min" model-max="filterPassRate.range.max" 
-            model-min="filterPassRate.min" model-max="filterPassRate.max" attach-handle-values="true">
-        </div>
-        <h4 translate="filter.pupilTeacherRatio">Pupil - Teacher Ratio</h4>
-        <div range-slider min="0" max="10" model-min="filterPupilRatio.range.min" model-max="filterPupilRatio.range.max" 
-        model-min="filterPupilRatio.min" model-max="filterPupilRatio.max"  attach-handle-values="true">
-        </div>
+      ng-if="activeMap!='districts'"
+      title="{{ 'filters.title' | translate }}"
+      class="filters">
+      <h4 translate="filter.prate">PassRate (0% - 100%)</h4>
+      <div range-slider
+        min="0"
+        max="100"
+        model-min="filterPassRate.range.min"
+        model-max="filterPassRate.range.max"
+        model-min="filterPassRate.min"
+        model-max="filterPassRate.max"
+        attach-handle-values="true">
+      </div>
+      <h4 translate="filter.pupilTeacherRatio">Pupil - Teacher Ratio</h4>
+      <div range-slider
+        min="0"
+        max="10"
+        model-min="filterPupilRatio.range.min"
+        model-max="filterPupilRatio.range.max"
+        model-min="filterPupilRatio.min"
+        model-max="filterPupilRatio.max"
+        attach-handle-values="true">
+      </div>
     </map-bottom-toggle>
   </div>
 
   <!-- map fly-out -->
-  <div class="map-flyout" ng-if="activeMap=='districts'">
+  <div class="map-flyout" ng-if="mapView=='districts'">
     <header>
       <h2>Region Name</h2>
       <p class="word">Simanjiro</p>
@@ -71,7 +82,7 @@
       <p class="number good">51</p>
     </div>
   </div>
-  <div class="map-flyout" ng-if="activeMap=='schools'">
+  <div class="map-flyout" ng-if="mapView=='schools'">
     <header>
       <h2>School Name</h2>
       <p class="word">Simanjiro</p>
@@ -104,19 +115,19 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: activeMap=='national'}">
+          <li role="presentation" ng-class="{active: mapView=='national'}">
             <a ng-click="showView('national')">
               <span class="hide-sm" translate="tab.national-view">National View</span>
               <span class="show-sm" translate="tab.national">National</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: activeMap=='regional'}">
+          <li role="presentation" ng-class="{active: mapView=='regional'}">
             <a ng-click="showView('regional')">
               <span class="hide-sm" translate="tab.regional-view">Regional View</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: activeMap=='district'}">
+          <li role="presentation" ng-class="{active: mapView=='district'}">
             <a ng-click="showView('district')">
               <span class="hide-sm" translate="tab.district-view">District View</span>
               <span class="show-sm" translate="tab.district">District</span>
@@ -196,7 +207,7 @@
             </div>
           </div>
 
-          <div ng-if="activeMap=='districts'">
+          <div ng-if="mapView=='districts'">
             <div id="districtinfo" class="container-fluid">
               <div class="col-sm-12">
                 <ul class="nav nav-tabs">
@@ -219,7 +230,7 @@
             </div>
           </div>
 
-          <div ng-if="activeMap=='schools'">
+          <div ng-if="mapView=='schools'">
             <div ng-hide="selectedSchool|exists" class="container-fluid">
               <div id="schoolinfo-plaholder" class="text-center" translate="map.tooltip">
                 Explore the map and click on a school to get started.
