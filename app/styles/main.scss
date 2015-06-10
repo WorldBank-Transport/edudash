@@ -219,10 +219,12 @@ h1 {
 
 table.schools {
     table-layout: fixed;
-    width: 100%;
+    width: 95%;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 table.schools a:link, a:visited, a:hover {
@@ -287,8 +289,8 @@ table.schools p {
 p.tableheader {
     background-color: $theme-blue;
     max-width: 224px;
-    height: 30px;
-    border-radius: 15px;
+    height: 32px;
+    border-radius: 3px;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     color: white;
@@ -518,16 +520,17 @@ div.cartodb-share a{
 
 p.tableheaderdistrict {
     background-color: $theme-blue;
-    width: 203px;
-    height: 32px;
-    border-radius: 15px;
+    width: 207px;
+    height: 38px;
+    border-radius: 3px;
     font-family: 'Open Sans', sans-serif;
     color: white;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 11px;
     margin-right: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     padding-left:15px;
+    padding-top:2px;
 }
 
 table.districts {
