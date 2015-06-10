@@ -118,4 +118,13 @@ angular.module 'edudashAppSrv'
         schoolSql = "SELECT district_n as name, #{metric} as rate, the_geom as location FROM #{table} WHERE #{metric} IS NOT NULL ORDER BY #{metric} #{filters.order} LIMIT 5"
         $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
+      getPassOverTime: (filters) ->
+        condition = if filters.query then " WHERE #{filters.query.field} ilike '%#{ filters.query.value }% " else ""
+        sql = "SELECT AVG(pass_2012) as pass_2012, AVG(pass_2013) as pass_2013, AVG(pass_2014) as pass_2014 FROM tz_#{filters.educationLevel}_cleaned_dashboard #{condition}"
+        $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
+
+      getSchools: (educationLevel) ->
+        sql = "SELECT * FROM tz_#{educationLevel}_cleaned_dashboard"
+        $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
+
   ]
