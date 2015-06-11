@@ -332,10 +332,12 @@ div.cartodb-share a{
   display:table;
   width:100%;
 }
-.nav-tabs > li{
+.nav-tabs > li {
   float: none;
-  display:table-cell;
-  width:25%;
+  display: table-cell;
+}
+#nav-tabs-dashboard.nav-tabs > li {
+  width: 20%;
 }
 .nav-tabs > li > a{
   background: #f6f6f6;
@@ -1038,16 +1040,12 @@ map-bottom-toggle.legend {
       content: "";
       display: inline-block;
       position: relative;
+      height: 1.2em;
+      width: 1.2em;
       border-radius: 100%;
       margin-right: 0.333em;
       vertical-align: middle;
       top: -2px;
-    }
-  }
-  .passrate li {
-    &:before {
-      height: 1.2em;
-      width: 1.2em;
     }
     &.unknown:before {
       border: 2px solid $unknown;
@@ -1060,33 +1058,6 @@ map-bottom-toggle.legend {
     }
     &.good:before {
       background: $rank-good;
-    }
-  }
-  .ptratio li {
-    &.small {
-      font-size: 1em;  // stupid bootstrap (override)
-    }
-    &:before {
-      background: $unknown;
-    }
-    &.unknown:before {
-      height: 1.2em;
-      width: 1.2em;
-      background: transparent;
-      border: 2px solid $unknown;
-    }
-    &.small:before {
-      top: -1px;
-      height: 6px;
-      width: 6px;
-    }
-    &.medium:before {
-      height: 11px;
-      width: 11px;
-    }
-    &.big:before {
-      height: 16px;
-      width: 16px;
     }
   }
 }
