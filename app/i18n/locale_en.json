@@ -1,6 +1,4 @@
 {
-    "TITLE": "Hello",
-    "FOO": "This is a paragraph",
     "dashboard.title": "Education Dashboard",
     "menu.home": "Home",
     "menu.dashboard": "Dashboards",
@@ -24,8 +22,6 @@
     "legend.passrate": "Pass Rate",
     "legend.ptratio": "Pupil-Teacher Ratio",
     "filters.title": "filters",
-    "filter.prate" : "PassRate (0% - 100%)",
-    "filter.pupilTeacherRatio" : "Pupil - Teacher Ratio",
     "chart.dial-title": "CHANGE SINCE",
     "chart.details": "Click for details",
     "chart.pupil-teacher-ration": "PUPIL-TEACHER RATIO",

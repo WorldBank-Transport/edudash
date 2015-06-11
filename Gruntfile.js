@@ -548,6 +548,53 @@ module.exports = function (grunt) {
   });
 
 
+  grunt.registerTask('check-translations', 'Report the state of translation files', function() {
+    var fs = require('fs'),
+        transRoot = 'app/i18n/';
+
+    // get all keys from all objs
+    function union(objs) {
+      return objs.reduce(function(keys, o) {
+        Object.keys(o).forEach(function(k) {
+          keys[k] = true;
+        });
+        return keys;
+      }, {});
+    }
+
+    // get all keys in a that are not in b
+    function difference(a, b) {
+      return Object.keys(a).filter(function(k) {
+        return !b.hasOwnProperty(k);
+      });
+    }
+
+    var translations = fs.readdirSync(transRoot).map(function(fname) {
+      var fpath = transRoot + fname;
+      if (!fs.statSync(fpath).isFile) { return; }
+      var fraw = fs.readFileSync(fpath);
+      var fdata = JSON.parse(fraw);
+      return {
+        lang: fname.split('.')[0],
+        data: fdata,
+      };
+    });
+
+    var all = union(translations.map(function(t) { return t.data; }));
+
+    translations.forEach(function(t) {
+      grunt.log.writeln();
+      var missing = difference(all, t.data);
+      if (missing.length === 0) {
+        grunt.log.ok(t.lang + ' has all the keys');
+      } else {
+        grunt.log.error(t.lang + ' is missing keys:');
+        grunt.log.error(missing.join('\n'));
+      }
+    });
+  });
+
+
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -573,7 +620,8 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'check-translations'
   ]);
 
   grunt.registerTask('build', [
