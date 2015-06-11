@@ -32,7 +32,7 @@
       ng-if="activeMap!='districts'"
       title="{{ 'filters.title' | translate }}"
       class="filters">
-      <h4 translate="filter.prate">PassRate (0% - 100%)</h4>
+      <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
         min="0"
         max="100"
@@ -42,7 +42,7 @@
         model-max="filterPassRate.max"
         attach-handle-values="true">
       </div>
-      <h4 translate="filter.pupilTeacherRatio">Pupil - Teacher Ratio</h4>
+      <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
         min="0"
         max="10"

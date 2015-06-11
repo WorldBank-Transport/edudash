@@ -22,8 +22,6 @@
     "legend.passrate": "Pass Rate",
     "legend.ptratio": "Pupil-Teacher Ratio",
     "filters.title": "filters",
-    "filter.prate" : "PassRate (0% - 100%)",
-    "filter.pupilTeacherRatio" : "Pupil - Teacher Ratio",
     "chart.dial-title": "CHANGE SINCE",
     "chart.details": "Click for details",
     "chart.pupil-teacher-ration": "PUPIL-TEACHER RATIO",
