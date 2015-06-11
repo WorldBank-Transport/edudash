@@ -550,8 +550,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('check-translations', 'Report the state of translation files', function() {
     var fs = require('fs'),
-        transRoot = 'app/i18n/',
-        allGood = true;
+        transRoot = 'app/i18n/';
 
     // get all keys from all objs
     function union(objs) {
@@ -589,13 +588,10 @@ module.exports = function (grunt) {
       if (missing.length === 0) {
         grunt.log.ok(t.lang + ' has all the keys');
       } else {
-        allGood = false;
         grunt.log.error(t.lang + ' is missing keys:');
         grunt.log.error(missing.join('\n'));
       }
     });
-
-    return allGood;
   });
 
 
