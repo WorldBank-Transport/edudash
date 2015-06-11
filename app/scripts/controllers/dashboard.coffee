@@ -10,7 +10,7 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv'
-    
+
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv) ->
         primary = 'primary'
@@ -23,12 +23,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.title = title[$routeParams.type]
 
         if $routeParams.type isnt primary and $routeParams.type isnt secondary
-          $timeout (-> 
-              $location.path '/' 
-              return;
-              ) 
-        
-       
+          $timeout -> $location.path '/'
+
+
         $scope.searchText = "dar"
 
         layers = {}
@@ -55,7 +52,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           },
           minValue: 0,
           maxValue: 100
-        };    
+        };
         $scope.filterPupilRatio = {
           range: {
               min: 0,
@@ -63,7 +60,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           },
           minValue: 0,
           maxValue: 10
-        };    
+        };
 
         visModes = ['passrate', 'ptratio']
         $scope.visMode = 'passrate'
@@ -99,7 +96,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       $scope.setSchool data.rows[0]
 
           # set up the initial view
-          $scope.showLayer 'schools'
+          $scope.showView 'schools'
 
 
         WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
@@ -179,7 +176,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
                 $scope.mapView = view
-                $scope.showLayer(view)
+                $scope.showView(view)
             unless zoom?
                 zoom = 9
             leafletData.getMap(mapId).then (map) ->
@@ -201,7 +198,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
                 $scope.mapView = 'schools'
-                $scope.showLayer('schools')
+                $scope.showView('schools')
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->
               try
