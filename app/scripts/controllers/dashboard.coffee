@@ -29,6 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.searchText = "dar"
 
         layers = {}
+        currentLayer = null
 
         $scope.mapView = 'schools'
         $scope.activeItem = null
@@ -95,7 +96,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             options =
               pointToLayer: (geojson, latlng) ->
                 L.circleMarker latlng,
-                  radius: 6
+                  className: 'school-location'
+                  radius: 8
                   color: '#fff'
                   fillColor: '#777'
               onEachFeature: (feature, layer) ->
@@ -110,6 +112,34 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
           # set up the initial view
           $scope.showView 'schools'
+
+        colourize = ->
+          if $scope.mapView == 'schools'
+            _(currentLayer.raw.getLayers()).each (l) ->
+              if $scope.visMode == 'passrate'
+                passrate = l.feature.properties.pass_2014
+                if passrate == null
+                  l.setStyle
+                    color: '#aaa'  # stroke
+                    fillOpacity: 0
+                else
+                  l.setStyle
+                    color: '#fff'  # stroke
+                    fillColor: if passrate < 40 then '#f56053' else
+                      if passrate < 60 then '#e9c941' else '#38a21c'
+                    fillOpacity: 0.75
+              else if $scope.visMode == 'ptratio'
+                ptratio = l.feature.properties.pt_ratio
+                if ptratio == null
+                  l.setStyle
+                    color: '#aaa'  # stroke
+                    fillOpacity: 0
+                else
+                  l.setStyle
+                    color: '#fff'  # stroke
+                    fillColor: if ptratio < 35 then '#38a21c' else
+                      if ptratio > 50 then '#f56053' else '#e9c941'
+                    fillOpacity: 0.75
 
 
         WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
@@ -130,11 +160,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setVisMode = (to) ->
           unless (visModes.indexOf to) == -1
             $scope.visMode = to
+            colourize()
           else
             console.error 'Could not change visualization to invalid mode:', to
 
         $scope.showView = (view) ->
-          layers[view].then (layer) -> layer.show()
+          layers[view].then (layer) ->
+            layer.show()
+            currentLayer = layer
+            colourize()
 
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter

@@ -1175,3 +1175,10 @@ map-bottom-toggle.filters {
   font-weight:300;
   padding-top: 50px;
 }
+
+// school location markers
+.school-location {
+  &:hover {
+    stroke: $theme-blue;
+  }
+}
