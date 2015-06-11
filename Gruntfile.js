@@ -550,7 +550,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('check-translations', 'Report the state of translation files', function() {
     var fs = require('fs'),
-        transRoot = 'app/i18n/';
+        transRoot = 'app/i18n/',
+        allGood = true;
 
     // get all keys from all objs
     function union(objs) {
@@ -583,17 +584,18 @@ module.exports = function (grunt) {
     var all = union(translations.map(function(t) { return t.data; }));
 
     translations.forEach(function(t) {
-      console.log();  // newline
+      grunt.log.writeln();
       var missing = difference(all, t.data);
       if (missing.length === 0) {
-        console.log(t.lang + ' has all the keys');
+        grunt.log.ok(t.lang + ' has all the keys');
       } else {
-        console.log(t.lang + ' is missing keys:');
-        console.log(missing.map(function(k) {
-          return '  * ' + k;
-        }).join('\n'));
+        allGood = false;
+        grunt.log.error(t.lang + ' is missing keys:');
+        grunt.log.error(missing.join('\n'));
       }
     });
+
+    return allGood;
   });
 
 
@@ -622,7 +624,8 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma',
+    'check-translations'
   ]);
 
   grunt.registerTask('build', [
