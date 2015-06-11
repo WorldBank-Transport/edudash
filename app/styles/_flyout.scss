@@ -36,9 +36,10 @@
   }
   .number {
     font-size: 2.8em;
-  }
-  .number.good {
-    color: #38a21c;
+    &.good { color: $rank-good; }
+    &.medium { color: $rank-medium; }
+    &.poor { color: $rank-poor; }
+    &.unknown { color: $unknown; }
   }
   .stat .stat .number,
   header .stat .number {
