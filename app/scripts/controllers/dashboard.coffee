@@ -33,7 +33,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.mapView = 'schools'
         $scope.activeItem = null
         $scope.schoolsChoices = []
-        $scope.selectedSchool = ''
+        $scope.hoveredSchool = null
         schoolMarker = null
         $scope.openMapFilter = false
         $scope.openSchoolLegend = false
@@ -67,13 +67,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         mapId = 'map'
 
-        cartodbLayers = [  # ordered to align with the cartoDB subLayer index
-          'schools',
-          'performance',
-          'improvement',
-          'district',
-        ]
-
 
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
@@ -82,18 +75,38 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           # add the basemap
           layersSrv.addTileLayer 'gray', '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', mapId
 
-          # add the cartodb layers
-          cartoURL = WorldBankApi.getLayer $scope.schoolType
-          cartodbLayers.forEach (id, i) ->
-            layers[id] = layersSrv.addCartodbLayer id, cartoURL, i, mapId
-            layers[id].then (layer) -> layer.raw.then (rawLayer) ->
-              rawLayer.on 'featureClick', (e, pos, latlng, data) ->
-                if $scope.mapView == 'district'
-                  $scope.setMapView pos, 9, 'schools'
-                else
-                  WorldBankApi.getSchooldByCartoDb $scope.schoolType, data.cartodb_id
-                    .success (data) ->
-                      $scope.setSchool data.rows[0]
+          # add the current layer
+          if $scope.mapView == 'schools'
+            dataPromise = $q (resolve, reject) ->
+              WorldBankApi.getSchools $scope.schoolType
+                .success (data) ->
+                  resolve
+                    type: 'FeatureCollection'
+                    features:
+                      data.rows.map (school) ->
+                        type: 'Feature'
+                        id: school.cartodb_id
+                        geometry:
+                          type: 'Point'
+                          coordinates: [school.longitude, school.latitude]
+                        properties: school
+                .error reject
+
+            options =
+              pointToLayer: (geojson, latlng) ->
+                L.circleMarker latlng,
+                  radius: 6
+                  color: '#fff'
+                  fillColor: '#777'
+              onEachFeature: (feature, layer) ->
+                layer.on 'mouseover', -> $scope.$apply ->
+                  $scope.hoveredSchool = feature.properties
+                layer.on 'mouseout', -> $scope.$apply ->
+                  $scope.hoveredSchool = null
+                layer.on 'click', -> $scope.$apply ->
+                  $scope.setSchool feature.properties
+
+            layers['schools'] = layersSrv.addGeojsonLayer 'schools', dataPromise, options, mapId
 
           # set up the initial view
           $scope.showView 'schools'
@@ -120,15 +133,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           else
             console.error 'Could not change visualization to invalid mode:', to
 
-        $scope.showView = (view) -> $scope.showLayer view
-
-        $scope.showLayer = (view) ->
-          $scope.mapView = view
-          cartodbLayers.forEach (id) ->
-            if id == view
-              layers[id].then (layer) -> layer.show()
-            else
-              layers[id].then (layer) -> layer.hide()
+        $scope.showView = (view) ->
+          layers[view].then (layer) -> layer.show()
 
         $scope.toggleMapFilter = () ->
             $scope.openMapFilter = !$scope.openMapFilter
