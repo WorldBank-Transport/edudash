@@ -16,3 +16,7 @@ bower_components
 *.swo
 .idea
 *.iml
+
+app/styles/main.css
+
+app/styles/pupilsprite.css
