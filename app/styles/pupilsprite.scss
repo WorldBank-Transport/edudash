@@ -16,6 +16,9 @@
 &.girl-pass-grey{
     background-position: 0 0;
   }
+&.girl-pass-yellow{
+      background-position: -59px 0;
+  }
 // boy pass rate icons
 &.boy-pass-green{
     background-position: -21px -39px;
@@ -25,5 +28,8 @@
     }
 &.boy-pass-grey{
       background-position: 0 -39px;
+    }
+&.boy-pass-yellow{
+      background-position: -59px -39px;
     }
 }
