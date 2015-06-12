@@ -1,11 +1,18 @@
 <div class="widget first">
     <p class="widgettitle" translate="chart.pupil-teacher-ration"></p>
     <div class="row">
-        <div class="col-xs-2"><p class="percentNumber widgetnumber">{{ selectedSchool['pt_ratio'] }}</p>
+        <div class="col-xs-2"><p class="percentNumber widgetnumber">{{ selectedSchool.pt_ratio }}</p>
         </div>
         <div class="col-xs-10">
             <div class="row" style="max-width: 90%">
-                <img class="imageStudent" ng-repeat="i in getTimes(selectedSchool['pt_ratio']) track by $index" width="9" height="20">
+                <div class="pass-rate" ng-class="{
+                    'girl-pass-red': $index % 2 != 0 && selectedSchool.pt_ratio >= max,
+                    'boy-pass-red': $index % 2 == 0  && selectedSchool.pt_ratio >= max,
+                    'girl-pass-yellow': $index % 2 != 0 && selectedSchool.pt_ratio <= min,
+                    'boy-pass-yellow': $index % 2 == 0  && selectedSchool.pt_ratio <= min,
+                    'girl-pass-green': $index % 2 != 0 && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max,
+                    'boy-pass-green': $index % 2 == 0  && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max
+                }" ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"></div>
             </div>
         </div>
     </div>
