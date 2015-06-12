@@ -186,6 +186,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
+            unless $scope.selectedSchool? and item.cartodb_id == $scope.selectedSchool.cartodb_id
+              filter =
+                year: '2012'
+                selectedSchool: item
+                field: 'district'
+                educationLevel: $scope.schoolType
+              WorldBankApi.getRank(filter).then (result) ->
+                $scope.districtRank = result.data.rows[0]
+              filter.field = 'region'
+              WorldBankApi.getRank(filter).then (result) ->
+                $scope.regionRank = result.data.rows[0]
+
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
                 $scope.mapView = 'schools'

@@ -44,6 +44,8 @@
     "chart.title.pupil-teacher-ratio": "pupil teacher ratio",
     "chart.title.passrate-over-time": "pass rates over time",
     "chart.title.passrate-2014": "2014 pass rate",
+    "chart.title.rank-region": "REGIONAL RANK",
+    "chart.title.rank-district": "DISTRICT RANK",
     "distric": "District",
     "region": "Region",
     "about.paragraph": "This is the about view",
