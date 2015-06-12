@@ -112,8 +112,8 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: hidden;
-    border-top:12px solid #1aa4db;
     background:#f6f6f6;
+    @include content-border;
 }
 .navbar{
     margin-bottom: 0;
@@ -194,7 +194,7 @@ h1 {
     font-family: 'Open Sans', sans-serif;
     color: #1595d3;
     text-transform:uppercase;
-    dislay:inline-block;
+    display:inline-block;
     margin-top:16px;
     font-size:18px;
     font-weight:700;
@@ -279,7 +279,7 @@ table.schools p {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 300;
-    color: #717171;
+    color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -332,10 +332,12 @@ div.cartodb-share a{
   display:table;
   width:100%;
 }
-.nav-tabs > li{
+.nav-tabs > li {
   float: none;
-  display:table-cell;
-  width:25%;
+  display: table-cell;
+}
+#nav-tabs-dashboard.nav-tabs > li {
+  width: 20%;
 }
 .nav-tabs > li > a{
   background: #f6f6f6;
@@ -622,7 +624,7 @@ table.districts p {
     text-transform: uppercase;
     font-size: 11px;
     font-weight: 300;
-    color: #717171;
+    color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -700,18 +702,18 @@ table.districts p {
 }
 /* General content */
 #generalcontent {
-    margin: 0 auto;
-    font-family: 'Open Sans', sans-serif;
-    color: $theme-blue;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    margin-top: 25px;
-    min-height: 600px;
+  @include content-border;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  color: $theme-blue;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  margin-top: 25px;
+  min-height: 600px;
 }
 @media screen and (min-width: $c) {
     #generalcontent {
-        width: 800px;
     }
 }
 #generalcontent p {
@@ -719,9 +721,9 @@ table.districts p {
 }
 
 #generalcontent p.text {
-    color: #717171;
+    color: $body-text-color;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 20px;
     text-align: left;
 }
@@ -737,16 +739,16 @@ table.districts p {
     margin: 20px 0;
 }
 #generalcontent a.boxlink {
-    background-color: $theme-blue;
-    color: #FFFFFF;
-    font-weight: 300;
-    font-size: 18px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    display: block;
-    max-width: 200px;
+  @include border-radius(5px);
+  background-color: $theme-blue;
+  color: #FFFFFF;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform:uppercase;
+  margin: 20px auto;
+  display: block;
+  max-width: 220px;
+  padding:5px 15px;
 }
 
 
@@ -1038,16 +1040,12 @@ map-bottom-toggle.legend {
       content: "";
       display: inline-block;
       position: relative;
+      height: 1.2em;
+      width: 1.2em;
       border-radius: 100%;
       margin-right: 0.333em;
       vertical-align: middle;
       top: -2px;
-    }
-  }
-  .passrate li {
-    &:before {
-      height: 1.2em;
-      width: 1.2em;
     }
     &.unknown:before {
       border: 2px solid $unknown;
@@ -1062,36 +1060,13 @@ map-bottom-toggle.legend {
       background: $rank-good;
     }
   }
-  .ptratio li {
-    &.small {
-      font-size: 1em;  // stupid bootstrap (override)
-    }
-    &:before {
-      background: $unknown;
-    }
-    &.unknown:before {
-      height: 1.2em;
-      width: 1.2em;
-      background: transparent;
-      border: 2px solid $unknown;
-    }
-    &.small:before {
-      top: -1px;
-      height: 6px;
-      width: 6px;
-    }
-    &.medium:before {
-      height: 11px;
-      width: 11px;
-    }
-    &.big:before {
-      height: 16px;
-      width: 16px;
-    }
-  }
 }
 map-bottom-toggle.filters {
   padding-left: 1px;  // gap
+  h4 {
+    max-width: $filter-content-width;
+    font-size: 1em;
+  }
 }
 
 /* Sidebar */
@@ -1134,37 +1109,45 @@ map-bottom-toggle.filters {
 }
 
 // performance tabs
-
-
-
 .performance-nav {
   padding-right:0;
   padding-left:0;
 
-  .nav-tabs{
-  border-bottom: none;
+  .nav-tabs {
+    border-bottom: none;
 
-  li{
-    width:52%;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    border:1px solid #eeeeee;
+    li {
+      width:52%;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      border:1px solid #eeeeee;
 
-  &.active{
-    border:1px solid $theme-blue-light;
-    a{
-      background: $theme-blue-light;
-      border:1px solid $theme-blue-light;
+      &.active {
+        border:1px solid $theme-blue-light;
+        a {
+          background: $theme-blue-light;
+          border:1px solid $theme-blue-light;
+        }
       }
-  }
 
-    a{
-      border:1px solid transparent;
-      text-transform:uppercase;
-      background: #ffffff;
-      &:hover{ color: $theme-blue;}
+      a {
+        border:1px solid transparent;
+        text-transform:uppercase;
+        background: #ffffff;
+        &:hover {
+          color: $theme-blue;
+        }
       }
     }
   }
+}
+
+// homepage
+.page-title{
+  color: $grey-light;
+  font-size:30px;
+  line-height:34px;
+  font-weight:300;
+  padding-top: 50px;
 }

@@ -33,7 +33,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         layers = {}
 
-        $scope.activeMap = 'schools'
+        $scope.mapView = 'schools'
         $scope.activeItem = null
         $scope.schoolsChoices = []
         $scope.selectedSchool = ''
@@ -48,7 +48,25 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.ptRange =
             min: ptMin
             max: ptMax
+        $scope.filterPassRate = {
+          range: {
+              min: 0,
+              max: 100
+          },
+          minValue: 0,
+          maxValue: 100
+        };    
+        $scope.filterPupilRatio = {
+          range: {
+              min: 0,
+              max: 10
+          },
+          minValue: 0,
+          maxValue: 10
+        };    
 
+        visModes = ['passrate', 'ptratio']
+        $scope.visMode = 'passrate'
 
         mapId = 'map'
 
@@ -56,7 +74,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           'schools',
           'performance',
           'improvement',
-          'districts',
+          'district',
         ]
 
 
@@ -73,7 +91,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             layers[id] = layersSrv.addCartodbLayer id, cartoURL, i, mapId
             layers[id].then (layer) -> layer.raw.then (rawLayer) ->
               rawLayer.on 'featureClick', (e, pos, latlng, data) ->
-                if $scope.activeMap == 'districts'
+                if $scope.mapView == 'district'
                   $scope.setMapView pos, 9, 'schools'
                 else
                   WorldBankApi.getSchooldByCartoDb $scope.schoolType, data.cartodb_id
@@ -96,8 +114,19 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         WorldBankApi.leastImprovedSchools($scope.schoolType).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
+        $scope.setSchoolType = (to) ->
+          $location.path "/dashboard/#{to}/"
+
+        $scope.setVisMode = (to) ->
+          unless (visModes.indexOf to) == -1
+            $scope.visMode = to
+          else
+            console.error 'Could not change visualization to invalid mode:', to
+
+        $scope.showView = (view) -> $scope.showLayer view
+
         $scope.showLayer = (view) ->
-          $scope.activeMap = view
+          $scope.mapView = view
           cartodbLayers.forEach (id) ->
             if id == view
               layers[id].then (layer) -> layer.show()
@@ -111,7 +140,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.openSchoolLegend = !$scope.openSchoolLegend
 
         updateMap = () ->
-          if $scope.activeMap != 'districts'
+          if $scope.mapView != 'district'
             # Include schools with no pt_ratio are also shown when the pt limits in extremeties
             if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
                 WorldBankApi.updateLayers(layers, $scope.schoolType, $scope.passRange)
@@ -149,7 +178,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
-                $scope.activeMap = view
+                $scope.mapView = view
                 $scope.showLayer(view)
             unless zoom?
                 zoom = 9
@@ -159,7 +188,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setSchool = (item, model, showAllSchools) ->
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
-                $scope.activeMap = 'schools'
+                $scope.mapView = 'schools'
                 $scope.showLayer('schools')
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->
@@ -182,7 +211,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
-              if $scope.activeMap == 'schools'
+              if $scope.mapView == 'schools'
                 console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
                 $scope.passratetime = chartSrv.drawPassOverTime item
