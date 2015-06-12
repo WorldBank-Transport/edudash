@@ -5,8 +5,7 @@
     <table class="districts col-md-12">
         <tr ng-repeat="district in tdlData track by $index">
             <td class="rank">{{$index + 1}}.</td>
-            <!--TODO disable click until we have the location ng-click="setMapView(district.location, 9, 0)" -->
-            <td class="name" >{{district.name}}</td>
+            <td class="name" ng-click="setMapView([district.latitude, district.longitude], 9, 0)">{{district.name}}</td>
             <td class="rank" ng-class="{'passratered': districtListTileEmoticon == 'sad', 'passrategreen': districtListTileEmoticon == 'happy'}">{{district.rate}}</td></tr>
     </table>
 </div>

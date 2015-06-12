@@ -115,7 +115,16 @@ angular.module 'edudashAppSrv'
       getTopDistricts: (filters) ->
         metric = if filters.metric is 'avg_pass_rate' then 'avg_pass_1' else 'change_13_'
         table = if filters.educationLevel is 'primary' then 'wbank.districts_primary' else 'wbank.secondary_districts'
-        schoolSql = "SELECT district_n as name, #{metric} as rate, the_geom as location FROM #{table} WHERE #{metric} IS NOT NULL ORDER BY #{metric} #{filters.order} LIMIT 5"
+        schoolSql = "SELECT district_n as name, #{metric} as rate, ST_X(ST_Centroid(the_geom)) as longitude, ST_Y(ST_Centroid(the_geom)) as latitude FROM #{table} WHERE #{metric} IS NOT NULL ORDER BY #{metric} #{filters.order} LIMIT 5"
+        $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
+
+      getRank: (filters) ->
+        selectedYear = if filters.year? then filters.year else '2012'
+        selectedSchool = filters.selectedSchool
+        schoolSql = "SELECT counter, rank FROM
+               (SELECT count(cartodb_id) as counter, #{filters.field} FROM wbank.tz_#{filters.educationLevel}_cleaned_dashboard WHERE #{filters.field} LIKE '#{selectedSchool[filters.field]}' GROUP BY #{filters.field}) AS t,
+               (SELECT cartodb_id, rank() OVER (PARTITION BY region ORDER BY rank_#{selectedYear} ASC) AS rank FROM wbank.tz_#{filters.educationLevel}_cleaned_dashboard WHERE #{filters.field} LIKE '#{selectedSchool[filters.field]}') AS r
+               WHERE cartodb_id = #{selectedSchool.cartodb_id}"
         $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
       getPassOverTime: (filters) ->

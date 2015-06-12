@@ -24,10 +24,10 @@ angular.module 'edudashAppDir'
           if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then element.show() else element.hide()
           ptRatio = scope.selectedSchool['pt_ratio']
           if ptRatio <= min
-            src = 'images/passrate_student_green.png'
+            src = 'images/passrate_student_yellow.png'
             textClass = 'text-green'
           else if ptRatio > min and ptRatio < max
-            src = 'images/passrate_student_yellow.png';
+            src = 'images/passrate_student_green.png';
             textClass = 'text-yellow'
           else
             src = 'images/passrate_student_red.png';
