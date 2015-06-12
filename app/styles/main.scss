@@ -1132,3 +1132,39 @@ map-bottom-toggle.filters {
   fill: #05a2dc;
   width: 100%;
 }
+
+// performance tabs
+
+
+
+.performance-nav {
+  padding-right:0;
+  padding-left:0;
+
+  .nav-tabs{
+  border-bottom: none;
+
+  li{
+    width:52%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border:1px solid #eeeeee;
+
+  &.active{
+    border:1px solid $theme-blue-light;
+    a{
+      background: $theme-blue-light;
+      border:1px solid $theme-blue-light;
+      }
+  }
+
+    a{
+      border:1px solid transparent;
+      text-transform:uppercase;
+      background: #ffffff;
+      &:hover{ color: $theme-blue;}
+      }
+    }
+  }
+}
