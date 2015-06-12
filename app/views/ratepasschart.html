@@ -4,9 +4,18 @@
         <div ng-class="{'col-xs-3': selectedSchool.pass_by_10 == 10, 'col-xs-2': selectedSchool.pass_by_10 != 10}"><p class="percentNumber widgetnumber text-yellow">{{ selectedSchool.pass_2014 }}%</p>
         </div>
         <div ng-class="{'col-xs-9': selectedSchool.pass_by_10 == 10, 'col-xs-10': selectedSchool.pass_by_10 != 10}">
-            <img class="imageStudent" ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index">
-            <img ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"
-                 ng-src="images/passrate_student_grey.png">
+            <div class="pass-rate" ng-class="{
+                    'girl-pass-green': $index % 2 != 0 && selectedSchool.pass_2014 >= max,
+                    'boy-pass-green': $index % 2 == 0  && selectedSchool.pass_2014 >= max,
+                    'girl-pass-red': $index % 2 != 0 && selectedSchool.pass_2014 <= min,
+                    'boy-pass-red': $index % 2 == 0  && selectedSchool.pass_2014 <= min,
+                    'girl-pass-yellow': $index % 2 != 0 && selectedSchool.pass_2014 > min && selectedSchool.pass_2014 < max,
+                    'boy-pass-yellow': $index % 2 == 0  && selectedSchool.pass_2014 > min && selectedSchool.pass_2014 < max,
+                }"
+                 ng-repeat="i in getTimes(selectedSchool.pass_by_10) track by $index"></div>
+            <div class="pass-rate" ng-class="{'girl-pass-grey': (10 - selectedSchool.fail_by_10 + $index) % 2 != 0,
+                                              'boy-pass-grey': (10 - selectedSchool.fail_by_10 + $index) % 2 == 0}"
+                 ng-repeat="i in getTimes(selectedSchool.fail_by_10) track by $index"></div>
         </div>
     </div>
 </div>
