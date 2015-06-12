@@ -402,8 +402,8 @@ div.cartodb-share a{
   border-radius: 0;
   border-left: 1px solid #ffffff;
   border-right: 1px solid #ffffff;
-  border-top:2px solid #e1e1e1;
-  border-bottom:2px solid #e1e1e1;
+  border-top:1px solid #e1e1e1;
+  border-bottom:1px solid #e1e1e1;
   .form-control{
     box-shadow: none;
     text-transform:uppercase;
@@ -1106,6 +1106,41 @@ map-bottom-toggle.filters {
   margin-bottom: 2;
   fill: #05a2dc;
   width: 100%;
+}
+
+// performance tabs
+.performance-nav {
+  padding-right:0;
+  padding-left:0;
+
+  .nav-tabs {
+    border-bottom: none;
+
+    li {
+      width:52%;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      border:1px solid #eeeeee;
+
+      &.active {
+        border:1px solid $theme-blue-light;
+        a {
+          background: $theme-blue-light;
+          border:1px solid $theme-blue-light;
+        }
+      }
+
+      a {
+        border:1px solid transparent;
+        text-transform:uppercase;
+        background: #ffffff;
+        &:hover {
+          color: $theme-blue;
+        }
+      }
+    }
+  }
 }
 
 // homepage
