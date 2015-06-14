@@ -30,6 +30,40 @@
       background-position: 0 -39px;
     }
 &.boy-pass-yellow{
-      background-position: -59px -39px;
+      background-position: -59px -38px;
     }
+}
+
+.pt-ratio{
+  width:13px;
+  height:27px;
+  background-image: url(../images/sprite-school-icons.png);
+  background-repeat: no-repeat;
+  float:left;
+
+&.girl-green{
+  background-position: -92px 0;
+  }
+&.girl-red{
+    background-position: -105px 0;
+  }
+&.girl-grey{
+    background-position: -78px 0;
+  }
+&.girl-yellow{
+    background-position: -118px 0;
+  }
+
+&.boy-green{
+    background-position: -92px -38px;
+  }
+&.boy-red{
+    background-position: -105px -38px;
+  }
+&.boy-grey{
+    background-position: -78px -38px;
+  }
+&.boy-yellow{
+    background-position: -118px -38px;
+  }
 }
