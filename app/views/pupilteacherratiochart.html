@@ -5,13 +5,13 @@
         </div>
         <div class="col-xs-10">
             <div class="row" style="max-width: 90%">
-                <div class="pass-rate" ng-class="{
-                    'girl-pass-red': $index % 2 != 0 && selectedSchool.pt_ratio >= max,
-                    'boy-pass-red': $index % 2 == 0  && selectedSchool.pt_ratio >= max,
-                    'girl-pass-yellow': $index % 2 != 0 && selectedSchool.pt_ratio <= min,
-                    'boy-pass-yellow': $index % 2 == 0  && selectedSchool.pt_ratio <= min,
-                    'girl-pass-green': $index % 2 != 0 && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max,
-                    'boy-pass-green': $index % 2 == 0  && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max
+                <div class="pt-ratio" ng-class="{
+                    'girl-red': $index % 2 != 0 && selectedSchool.pt_ratio >= max,
+                    'boy-red': $index % 2 == 0  && selectedSchool.pt_ratio >= max,
+                    'girl-yellow': $index % 2 != 0 && selectedSchool.pt_ratio <= min,
+                    'boy-yellow': $index % 2 == 0  && selectedSchool.pt_ratio <= min,
+                    'girl-green': $index % 2 != 0 && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max,
+                    'boy-green': $index % 2 == 0  && selectedSchool.pt_ratio > min && selectedSchool.pt_ratio < max
                 }" ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"></div>
             </div>
         </div>
