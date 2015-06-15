@@ -254,8 +254,8 @@
                 {{ selectedSchool.code }}
                 <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
               </p>
-              <rate-pass-chart min="4" max="6"></rate-pass-chart>
-
+              <rate-pass-chart min="40" max="60" datasource="selectedSchool"></rate-pass-chart>
+              <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
               <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
