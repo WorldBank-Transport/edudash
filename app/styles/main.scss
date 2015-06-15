@@ -500,7 +500,6 @@ div.cartodb-share a{
 
 #schoolinfo .widget {
     position: relative;
-    border-left: 3px solid #e1e1e1;
     padding-left: 10px;
     margin-top: 30px;
 }
@@ -508,7 +507,6 @@ div.cartodb-share a{
 #schoolinfo .widget.first {
     position: relative;
     margin-top: 20px;
-    border-left: 3px solid #e1e1e1;
     padding-left: 10px;
 }
 
@@ -1099,6 +1097,32 @@ map-bottom-toggle.filters {
   margin-left: 0px;
   white-space: nowrap;
   left: -10px;
+}
+.medium-character {
+  position: absolute;
+  font-size: 25px;
+  font-weight: 800;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  margin-left: 0px;
+  white-space: nowrap;
+  left: -10px;
+}
+.text-grey {
+  color: $unknown;
+}
+.medium-small-character {
+  color: $unknown;
+  position: absolute;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  margin-left: 10px;
+  white-space: nowrap;
+  top: 4px;
 }
 
 .chart-title {

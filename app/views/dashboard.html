@@ -159,11 +159,16 @@
                 <pass-rate-change min="-5" max="5" datasource="passRateChange"></pass-rate-change>
               </div>
               <div class="col-xs-4">
-                <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" tooltip="ratio" ranges="30,70" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>
+                <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" tooltip="ratio" ranges="35,50" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>
               </div>
               <div class="col-xs-4">
-                <gauge-chart title="{{'chart.average-pass-rate'| translate}}" tooltip="passrate" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
+                <gauge-chart title="{{'chart.average-pass-rate'| translate}}" tooltip="passrate" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
               </div>
+            </div>
+          </div>
+          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchool|exists">
+            <div class="row col-xs-12">
+                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
             </div>
           </div>
           <form class="form-horizontal">
@@ -203,7 +208,7 @@
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
             <div class="row col-xs-12">
-              <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
+              <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
             </div>
           </div>
 
@@ -254,61 +259,30 @@
               <div class="widget" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
-                  <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
-                  <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
-                  <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
-                  <span ng-class="{
-                  'text-red': selectedSchool.change_13_14 < 0,
-                  'text-yellow': selectedSchool.change_13_14 == 0,
-                  'text-green': selectedSchool.change_13_14 > 0}">
-                    {{ selectedSchool.change_13_14 }}%
-                  </span>
+                    <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
+                    <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
+                    <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
+                            <span ng-class="{
+                                    'text-red': selectedSchool.change_13_14 < 0,
+                                    'text-yellow': selectedSchool.change_13_14 == 0,
+                                    'text-green': selectedSchool.change_13_14 > 0}">
+                                {{ selectedSchool.change_13_14 }}%
+                            </span>
                 </p>
+              </div>
+              <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
+                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
               <div class="widget">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
                 <div id="nationalRanking" class="text-muted"></div>
               </div>
-              <div class="widget" ng-if="selectedSchool.pt_ratio|exists">
-                <p class="widgettitle" translate="chart.title.pupil-teacher-ratio">pupil teacher ratio</p>
-                <table>
-                  <tbody>
-                    <tr class="row">
-                      <td>
-                        <span class="widgetnumber">
-                          <span ng-class="{
-                          'text-red': selectedSchool.pt_ratio > 50,
-                          'text-green': selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50,
-                          'text-yellow': selectedSchool.pt_ratio < 35}">
-                          {{ selectedSchool.pt_ratio }}</span>
-                        </span>
-                      </td>
-                      <td>
-                        <img src="images/ptr_teacher.png" class="teacher">
-                      </td>
-                      <td class="" ng-if="selectedSchool.pt_ratio < 35">
-                        <img
-                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                        ng-src="images/ptr_student_yellow.png">
-                      </td>
-                      <td class="" ng-if="selectedSchool.pt_ratio >= 35 && selectedSchool.pt_ratio <= 50">
-                        <img
-                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                        ng-src="images/ptr_student_green.png">
-                      </td>
-                      <td class="" ng-if="selectedSchool.pt_ratio > 50">
-                        <img
-                        ng-repeat="i in getTimes(selectedSchool.pt_ratio) track by $index"
-                        ng-src="images/ptr_student_red.png">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="widget row">
+                <div class="col-sm-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
+                <div class="col-sm-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
               </div>
-              <div class="widget">
-                <div class="col-xs-12">
-                  <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
-                </div>
+              <div class="widget" ng-if="selectedSchool.pt_ratio|exists">
+                  <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
               </div>
             </div>
           </div>
