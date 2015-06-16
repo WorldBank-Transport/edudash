@@ -115,21 +115,15 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: mapView=='national'}">
-            <a ng-click="showView('national')">
-              <span class="hide-sm" translate="tab.national-view">National View</span>
-              <span class="show-sm" translate="tab.national">National</span>
-            </a>
-          </li>
           <li role="presentation" ng-class="{active: mapView=='regional'}">
             <a ng-click="showView('regional')">
-              <span class="hide-sm" translate="tab.regional-view">Regional View</span>
+              <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
           <li role="presentation" ng-class="{active: mapView=='district'}">
             <a ng-click="showView('district')">
-              <span class="hide-sm" translate="tab.district-view">District View</span>
+              <span class="hide-sm" translate="tab.district-view">Districts</span>
               <span class="show-sm" translate="tab.district">District</span>
             </a>
           </li>
@@ -143,6 +137,12 @@
             <a ng-click="setSchoolType('secondary')">
               <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
               <span class="show-sm" translate="tab.secondary">Secondary</span>
+            </a>
+          </li>
+          <li role="presentation" ng-class="{active: schoolType=='secondary'}">
+            <a ng-click="setSchoolType('secondary')">
+              <span class="hide-sm" translate="tab.year-mode">Year</span>
+              <span class="show-sm" translate="tab.year">Year</span>
             </a>
           </li>
         </ul>
