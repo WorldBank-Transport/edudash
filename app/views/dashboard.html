@@ -139,11 +139,16 @@
               <span class="show-sm" translate="tab.secondary">Secondary</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: schoolType=='secondary'}">
-            <a ng-click="setSchoolType('secondary')">
+          <li role="presentation" ng-class="" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
+            <ul class="dropdown-menu">
+              <li>2012</li>
+              <li>2013</li>
+              <li>2014</li>
+            </ul>
           </li>
         </ul>
       </div>

@@ -112,7 +112,7 @@ body {
 .map-container{
     padding-right: 0;
     padding-left: 0;
-    overflow: hidden;
+    overflow: visible;
     background:#f6f6f6;
     @include content-border;
 }
@@ -330,7 +330,7 @@ div.cartodb-share a{
 }
 .nav-tabs{
   display:table;
-  width:100%;
+  width:101%;
 }
 .nav-tabs > li {
   float: none;
@@ -338,6 +338,10 @@ div.cartodb-share a{
 }
 #nav-tabs-dashboard.nav-tabs > li {
   width: 20%;
+}
+
+#nav-tabs-dashboard.nav-tabs > li:last-child a{
+  border-right: none;
 }
 .nav-tabs > li > a{
   background: #f6f6f6;
@@ -976,8 +980,15 @@ ul.main-nav li ul li a{
 ul.dropdown-menu{
   border-right:none;
 }
-.open > .dropdown-menu{background-color:none; border-top:none;}
+.open > .dropdown-menu{
+  background-color:none;
+  border-top:none;
+  left:-160px;
+  top:48px;
+  width:400px;
+}
 .open > .dropdown-menu ul li{ border-right:none;}
+
 
 /* header - announcement */
 .header-announcements {
