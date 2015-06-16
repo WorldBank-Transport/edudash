@@ -983,11 +983,12 @@ ul.dropdown-menu{
 .open > .dropdown-menu{
   background-color:none;
   border-top:none;
-  left:-160px;
   top:48px;
   width:400px;
 }
-.open > .dropdown-menu ul li{ border-right:none;}
+.open > .dropdown-menu ul li{
+  border-right:none;
+}
 
 
 /* header - announcement */
