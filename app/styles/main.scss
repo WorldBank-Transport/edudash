@@ -310,7 +310,7 @@ img.face {
 
 /* ----------------- */
 .perfomance-gauges{
-  padding-bottom: 20px
+  padding-bottom: 0;
 }
 .perfomance-gauges .col-sm-4{
   padding: 0;
@@ -446,6 +446,7 @@ div.cartodb-share a{
 }
 .form-horizontal{
   margin-bottom:20px;
+  margin-top:20px;
 }
 /* School info */
 #schoolinfo-plaholder{
@@ -524,7 +525,7 @@ div.cartodb-share a{
   font-size: 30px;
   font-weight: 800;
   color: #3a3a3a;
-  margin-top: 0px;
+  margin-top: -5px;
   margin-bottom: 2px;
   margin-right: 10px;
 }
