@@ -18,7 +18,8 @@ angular.module 'edudashAppDir'
         min: '@min'
       }
       link: (scope, element, attrs) ->
+        if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then element.show() else element.hide()
         scope.getTimes = (n) ->
-          new Array(n)
+          if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then new Array(n) else 0
 
   ]
