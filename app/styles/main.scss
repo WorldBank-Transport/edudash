@@ -502,7 +502,8 @@ div.cartodb-share a{
 #schoolinfo .widget {
   position: relative;
   padding-left: 0;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-bottom:10px;
   overflow:hidden;
 }
 
@@ -513,7 +514,8 @@ div.cartodb-share a{
 }
 
 #schoolinfo .widgettitle {
-  font-size: 14px;
+  width:105%;
+  font-size: 12px;
   font-weight: 800;
   color: $theme-blue;
   text-transform: uppercase;
