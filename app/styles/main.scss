@@ -485,23 +485,25 @@ div.cartodb-share a{
 #schoolinfo p.schoolname {
   font-size: 16px;
   font-weight: 700;
-  color: #3a3a3a;
+  color: $theme-blue;
   margin-top: 0px;
   margin-bottom: 0px;
 }
 
 #schoolinfo p.code {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  color: #8b8b8b;
+  color:  darken($body-text-color, 20%);
   margin-top: 0px;
   margin-bottom: 0px;
+  font-style: italic;
 }
 
 #schoolinfo .widget {
   position: relative;
   padding-left: 0;
   margin-top: 30px;
+  overflow:hidden;
 }
 
 #schoolinfo .widget.first {
@@ -512,9 +514,9 @@ div.cartodb-share a{
 }
 
 #schoolinfo .widgettitle {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 800;
-  color: #828282;
+  color: $theme-blue;
   text-transform: uppercase;
   margin-top: 0px;
   margin-bottom: 9px;
@@ -1128,11 +1130,12 @@ map-bottom-toggle.filters {
 }
 
 .chart-title {
-  color: #05a2dc;
-  font-size: 11px;
+  color: $theme-blue;
+  font-size: 12px;
   margin-bottom: 2;
   fill: #05a2dc;
   width: 100%;
+  text-transform:uppercase;
 }
 
 // performance tabs
