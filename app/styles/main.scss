@@ -506,7 +506,6 @@ div.cartodb-share a{
 #schoolinfo .widget {
   position: relative;
   padding-left: 0;
-  margin-top: 20px;
   margin-bottom:10px;
   overflow:hidden;
 }
@@ -975,9 +974,10 @@ ul.main-nav li ul li a{
   @include border-radius(0);
   border:none;
   top:47px;
-  width:400px;
+  width:465px;
   background-color: rgba(5, 162, 220, 0.9);
   color: #ffffff;
+  padding-left:20px;
   ul{
     border-right:none;
     background: $theme-blue;
@@ -987,6 +987,9 @@ ul.main-nav li ul li a{
   li{
     float:left;
     padding:30px 30px;
+  &:hover{
+    font-weight:bold;
+    }
   }
 }
 .nav .open > a,
@@ -1171,6 +1174,10 @@ map-bottom-toggle.filters {
   margin-top: 10px;
 }
 
+#nationalRanking{
+  margin-top:-9px;
+}
+
 // performance tabs
 .performance-nav {
   padding-right:0;
@@ -1225,6 +1232,6 @@ map-bottom-toggle.filters {
   height:15px;
   margin: 2px 5px 0 0;
 &.selected{
-  background:#ffffff;
+  background:#c0edff;
   }
 }
