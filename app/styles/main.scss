@@ -971,25 +971,31 @@ ul.main-nav li ul li a{
   padding-bottom:10px;
 }
 
-#main-nav-items.nav.open > a,
-#main-nav-items.nav.open > a:hover,
-#main-nav-items.nav.open > a:focus{
- background-color: #ffffff;
-}
-
-ul.dropdown-menu{
-  border-right:none;
-}
 .open > .dropdown-menu{
-  background-color:none;
-  border-top:none;
-  top:48px;
+  @include border-radius(0);
+  border:none;
+  top:47px;
   width:400px;
+  background-color: rgba(5, 162, 220, 0.9);
+  color: #ffffff;
+  ul{
+    border-right:none;
+    background: $theme-blue;
+    padding:20px;
+    display:block;
+  }
+  li{
+    float:left;
+    padding:30px 30px;
+  }
 }
-.open > .dropdown-menu ul li{
-  border-right:none;
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus{
+  background: $theme-blue;
+  color:#ffffff;
+  border:1px solid $theme-blue;
 }
-
 
 /* header - announcement */
 .header-announcements {
@@ -1207,4 +1213,18 @@ map-bottom-toggle.filters {
   line-height:34px;
   font-weight:300;
   padding-top: 50px;
+}
+
+// selectable div to replace checkbox in year selection
+.selectable{
+  @include border-radius(50%);
+  border:2px solid #ffffff;
+  display:block;
+  float:left;
+  width:15px;
+  height:15px;
+  margin: 2px 5px 0 0;
+&.selected{
+  background:#ffffff;
+  }
 }
