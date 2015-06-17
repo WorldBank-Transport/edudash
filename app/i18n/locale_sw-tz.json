@@ -36,6 +36,8 @@
     "chart.top.least-improved-schools": "Shule zenye maendeleo duni",
     "chart.top.best-performing-schools": "Shule zilizofaulu zaidi",
     "chart.top.worst-performing-schools": "Shule zenye kiwango duni zaidi",
+    "button.best.performing" : "Zilizofuzu Vizuri",
+    "button.best.improved" : "Zilizoinua Matokeo",
     "map.tooltip": "Chunguza ramani; bofya shule kuanza.",
     "chart.title.change-since-2013": "Mabadiliko tangu 2013",
     "chart.title.national-raking": "Cheo katika orodha la taifa",
