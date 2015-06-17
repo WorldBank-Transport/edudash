@@ -200,15 +200,71 @@
 
           <div class="container-fluid" ng-hide="selectedFeature | exists">
             <div class="col-sm-12 performance-nav">
+
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: visMode==='passrate'}">
-                  <a ng-click="setVisMode('passrate')" translate="button.best.performing">Best Performing</a>
+                <li role="presentation" ng-class="{active: rankBest==='performance'}">
+                  <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: visMode==='ptratio'}">
-                  <a ng-click="setVisMode('ptratio')" translate="button.best.improved">Best Improved</a>
+                <li role="presentation" ng-class="{active: rankBest==='improvement'}">
+                  <a ng-click="rankBest='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
+                {{rankBest}}
             </div>
+              <div ng-if="rankBest==='improvement'">
+                  <div id="schooltablescontainer">
+                      <p class="tableheader"><img src="images/happy.png" class="face" translate="chart.top.most-improved-schools">Most improved schools</p>
+                      <div class="scroll">
+                          <table class="schools">
+                              <tr ng-repeat="school in mostImprovedSchools">
+                                  <td class="rank">{{ $index + 1 }}.</td>
+                                  <td class="name" ng-mouseover="setSchool(school, null, false)" ng-click="setSchool(school)"><strong>{{ school.name }}</strong><p>{{ school.district }} {{'district'|translate}}, {{ school.region }} {{'region'|translate}}</br></p></td>
+                                  <td class="passrategreen">{{ school.change_13_14 }}%</td>
+                              </tr>
+                          </table>
+                      </div>
+
+                      <p class="tableheader"><img src="images/sad.png" class="face" translate="chart.top.least-improved-schools">Least improved schools</p>
+                      <div class="scroll">
+                          <table class="schools">
+                              <tr ng-repeat="school in leastImprovedSchools">
+                                  <td class="rank">{{ $index + 1 }}.</td>
+                                  <td class="name" ng-mouseover="setSchool(school, null, false)" ng-click="setSchool(school)"><strong>{{ school.name }}</strong><p>{{ school.district }} {{'district'|translate}}, {{ school.region }} {{'region'|translate}}</br></p></td>
+                                  <td class="passratered">{{ school.change_13_14 }}%</td>
+                              </tr>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+
+              <div ng-if="rankBest==='performance'">
+                  <div id="schooltablescontainer">
+
+                      <p class="tableheader"><img src="images/happy.png" class="face" translate="chart.top.best-performing-schools">Best performing schools</p>
+                      <div class="scroll">
+                          <table class="schools">
+                              <tr ng-repeat="school in bestSchools">
+                                  <td class="rank">{{ $index + 1 }}.</td>
+                                  <td class="name" ng-mouseover="setSchool(school, null, false)" ng-click="setSchool(school)"><strong>{{ school.name }}</strong><p>{{ school.district }} {{'district'|translate}}, {{ school.region }} {{'region'|translate}}</br></p></td>
+                                  <td class="passrategreen">{{ school.pass_2014 }}%</td>
+                              </tr>
+                          </table>
+                      </div>
+
+                      <p class="tableheader"><img src="images/sad.png" class="face"  translate="chart.top.worst-performing-schools">Worst performing schools</p>
+                      <div class="scroll">
+                          <table class="schools">
+                              <tr ng-repeat="school in worstSchools">
+                                  <td class="rank">{{ $index + 1 }}.</td>
+                                  <td class="name" ng-mouseover="setSchool(school, null, false)" ng-click="setSchool(school)"><strong>{{ school.name }}</strong><p>{{ school.district }} {{'district'|translate}}, {{ school.region }} {{'region'|translate}}</br></p></td>
+                                  <td class="passratered">{{ school.pass_2014 }}%</td>
+                              </tr>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+
+
           </div>
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
