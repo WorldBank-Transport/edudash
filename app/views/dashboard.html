@@ -115,21 +115,15 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: mapView=='national'}">
-            <a ng-click="showView('national')">
-              <span class="hide-sm" translate="tab.national-view">National View</span>
-              <span class="show-sm" translate="tab.national">National</span>
-            </a>
-          </li>
           <li role="presentation" ng-class="{active: mapView=='regional'}">
             <a ng-click="showView('regional')">
-              <span class="hide-sm" translate="tab.regional-view">Regional View</span>
+              <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
           <li role="presentation" ng-class="{active: mapView=='district'}">
             <a ng-click="showView('district')">
-              <span class="hide-sm" translate="tab.district-view">District View</span>
+              <span class="hide-sm" translate="tab.district-view">Districts</span>
               <span class="show-sm" translate="tab.district">District</span>
             </a>
           </li>
@@ -144,6 +138,17 @@
               <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
               <span class="show-sm" translate="tab.secondary">Secondary</span>
             </a>
+          </li>
+          <li role="presentation" ng-class="" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
+              <span class="hide-sm" translate="tab.year-mode">Year</span>
+              <span class="show-sm" translate="tab.year">Year</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><span class="selectable"></span>2012</li>
+              <li><span class="selectable"></span>2013</li>
+              <li><span class="selectable"></span>2014</li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -273,7 +278,7 @@
               <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
-              <div class="widget">
+              <div class="widget col-md-8">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
                 <div id="nationalRanking" class="text-muted"></div>
               </div>

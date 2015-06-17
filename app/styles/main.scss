@@ -112,7 +112,7 @@ body {
 .map-container{
     padding-right: 0;
     padding-left: 0;
-    overflow: hidden;
+    overflow: visible;
     background:#f6f6f6;
     @include content-border;
 }
@@ -330,7 +330,7 @@ div.cartodb-share a{
 }
 .nav-tabs{
   display:table;
-  width:100%;
+  width:101%;
 }
 .nav-tabs > li {
   float: none;
@@ -338,6 +338,10 @@ div.cartodb-share a{
 }
 #nav-tabs-dashboard.nav-tabs > li {
   width: 20%;
+}
+
+#nav-tabs-dashboard.nav-tabs > li:last-child a{
+  border-right: none;
 }
 .nav-tabs > li > a{
   background: #f6f6f6;
@@ -502,7 +506,6 @@ div.cartodb-share a{
 #schoolinfo .widget {
   position: relative;
   padding-left: 0;
-  margin-top: 20px;
   margin-bottom:10px;
   overflow:hidden;
 }
@@ -967,17 +970,35 @@ ul.main-nav li ul li a{
   padding-bottom:10px;
 }
 
-#main-nav-items.nav.open > a,
-#main-nav-items.nav.open > a:hover,
-#main-nav-items.nav.open > a:focus{
- background-color: #ffffff;
+.open > .dropdown-menu{
+  @include border-radius(0);
+  border:none;
+  top:47px;
+  width:465px;
+  background-color: rgba(5, 162, 220, 0.9);
+  color: #ffffff;
+  padding-left:20px;
+  ul{
+    border-right:none;
+    background: $theme-blue;
+    padding:20px;
+    display:block;
+  }
+  li{
+    float:left;
+    padding:30px 30px;
+  &:hover{
+    font-weight:bold;
+    }
+  }
 }
-
-ul.dropdown-menu{
-  border-right:none;
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus{
+  background: $theme-blue;
+  color:#ffffff;
+  border:1px solid $theme-blue;
 }
-.open > .dropdown-menu{background-color:none; border-top:none;}
-.open > .dropdown-menu ul li{ border-right:none;}
 
 /* header - announcement */
 .header-announcements {
@@ -1153,6 +1174,10 @@ map-bottom-toggle.filters {
   margin-top: 10px;
 }
 
+#nationalRanking{
+  margin-top:-9px;
+}
+
 // performance tabs
 .performance-nav {
   padding-right:0;
@@ -1195,4 +1220,18 @@ map-bottom-toggle.filters {
   line-height:34px;
   font-weight:300;
   padding-top: 50px;
+}
+
+// selectable div to replace checkbox in year selection
+.selectable{
+  @include border-radius(50%);
+  border:2px solid #ffffff;
+  display:block;
+  float:left;
+  width:15px;
+  height:15px;
+  margin: 2px 5px 0 0;
+&.selected{
+  background:#c0edff;
+  }
 }
