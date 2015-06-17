@@ -16,8 +16,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         primary = 'primary'
         secondary = 'secondary'
         title =
-          primary: 'Primary School Dashboard'
-          secondary: 'Secondary School Dashboard'
+          primary: 'sidepanel.title.primary'
+          secondary: 'sidepanel.title.secondary'
 
         $scope.schoolType = $routeParams.type
         $scope.title = title[$routeParams.type]

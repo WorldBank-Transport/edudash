@@ -12,11 +12,9 @@ angular.module 'edudashAppDir'
     templateUrl: 'views/topdistrictlist.html'
     transclude: true
     scope:
-      districtListTile: '@'
-      districtListTileEmoticon: '@'
+      districtListTile: '@title'
+      districtListTileEmoticon: '@emoticon'
+      type: '@data'
       tdlData: '=data'
       setMapView: '=click'
     link: (scope, element, attrs) ->
-      scope.districtListTile = attrs.title
-      scope.districtListTileEmoticon = attrs.emoticon
-      scope.type = attrs.data
