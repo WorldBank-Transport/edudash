@@ -58,23 +58,23 @@
   <!-- map fly-out -->
   <div class="map-flyout" ng-if="mapView=='districts'">
     <header>
-      <h2>Region Name</h2>
+      <h2 translate="map.selected.region">Region Name</h2>
       <p class="word">Simanjiro</p>
     </header>
     <div class="stat">
-      <h3>Number of Schools</h3>
+      <h3 translate="map.selected.number-school">Number of Schools</h3>
       <p class="number">73</p>
       <div class="stat">
-        <h4>Government Schools</h4>
+        <h4 translate="map.selected.goberment">Government Schools</h4>
         <p class="number">38</p>
       </div>
       <div class="stat">
-        <h4>Private Schools</h4>
+        <h4 translate="map.selected.private-school">Private Schools</h4>
         <p class="number">35</p>
       </div>
     </div>
     <div class="stat">
-      <h3>Average Pass Rate</h3>
+      <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
       <p class="number">51</p>
     </div>
     <div class="stat">
@@ -84,27 +84,27 @@
   </div>
   <div class="map-flyout" ng-if="mapView=='schools'">
     <header>
-      <h2>School Name</h2>
+      <h2 translate="map.selected.school-name">School Name</h2>
       <p class="word">Simanjiro</p>
     </header>
     <div class="stat">
-      <h3>Region</h3>
+      <h3 translate="map.selected.region">Region</h3>
       <p class="word">Mwanza</p>
     </div>
     <div class="stat">
-      <h3>District</h3>
+      <h3 translate="map.selected.district">District</h3>
       <p class="word">Bunda</p>
     </div>
     <div class="stat">
-      <h3>Ward</h3>
+      <h3 translate="map.selected.ward">Ward</h3>
       <p class="word">Nampindi</p>
     </div>
     <div class="stat">
-      <h3>Pass Rate</h3>
+      <h3 translate="map.selected.passrate">Pass Rate</h3>
       <p class="number good">73%</p>
     </div>
     <div class="stat">
-      <h3>Pupil-Teacher Ratio</h3>
+      <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
       <p class="number good">51</p>
     </div>
   </div>
@@ -156,7 +156,7 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ title }}</strong></div>
+            <div class="text-center"><strong>{{ title | translate }}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -198,7 +198,7 @@
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="selectedFeature | exists">
+          <div class="container-fluid" ng-hide="selectedSchool|exists">
             <div class="col-sm-12 performance-nav">
 
               <ul class="nav nav-tabs">
@@ -316,7 +316,6 @@
                 <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
               </p>
               <rate-pass-chart min="40" max="60" datasource="selectedSchool"></rate-pass-chart>
-              <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
               <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
@@ -334,7 +333,7 @@
               <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
-              <div class="widget col-md-8">
+              <div class="widget col-md-12">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
                 <div id="nationalRanking" class="text-muted"></div>
               </div>

@@ -34,7 +34,7 @@ angular.module 'edudashAppDir'
           credits:
             enabled: false
           title:
-            text: "<span style='font-size: 10px;'>#{attrs.title}</span>"
+            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
             useHTML: true
             y: 70
             x: 70
@@ -118,3 +118,19 @@ angular.module 'edudashAppDir'
       scope.$watch datasource, (newValue, oldValue) ->
         if newValue
           update(parseFloat(newValue.toFixed(1)))
+
+      attrs.$observe 'title', (value) ->
+        # TODO This way we could custom the style for swahilli
+        chart = element.highcharts()
+        width = element.parent().width()
+        if(chart?)
+          titleObj =
+            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
+            useHTML: true
+            y: 70
+            x: 70
+            width: width + 40
+            align: 'center'
+            style:
+              color: '#05a2dc'
+          chart.setTitle(titleObj)
