@@ -224,7 +224,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
               if $scope.mapView == 'schools'
-                console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
                 $scope.passratetime = chartSrv.drawPassOverTime item
 

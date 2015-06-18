@@ -82,32 +82,7 @@
       <p class="number good">51</p>
     </div>
   </div>
-  <div class="map-flyout" ng-if="mapView=='schools'">
-    <header>
-      <h2 translate="map.selected.school-name">School Name</h2>
-      <p class="word">Simanjiro</p>
-    </header>
-    <div class="stat">
-      <h3 translate="map.selected.region">Region</h3>
-      <p class="word">Mwanza</p>
-    </div>
-    <div class="stat">
-      <h3 translate="map.selected.district">District</h3>
-      <p class="word">Bunda</p>
-    </div>
-    <div class="stat">
-      <h3 translate="map.selected.ward">Ward</h3>
-      <p class="word">Nampindi</p>
-    </div>
-    <div class="stat">
-      <h3 translate="map.selected.passrate">Pass Rate</h3>
-      <p class="number good">73%</p>
-    </div>
-    <div class="stat">
-      <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
-      <p class="number good">51</p>
-    </div>
-  </div>
+  <div map-flyout-school class="map-flyout" ng-if="mapView=='schools' && selectedSchool|exists"></div>
   <!-- end map flyout -->
 
 
