@@ -1239,8 +1239,15 @@ map-bottom-toggle.filters {
   padding-top: 50px;
 }
 
+// school location markers
+.school-location {
+  &:hover {
+    stroke: $theme-blue;
+  }
+}
+
 // selectable div to replace checkbox in year selection
-.selectable{
+.selectable {
   @include border-radius(50%);
   border:2px solid #ffffff;
   display:block;
@@ -1248,7 +1255,7 @@ map-bottom-toggle.filters {
   width:15px;
   height:15px;
   margin: 2px 5px 0 0;
-&.selected{
-  background:#c0edff;
+  &.selected {
+    background:#c0edff;
   }
 }

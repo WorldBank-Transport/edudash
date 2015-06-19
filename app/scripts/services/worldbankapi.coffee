@@ -133,7 +133,28 @@ angular.module 'edudashAppSrv'
         $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
 
       getSchools: (educationLevel) ->
-        sql = "SELECT * FROM tz_#{educationLevel}_cleaned_dashboard"
+        fields = [
+          'cartodb_id'
+          'latitude'
+          'longitude'
+          'name'
+          'region'
+          'district'
+          'ward'
+          'pass_2014'
+          'pt_ratio'
+        ].join ','
+        sql = "SELECT #{fields} FROM tz_#{educationLevel}_cleaned_dashboard"
         $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
 
+      getDistricts: (educationLevel) ->
+        table = if educationLevel is 'primary' then 'wbank.districts_primary' else 'wbank.secondary_districts'
+        sql = "
+          SELECT
+            district_n as name,
+            ST_AsGeoJSON(the_geom) as geojson
+          FROM
+            #{table}
+        "
+        $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
   ]

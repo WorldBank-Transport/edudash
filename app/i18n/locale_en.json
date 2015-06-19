@@ -1,5 +1,8 @@
 {
     "dashboard.title": "Education Dashboard",
+    "sidepanel.title.primary": "Primary School Dashboard",
+    "sidepanel.title.secondary": "Secondary School Dashboard",
+
     "menu.home": "Home",
     "menu.dashboard": "Dashboards",
     "menu.primary": "Primary",
@@ -83,10 +86,7 @@
     "map.selected.district": "District",
     "map.selected.ward": "Ward",
     "map.selected.passrate": "Pass Rate",
-    "map.selected.pt-ratio": "Pupil-Teacher Ratio",
-
-    "sidepanel.title.primary": "Primary School Dashboard",
-    "sidepanel.title.secondary": "Secondary School Dashboard"
+    "map.selected.pt-ratio": "Pupil-Teacher Ratio"
 
 
 }
