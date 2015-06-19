@@ -1,5 +1,7 @@
 {
     "dashboard.title": "Education Dashboard",
+    "dashboard.title.primary": "Primary School Dashboard",
+    "dashboard.title.secondary": "Secondary School Dashboard",
     "menu.home": "Home",
     "menu.dashboard": "Dashboards",
     "menu.primary": "Primary",

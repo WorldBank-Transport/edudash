@@ -9,35 +9,36 @@
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 'MetricsSrv'
+    '$timeout', 'MetricsSrv', 'colorSrv'
 
 
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv) ->
-        primary = 'primary'
-        secondary = 'secondary'
-        title =
-          primary: 'Primary School Dashboard'
-          secondary: 'Secondary School Dashboard'
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv, colorSrv) ->
 
+        # state validation stuff
+        visModes = ['passrate', 'ptratio']
+        viewModes = ['schools', 'national', 'regional']
+
+        # app state
+        $scope.visMode = 'passrate'
+        $scope.viewMode = 'schools'
         $scope.schoolType = $routeParams.type
-        $scope.title = title[$routeParams.type]
+        $scope.hoveredSchool = null
 
-        if $routeParams.type isnt primary and $routeParams.type isnt secondary
-          $timeout -> $location.path '/'
-
-
+        # widget local state (maybe should move to other directives)
         $scope.searchText = "dar"
+        $scope.schoolsChoices = []
 
+        # controller constants
+        mapId = 'map'
+
+        # other global-ish stuff
+        schoolMarker = null
+
+
+        # other state
         layers = {}
         currentLayer = null
 
-        $scope.mapView = 'schools'
-        $scope.activeItem = null
-        $scope.schoolsChoices = []
-        $scope.hoveredSchool = null
-        schoolMarker = null
-        $scope.openMapFilter = false
-        $scope.openSchoolLegend = false
         ptMin = 0
         ptMax = 150
         $scope.passRange =
@@ -63,22 +64,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           maxValue: 10
         };
 
-        visModes = ['passrate', 'ptratio']
-        $scope.visMode = 'passrate'
-
-        mapId = 'map'
-
+        if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
+          $timeout -> $location.path '/'
 
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
           map.setView [-7.199, 34.1894], 6
-
           # add the basemap
-          layersSrv.addTileLayer 'gray', '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', mapId
+          layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+          # set up the initial view
+          $scope.showView 'schools'
 
-          # add the current layer
-          if $scope.mapView == 'schools'
-            dataPromise = $q (resolve, reject) ->
+        mapLayerCreators =
+          schools: ->
+            getData = -> $q (resolve, reject) ->
               WorldBankApi.getSchools $scope.schoolType
                 .success (data) ->
                   resolve
@@ -92,14 +91,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                           coordinates: [school.longitude, school.latitude]
                         properties: school
                 .error reject
-
             options =
               pointToLayer: (geojson, latlng) ->
                 L.circleMarker latlng,
                   className: 'school-location'
                   radius: 8
-                  color: '#fff'
-                  fillColor: '#777'
               onEachFeature: (feature, layer) ->
                 layer.on 'mouseover', -> $scope.$apply ->
                   $scope.hoveredSchool = feature.properties
@@ -107,39 +103,33 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   $scope.hoveredSchool = null
                 layer.on 'click', -> $scope.$apply ->
                   $scope.setSchool feature.properties
+            layersSrv.addGeojsonLayer "schools-#{$scope.schoolType}", mapId,
+              getData: getData
+              options: options
 
-            layers['schools'] = layersSrv.addGeojsonLayer 'schools', dataPromise, options, mapId
+          regional: ->
+            getData = -> $q (resolve, reject) ->
+              WorldBankApi.getDistricts $scope.schoolType
+                .success (data) ->
+                  resolve
+                    type: 'FeatureCollection'
+                    features: data.rows.map (district) ->
+                      angular.extend (JSON.parse district.geojson),
+                        properties: district
+                .error reject
+            layersSrv.addGeojsonLayer "regions-#{$scope.schoolType}", mapId,
+              getData: getData
 
-          # set up the initial view
-          $scope.showView 'schools'
-
-        colourize = ->
-          if $scope.mapView == 'schools'
-            _(currentLayer.raw.getLayers()).each (l) ->
-              if $scope.visMode == 'passrate'
-                passrate = l.feature.properties.pass_2014
-                if passrate == null
-                  l.setStyle
-                    color: '#aaa'  # stroke
-                    fillOpacity: 0
-                else
-                  l.setStyle
-                    color: '#fff'  # stroke
-                    fillColor: if passrate < 40 then '#f56053' else
-                      if passrate < 60 then '#e9c941' else '#38a21c'
-                    fillOpacity: 0.75
-              else if $scope.visMode == 'ptratio'
-                ptratio = l.feature.properties.pt_ratio
-                if ptratio == null
-                  l.setStyle
-                    color: '#aaa'  # stroke
-                    fillOpacity: 0
-                else
-                  l.setStyle
-                    color: '#fff'  # stroke
-                    fillColor: if ptratio < 35 then '#38a21c' else
-                      if ptratio > 50 then '#f56053' else '#e9c941'
-                    fillOpacity: 0.75
+        colorPins = ->
+          if $scope.viewMode != 'schools'
+            console.error 'colorPins should only be called when viewMode is "schools"'
+            return
+          _(currentLayer.getLayers()).each (l) ->
+            if $scope.visMode == 'passrate'
+              v = l.feature.properties.pass_2014
+            else
+              v = l.feature.properties.pt_ratio
+            l.setStyle colorSrv.pinStyle v, $scope.visMode
 
 
         WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
@@ -160,24 +150,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setVisMode = (to) ->
           unless (visModes.indexOf to) == -1
             $scope.visMode = to
-            colourize()
+            colorPins()
           else
             console.error 'Could not change visualization to invalid mode:', to
 
         $scope.showView = (view) ->
-          layers[view].then (layer) ->
-            layer.show()
-            currentLayer = layer
-            colourize()
-
-        $scope.toggleMapFilter = () ->
-            $scope.openMapFilter = !$scope.openMapFilter
-
-        $scope.toggleSchoolLegend = () ->
-            $scope.openSchoolLegend = !$scope.openSchoolLegend
+          $scope.viewMode = view
+          leafletData.getMap(mapId).then (map) ->
+            unless currentLayer == null
+              map.removeLayer currentLayer
+              currentLayer = null
+            mapLayerCreators[$scope.viewMode]().then (layer) ->
+              currentLayer = layer
+              if $scope.viewMode == 'schools'
+                colorPins()
 
         updateMap = () ->
-          if $scope.mapView != 'district'
+          if $scope.viewMode != 'district'
             # Include schools with no pt_ratio are also shown when the pt limits in extremeties
             if $scope.ptRange.min == ptMin and $scope.ptRange.max == ptMax
                 WorldBankApi.updateLayers(layers, $scope.schoolType, $scope.passRange)
@@ -207,15 +196,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         markSchool = (latlng) ->
           unless schoolMarker?
             icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
-            schoolMarker = layersSrv.marker 'school-marker', latlng, {icon: icon}, mapId
+            schoolMarker = layersSrv.marker 'school-marker', mapId,
+              latlng: latlng
+              options: icon: icon
 
           schoolMarker.then (marker) ->
-            marker.raw.setLatLng latlng
-            marker.show()
+            marker.setLatLng latlng
 
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
-                $scope.mapView = view
+                $scope.viewMode = view
                 $scope.showView(view)
             unless zoom?
                 zoom = 9
@@ -237,7 +227,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
-                $scope.mapView = 'schools'
+                $scope.viewMode = 'schools'
                 $scope.showView('schools')
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->
@@ -260,7 +250,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
-              if $scope.mapView == 'schools'
+              if $scope.viewMode == 'schools'
                 console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
                 $scope.passratetime = chartSrv.drawPassOverTime item

@@ -1,4 +1,4 @@
-<div class="map-widget {'has-filters': mapView != 'districts'}">
+<div class="map-widget {'has-filters': viewMode != 'districts'}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
@@ -56,7 +56,7 @@
   </div>
 
   <!-- map fly-out -->
-  <div class="map-flyout" ng-if="mapView=='districts'">
+  <div class="map-flyout" ng-if="viewMode=='districts'">
     <header>
       <h2>Region Name</h2>
       <p class="word">Simanjiro</p>
@@ -121,19 +121,19 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: mapView=='national'}">
+          <li role="presentation" ng-class="{active: viewMode=='national'}">
             <a ng-click="showView('national')">
               <span class="hide-sm" translate="tab.national-view">National View</span>
               <span class="show-sm" translate="tab.national">National</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: mapView=='regional'}">
+          <li role="presentation" ng-class="{active: viewMode=='regional'}">
             <a ng-click="showView('regional')">
               <span class="hide-sm" translate="tab.regional-view">Regional View</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: mapView=='district'}">
+          <li role="presentation" ng-class="{active: viewMode=='district'}">
             <a ng-click="showView('district')">
               <span class="hide-sm" translate="tab.district-view">District View</span>
               <span class="show-sm" translate="tab.district">District</span>
@@ -157,7 +157,7 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ title }}</strong></div>
+            <div class="text-center"><strong>{{ ('dashboard.title.' + schoolType) | translate }}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -218,7 +218,7 @@
             </div>
           </div>
 
-          <div ng-if="mapView=='districts'">
+          <div ng-if="viewMode=='districts'">
             <div id="districtinfo" class="container-fluid">
               <div class="col-sm-12 performance-nav">
                 <ul class="nav nav-tabs">
@@ -241,7 +241,7 @@
             </div>
           </div>
 
-          <div ng-if="mapView=='schools'">
+          <div ng-if="viewMode=='schools'">
             <div ng-hide="selectedSchool|exists" class="container-fluid">
               <div id="schoolinfo-plaholder" class="text-center" translate="map.tooltip">
                 Explore the map and click on a school to get started.
