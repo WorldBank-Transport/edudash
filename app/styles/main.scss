@@ -4,6 +4,7 @@
 @import "layout";
 @import "flyout";
 @import "pupilsprite";
+@import "schoollist";
 
 @import "cartodbhacks";  // remove when cartodb is gone
 
@@ -12,6 +13,10 @@
 body {
   display: block;
   font-family: 'Open Sans', sans-serif;
+}
+
+.no-padding{
+  padding:0;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -188,6 +193,7 @@ html, body {
     margin: 0px;
     padding: 0px;
     border: 0px;
+    font-family: 'Open Sans', sans-serif;
 }
 
 h1 {
@@ -287,8 +293,6 @@ table.schools p {
 }
 
 p.tableheader {
-    background-color: $theme-blue;
-    max-width: 224px;
     height: 32px;
     border-radius: 3px;
     text-align: center;
@@ -296,9 +300,15 @@ p.tableheader {
     color: white;
     font-weight: 400;
     font-size: 14px;
-    margin-left: auto;
-    margin-right: auto;
+    margin:60px auto 20px auto;
+    &.best-performing{
+      background:$best-perform;
+    }
+    &.poor-perform{
+      background:$poor-perform;
+    }
 }
+
 
 img.face {
   margin-top: 6px;

@@ -1,0 +1,107 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Open Data | Regional - table best and worst</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="bower_components/angular-rangeslider/angular.rangeSlider.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/schoollist.css">
+    <!-- endbuild -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  </head>
+  <body>
+<!--the div with inline style is temporary-->
+<div style="width:450px">
+  <div class="container-fluid" ng-hide="selectedSchool|exists" aria-hidden="false">
+
+<div class="ng-scope">
+    <div>
+    <div class="performance-header best-perform">
+      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+Best Performing Schools - Top 100</div>
+    <div class="scroll">
+        <table class="school-performance">
+            <tbody><!-- ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">1.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">MIHUGA PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">2.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">NASIHUKULU PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">3.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">LITEMLA PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+
+        </tbody></table>
+    </div>
+    </school-list>
+                      </div>
+                  </div><!-- end ngIf: rankBest==='improvement' -->
+
+                  <!-- ngIf: rankBest==='performance' -->
+</div>
+
+</div>
+
+
+<!-- best performing -->
+<!--the div with inline style is temporary-->
+<div style="width:450px">
+  <div class="container-fluid" ng-hide="selectedSchool|exists" aria-hidden="false">
+
+<div class="ng-scope">
+    <div>
+    <div class="performance-header worst-perform">
+      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+Worst Performing Schools - Top 100</div>
+    <div class="scroll">
+        <table class="school-performance">
+            <tbody><!-- ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">1.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">MIHUGA PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">2.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">NASIHUKULU PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+                <td class="rank ng-binding">3.</td>
+                <!--ng-mouseover="setSchool(school, null, false)"-->
+                <td class="name" ng-click="setSchool(school)" role="button" tabindex="0"><strong class="ng-binding">LITEMLA PRIMARY SCHOOL</strong></td>
+                <td class="passrategreen ng-binding">100%</td>
+            </tr><!-- end ngRepeat: school in listData --><tr ng-repeat="school in listData" class="ng-scope">
+
+        </tbody></table>
+    </div>
+    </school-list>
+                      </div>
+                  </div>
+
+</div>
+
+</div>
+
+
+  </body>
+</html>

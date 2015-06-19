@@ -1,0 +1,63 @@
+@import "variables";
+@import "mixins";
+
+@import "layout";
+@import "flyout";
+@import "pupilsprite";
+
+.performance-header{
+  @include border-radius(4px);
+  font-size:13px;
+  font-weight:bold;
+  padding:5px 10px;
+  line-height:20px;
+  color:#ffffff;
+  margin-top:10px;
+  &.best-perform{
+    background:$best-perform;
+  }
+  &.poor-perform{
+    background:$poor-perform;
+  }
+
+  .glyphicon-star::before{
+    font-size:15px;
+    margin-right:5px;
+  }
+}
+
+.school-performance{
+  width:100%;
+
+  .name{
+    font-size:11px;
+    margin-left:0;
+    padding-left:0;
+  }
+  .rank{
+    font-size:13px !important;
+    padding-right:15px;
+    font-weight:bold;
+  }
+  td{
+    outline:none;
+    padding-left:10px;
+
+  &.passrategreen{
+    color: $best-perform;
+    font-weight:bold;
+    }
+  &.passratered{
+    color: $poor-perform;
+    font-weight:bold;
+    }
+  }
+  tr{
+  &:hover{
+    background:#f6f6f6;
+    }
+  }
+  tr:nth-child(even) {
+    background: #ebebeb
+  }
+}
