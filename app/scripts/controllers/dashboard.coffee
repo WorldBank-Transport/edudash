@@ -8,11 +8,13 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData', '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
+    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
+    '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv'
 
-
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData, _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate, $timeout, MetricsSrv, colorSrv) ->
+    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
+    _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
+    $timeout, MetricsSrv, colorSrv) ->
 
         # state validation stuff
         visModes = ['passrate', 'ptratio']
@@ -251,10 +253,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
               if $scope.viewMode == 'schools'
-                console.log chartSrv
                 chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
                 $scope.passratetime = chartSrv.drawPassOverTime item
-
             , 400)
 
         $scope.getTimes = (n) ->

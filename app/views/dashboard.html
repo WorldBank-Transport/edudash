@@ -55,26 +55,25 @@
     </map-bottom-toggle>
   </div>
 
-  <!-- map fly-out -->
   <div class="map-flyout" ng-if="viewMode=='districts'">
     <header>
-      <h2>Region Name</h2>
+      <h2 translate="map.selected.region">Region Name</h2>
       <p class="word">Simanjiro</p>
     </header>
     <div class="stat">
-      <h3>Number of Schools</h3>
+      <h3 translate="map.selected.number-school">Number of Schools</h3>
       <p class="number">73</p>
       <div class="stat">
-        <h4>Government Schools</h4>
+        <h4 translate="map.selected.goberment">Government Schools</h4>
         <p class="number">38</p>
       </div>
       <div class="stat">
-        <h4>Private Schools</h4>
+        <h4 translate="map.selected.private-school">Private Schools</h4>
         <p class="number">35</p>
       </div>
     </div>
     <div class="stat">
-      <h3>Average Pass Rate</h3>
+      <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
       <p class="number">51</p>
     </div>
     <div class="stat">
@@ -82,40 +81,11 @@
       <p class="number good">51</p>
     </div>
   </div>
-  <div class="map-flyout" ng-show="hoveredSchool !== null">
-    <header>
-      <h2>School Name</h2>
-      <p class="word">{{ hoveredSchool.name }}</p>
-    </header>
-    <div class="stat">
-      <h3>Region</h3>
-      <p class="word">{{ hoveredSchool.region }}</p>
-    </div>
-    <div class="stat">
-      <h3>District</h3>
-      <p class="word">{{ hoveredSchool.district }}</p>
-    </div>
-    <div class="stat">
-      <h3>Ward</h3>
-      <p class="word">{{ hoveredSchool.ward }}</p>
-    </div>
-    <div class="stat">
-      <h3>Pass Rate</h3>
-      <p class="number {{ hoveredSchool.pass_2014 === null ?
-        'unknown' : hoveredSchool.pass_2014 < 40 ?
-          'poor' : hoveredSchool.pass_2014 < 60 ?
-            'medium' : 'good' }}">{{ hoveredSchool.pass_2014 }}</p>
-    </div>
-    <div class="stat">
-      <h3>Pupil-Teacher Ratio</h3>
-      <p class="number {{ hoveredSchool.pt_ratio === null ?
-        'unknown' : hoveredSchool.pt_ratio < 35 ?
-          'good' : hoveredSchool.pt_ratio > 50 ?
-            'poor' : 'medium' }}">{{ hoveredSchool.pt_ratio }}</p>
-    </div>
+  <div
+    class="map-flyout"
+    ng-show="hoveredSchool !== null"
+    ng-include="'views/schoolFlyout.html'">
   </div>
-  <!-- end map flyout -->
-
 
   <div class="container-fluid">
     <div class="row map-widget-row">
@@ -150,11 +120,7 @@
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><span class="selectable"></span>2012</li>
-              <li><span class="selectable"></span>2013</li>
-              <li><span class="selectable"></span>2014</li>
-            </ul>
+            <ul year-selector class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012"></ul>
           </li>
         </ul>
       </div>
@@ -162,7 +128,7 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ ('dashboard.title.' + schoolType) | translate }}</strong></div>
+            <div class="text-center"><strong>{{ ('sidepanel.title.' + schoolType) | translate }}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -204,17 +170,31 @@
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="selectedFeature | exists">
+          <div class="container-fluid" ng-hide="selectedSchool|exists">
             <div class="col-sm-12 performance-nav">
+
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: visMode==='passrate'}">
-                  <a ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate</a>
+                <li role="presentation" ng-class="{active: rankBest==='performance'}">
+                  <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: visMode==='ptratio'}">
-                  <a ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+                <li role="presentation" ng-class="{active: rankBest==='improvement'}">
+                  <a ng-click="rankBest='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
+              <div ng-if="rankBest==='improvement'">
+                  <div id="schooltablescontainer">
+                      <school-list title="chart.top.most-improved-schools" emoticon="happy" data="mostImprovedSchools" click="setSchool" property="change_13_14"></school-list>
+                  </div>
+              </div>
+
+              <div ng-if="rankBest==='performance'">
+                  <div id="schooltablescontainer">
+                      <school-list title="chart.top.best-performing-schools" emoticon="happy" data="bestSchools" click="setSchool" property="pass_2014"></school-list>
+                  </div>
+              </div>
+
+
           </div>
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
@@ -266,7 +246,6 @@
                 <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
               </p>
               <rate-pass-chart min="40" max="60" datasource="selectedSchool"></rate-pass-chart>
-              <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
               <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
@@ -284,7 +263,7 @@
               <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
-              <div class="widget col-md-8">
+              <div class="widget col-md-12">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
                 <div id="nationalRanking" class="text-muted"></div>
               </div>

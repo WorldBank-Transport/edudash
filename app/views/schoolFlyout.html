@@ -1,0 +1,30 @@
+<header>
+  <h2>School Name</h2>
+  <p class="word">{{ hoveredSchool.name }}</p>
+</header>
+<div class="stat">
+  <h3>Region</h3>
+  <p class="word">{{ hoveredSchool.region }}</p>
+</div>
+<div class="stat">
+  <h3>District</h3>
+  <p class="word">{{ hoveredSchool.district }}</p>
+</div>
+<div class="stat">
+  <h3>Ward</h3>
+  <p class="word">{{ hoveredSchool.ward }}</p>
+</div>
+<div class="stat">
+  <h3>Pass Rate</h3>
+  <p class="number {{ hoveredSchool.pass_2014 === null ?
+    'unknown' : hoveredSchool.pass_2014 < 40 ?
+      'poor' : hoveredSchool.pass_2014 < 60 ?
+        'medium' : 'good' }}">{{ hoveredSchool.pass_2014 }}</p>
+</div>
+<div class="stat">
+  <h3>Pupil-Teacher Ratio</h3>
+  <p class="number {{ hoveredSchool.pt_ratio === null ?
+    'unknown' : hoveredSchool.pt_ratio < 35 ?
+      'good' : hoveredSchool.pt_ratio > 50 ?
+        'poor' : 'medium' }}">{{ hoveredSchool.pt_ratio }}</p>
+</div>

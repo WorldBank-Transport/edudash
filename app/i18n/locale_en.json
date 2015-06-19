@@ -1,7 +1,8 @@
 {
     "dashboard.title": "Education Dashboard",
-    "dashboard.title.primary": "Primary School Dashboard",
-    "dashboard.title.secondary": "Secondary School Dashboard",
+    "sidepanel.title.primary": "Primary School Dashboard",
+    "sidepanel.title.secondary": "Secondary School Dashboard",
+
     "menu.home": "Home",
     "menu.dashboard": "Dashboards",
     "menu.primary": "Primary",
@@ -42,6 +43,8 @@
     "chart.top.least-improved-schools": "Least improved schools",
     "chart.top.best-performing-schools": "Best performing schools",
     "chart.top.worst-performing-schools": "Worst performing schools",
+    "button.best.performing" : "Best Performing",
+    "button.best.improved" : "Best Improved",
     "map.tooltip": "Explore the map and click on a school to get started.",
     "chart.title.change-since-2013": "change since 2013",
     "chart.title.national-raking": "national ranking",
@@ -71,8 +74,19 @@
     "main.paragh.connector": "and",
     "main.link.speakout": "speak out",
     "main.link.data": "data",
-    "speakout.title": "Your voice matters! Complete this form to share feedback about the data."
+    "speakout.title": "Your voice matters! Complete this form to share feedback about the data.",
 
+    "map.selected.region": "Region Name",
+    "map.selected.number-school": "Number of Schools",
+    "map.selected.goberment": "Government Schools",
+    "map.selected.private-school": "Private Schools",
+    "map.selected.average-pass-rate": "Average Pass Rate",
+    "map.selected.school-name": "School Name",
+    "map.selected.region": "Region",
+    "map.selected.district": "District",
+    "map.selected.ward": "Ward",
+    "map.selected.passrate": "Pass Rate",
+    "map.selected.pt-ratio": "Pupil-Teacher Ratio"
 
 
 }
