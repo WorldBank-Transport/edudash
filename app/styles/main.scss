@@ -274,6 +274,13 @@ table.schools td.passrategreen {
     width: 55px;
 }
 
+table.schools td.passrateyellow {
+  color: $rank-medium;
+  font-weight: 400;
+  font-size: 16px;
+  width: 55px;
+}
+
 table.schools td.passratered {
     color: $rank-poor;
     font-weight: 400;
