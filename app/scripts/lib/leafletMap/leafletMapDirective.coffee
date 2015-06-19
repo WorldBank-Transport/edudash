@@ -8,7 +8,7 @@
  # showing the latest news/updates
 ###
 angular.module('leafletMap').directive 'leafletMap', [
-  'leafletData', 'L', '$q'
+  'leafletData', 'L', '$q',
   (leafletData, L, $q) ->
     _leafletMap = null  # empty ref shared by controller and link
 
@@ -29,6 +29,9 @@ angular.module('leafletMap').directive 'leafletMap', [
       leafletData.setMap map, attrs.id
 
       scope.$on '$destroy', ->
+        map.eachLayer (layer) ->
+          map.removeLayer layer
+        map.eachLayer (l) -> map.removeLayer l
         map.remove()
         leafletData.unsetMap attrs.id
 ]

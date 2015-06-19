@@ -47,6 +47,7 @@ describe 'leafletMap directive: leafletMap', ->
   scope = null
   beforeEach inject (_leafletData_, _$compile_, _$rootScope_, _$timeout_) ->
     mapMock =  # singleton to test for
+      eachLayer: -> null
       remove: () -> null
     leafletData = _leafletData_
     $compile = _$compile_

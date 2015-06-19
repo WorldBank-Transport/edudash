@@ -11,6 +11,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css" />
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/angular-rangeslider/angular.rangeSlider.css" />
     <!-- endbower -->
@@ -52,6 +53,11 @@
       $('select').select2();
     </script>
 
+    <!-- Render maps on canvas! -->
+    <script>
+      // window.L_PREFER_CANVAS = true
+    </script>
+
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -79,13 +85,14 @@
     <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
     <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
     <script src="bower_components/highcharts/highcharts.js"></script>
     <script src="bower_components/highcharts/highcharts-more.js"></script>
     <script src="bower_components/highcharts/modules/exporting.js"></script>
     <script src="bower_components/highcharts/modules/solid-gauge.js"></script>
+    <script src="bower_components/angular-rangeslider/angular.rangeSlider.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -108,7 +115,6 @@
     <script src="scripts/directives/highcharttest.js"></script>
     <script src="scripts/directives/langselector.js"></script>
     <script src="scripts/directives/mapBottomToggle.js"></script>
-    <script src="scripts/directives/mapflyoutschool.js"></script>
     <script src="scripts/directives/passratechange.js"></script>
     <script src="scripts/directives/passratetime.js"></script>
     <script src="scripts/directives/pupilteacherratiochart.js"></script>
@@ -130,8 +136,8 @@
     <script src="scripts/services/service.js"></script>
     <script src="scripts/services/_.js"></script>
     <script src="scripts/services/announcements.js"></script>
-    <script src="scripts/services/cartodb.js"></script>
     <script src="scripts/services/chart.js"></script>
+    <script src="scripts/services/colors.js"></script>
     <script src="scripts/services/csvparser.js"></script>
     <script src="scripts/services/d3.js"></script>
     <script src="scripts/services/layers.js"></script>
