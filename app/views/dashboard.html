@@ -121,21 +121,15 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: viewMode=='national'}">
-            <a ng-click="showView('national')">
-              <span class="hide-sm" translate="tab.national-view">National View</span>
-              <span class="show-sm" translate="tab.national">National</span>
-            </a>
-          </li>
           <li role="presentation" ng-class="{active: viewMode=='regional'}">
             <a ng-click="showView('regional')">
-              <span class="hide-sm" translate="tab.regional-view">Regional View</span>
+              <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
           <li role="presentation" ng-class="{active: viewMode=='district'}">
             <a ng-click="showView('district')">
-              <span class="hide-sm" translate="tab.district-view">District View</span>
+              <span class="hide-sm" translate="tab.district-view">Districts</span>
               <span class="show-sm" translate="tab.district">District</span>
             </a>
           </li>
@@ -150,6 +144,17 @@
               <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
               <span class="show-sm" translate="tab.secondary">Secondary</span>
             </a>
+          </li>
+          <li role="presentation" ng-class="" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
+              <span class="hide-sm" translate="tab.year-mode">Year</span>
+              <span class="show-sm" translate="tab.year">Year</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li><span class="selectable"></span>2012</li>
+              <li><span class="selectable"></span>2013</li>
+              <li><span class="selectable"></span>2014</li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -200,7 +205,7 @@
           </form>
 
           <div class="container-fluid" ng-hide="selectedFeature | exists">
-            <div class="col-sm-12">
+            <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: visMode==='passrate'}">
                   <a ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate</a>
@@ -260,8 +265,8 @@
                 {{ selectedSchool.code }}
                 <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
               </p>
-              <rate-pass-chart min="4" max="6"></rate-pass-chart>
-
+              <rate-pass-chart min="40" max="60" datasource="selectedSchool"></rate-pass-chart>
+              <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
               <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
@@ -279,13 +284,13 @@
               <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
-              <div class="widget">
+              <div class="widget col-md-8">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
                 <div id="nationalRanking" class="text-muted"></div>
               </div>
-              <div class="widget row">
-                <div class="col-sm-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
-                <div class="col-sm-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
+              <div class="widget row widget-full-width">
+                <div class="col-lg-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
+                <div class="col-lg-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
               </div>
               <div class="widget" ng-if="selectedSchool.pt_ratio|exists">
                   <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>

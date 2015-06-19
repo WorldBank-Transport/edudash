@@ -3,6 +3,7 @@
 
 @import "layout";
 @import "flyout";
+@import "pupilsprite";
 
 @import "cartodbhacks";  // remove when cartodb is gone
 
@@ -111,7 +112,7 @@ body {
 .map-container{
     padding-right: 0;
     padding-left: 0;
-    overflow: hidden;
+    overflow: visible;
     background:#f6f6f6;
     @include content-border;
 }
@@ -163,7 +164,6 @@ body {
         border-bottom: 0;
     }
 #main-nav-items{
-  width: 500px;
   margin-top:26px;
 }
 @media only screen and (max-width: $e) {
@@ -310,7 +310,7 @@ img.face {
 
 /* ----------------- */
 .perfomance-gauges{
-  padding-bottom: 20px
+  padding-bottom: 0;
 }
 .perfomance-gauges .col-sm-4{
   padding: 0;
@@ -330,7 +330,7 @@ div.cartodb-share a{
 }
 .nav-tabs{
   display:table;
-  width:100%;
+  width:101%;
 }
 .nav-tabs > li {
   float: none;
@@ -338,6 +338,10 @@ div.cartodb-share a{
 }
 #nav-tabs-dashboard.nav-tabs > li {
   width: 20%;
+}
+
+#nav-tabs-dashboard.nav-tabs > li:last-child a{
+  border-right: none;
 }
 .nav-tabs > li > a{
   background: #f6f6f6;
@@ -446,6 +450,7 @@ div.cartodb-share a{
 }
 .form-horizontal{
   margin-bottom:20px;
+  margin-top:20px;
 }
 /* School info */
 #schoolinfo-plaholder{
@@ -482,49 +487,56 @@ div.cartodb-share a{
 }
 
 #schoolinfo p.schoolname {
-    font-size: 16px;
-    font-weight: 700;
-    color: #3a3a3a;
-    margin-top: 0px;
-    margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 700;
+  color: $theme-blue;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 #schoolinfo p.code {
-    font-size: 12px;
-    font-weight: 500;
-    color: #8b8b8b;
-    margin-top: 0px;
-    margin-bottom: 0px;
+  font-size: 13px;
+  font-weight: 500;
+  color:  darken($body-text-color, 20%);
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-style: italic;
 }
 
 #schoolinfo .widget {
-    position: relative;
-    padding-left: 10px;
-    margin-top: 30px;
+  position: relative;
+  padding-left: 0;
+  margin-bottom:10px;
+  overflow:hidden;
 }
 
 #schoolinfo .widget.first {
-    position: relative;
-    margin-top: 20px;
-    padding-left: 10px;
+  position: relative;
+  padding-left: 0;
+  margin-left:0
 }
 
 #schoolinfo .widgettitle {
-    font-size: 11px;
-    font-weight: 800;
-    color: #828282;
-    text-transform: uppercase;
-    margin-top: 0px;
-    margin-bottom: 9px;
+  width:105%;
+  font-size: 12px;
+  font-weight: 800;
+  color: $theme-blue;
+  text-transform: uppercase;
+  margin-top: 0px;
+  margin-bottom: 9px;
+  margin-top:10px;
+  p{
+  margin:0
+  }
 }
 
 #schoolinfo .widgetnumber {
-    font-size: 30px;
-    font-weight: 800;
-    color: #3a3a3a;
-    margin-top: 0px;
-    margin-bottom: 2px;
-    margin-right: 10px;
+  font-size: 30px;
+  font-weight: 800;
+  color: #3a3a3a;
+  margin-top: -5px;
+  margin-bottom: 2px;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: $c) {
@@ -958,17 +970,35 @@ ul.main-nav li ul li a{
   padding-bottom:10px;
 }
 
-#main-nav-items.nav.open > a,
-#main-nav-items.nav.open > a:hover,
-#main-nav-items.nav.open > a:focus{
- background-color: #ffffff;
+.open > .dropdown-menu{
+  @include border-radius(0);
+  border:none;
+  top:47px;
+  width:465px;
+  background-color: rgba(5, 162, 220, 0.9);
+  color: #ffffff;
+  padding-left:20px;
+  ul{
+    border-right:none;
+    background: $theme-blue;
+    padding:20px;
+    display:block;
+  }
+  li{
+    float:left;
+    padding:30px 30px;
+  &:hover{
+    font-weight:bold;
+    }
+  }
 }
-
-ul.dropdown-menu{
-  border-right:none;
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus{
+  background: $theme-blue;
+  color:#ffffff;
+  border:1px solid $theme-blue;
 }
-.open > .dropdown-menu{background-color:none; border-top:none;}
-.open > .dropdown-menu ul li{ border-right:none;}
 
 /* header - announcement */
 .header-announcements {
@@ -1101,12 +1131,11 @@ map-bottom-toggle.filters {
   position: absolute;
   font-size: 25px;
   font-weight: 800;
-  margin-top: 0px;
+  margin-top: 5px;
   margin-bottom: 5px;
-  margin-right: 10px;
   margin-left: 0px;
   white-space: nowrap;
-  left: -10px;
+  left: 0;
 }
 .text-grey {
   color: $unknown;
@@ -1125,11 +1154,28 @@ map-bottom-toggle.filters {
 }
 
 .chart-title {
-  color: #05a2dc;
-  font-size: 11px;
+  color: $theme-blue;
+  font-size: 12px;
   margin-bottom: 2;
   fill: #05a2dc;
   width: 100%;
+  text-transform:uppercase;
+&.rank-label{
+  position: absolute;
+  left:0;
+  padding-bottom:10px;
+  }
+}
+.widget-full-width{
+  width:100%;
+}
+.rank-value{
+  height: 45px;
+  margin-top: 10px;
+}
+
+#nationalRanking{
+  margin-top:-9px;
 }
 
 // performance tabs
@@ -1180,5 +1226,19 @@ map-bottom-toggle.filters {
 .school-location {
   &:hover {
     stroke: $theme-blue;
+  }
+}
+
+// selectable div to replace checkbox in year selection
+.selectable {
+  @include border-radius(50%);
+  border:2px solid #ffffff;
+  display:block;
+  float:left;
+  width:15px;
+  height:15px;
+  margin: 2px 5px 0 0;
+  &.selected {
+    background:#c0edff;
   }
 }
