@@ -172,7 +172,6 @@
 
           <div class="container-fluid" ng-hide="selectedSchool|exists">
             <div class="col-sm-12 performance-nav">
-
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBest==='performance'}">
                   <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
@@ -182,19 +181,12 @@
                 </li>
               </ul>
             </div>
-              <div ng-if="rankBest==='improvement'">
-                  <div id="schooltablescontainer">
-                      <school-list title="chart.top.most-improved-schools" emoticon="happy" data="mostImprovedSchools" click="setSchool" property="change_13_14"></school-list>
-                  </div>
-              </div>
-
-              <div ng-if="rankBest==='performance'">
-                  <div id="schooltablescontainer">
-                      <school-list title="chart.top.best-performing-schools" emoticon="happy" data="bestSchools" click="setSchool" property="pass_2014"></school-list>
-                  </div>
-              </div>
-
-
+            <div class="container-fluid" ng-if="rankBest==='improvement'">
+              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="change_13_14" max="90" min="80"></school-list>
+            </div>
+            <div class="container-fluid" ng-if="rankBest==='performance'">
+              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="pass_2014" max="60" min="40"></school-list>
+            </div>
           </div>
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->

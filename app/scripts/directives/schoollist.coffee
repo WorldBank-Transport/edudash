@@ -12,9 +12,11 @@ angular.module 'edudashApp'
     templateUrl: 'views/schoollist.html'
     scope:
       listTitle: '@title'
-      listTitleEmoticon: '@emoticon'
+      listType: '@type'
       type: '@data'
       listData: '=data'
       setSchool: '=click'
       property: '@property'
+      max: '@max'
+      min: '@min'
     link: (scope, element, attrs) ->

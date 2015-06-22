@@ -1,11 +1,17 @@
-<p class="tableheader"><img src="images/{{listTitleEmoticon}}.png" class="face">{{listTitle | translate}}</p>
+<div class="performance-header" ng-class="{'best-perform': listType === 'good', 'poor-perform': listType === 'bad'}">
+    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    {{listTitle | translate}}
+</div>
 <div class="scroll">
-    <table class="schools">
+    <table class="school-performance">
         <tr ng-repeat="school in listData">
             <td class="rank">{{ $index + 1 }}.</td>
             <!--ng-mouseover="setSchool(school, null, false)"-->
-            <td class="name" ng-click="setSchool(school)"><strong>{{ school.name }}</strong><p>{{ school.district }} {{'district'|translate}}, {{ school.region }} {{'region'|translate}}</br></p></td>
-            <td class="passrategreen">{{ school[property]}}%</td>
+            <td class="name" ng-click="setSchool(school)"><strong>{{ school.name }}</strong></td>
+            <td ng-class="{
+                'passrategreen': school[property] >= max,
+                'passrateyellow': school[property] < max && school[property] > min,
+                'passratered':school[property] <= min}">{{ school[property]}}%</td>
         </tr>
     </table>
 </div>
