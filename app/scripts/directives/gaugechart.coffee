@@ -9,7 +9,7 @@
 angular.module 'edudashAppDir'
   .directive 'gaugeChart', ->
     restrict: 'EA'
-    template: '<div>not working</div>'
+    template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
       update = (value) ->
         ranges = attrs.ranges.split(',')
