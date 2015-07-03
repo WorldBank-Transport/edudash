@@ -9,7 +9,7 @@
 angular.module 'edudashAppDir'
   .directive 'passRateTime', ->
     restrict: 'EA'
-    template: '<div></div>'
+    template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
       updateChart = (value) ->
         ranges = attrs.ranges.split(',')
