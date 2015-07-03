@@ -27,9 +27,7 @@ angular.module 'edudashAppSrv'
       getSql = (educationLevel, condition, orderField, order, limit) ->
         condition ?= ''
         limit ?= '100'
-        query = "SELECT * FROM wbank.tz_#{ educationLevel }_cleaned_dashboard #{condition} ORDER BY #{orderField} #{order} LIMIT #{limit}"
-        $log.debug query
-        query
+        "SELECT * FROM wbank.tz_#{ educationLevel }_cleaned_dashboard #{condition} ORDER BY #{orderField} #{order} LIMIT #{limit}"
 
       getLayer: (educationLevel) ->
         mapLayers[educationLevel]
@@ -153,8 +151,11 @@ angular.module 'edudashAppSrv'
           'region'
           'district'
           'ward'
+          'pass_2012'
+          'pass_2013'
           'pass_2014'
           'pt_ratio'
+          'rank_2014'
         ].join ','
         sql = "SELECT #{fields} FROM tz_#{educationLevel}_cleaned_dashboard"
         $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})
