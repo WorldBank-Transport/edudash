@@ -122,17 +122,17 @@
             </a>
             <ul year-selector class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012"></ul>
           </li>
-          <li role="presentation" class="small-nav-tabs dropdown" ng-if="schoolType == 'secondary'">
+          <li role="presentation" class="small-nav-tabs dropdown" ng-if="schoolType == 'secondary'" ng-init="moreThan40=undefined">
             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
                 <span class="hide-sm" translate="tab.pupils-mode">Pupils</span>
                 <span class="show-sm" translate="tab.pupils">Pupils</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012">
-                <a ng-click="moreThan40=true">
-                    <li><span class="selectable" ng-class="{selected: moreThan40===true}"></span>{{'tab.pupils.morethan40'|translate}}</li>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <a ng-click="selectMoreThan40(1)">
+                    <li><span class="selectable" ng-class="{selected: moreThan40===1}"></span>{{'tab.pupils.morethan40'|translate}}</li>
                 </a>
-                <a ng-click="moreThan40=false">
-                    <li><span class="selectable" ng-class="{selected: moreThan40===false}"></span>{{'tab.pupils.lessthan40'|translate}}</li>
+                <a ng-click="selectMoreThan40(0)">
+                    <li><span class="selectable" ng-class="{selected: moreThan40===0}"></span>{{'tab.pupils.lessthan40'|translate}}</li>
                 </a>
             </ul>
           </li>
