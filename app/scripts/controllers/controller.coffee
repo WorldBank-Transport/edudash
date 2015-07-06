@@ -32,6 +32,9 @@ angular
       .when '/dashboard/:type',
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'
+      .when '/dashboard/:type/morethan40/:morethan40',
+        templateUrl: 'views/dashboard.html'
+        controller: 'DashboardCtrl'
       .when '/data',
         templateUrl: 'views/data.html'
         controller: 'DataCtrl'

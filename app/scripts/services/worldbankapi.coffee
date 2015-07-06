@@ -20,6 +20,10 @@ angular.module 'edudashAppSrv'
         'primary': 'http://worldbank.cartodb.com/api/v2/viz/a031f6f0-c1d0-11e4-966d-0e4fddd5de28/viz.json'
         'secondary': 'http://worldbank.cartodb.com/api/v2/viz/0d9008a8-c1d2-11e4-9470-0e4fddd5de28/viz.json'
 
+      pupilsCondition = (educationLevel, moreThan40) ->
+        if(educationLevel == secondary and moreThan40?)
+          " WHERE more_than_40 = #{moreThan40} "
+
       getSql = (educationLevel, condition, orderField, order, limit) ->
         condition ?= ''
         limit ?= '100'
@@ -34,28 +38,34 @@ angular.module 'edudashAppSrv'
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
-      getBestSchool: (educationLevel) ->
+      getBestSchool: (educationLevel, moreThan40) ->
         $params =
-          q: getSql(educationLevel, undefined, 'rank_2014', 'ASC', undefined)
+          q: getSql(educationLevel, pupilsCondition(educationLevel, moreThan40), 'rank_2014', 'ASC', undefined)
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
-      getWorstSchool: (educationLevel) ->
+      getWorstSchool: (educationLevel, moreThan40) ->
         $params =
-          q: getSql(educationLevel, undefined, 'rank_2014', 'DESC', undefined)
+          q: getSql(educationLevel, pupilsCondition(educationLevel, moreThan40), 'rank_2014', 'DESC', undefined)
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
-      mostImprovedSchools: (educationLevel) ->
+      mostImprovedSchools: (educationLevel, moreThan40) ->
         limit = ('300' if educationLevel is primary) or '100'
+        pupilCondition = pupilsCondition(educationLevel, moreThan40)
+        if(pupilCondition?)
+          condition = pupilCondition + ' AND change_13_14 IS NOT NULL '
+        else
+          condition = 'WHERE change_13_14 IS NOT NULL '
+
         $params =
-          q: getSql(educationLevel, 'WHERE change_13_14 IS NOT NULL', 'change_13_14', 'DESC', limit)
+          q: getSql(educationLevel, condition, 'change_13_14', 'DESC', limit)
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
-      leastImprovedSchools: (educationLevel) ->
+      leastImprovedSchools: (educationLevel, moreThan40) ->
         $params =
-          q: getSql(educationLevel, undefined, 'change_13_14', 'ASC', undefined)
+          q: getSql(educationLevel, pupilsCondition(educationLevel, moreThan40), 'change_13_14', 'ASC', undefined)
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
@@ -103,13 +113,13 @@ angular.module 'edudashAppSrv'
                                       WHERE (pass_2014 >= #{ passRange.min } AND pass_2014 <= #{ passRange.max })
                                       AND (pt_ratio >= #{ ptRange.min } AND pt_ratio <= #{ ptRange.max })")
 
-      getGlobalPassrate: (educationLevel, year) ->
+      getGlobalPassrate: (educationLevel, year, moreThan40) ->
         selectedYear = if year? then year else '2014'
-        schoolSql = "SELECT AVG(pass_#{selectedYear}) FROM wbank.tz_#{educationLevel}_cleaned_dashboard"
+        schoolSql = "SELECT AVG(pass_#{selectedYear}) FROM wbank.tz_#{educationLevel}_cleaned_dashboard " + pupilsCondition(educationLevel, moreThan40)
         $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
-      getGlobalChange: (educationLevel) ->
-        schoolSql = "SELECT AVG(change_12_13) FROM wbank.tz_#{educationLevel}_cleaned_dashboard"
+      getGlobalChange: (educationLevel, moreThan40) ->
+        schoolSql = "SELECT AVG(change_12_13) FROM wbank.tz_#{educationLevel}_cleaned_dashboard " + pupilsCondition(educationLevel, moreThan40)
         $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
       getTopDistricts: (filters) ->
@@ -141,8 +151,11 @@ angular.module 'edudashAppSrv'
           'region'
           'district'
           'ward'
+          'pass_2012'
+          'pass_2013'
           'pass_2014'
           'pt_ratio'
+          'rank_2014'
         ].join ','
         sql = "SELECT #{fields} FROM tz_#{educationLevel}_cleaned_dashboard"
         $http.get(wbApiRoot, {params: { q: sql, api_key: param1}})

@@ -65,7 +65,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           minValue: 0,
           maxValue: 10
         };
-
+        $scope.moreThan40 = $routeParams.morethan40
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
@@ -80,7 +80,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         mapLayerCreators =
           schools: ->
             getData = -> $q (resolve, reject) ->
-              WorldBankApi.getSchools $scope.schoolType
+              WorldBankApi.getSchools $scope.schoolType, $scope.moreThan40
                 .success (data) ->
                   resolve
                     type: 'FeatureCollection'
@@ -134,16 +134,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             l.setStyle colorSrv.pinStyle v, $scope.visMode
 
 
-        WorldBankApi.getBestSchool($scope.schoolType).success (data) ->
+        WorldBankApi.getBestSchool($scope.schoolType, $scope.moreThan40).success (data) ->
             $scope.bestSchools = data.rows
 
-        WorldBankApi.getWorstSchool($scope.schoolType).success (data) ->
+        WorldBankApi.getWorstSchool($scope.schoolType, $scope.moreThan40).success (data) ->
             $scope.worstSchools = data.rows
 
-        WorldBankApi.mostImprovedSchools($scope.schoolType).success (data) ->
+        WorldBankApi.mostImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
             $scope.mostImprovedSchools = data.rows
 
-        WorldBankApi.leastImprovedSchools($scope.schoolType).success (data) ->
+        WorldBankApi.leastImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
             $scope.leastImprovedSchools = data.rows
 
         $scope.setSchoolType = (to) ->
@@ -221,6 +221,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 selectedSchool: item
                 field: 'district'
                 educationLevel: $scope.schoolType
+                moreThan40: $scope.moreThan40
               WorldBankApi.getRank(filter).then (result) ->
                 $scope.districtRank = result.data.rows[0]
               filter.field = 'region'
@@ -263,6 +264,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.anchorScroll = () ->
             $anchorScroll()
 
+        $scope.selectMoreThan40 = (value) ->
+          $location.path "/dashboard/#{$scope.schoolType}/morethan40/#{value}"
+
         WorldBankApi.getPassOverTime({educationLevel: $scope.schoolType}).then (result) ->
           parseList = chartSrv.drawPassOverTime result.data.rows[0]
           parseList = parseList.map (x) -> {key: x.key, val: parseInt(x.val)}
@@ -277,9 +281,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.lidistrics = result.data.rows
         MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
           $scope.pupilTeacherRatio = data.rate
-        WorldBankApi.getGlobalPassrate($scope.schoolType).success (data) ->
+        WorldBankApi.getGlobalPassrate($scope.schoolType, $scope.selectedYear, $scope.moreThan40).success (data) ->
           $scope.passrate = data.rows[0].avg
-        WorldBankApi.getGlobalChange($scope.schoolType).success (data) ->
+        WorldBankApi.getGlobalChange($scope.schoolType, $scope.moreThan40).success (data) ->
           $scope.passRateChange = parseInt data.rows[0].avg
 
 ]
