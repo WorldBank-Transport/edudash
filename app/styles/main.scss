@@ -843,11 +843,13 @@ table.districts p {
 }
 
 /*header*/
-.navbar-brand.header-flag{
-  float:left;
-  margin-right:10px;
-  padding-top:10px;
-  padding-left:0;
+.navbar-brand{
+  &.header-flag{
+    float:left;
+    margin-right:10px;
+    padding-top:10px;
+    padding-left:0;
+  }
 }
 
 /*header - navigation*/
@@ -1278,4 +1280,23 @@ map-bottom-toggle.filters {
   width: 100%;
   bottom:0;
   height: $header-height;
+  .navbar-brand{
+    height:72px;
+  }
+  .navbar-collapse{
+    padding-top:$header-height/2.6;
+    li{
+      border-left:1px solid #ffffff;
+      &:first-child{
+        border-left:none;
+      }
+
+
+      a{
+        color: #ffffff;
+        font-size:12px;
+      }
+    }
+
+  }
 }
