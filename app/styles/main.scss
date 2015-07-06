@@ -1287,14 +1287,21 @@ map-bottom-toggle.filters {
     padding-top:$header-height/2.6;
     li{
       border-left:1px solid #ffffff;
+      height:15px;
+
       &:first-child{
         border-left:none;
       }
-
-
       a{
         color: #ffffff;
         font-size:12px;
+        padding-top:0;
+        padding-bottom:0;
+        line-height:13px;
+        &:hover{
+          color:darken($body-text-color,15%);
+          background:none;
+        }
       }
     }
 
