@@ -49,7 +49,7 @@ describe 'Service: WorldBankApi', ->
 
   it 'should get the http mostImprovedSchools', ->
     level = 'primary'
-    url = 'http://wbank.cartodb.com/api/v2/sql?api_key=ad10ae57cef93e98482aabcf021a738a028c168b&q=SELECT+*+FROM+wbank.tz_primary_cleaned_dashboard+WHERE+change_13_14+IS+NOT+NULL+ORDER+BY+change_13_14+DESC+LIMIT+300'
+    url = 'http://wbank.cartodb.com/api/v2/sql?api_key=ad10ae57cef93e98482aabcf021a738a028c168b&q=SELECT+*+FROM+wbank.tz_primary_cleaned_dashboard+WHERE+change_13_14+IS+NOT+NULL++ORDER+BY+change_13_14+DESC+LIMIT+300'
     $httpBackend.when('GET', url).respond({header1: 'value'}, {'data': 'xxx'});
     $httpBackend.expectGET url
     promise = WorldBankApi.mostImprovedSchools level
