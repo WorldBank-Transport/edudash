@@ -4,12 +4,15 @@ body {
 }
 
 .map-widget {
-  /* establish a positioning context for the rest of the app components */
+  /* establish a positioning context for the rest of the app components*/
   position: absolute;
   top: $header-height;
   left: 0;
   right: 0;
   bottom: 0;
+// trying new layout to fit footer
+/*position:relative;
+min-height:600px; border:1px dotted #f00;*/
 }
 
 .map-position-wrap {
@@ -17,7 +20,7 @@ body {
   top: $nav-height;
   left: 0;
   right: $sidebar-width;
-  bottom: 0;
+  bottom: 55px;
 }
 #map {
   height: 100%;
@@ -53,4 +56,3 @@ map-bottom-toggle {
     width: $sidebar-width;
   }
 }
-
