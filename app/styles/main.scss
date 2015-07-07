@@ -1280,6 +1280,12 @@ map-bottom-toggle.filters {
   width: 100%;
   bottom:0;
   height: $header-height;
+  p{
+    color:#ffffff;
+    margin-top:20px;
+    font-size:12px;
+    line-height:14px;
+  }
   .navbar-brand{
     height:72px;
   }
@@ -1288,7 +1294,6 @@ map-bottom-toggle.filters {
     li{
       border-left:1px solid #ffffff;
       height:15px;
-
       &:first-child{
         border-left:none;
       }
@@ -1304,6 +1309,5 @@ map-bottom-toggle.filters {
         }
       }
     }
-
   }
 }
