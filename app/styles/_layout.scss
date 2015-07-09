@@ -35,7 +35,7 @@ min-height:600px; border:1px dotted #f00;*/
 map-bottom-toggle {
   z-index: 1;
   position: absolute;
-  bottom: $bottom-bar-height + 1;
+  bottom: 15px;
   &.legend {
     width: 50%;
   }
