@@ -1282,9 +1282,10 @@ map-bottom-toggle.filters {
   height: $header-height;
   p{
     color:#ffffff;
-    margin-top:20px;
+    margin-top:19px;
     font-size:12px;
     line-height:14px;
+    a{color: $grey-light}
   }
   .navbar-brand{
     height:72px;
