@@ -9,41 +9,19 @@
 ###
 angular.module 'edudashAppSrv'
 .service 'OpenDataApi', [
-    '$http', '$resource', '$log', 'CsvParser'
-    ($http, $resource, $log, CsvParser) ->
+    '$http', '$resource', '$log', 'CsvParser', '$location'
+    ($http, $resource, $log, CsvParser, $location) ->
       # AngularJS will instantiate a singleton by calling "new" on this function
-      corsApi = 'https://cors-anywhere.herokuapp.com'
-      apiRoot = '/tsd.dgstg.org/api/action/'
+      regexp = /.*localhost.*/ig
+      corsApi = if regexp.test($location.host()) then 'https://cors-anywhere.herokuapp.com' else 'http:/'
+      apiRoot = '/data.takwimu.org/api/action/'
+#      apiRoot = '/tsd.dgstg.org/api/action/'
+      ckanQueryURL = corsApi + apiRoot + 'datastore_search_sql'
       datasetMapping =
         primary:
-          'enrolment_district': ''
-          'enrolment_region': ''
-          'teacher_district': ''
-          'teacher_region': ''
-          'ranking_district_region_2012': ''
-          'PSLE-ranking_district_region_2013': ''
-          'std-seven-national-examination_region_2011': ''
-          'droppedout_region': ''
-          'schools_region_2012': ''
-          'desks_region': ''
-          'textbook_region': ''
-          'pupils-with-disabilities_region': ''
-          'pitlatrine_region_district': ''
-          'droppedout_district': ''
-          'textbook_district': ''
-          'gross-net-enrolment-ratio_ger-ner_2012': ''
-        secondary:
-          'enrolment_region_districts_2013': ''
-          'teacher_region_districts_2012': ''
-          'ranking_less40_2012': 'CSEE-2012-SCHOOL-RANKING---CENTRES-WITH-LESS-THAN-40-CANDIDATES.csv'
-          'ranking_more40_2012': 'CSEE-2012-SCHOOL-RANKING---CENTRE-WITH-40-AND-MORE-CANDIDATES.csv'
-          'ranking_less40_2013': 'CSEE-2013-SCHOOL-RANKING---CENTRE-WITH-LESS-THAN-40-CANDIDATES.csv'
-          'droppedout_2012': 'Dropout-of-Students-in-Secondary-Schools-by-School--2012.csv'
-          'pitlatrine_2013': 'Number-of-Pitratrine-in-Secondary-Schools-by-School-2013.csv'
-          'advance-student_2012': 'Number-of-Advanced-Secondary-Students-year-2012.csv'
-          'advance-student_2013': 'Number-of-Advanced-Secondary-Students-by-school-year-2013.csv'
-          'pupils-with-disabilities_region_2012': 'Number-of-Pupils-with-Disabilities-in-Secondary-Schools-by-Region-2012.csv'
-          'pupils-with-disabilities_region_2013': 'Number-of-Pupils-with-Disabilities-in-Secondary-Schools-by-region-2013.csv'
+          'performance': '3a77adf7-925a-4a62-8c70-5e43f022b874'
+          'improvement': '0fb741e3-ebe7-468f-bf7e-b40ae12cdce6'
+        secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
 
       getdata: () ->
         $params =
@@ -57,17 +35,91 @@ angular.module 'edudashAppSrv'
         req = $resource(corsApi + apiRoot + 'datastore_search')
         req.get($params).$promise
 
-      dataserByQuery: (query) ->
+      getTable = (educationLevel, subtype) ->
+        if(subtype?) then datasetMapping[educationLevel][subtype] else datasetMapping[educationLevel]
+
+      getSql = (educationLevel, subtype, condition, sorted, limit, fields) ->
+        strField = if fields? and fields.length > 0 then '"' + fields.join('","') + '"' else "*"
+        table = getTable(educationLevel, subtype)
+        sorted = if sorted? then "ORDER BY #{sorted}" else ''
+        strLimit = if limit? then "LIMIT #{limit}" else ""
+        "SELECT #{strField} FROM \"#{table}\" #{condition} #{sorted} #{strLimit}";
+
+      getConditions = (educationLevel, moreThan40, year) ->
+        condition = []
+        if(educationLevel == 'secondary' and moreThan40?)
+          condition.push "\"MORE_THAN_40\" = '#{moreThan40}'"
+        if(year)
+          condition.push '"YEAR_OF_RESULT" = ' + year
+        if condition.length > 0 then "WHERE #{condition.join ' AND '}" else ""
+
+      datasetByQuery: (query) ->
         $params =
           sql: query
         req = $resource(corsApi + apiRoot + 'datastore_search_sql')
         req.get($params).$promise
 
-      getDatasetType: (level) ->
+      getBestSchool: (educationLevel, subtype, moreThan40, year) ->
         $params =
-          id: level
-        req = $resource(corsApi + apiRoot + 'package_show')
-        req.get($params).$promise
+          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"RANK" ASC', "20")
+        $http.get(ckanQueryURL, {params: $params})
+
+      getWorstSchool: (educationLevel, subtype, moreThan40, year) ->
+        $params =
+          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"RANK" DESC', "20")
+        $http.get(ckanQueryURL, {params: $params})
+
+      mostImprovedSchools: (educationLevel, subtype, moreThan40, year) ->
+        $params =
+          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"CHANGE_PREVIOUS_YEAR" DESC', "20")
+        $http.get(ckanQueryURL, {params: $params})
+
+      leastImprovedSchools: (educationLevel, subtype, moreThan40, year) ->
+        $params =
+          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"CHANGE_PREVIOUS_YEAR" ASC', "20")
+        $http.get(ckanQueryURL, {params: $params})
+
+      getGlobalPassrate: (educationLevel, subtype, moreThan40, year) ->
+        $params =
+          sql: "SELECT AVG(\"PASS_RATE\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
+        $http.get(ckanQueryURL, {params: $params})
+
+      getGlobalChange: (educationLevel, subtype, moreThan40, year) ->
+        $params =
+          sql: "SELECT AVG(\"CHANGE_PREVIOUS_YEAR\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
+        $http.get(ckanQueryURL, {params: $params})
+
+      getSchoolsChoices: (educationLevel, query) ->
+        searchSQL = "SELECT * FROM wbank.tz_#{ educationLevel }_cleaned_dashboard WHERE (name ilike '%#{ query }%' OR code ilike '%#{ query }%') LIMIT 10"
+        $http.get(wbApiRoot, {params: { q: searchSQL, api_key: param1 }})
+
+      getTopDistricts: (filters) ->
+        # TODO implement me
+
+      getRank: (filters) ->
+        # TODO implement me
+
+      getPassOverTime: (educationLevel, subtype) ->
+        $params =
+          sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
+        $http.get(ckanQueryURL, {params: $params})
+
+      getSchools: (educationLevel) ->
+        fields = [
+          'cartodb_id'
+          'latitude'
+          'longitude'
+          'name'
+          'region'
+          'district'
+          'ward'
+          'pass_2012'
+          'pass_2013'
+          'pass_2014'
+          'pt_ratio'
+          'rank_2014'
+        ].join ','
+      # TODO implement me
 
       getCsv: (file) ->
         file = file.replace(/^(http|https):\/\//gm, '')
@@ -87,71 +139,4 @@ angular.module 'edudashAppSrv'
           }
         )
 
-#        .success (data, status) ->
-#          $log.debug 'csv raw data' + status
-#          $log.debug CsvParser.parseToJson data
-#        req = $resource(resourceUrl)
-#        req.get().$promise
-
-      saveData: () ->
-        data =
-          resource_id: 'eaa77110-a1cf-4eb6-ae1c-ef89c4f1e80e'
-          force: true
-          method: 'insert'
-          records: [
-            code:"S5183"
-            name:"NYABUMHANDA SECONDARY SCHOOL"
-            region:"Mwanza"
-            clean_candidates_2014:22
-            passed_candidates_2014:8
-            pass_2014:36
-            rank_2014:1892
-            more_than_40:0
-            code_2013:""
-            clean_candidates_2013:null
-            passed_candidates_2013:null
-            pass_2013:null
-            change_13_14:null
-            rank_2013:null
-            clean_candidates_2012:null
-            passed_candidates_2012:null
-            pass_2012:null
-            change_12_13:null
-            rank_2012:null
-            more_than_40_2013:null
-            ownership:""
-            ward:""
-            enrolled:""
-            teaching_staff:null
-            pt_ratio:null
-            non_teaching_staff_employed_by_school:""
-            non_teaching_staff_employed_by_government:""
-            district:""
-            longitude:32.9
-            latitude:-2.51667
-            location_is_ward:0
-            location_is_geocoder:1
-            loaction_is_district:0
-            location_is_approximate:1
-            cartodb_id:4407
-            created_at:"2015-04-06T19:08:09Z"
-            updated_at:"2015-04-06T19:08:09Z"
-          ]
-        req = $resource(corsApi + apiRoot + 'datastore_upsert', {},
-                  save: {
-                    method: 'POST'
-                    isArray: false
-                    headers: 'Authorization': '1495642d-ee14-401b-be64-19f7dfd7b23c'
-                  }
-        )
-
-        response = req.save(data)
-
-
-      getMyData: () ->
-        [
-          '1- HTML5 Boilerplate'
-          '2- AngularJS'
-          '3- Karma'
-        ]
   ]

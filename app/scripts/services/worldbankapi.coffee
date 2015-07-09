@@ -22,7 +22,7 @@ angular.module 'edudashAppSrv'
 
       pupilsCondition = (educationLevel, moreThan40) ->
         if(educationLevel == secondary and moreThan40?)
-          " WHERE more_than_40 = #{moreThan40} "
+          " WHERE more_than_40 = #{if moreThan40 is 'YES' then 1 else 0} "
 
       getSql = (educationLevel, condition, orderField, order, limit) ->
         condition ?= ''
@@ -69,27 +69,9 @@ angular.module 'edudashAppSrv'
           api_key: param1
         $http.get(wbApiRoot, {params: $params})
 
-      getSchoolRegionRank: (educationLevel, region, id) ->
-        schoolRankSql = "SELECT pos FROM
-                                    (SELECT cartodb_id, rank() OVER (PARTITION BY region ORDER BY rank_2014 ASC) AS pos
-                                      FROM wbank.tz_#{ educationLevel}_cleaned_dashboard WHERE region = '#{region}') AS tmp
-                                    WHERE cartodb_id = #{id}"
-        $http.get(wbApiRoot, {params: { q: schoolRankSql, api_key: param1 }})
-
-      getSchoolDistrictRank: (educationLevel, region, district, id) ->
-        schoolRankSql = "SELECT pos FROM
-                                    (SELECT cartodb_id, rank() OVER (PARTITION BY district ORDER BY rank_2014 ASC) AS pos
-                                      FROM wbank.tz_#{ educationLevel}_cleaned_dashboard WHERE region = '#{region}' AND district = '#{district}') AS tmp
-                                    WHERE cartodb_id = #{id}"
-        $http.get(wbApiRoot, {params: { q: schoolRankSql, api_key: param1 }})
-
       getSchoolsChoices: (educationLevel, query) ->
         searchSQL = "SELECT * FROM wbank.tz_#{ educationLevel }_cleaned_dashboard WHERE (name ilike '%#{ query }%' OR code ilike '%#{ query }%') LIMIT 10"
         $http.get(wbApiRoot, {params: { q: searchSQL, api_key: param1 }})
-
-      getSchooldByCartoDb: (educationLevel, cartodb_id) ->
-        schoolSql = "SELECT * FROM wbank.tz_#{educationLevel}_cleaned_dashboard WHERE cartodb_id=#{cartodb_id}"
-        $http.get(wbApiRoot, {params: { q: schoolSql, api_key: param1}})
 
       updateLayers: (layers, educationLevel, passRange) ->
         layers[1].getSubLayer(0).setSQL(

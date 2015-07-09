@@ -182,20 +182,20 @@
               </ul>
             </div>
             <div class="container-fluid" ng-if="rankBest==='improvement'">
-              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="change_13_14" max="90" min="80"></school-list>
+              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="CHANGE_PREVIOUS_YEAR" max="90" min="80"></school-list>
             </div>
             <div class="container-fluid" ng-if="rankBest==='performance'">
-              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="pass_2014" max="60" min="40"></school-list>
+              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="PASS_RATE" max="60" min="40" sufix="%"></school-list>
             </div>
           </div>
           <div class="container-fluid" ng-hide="schoolType==='secondary' && selectedSchool|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: moreThan40===0}}">
-                  <a ng-click="selectMoreThan40(1)">{{'tab.pupils.morethan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: moreThan40==='YES'}">
+                  <a ng-click="moreThan40='YES'">{{'tab.pupils.morethan40'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: moreThan40===0}}">
-                  <a ng-click="selectMoreThan40(0)">{{'tab.pupils.lessthan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: moreThan40==='NO'}">
+                  <a ng-click="moreThan40='NO'">{{'tab.pupils.lessthan40'|translate}}</a>
                 </li>
               </ul>
             </div>

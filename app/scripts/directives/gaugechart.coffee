@@ -116,7 +116,7 @@ angular.module 'edudashAppDir'
 
       datasource = attrs.datasource
       scope.$watch datasource, (newValue, oldValue) ->
-        if newValue
+        if newValue?
           update(parseFloat(newValue.toFixed(1)))
 
       attrs.$observe 'title', (value) ->
