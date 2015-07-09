@@ -1285,7 +1285,12 @@ map-bottom-toggle.filters {
     margin-top:19px;
     font-size:12px;
     line-height:14px;
-    a{color: $grey-light}
+    a{
+      color: #ffffff;
+    &:hover{
+      color:$grey-light;
+      }
+    }
   }
   .navbar-brand{
     height:72px;
