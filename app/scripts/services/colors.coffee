@@ -50,3 +50,9 @@ angular.module 'edudashAppSrv'
         color: '#fff'
         fillOpacity: 0.75
         fillColor: colour
+
+    areaStyle: (val, mode) ->
+      weight: 2
+      color: '#fff'
+      fillColor: this.colorize val, mode
+      fillOpacity: 0.75

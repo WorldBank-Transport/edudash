@@ -8,6 +8,13 @@
   background: $map-overlay;
   box-shadow: $map-overlay-outline;
   overflow-y: auto;
+  opacity: 1;
+  &.animate-hide {
+    &.ng-hide {
+      transition: opacity linear 0.3s;
+      opacity: 0;
+    }
+  }
   .has-filters & {
     bottom: ($bottom-bar-height + 1px) * 2;
   }

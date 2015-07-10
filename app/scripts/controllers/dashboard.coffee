@@ -22,9 +22,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # app state
         $scope.visMode = 'passrate'
-        $scope.viewMode = 'schools'
+        $scope.viewMode = null
         $scope.schoolType = $routeParams.type
+        $scope.lastHoveredSchool = null
         $scope.hoveredSchool = null
+        $scope.lastHoveredRegion = null
+        $scope.hoveredRegion = null
 
         # widget local state (maybe should move to other directives)
         $scope.searchText = "dar"
@@ -100,9 +103,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   radius: 8
               onEachFeature: (feature, layer) ->
                 layer.on 'mouseover', -> $scope.$apply ->
-                  $scope.hoveredSchool = feature.properties
+                  selectable =
+                    layer: layer
+                    properties: feature.properties
+                  $scope.lastHoveredSchool = selectable
+                  hoverSelect selectable
                 layer.on 'mouseout', -> $scope.$apply ->
-                  $scope.hoveredSchool = null
+                  $scope.unhoverSchool()
                 layer.on 'click', -> $scope.$apply ->
                   $scope.setSchool feature.properties
             layersSrv.addGeojsonLayer "schools-#{$scope.schoolType}", mapId,
@@ -116,11 +123,26 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   resolve
                     type: 'FeatureCollection'
                     features: data.rows.map (district) ->
-                      angular.extend (JSON.parse district.geojson),
-                        properties: district
+                      type: 'Feature'
+                      geometry: JSON.parse district.geojson
+                      properties: angular.extend district, geojson: null
                 .error reject
+            options =
+              onEachFeature: (feature, layer) ->
+                layer.on 'mouseover', -> $scope.$apply ->
+                  selectable =
+                    layer: layer
+                    properties: feature.properties
+                  $scope.lastHoveredRegion = selectable
+                  hoverRegionSelect selectable
+                layer.on 'mouseout', -> $scope.$apply ->
+                  $scope.unhoverRegion()
+                layer.on 'click', -> $scope.$apply ->
+                  console.log 'go to', feature.properties.name, '...'
             layersSrv.addGeojsonLayer "regions-#{$scope.schoolType}", mapId,
               getData: getData
+              options: options
+
 
         colorPins = ->
           if $scope.viewMode != 'schools'
@@ -133,27 +155,86 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               v = l.feature.properties.pt_ratio
             l.setStyle colorSrv.pinStyle v, $scope.visMode
 
-        updateDashboard = () ->
-          OpenDataApi.getBestSchool($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-            $scope.bestSchools = data.result.records
+        groupByDistrict = (rows) ->
+          districts = {}
+          for row in rows
+            unless districts[row.district]
+              districts[row.district] = {pt_ratio: [], pass_2014: []}
+            for prop in ['pt_ratio', 'pass_2014']
+              districts[row.district][prop].push(row[prop])
+          districts
 
-          OpenDataApi.getWorstSchool($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-              $scope.worstSchools = data.result.records
+        average = (nums) -> (nums.reduce (a, b) -> a + b) / nums.length
 
-          OpenDataApi.mostImprovedSchools($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-              $scope.mostImprovedSchools = data.result.records
+        colorRegions = ->
+          if $scope.viewMode != 'regional'
+            console.error 'colorRegions should only be called when viewMode is "regional"'
+            return
+          WorldBankApi.getSchools($scope.schoolType).success (data) ->
+            byRegion = groupByDistrict data.rows
+            _(currentLayer.getLayers()).each (l) ->
+              regionData = byRegion[l.feature.properties.name]
+              if not regionData
+                v = null
+              else if $scope.visMode == 'passrate'
+                v = average(regionData.pass_2014)
+              else
+                v = average(regionData.pt_ratio)
+              l.setStyle colorSrv.areaStyle v, $scope.visMode
 
-          OpenDataApi.leastImprovedSchools($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-              $scope.leastImprovedSchools = data.result.records
+        $scope.keepHoveredSchool = ->
+          hoverSelect $scope.lastHoveredSchool
 
-          OpenDataApi.getGlobalPassrate($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-            $scope.passrate = parseFloat data.result.records[0].avg
+        $scope.unkeepHoveredSchool = ->
+          $scope.unhoverSchool()
 
-          OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-            $scope.passRateChange = parseInt data.result.records[0].avg
+        $scope.unhoverSchool = ->
+          $scope.hoveredSchool.layer.setStyle
+            color: '#fff'
+            weight: 2
+            opacity: 0.5
+            fillOpacity: 0.6
+          $scope.hoveredSchool = null
 
-        $scope.$watch '[rankBest, moreThan40, selectedYear]', updateDashboard
-        $scope.rankBest = 'performance' if (!$scope.rankBest? and $scope.schoolType is 'primary')
+        hoverSelect = (selectable) ->
+          selectable.layer.setStyle
+            color: '#05a2dc'
+            weight: 5
+            opacity: 1
+            fillOpacity: 1
+          selectable.layer.bringToFront()
+          $scope.hoveredSchool = selectable
+
+        $scope.keepHoveredRegion = ->
+          hoverRegionSelect $scope.lastHoveredRegion
+
+        $scope.unkeepHoveredRegion = ->
+          $scope.unhoverRegion()
+
+        $scope.unhoverRegion = ->
+          $scope.hoveredRegion.layer.setStyle
+            weight: 0
+            opacity: 0.6
+          $scope.hoveredRegion = null
+
+        hoverRegionSelect = (selectable) ->
+          selectable.layer.setStyle
+            weight: 5
+            opacity: 1
+          selectable.layer.bringToFront()
+          $scope.hoveredRegion = selectable
+
+        WorldBankApi.getBestSchool($scope.schoolType, $scope.moreThan40).success (data) ->
+            $scope.bestSchools = data.rows
+
+        WorldBankApi.getWorstSchool($scope.schoolType, $scope.moreThan40).success (data) ->
+            $scope.worstSchools = data.rows
+
+        WorldBankApi.mostImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
+            $scope.mostImprovedSchools = data.rows
+
+        WorldBankApi.leastImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
+            $scope.leastImprovedSchools = data.rows
 
         $scope.setSchoolType = (to) ->
           $location.path "/dashboard/#{to}/"
@@ -161,20 +242,26 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.setVisMode = (to) ->
           unless (visModes.indexOf to) == -1
             $scope.visMode = to
-            colorPins()
+            if $scope.viewMode == 'schools'
+              colorPins()
+            else if $scope.viewMode == 'regional'
+              colorRegions()
           else
             console.error 'Could not change visualization to invalid mode:', to
 
         $scope.showView = (view) ->
-          $scope.viewMode = view
-          leafletData.getMap(mapId).then (map) ->
-            unless currentLayer == null
-              map.removeLayer currentLayer
-              currentLayer = null
-            mapLayerCreators[$scope.viewMode]().then (layer) ->
-              currentLayer = layer
-              if $scope.viewMode == 'schools'
-                colorPins()
+          unless view == $scope.viewMode
+            $scope.viewMode = view
+            leafletData.getMap(mapId).then (map) ->
+              unless currentLayer == null
+                map.removeLayer currentLayer
+                currentLayer = null
+              mapLayerCreators[$scope.viewMode]().then (layer) ->
+                currentLayer = layer
+                if $scope.viewMode == 'schools'
+                  colorPins()
+                else if $scope.viewMode == 'regional'
+                  colorRegions()
 
         updateMap = () ->
           if $scope.viewMode != 'district'
@@ -216,7 +303,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
-                $scope.viewMode = view
                 $scope.showView(view)
             unless zoom?
                 zoom = 9
@@ -239,7 +325,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
-                $scope.viewMode = 'schools'
                 $scope.showView('schools')
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->

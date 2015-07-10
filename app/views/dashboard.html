@@ -8,8 +8,11 @@
     <div class="bottom-white-bar"></div>
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
+      <p class="performance-select">
+        <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate (%)</a>
+        <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+      </p>
       <div ng-if="visMode==='passrate'">
-        <h4><span translate="legend.passrate">Passrate</span> (%)</h4>
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
           <li class="poor">0&ndash;40</li>
@@ -18,7 +21,6 @@
         </ol>
       </div>
       <div ng-if="visMode==='ptratio'">
-        <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
         <ol class="ptratio">
           <li class="unknown" translate="legend.unknown">Unknown</li>
           <li class="good">&lt; 35</li>
@@ -55,36 +57,19 @@
     </map-bottom-toggle>
   </div>
 
-  <div class="map-flyout" ng-if="viewMode=='districts'">
-    <header>
-      <h2 translate="map.selected.region">Region Name</h2>
-      <p class="word">Simanjiro</p>
-    </header>
-    <div class="stat">
-      <h3 translate="map.selected.number-school">Number of Schools</h3>
-      <p class="number">73</p>
-      <div class="stat">
-        <h4 translate="map.selected.goberment">Government Schools</h4>
-        <p class="number">38</p>
-      </div>
-      <div class="stat">
-        <h4 translate="map.selected.private-school">Private Schools</h4>
-        <p class="number">35</p>
-      </div>
-    </div>
-    <div class="stat">
-      <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
-      <p class="number">51</p>
-    </div>
-    <div class="stat">
-      <h3>Rank</h3>
-      <p class="number good">51</p>
-    </div>
-  </div>
   <div
-    class="map-flyout"
+    class="map-flyout animate-hide"
+    ng-mouseenter="keepHoveredSchool()"
+    ng-mouseleave="unhoverSchool()"
     ng-show="hoveredSchool !== null"
     ng-include="'views/schoolFlyout.html'">
+  </div>
+  <div
+    class="map-flyout animate-hide"
+    ng-mouseenter="keepHoveredRegion()"
+    ng-mouseleave="unhoverRegion()"
+    ng-show="hoveredRegion !== null"
+    ng-include="'views/regionFlyout.html'">
   </div>
 
   <div class="container-fluid">
