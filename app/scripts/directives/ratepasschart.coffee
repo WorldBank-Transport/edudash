@@ -16,7 +16,9 @@ angular.module 'edudashAppDir'
         max: '@max'
         min: '@min'
         selectedSchool: '=datasource'
+        selectedYear: '@selectedyear'
       link: (scope, element, attrs) ->
-        scope.getTimes = (n) -> new Array(n)
+        scope.getTimes = (n) ->
+          new Array(parseInt(n))
 
   ]

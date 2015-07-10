@@ -97,12 +97,26 @@ angular.module 'edudashAppSrv'
       getTopDistricts: (filters) ->
         # TODO implement me
 
-      getRank: (filters) ->
-        # TODO implement me
+      getRank: (selectedSchool, year) ->
+        query = "SELECT _id,
+                  \"REGIONAL_RANK_ALL\",
+                  \"NATIONAL_RANK_ALL\",
+                  \"DISTRICT_RANK_ALL\",
+                  (SELECT COUNT(*) FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE \"REGION\" = '#{selectedSchool.REGION}') as REGIONAL_SCHOOLS,
+                  (SELECT COUNT(*) FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE \"DISTRICT\" = '#{selectedSchool.DISTRICT}') as DISTRICT_SCHOOLS
+                  FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE _id = #{selectedSchool._id} AND \"YEAR_OF_RESULT\" = #{year}"
+        $params =
+          sql: query
+        $http.get(ckanQueryURL, {params: $params})
 
       getPassOverTime: (educationLevel, subtype) ->
         $params =
           sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
+        $http.get(ckanQueryURL, {params: $params})
+
+      getSchoolPassOverTime: (educationLevel, subtype, code) ->
+        $params =
+          sql: "SELECT \"PASS_RATE\", \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" WHERE \"CODE\" like '#{code}' ORDER BY \"YEAR_OF_RESULT\" ASC"
         $http.get(ckanQueryURL, {params: $params})
 
       getSchools: (educationLevel) ->

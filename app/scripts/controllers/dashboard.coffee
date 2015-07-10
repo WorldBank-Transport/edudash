@@ -298,18 +298,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
-            unless $scope.selectedSchool? and item.cartodb_id == $scope.selectedSchool.cartodb_id
-              filter =
-                year: '2012'
-                selectedSchool: item
-                field: 'district'
-                educationLevel: $scope.schoolType
-                moreThan40: $scope.moreThan40
-              WorldBankApi.getRank(filter).then (result) ->
-                $scope.districtRank = result.data.rows[0]
-              filter.field = 'region'
-              WorldBankApi.getRank(filter).then (result) ->
-                $scope.regionRank = result.data.rows[0]
+            unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
+              if($scope.schoolType == 'secondary')
+                OpenDataApi.getRank(item, $scope.selectedYear).success (response) ->
+                  row = response.result.records[0]
+                  if(response?)
+                    $scope.districtRank = {rank: row.DISTRICT_RANK_ALL, counter: row.district_schools}
+                    $scope.regionRank = {rank: row.REGIONAL_RANK_ALL, counter: row.regional_schools}
 
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
@@ -331,13 +326,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
                 $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
             $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
+            OpenDataApi.getSchoolPassOverTime($scope.schoolType, $scope.rankBest, item.CODE).success (data) ->
+              parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.PASS_RATE)}
+              $scope.passratetime = parseList
 
             # TODO: cleaner way?
             # Ensure the parent div has been fully rendered
             setTimeout( () ->
               if $scope.viewMode == 'schools'
-                chartSrv.drawNationalRanking item, $scope.schoolType, $scope.worstSchools[0].rank_2014
-                $scope.passratetime = chartSrv.drawPassOverTime item
+                chartSrv.drawNationalRanking item, $scope.worstSchools[0].RANK
             , 400)
 
         $scope.getTimes = (n) ->
