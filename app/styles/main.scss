@@ -752,6 +752,14 @@ table.districts p {
     background-color: #2ab4e7;
 }
 
+// homepage-specific container
+.homepage-content{
+  position:absolute;
+  top: $header-height/1.58;
+  bottom:0;
+  overflow:hidden;
+}
+
 .ui-select-bootstrap > .ui-select-match {
     overflow: hidden;
 }
@@ -793,11 +801,13 @@ table.districts p {
 }
 
 /*header*/
-.navbar-brand.header-flag{
-  float:left;
-  margin-right:10px;
-  padding-top:10px;
-  padding-left:0;
+.navbar-brand{
+  &.header-flag{
+    float:left;
+    margin-right:10px;
+    padding-top:10px;
+    padding-left:0;
+  }
 }
 
 /*header - navigation*/
@@ -842,6 +852,7 @@ table.districts p {
   -moz-transition: color 300ms ease-in;
   -o-transition: color 300ms ease-in;
   transition: color 300ms ease-in;
+  cursor:pointer;
 }
 
 .navbar-lang li a:hover,
@@ -1207,5 +1218,44 @@ map-bottom-toggle.filters {
   margin: 2px 5px 0 0;
   &.selected {
     background:#c0edff;
+  }
+}
+
+// footer
+.footer{
+  background:$theme-blue;
+  position: absolute;
+  width: 100%;
+  bottom:0;
+  height: $header-height;
+  p{
+    color:#ffffff;
+    margin-top:20px;
+    font-size:12px;
+    line-height:14px;
+  }
+  .navbar-brand{
+    height:72px;
+  }
+  .navbar-collapse{
+    padding-top:$header-height/2.6;
+    li{
+      border-left:1px solid #ffffff;
+      height:15px;
+      &:first-child{
+        border-left:none;
+      }
+      a{
+        color: #ffffff;
+        font-size:12px;
+        padding-top:0;
+        padding-bottom:0;
+        line-height:13px;
+        &:hover{
+          color:darken($body-text-color,15%);
+          background:none;
+        }
+      }
+    }
   }
 }
