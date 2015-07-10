@@ -661,46 +661,6 @@ table.districts p {
     margin-bottom: 0px;
 }
 
-/* Legends */
-#legend {
-    color: #828282;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 300;
-    font-size: 15px;
-    text-align: left;
-    padding: 10px;
-}
-
-#legend.schools {
-    background-color: white;
-}
-
-#legend p.title {
-    color: $theme-blue;
-    margin-top: 0px;
-    margin-bottom: 5px;
-}
-
-
-#legend a:link {
-    color: $theme-blue;
-}
-
-#legend a:link,
-#legend a:visited,
-#legend a:hover {
-    color: $theme-blue;
-    text-decoration: none;
-}
-
-#legend.districts {
-    background-color: white;
-    position: absolute;
-    bottom: 7px;
-    left: 7px;
-    -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd);
-}
 
 /* Pass rates widget */
 
@@ -1115,6 +1075,37 @@ map-bottom-toggle.filters {
   }
 }
 
+// legend mode
+.performance-select {
+  margin: 1em 0;
+  text-align: center;
+  a {
+    display: inline-block;
+    margin: 0 1em;
+    color: desaturate($theme-blue, 20%);
+    cursor: pointer;
+    &:before {
+      content: "";
+      display: inline-block;
+      height: 0.9em;
+      width: 0.9em;
+      margin-right: 0.4em;
+      border: 2px solid $theme-blue;
+      border-radius: 0.5em;
+    }
+    &.active {
+      font-weight: bold;
+      color: darken($theme-blue, 10%);
+      &:before {
+        background: $theme-blue;
+      }
+    }
+    &.ng-click-active:before {
+      background: lighten($theme-blue, 40%);
+    }
+  }
+}
+
 /* Sidebar */
 .sidebar {
   padding-top: 10px;
@@ -1196,41 +1187,6 @@ map-bottom-toggle.filters {
   margin-top:-9px;
 }
 
-// performance tabs
-.performance-nav {
-  padding-right:0;
-  padding-left:0;
-
-  .nav-tabs {
-    border-bottom: none;
-
-    li {
-      width:52%;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      border-radius: 3px;
-      border:1px solid #eeeeee;
-
-      &.active {
-        border:1px solid $theme-blue-light;
-        a {
-          background: $theme-blue-light;
-          border:1px solid $theme-blue-light;
-        }
-      }
-
-      a {
-        border:1px solid transparent;
-        text-transform:uppercase;
-        background: #ffffff;
-        &:hover {
-          color: $theme-blue;
-        }
-      }
-    }
-  }
-}
-
 // homepage
 .page-title{
   color: $grey-light;
@@ -1238,13 +1194,6 @@ map-bottom-toggle.filters {
   line-height:34px;
   font-weight:300;
   padding-top: 50px;
-}
-
-// school location markers
-.school-location {
-  &:hover {
-    stroke: $theme-blue;
-  }
 }
 
 // selectable div to replace checkbox in year selection
