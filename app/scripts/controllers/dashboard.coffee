@@ -224,18 +224,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           selectable.layer.bringToFront()
           $scope.hoveredRegion = selectable
 
-        WorldBankApi.getBestSchool($scope.schoolType, $scope.moreThan40).success (data) ->
-            $scope.bestSchools = data.rows
-
-        WorldBankApi.getWorstSchool($scope.schoolType, $scope.moreThan40).success (data) ->
-            $scope.worstSchools = data.rows
-
-        WorldBankApi.mostImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
-            $scope.mostImprovedSchools = data.rows
-
-        WorldBankApi.leastImprovedSchools($scope.schoolType, $scope.moreThan40).success (data) ->
-            $scope.leastImprovedSchools = data.rows
-
         $scope.setSchoolType = (to) ->
           $location.path "/dashboard/#{to}/"
 
@@ -358,10 +346,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.anchorScroll = () ->
             $anchorScroll()
 
-        OpenDataApi.getPassOverTime($scope.schoolType, $scope.rankBest).success (data) ->
-          parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.avg)}
-          $scope.globalpassratetime = parseList
-
         WorldBankApi.getTopDistricts({educationLevel: $scope.schoolType, metric: 'avg_pass_rate', order: 'DESC'}).then (result) ->
           $scope.bpdistrics = result.data.rows
         WorldBankApi.getTopDistricts({educationLevel: $scope.schoolType, metric: 'avg_pass_rate', order: 'ASC'}).then (result) ->
@@ -373,5 +357,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
           $scope.pupilTeacherRatio = data.rate
 
+        updateDashboard = () ->
+          OpenDataApi.getBestSchool($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.bestSchools = data.result.records
 
+          OpenDataApi.getWorstSchool($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.worstSchools = data.result.records
+
+          OpenDataApi.mostImprovedSchools($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.mostImprovedSchools = data.result.records
+
+          OpenDataApi.leastImprovedSchools($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.leastImprovedSchools = data.result.records
+
+          OpenDataApi.getGlobalPassrate($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.passrate = parseFloat data.result.records[0].avg
+
+          OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.passRateChange = parseInt data.result.records[0].avg
+
+          OpenDataApi.getPassOverTime($scope.schoolType, $scope.rankBest).success (data) ->
+            parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.avg)}
+            $scope.globalpassratetime = parseList
+
+        $scope.$watch '[rankBest, moreThan40, selectedYear]', updateDashboard
+        $scope.rankBest = 'performance' if (!$scope.rankBest? and $scope.schoolType is 'primary')
 ]
