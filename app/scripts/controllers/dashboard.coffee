@@ -188,9 +188,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.getSchoolsChoices = (query) ->
             if query?
-              WorldBankApi.getSchoolsChoices($scope.schoolType, query).success (data) ->
+              OpenDataApi.getSchoolsChoices($scope.schoolType, $scope.rankBest, query).success (data) ->
                 $scope.searchText = query
-                $scope.schoolsChoices = data.rows
+                $scope.schoolsChoices = data.result.records
 
         $scope.$watch 'passRange', ((newVal, oldVal) ->
             unless _.isEqual(newVal, oldVal)

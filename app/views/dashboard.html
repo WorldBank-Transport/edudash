@@ -157,12 +157,12 @@
                 <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
                   <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
                   <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
-                    <div ng-bind-html="school.name | highlight: $select.search"></div>
+                    <div ng-bind-html="school.NAME | highlight: $select.search"></div>
                     <small class="text-muted">
-                      {{'school.center-code' | translate}}: {{school.code}}
+                      {{'school.center-code' | translate}}: {{school.CODE}}
                       <br>
                       {{'school.district' | translate}}:
-                      <span ng-bind-html="''+school.district | highlight: $select.search"></span>
+                      <span ng-bind-html="''+school.DISTRICT | highlight: $select.search"></span>
                     </small>
                   </ui-select-choices>
                 </ui-select>

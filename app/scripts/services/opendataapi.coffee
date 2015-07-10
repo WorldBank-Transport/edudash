@@ -20,7 +20,7 @@ angular.module 'edudashAppSrv'
       datasetMapping =
         primary:
           'performance': '3a77adf7-925a-4a62-8c70-5e43f022b874'
-          'improvement': '0fb741e3-ebe7-468f-bf7e-b40ae12cdce6'
+          'improvement': 'bba2cbbb-97fb-48b1-aa51-8db69279fbc5'
         secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
 
       getdata: () ->
@@ -89,9 +89,10 @@ angular.module 'edudashAppSrv'
           sql: "SELECT AVG(\"CHANGE_PREVIOUS_YEAR\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
         $http.get(ckanQueryURL, {params: $params})
 
-      getSchoolsChoices: (educationLevel, query) ->
-        searchSQL = "SELECT * FROM wbank.tz_#{ educationLevel }_cleaned_dashboard WHERE (name ilike '%#{ query }%' OR code ilike '%#{ query }%') LIMIT 10"
-        $http.get(wbApiRoot, {params: { q: searchSQL, api_key: param1 }})
+      getSchoolsChoices: (educationLevel, subtype, query) ->
+        $params =
+          sql: "SELECT * FROM \"#{getTable(educationLevel, subtype)}\" WHERE (\"NAME\" ILIKE '%#{query}%' OR \"CODE\" ILIKE '%#{query}%') LIMIT 10"
+        $http.get(ckanQueryURL, {params: $params})
 
       getTopDistricts: (filters) ->
         # TODO implement me
