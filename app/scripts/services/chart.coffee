@@ -18,10 +18,9 @@ angular.module('edudashAppSrv').factory 'chartSrv', [
       w = d3.select(selector).style('width').replace('px', '')
       {h: h, w: w}
 
-    drawNationalRanking: (item, schoolType, worst) ->
+    drawNationalRanking: (item, worst) ->
       selector = ".widget #nationalRanking"
-      # TODO: assumes 2014
-      nr = item.rank_2014
+      nr = item.RANK
       dim = getDimensions(selector)
       h = 50
       w = (w = 350 if dim.w > 350) or dim.w

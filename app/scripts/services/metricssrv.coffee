@@ -9,11 +9,8 @@
 ###
 angular.module 'edudashAppSrv'
 .service 'MetricsSrv', [
-    'OpenDataApi', '$log', 'CsvParser', '$q',
-    (OpenDataApi, $log, CsvParser, $q) ->
-      getPassRate: (filter) ->
-        year = if filter? && filter.year? then filter.year else 2012
-        datasetName = ''
+    'OpenDataApi', '$log', '$q',
+    (OpenDataApi, $log, $q) ->
 
       getPupilTeacherRatio: (filter) ->
         level = filter.level
@@ -24,18 +21,15 @@ angular.module 'edudashAppSrv'
         else
           sqlEnrolment = 'SELECT sum("Total") from "43342fa9-6050-4b04-a2ed-1601eee6dbb3"'
           sqlTeacher = 'SELECT sum("Total") from "70d7f660-e188-4602-923d-d93d306936f0"'
-
         $q.all([
-          OpenDataApi.dataserByQuery(sqlEnrolment),
-          OpenDataApi.dataserByQuery(sqlTeacher)
+          OpenDataApi.datasetByQuery(sqlEnrolment),
+          OpenDataApi.datasetByQuery(sqlTeacher)
         ])
         .then((values) ->
             data =
               enrolments: values[0].result.records[0].sum
               teachers: values[1].result.records[0].sum
               rate: values[0].result.records[0].sum / values[1].result.records[0].sum
-            console.log data
-            data
           )
 
   ]

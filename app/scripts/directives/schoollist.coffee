@@ -17,6 +17,7 @@ angular.module 'edudashApp'
       listData: '=data'
       setSchool: '=click'
       property: '@property'
-      max: '@max'
-      min: '@min'
+      max: '@max'+0
+      min: '@min'+0
+      sufix: '@sufix'
     link: (scope, element, attrs) ->

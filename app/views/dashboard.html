@@ -142,12 +142,12 @@
                 <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
                   <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
                   <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
-                    <div ng-bind-html="school.name | highlight: $select.search"></div>
+                    <div ng-bind-html="school.NAME | highlight: $select.search"></div>
                     <small class="text-muted">
-                      {{'school.center-code' | translate}}: {{school.code}}
+                      {{'school.center-code' | translate}}: {{school.CODE}}
                       <br>
                       {{'school.district' | translate}}:
-                      <span ng-bind-html="''+school.district | highlight: $select.search"></span>
+                      <span ng-bind-html="''+school.DISTRICT | highlight: $select.search"></span>
                     </small>
                   </ui-select-choices>
                 </ui-select>
@@ -167,20 +167,20 @@
               </ul>
             </div>
             <div class="container-fluid" ng-if="rankBest==='improvement'">
-              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="change_13_14" max="90" min="80"></school-list>
+              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="CHANGE_PREVIOUS_YEAR" max="90" min="80"></school-list>
             </div>
             <div class="container-fluid" ng-if="rankBest==='performance'">
-              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="pass_2014" max="60" min="40"></school-list>
+              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="PASS_RATE" max="60" min="40" sufix="%"></school-list>
             </div>
           </div>
           <div class="container-fluid" ng-hide="schoolType==='secondary' && selectedSchool|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: moreThan40===0}">
-                  <a ng-click="selectMoreThan40(1)">{{'tab.pupils.morethan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: moreThan40==='YES'}">
+                  <a ng-click="moreThan40='YES'">{{'tab.pupils.morethan40'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: moreThan40===0}">
-                  <a ng-click="selectMoreThan40(0)">{{'tab.pupils.lessthan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: moreThan40==='NO'}">
+                  <a ng-click="moreThan40='NO'">{{'tab.pupils.lessthan40'|translate}}</a>
                 </li>
               </ul>
             </div>
@@ -234,7 +234,7 @@
                 {{ selectedSchool.code }}
                 <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
               </p>
-              <rate-pass-chart min="40" max="60" datasource="selectedSchool"></rate-pass-chart>
+              <rate-pass-chart min="40" max="60" datasource="selectedSchool" selectedyear="{{selectedYear}}"></rate-pass-chart>
               <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
