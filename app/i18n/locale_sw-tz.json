@@ -50,6 +50,8 @@
     "chart.top.least-improved-schools": "Shule zenye maendeleo duni",
     "chart.top.best-performing-schools": "Shule zilizofuzu vizuri",
     "chart.top.worst-performing-schools": "Shule zenye matokeo duni zaidi",
+    "chart.top.more-than-40-YES": "Zaidi ya arobaini (40)",
+    "chart.top.more-than-40-NO": "Wasiozidi arobaini (40)",
     "button.best.performing" : "Zilizofuzu Vizuri",
     "button.best.improved" : "Zilizoinua Matokeo",
     "chart.title.change-since-2013": "Mabadiliko tangu 2013",
