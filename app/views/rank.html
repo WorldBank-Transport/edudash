@@ -2,7 +2,10 @@
     <div class="col-md-12">
         <span class="chart-title rank-label">{{title|translate}}</span>
     </div>
-    <div class="col-md-12 rank-value">
-        <p class="medium-character text-grey">{{ data.rank }} <span class="medium-small-character text-grey">(of {{ data.counter }})</span></p>
+    <div class="col-md-12 rank-value" ng-hide="data.rank===undefined">
+        <p class="medium-character text-grey">{{ data.rank }}<span class="medium-small-character text-grey">(of {{ data.counter }})</span></p>
+    </div>
+    <div class="col-md-12 rank-value" ng-show="data.rank===undefined">
+        <p class="medium-character">NA</p>
     </div>
 </div>
