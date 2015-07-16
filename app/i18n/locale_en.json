@@ -57,6 +57,8 @@
     "chart.title.passrate-2014": " pass rate",
     "chart.title.rank-region": "regional rank",
     "chart.title.rank-district": "district rank",
+    "chart.top.more-than-40-YES": "More than 40",
+    "chart.top.more-than-40-NO": "Less than 40",
     "distric": "District",
     "region": "Region",
     "about.paragraph": "This is the about view",
