@@ -5,7 +5,6 @@
       layers="layers"
       school-type="schoolType">
     </div>
-    <div class="bottom-white-bar"></div>
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
       <p class="performance-select">
@@ -33,6 +32,7 @@
     <map-bottom-toggle
       ng-if="activeMap!='districts'"
       title="{{ 'filters.title' | translate }}"
+      emitkey="filtersToggle"
       class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
@@ -55,21 +55,23 @@
         attach-handle-values="true">
       </div>
     </map-bottom-toggle>
-  </div>
 
-  <div
-    class="map-flyout animate-hide"
-    ng-mouseenter="keepHoveredSchool()"
-    ng-mouseleave="unhoverSchool()"
-    ng-show="hoveredSchool !== null"
-    ng-include="'views/schoolFlyout.html'">
-  </div>
-  <div
-    class="map-flyout animate-hide"
-    ng-mouseenter="keepHoveredRegion()"
-    ng-mouseleave="unhoverRegion()"
-    ng-show="hoveredRegion !== null"
-    ng-include="'views/regionFlyout.html'">
+    <div
+      class="map-flyout animate-hide"
+      ng-style="{bottom: filtersHeight}"
+      ng-mouseenter="keepHoveredSchool()"
+      ng-mouseleave="unhoverSchool()"
+      ng-show="hoveredSchool !== null"
+      ng-include="'views/schoolFlyout.html'">
+    </div>
+    <div
+      class="map-flyout animate-hide"
+      ng-style="{bottom: filtersHeight}"
+      ng-mouseenter="keepHoveredRegion()"
+      ng-mouseleave="unhoverRegion()"
+      ng-show="hoveredRegion !== null"
+      ng-include="'views/regionFlyout.html'">
+    </div>
   </div>
 
   <div class="container-fluid">

@@ -124,33 +124,6 @@ body {
     margin-bottom: 0;
 }
 
-/* Map hover */
-.map-container div.cartodb-tooltip {
-    position: absolute;
-    display: none;
-    min-width: 120px;
-    max-width: 250px;
-    overflow-y: hidden;
-    left: 20px !important;
-    top: 100px !important;
-    z-index: 5;
-}
-.map-container div.cartodb-tooltip h4{
-    color: #828282;
-    text-transform: uppercase;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    font-weight: 600;
-    font-size: 11px;
-}
-
-.map-container div.cartodb-tooltip p{
-    color: $theme-blue;
-    font-weight: 300;
-    font-size: 15px;
-    margin-top: 0px;
-    margin-bottom: 8px;
-}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: $b) {
     /* Remove the padding we set earlier */
@@ -346,7 +319,7 @@ div.cartodb-share a{
 }
 .nav-tabs{
   display:table;
-  width:101%;
+  width:100%;
 }
 .nav-tabs > li {
   float: none;
@@ -1010,6 +983,7 @@ map-bottom-toggle {
     box-shadow: $map-overlay-outline;
     text-align: center;
     h3 {
+      margin: 0;
       font-size: 1em;
       line-height: $bottom-bar-height;
       font-weight: bold;
@@ -1021,19 +995,19 @@ map-bottom-toggle {
         padding: 0 1em;
       }
     }
-    &.closed h3:before,
-    &.closed h3:after {
-      content: "▴";
-    }
+  }
+  &.closed header h3:before,
+  &.closed header h3:after {
+    content: "▴";
   }
   .body {
     padding: 5px 1em;
     margin-top: 1px;
     background: $map-overlay;
     box-shadow: $map-overlay-outline;
-    &.closed {
-      @include sr-only;
-    }
+  }
+  &.closed .body {
+    @include sr-only;
   }
 }
 map-bottom-toggle.legend {
@@ -1227,7 +1201,7 @@ map-bottom-toggle.filters {
   position: absolute;
   width: 100%;
   bottom:0;
-  height: $header-height;
+  height: $footer-height;
   p{
     color:#ffffff;
     margin-top:20px;
@@ -1235,7 +1209,7 @@ map-bottom-toggle.filters {
     line-height:14px;
   }
   .navbar-brand{
-    height:72px;
+    height: $footer-height;
   }
   .navbar-collapse{
     padding-top:$header-height/2.6;

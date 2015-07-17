@@ -1,7 +1,7 @@
 .map-flyout {
   position: absolute;
-  right: $sidebar-width;
-  top: $nav-height;
+  right: 0;
+  top: 0;
   bottom: $bottom-bar-height + 1px;
   width: $flyout-width;
   padding: 15px 30px;
