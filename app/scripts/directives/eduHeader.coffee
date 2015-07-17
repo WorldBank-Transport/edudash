@@ -10,3 +10,12 @@
 angular.module('edudashAppDir').directive 'eduHeader', ->
   restrict: 'E',
   templateUrl: 'views/eduHeader.html',
+  link: (scope, element, attrs) ->
+    setTimeout( () ->
+      scope.showPointInfo=true
+      scope.$digest()
+    , 5000)
+    setTimeout( () ->
+      scope.showPointInfo=false
+      scope.$digest()
+    , 20000)

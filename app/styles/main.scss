@@ -475,9 +475,12 @@ div.cartodb-share a{
 /* School info */
 #schoolinfo-plaholder{
     display: block;
-    padding: 100px 40px;
+    padding: 20px 0px;
     color: #CCC;
     font-size: 18px;
+    float: left;
+    -webkit-transition:all linear 0.5s;
+    transition:all linear 0.5s;
 }
 #schoolinfo {
     margin: 0 auto;
