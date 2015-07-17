@@ -262,10 +262,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.updateMap = _.debounce(updateMap, 500)
 
         $scope.getSchoolsChoices = (query) ->
-            if query?
-              OpenDataApi.getSchoolsChoices($scope.schoolType, $scope.rankBest, query).success (data) ->
-                $scope.searchText = query
-                $scope.schoolsChoices = data.result.records
+          if query?
+            OpenDataApi.getSchoolsChoices($scope.schoolType, $scope.rankBest, query, $scope.selectedYear).success (data) ->
+              $scope.searchText = query
+              $scope.schoolsChoices = data.result.records
 
         $scope.$watch 'passRange', ((newVal, oldVal) ->
             unless _.isEqual(newVal, oldVal)

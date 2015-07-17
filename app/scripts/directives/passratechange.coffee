@@ -15,6 +15,7 @@ angular.module 'edudashAppDir'
       range: '@'
       max: '=max'
       min: '=min'
+      since: '=since'
     link: (scope, element, attrs) ->
       scope.$watch 'data', (newValue, oldValue) ->
         if newValue
@@ -24,4 +25,3 @@ angular.module 'edudashAppDir'
           when data > 0 then '+ '
           when data == 0 then '= '
           else ''
-        scope.since = 2012

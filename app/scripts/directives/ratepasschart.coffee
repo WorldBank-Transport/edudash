@@ -19,6 +19,13 @@ angular.module 'edudashAppDir'
         selectedYear: '@selectedyear'
       link: (scope, element, attrs) ->
         scope.getTimes = (n) ->
-          new Array(parseInt(n))
+          if n? then new Array(parseInt(n)) else Array(0)
+        scope.getClass = (index, value, max, min) ->
+          sex = if index % 2 == 0 then 'boy' else 'girl'
+          color = switch
+            when parseInt(value) <= parseInt(min) then 'red'
+            when parseInt(value) >= parseInt(max) then 'green'
+            else 'yellow'
+          "#{sex}-pass-#{color}"
 
   ]

@@ -1,21 +1,17 @@
 <div class="widget first">
     <p class="widgettitle">{{selectedYear}} {{'chart.title.passrate-2014'|translate}}</p>
-    <div class="row">
-        <div ng-class="{'col-xs-3': selectedSchool.PASS_RATE == 100, 'col-xs-2': selectedSchool.PASS_RATE != 100}"><p class="percentNumber widgetnumber">{{ selectedSchool.PASS_RATE }}%</p>
+    <div class="row" ng-if="selectedSchool.PASS_RATE != '0'">
+        <div ng-class="{'col-xs-3': selectedSchool.PASS_RATE == '100', 'col-xs-2': selectedSchool.PASS_RATE != '100'}"><p class="percentNumber widgetnumber">{{ selectedSchool.PASS_RATE| number:0}}%</p>
         </div>
         <div ng-class="{'col-xs-9': selectedSchool.PASS_RATE == 100, 'col-xs-10': selectedSchool.PASS_RATE != 100}">
-            <div class="pass-rate" ng-class="{
-                    'girl-pass-red': $index % 2 != 0 && selectedSchool.PASS_RATE <= min,
-                    'boy-pass-red': $index % 2 == 0  && selectedSchool.PASS_RATE <= min,
-                    'girl-pass-yellow': $index % 2 != 0 && selectedSchool.PASS_RATE > min && selectedSchool.PASS_RATE < max,
-                    'boy-pass-yellow': $index % 2 == 0  && selectedSchool.PASS_RATE > min && selectedSchool.PASS_RATE < max,
-                    'girl-pass-green': $index % 2 != 0 && selectedSchool.PASS_RATE >= max,
-                    'boy-pass-green': $index % 2 == 0  && selectedSchool.PASS_RATE >= max,
-                }"
+            <div class="pass-rate" ng-class="getClass($index, selectedSchool.PASS_RATE, max, min)"
                  ng-repeat="i in getTimes(selectedSchool.PASS_RATE/10) track by $index"></div>
             <div class="pass-rate" ng-class="{'girl-pass-grey': (selectedSchool.PASS_RATE/10 + $index) % 2 != 0,
                                               'boy-pass-grey': (selectedSchool.PASS_RATE/10 + $index) % 2 == 0}"
                  ng-repeat="i in getTimes(10-(selectedSchool.PASS_RATE/10)) track by $index"></div>
         </div>
+    </div>
+    <div class="row" ng-if="selectedSchool.PASS_RATE == '0'">
+        <div><p class="medium-character" style="position: static; margin-left: 20px">NA</p></div>
     </div>
 </div>

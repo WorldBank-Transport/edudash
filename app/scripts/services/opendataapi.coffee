@@ -89,9 +89,9 @@ angular.module 'edudashAppSrv'
           sql: "SELECT AVG(\"CHANGE_PREVIOUS_YEAR\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
         $http.get(ckanQueryURL, {params: $params})
 
-      getSchoolsChoices: (educationLevel, subtype, query) ->
+      getSchoolsChoices: (educationLevel, subtype, query, year) ->
         $params =
-          sql: "SELECT * FROM \"#{getTable(educationLevel, subtype)}\" WHERE (\"NAME\" ILIKE '%#{query}%' OR \"CODE\" ILIKE '%#{query}%') LIMIT 10"
+          sql: "SELECT * FROM \"#{getTable(educationLevel, subtype)}\" WHERE (\"NAME\" ILIKE '%#{query}%' OR \"CODE\" ILIKE '%#{query}%') AND \"YEAR_OF_RESULT\" = #{year} LIMIT 10"
         $http.get(ckanQueryURL, {params: $params})
 
       getTopDistricts: (filters) ->
