@@ -219,11 +219,6 @@
           </div>
 
           <div ng-if="viewMode=='schools'">
-            <div ng-hide="selectedSchool|exists" class="container-fluid">
-              <div id="schoolinfo-plaholder" class="text-center" translate="map.tooltip">
-                Explore the map and click on a school to get started.
-              </div>
-            </div>
             <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
                 {{ selectedSchool.name }}
