@@ -16,5 +16,5 @@
 }
 
 @mixin content-border{
-  border-top:12px solid $theme-blue;
+  border-top: $content-border-height solid $theme-blue;
 }

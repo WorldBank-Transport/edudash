@@ -25,7 +25,8 @@ $map-overlay-outline: -1px -1px 0 $map-overlay-edge;
 
 $header-height: 70px;
 
-$nav-height: 55px;
+$nav-height: 67px;  // including content-border
+$content-border-height: 12px;
 
 $sidebar-width: 450px;
 

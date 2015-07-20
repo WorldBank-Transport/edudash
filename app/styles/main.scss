@@ -11,6 +11,7 @@
 body {
   display: block;
   font-family: 'Open Sans', sans-serif;
+  background:$theme-blue;
 }
 
 .no-padding{
@@ -104,13 +105,14 @@ body {
   margin-top: 28px;
 }
 
-#main-header{
-    display: block;
-    position: relative;
-    top: 0px;
-    width: 100%;
-    height: 70px;
-    font-family: 'Open Sans', sans-serif;
+#main-header {
+  display: block;
+  position: relative;
+  top: 0px;
+  width: 100%;
+  height: 70px;
+  font-family: 'Open Sans', sans-serif;
+  background: #fff;
 }
 
 .map-container{
@@ -363,7 +365,9 @@ div.cartodb-share a{
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
 }
-.nav-tabs > li > a{
+.nav-tabs > li > a {
+  box-sizing: border-box;
+  height: $nav-height - $content-border-height;
   background: #f6f6f6;
   margin-right: 0px;
   border-left: 1px solid #DDDDDD;
@@ -374,8 +378,8 @@ div.cartodb-share a{
   color:#aaaaaa;
   margin-left:-1px;
   font-size:13px;
-  padding: 13px 0;
   text-align:center;
+  vertical-align: middle;
   display: table-cell;
   width: 1%;
 }
@@ -1123,6 +1127,7 @@ map-bottom-toggle.filters {
 /* Sidebar */
 .sidebar {
   padding-top: 10px;
+  background: #fff;
 }
 .sidebar .contained {  /* hack for search for now */
   margin: 0;
