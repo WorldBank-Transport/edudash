@@ -9,10 +9,7 @@ body {
   top: $header-height;
   left: 0;
   right: 0;
-  bottom: 0;
-// trying new layout to fit footer
-/*position:relative;
-min-height:600px; border:1px dotted #f00;*/
+  bottom: $footer-height;
 }
 
 .map-position-wrap {
@@ -20,22 +17,16 @@ min-height:600px; border:1px dotted #f00;*/
   top: $nav-height;
   left: 0;
   right: $sidebar-width;
-  bottom: 55px;
+  bottom: 0;
 }
 #map {
   height: 100%;
 }
 
-.bottom-white-bar {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: $bottom-bar-height;
-}
 map-bottom-toggle {
   z-index: 1;
   position: absolute;
-  bottom: $bottom-bar-height + 1;
+  bottom: 0;
   &.legend {
     width: 50%;
   }
@@ -52,6 +43,7 @@ map-bottom-toggle {
   bottom: 0;
   width: $sidebar-width;
   overflow-y: auto;
+  overflow-x: hidden;
   .contained {
     width: $sidebar-width;
   }

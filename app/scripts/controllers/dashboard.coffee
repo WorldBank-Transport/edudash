@@ -261,6 +261,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.updateMap = _.debounce(updateMap, 500)
 
+        $scope.$on 'filtersToggle', (event, opts) ->
+          $scope.filtersHeight = opts.height
+
         $scope.getSchoolsChoices = (query) ->
           if query?
             OpenDataApi.getSchoolsChoices($scope.schoolType, $scope.rankBest, query, $scope.selectedYear).success (data) ->
