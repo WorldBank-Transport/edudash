@@ -10,20 +10,6 @@
 angular.module 'edudashAppSrv'
   .service 'colorSrv', ->
 
-    categorizers =
-      passrate: [
-        [((v) -> (v == null)), 'unknown']
-        [((v) -> v < 40), 'poor']
-        [((v) -> v < 60), 'medium']
-        [(-> true), 'good']
-      ]
-      ptratio: [
-        [((v) -> v == null), 'unknown']
-        [((v) -> v < 35), 'good']
-        [((v) -> v > 50), 'poor']
-        [(-> true), 'medium']
-      ]
-
     colors:
       unknown: '#aaa'
       poor: '#f56053'
@@ -31,25 +17,25 @@ angular.module 'edudashAppSrv'
       good: '#38a21c'
 
     categorize: (val, mode) ->
-      category = undefined
-      categorizers[mode].forEach (catPair) ->
-        category = category or \
-          if (catPair[0] val) then catPair[1] else undefined
-      category
+      switch
+        when mode == 'passrate' then switch
+          when val == null then 'unknown'
+          when val < 40 then 'poor'
+          when val < 60 then 'medium'
+          else 'good'
+        when mode == 'ptratio' then switch
+          when val == null then 'unknown'
+          when val < 35 then 'good'
+          when val > 50 then 'poor'
+          else 'medium'
 
     colorize: (val, mode) ->
       this.colors[this.categorize val, mode]
 
     pinStyle: (val, mode) ->
-      category = this.categorize val, mode
-      colour = this.colorize val, mode
-      if category == 'unknown'
-        color: colour
-        fillOpacity: 0
-      else
-        color: '#fff'
-        fillOpacity: 0.75
-        fillColor: colour
+      color: '#fff'
+      fillOpacity: 0.75
+      fillColor: this.colorize val, mode
 
     areaStyle: (val, mode) ->
       weight: 2
