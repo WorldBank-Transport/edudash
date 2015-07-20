@@ -53,6 +53,14 @@ angular.module 'edudashAppSrv'
           condition.push '"YEAR_OF_RESULT" = ' + year
         if condition.length > 0 then "WHERE #{condition.join ' AND '}" else ""
 
+      getChangeConditions = (educationLevel, moreThan40, year) ->
+        condition = []
+        if(educationLevel == 'secondary' and moreThan40?)
+          condition.push "\"MORE_THAN_40\" = '#{moreThan40}'"
+        if(year)
+          condition.push "\"YEAR_OF_RESULT\" IN (#{year - 1}, #{year})"
+        if condition.length > 0 then "WHERE #{condition.join ' AND '}" else ""
+
       datasetByQuery: (query) ->
         $params =
           sql: query
@@ -85,8 +93,9 @@ angular.module 'edudashAppSrv'
         $http.get(ckanQueryURL, {params: $params})
 
       getGlobalChange: (educationLevel, subtype, moreThan40, year) ->
+        sql = "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" #{getChangeConditions(educationLevel, moreThan40, year)} GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\""
         $params =
-          sql: "SELECT AVG(\"CHANGE_PREVIOUS_YEAR\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
+          sql: sql
         $http.get(ckanQueryURL, {params: $params})
 
       getSchoolsChoices: (educationLevel, subtype, query, year) ->

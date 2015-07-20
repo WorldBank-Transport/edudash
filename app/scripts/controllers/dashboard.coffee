@@ -373,7 +373,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.passrate = parseFloat data.result.records[0].avg
 
           OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-            $scope.passRateChange = parseInt data.result.records[0].avg
+            records = data.result.records
+            $scope.passRateChange = if(records.length == 2) then parseInt(records[1].avg - records[0].avg) else 0
 
           OpenDataApi.getPassOverTime($scope.schoolType, $scope.rankBest).success (data) ->
             parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.avg)}
