@@ -684,6 +684,7 @@ table.districts p {
   line-height: 24px;
   margin-top: 25px;
   min-height: 600px;
+  background:$content-bg;
 }
 @media screen and (min-width: $c) {
     #generalcontent {
@@ -741,7 +742,6 @@ table.districts p {
   top: $header-height/1.58;
   bottom:0;
   overflow:hidden;
-  background: #ffffff;
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -1244,4 +1244,9 @@ map-bottom-toggle.filters {
       }
     }
   }
+}
+
+// vertical padding that can be applied to any container
+.vert-padding{
+    @include buffer-top-bottom(30px);
 }

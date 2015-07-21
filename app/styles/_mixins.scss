@@ -18,3 +18,8 @@
 @mixin content-border{
   border-top: $content-border-height solid $theme-blue;
 }
+
+@mixin buffer-top-bottom($vbuffer) {
+  padding-top: $vbuffer;
+  padding-bottom: $vbuffer;
+}
