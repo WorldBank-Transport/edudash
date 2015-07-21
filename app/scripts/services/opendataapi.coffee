@@ -118,9 +118,10 @@ angular.module 'edudashAppSrv'
           sql: query
         $http.get(ckanQueryURL, {params: $params})
 
-      getPassOverTime: (educationLevel, subtype) ->
+      getPassOverTime: (educationLevel, subtype, moreThan40) ->
+        condition = if(educationLevel == 'secondary' and moreThan40?) then "WHERE \"MORE_THAN_40\" = '#{moreThan40}'" else ''
         $params =
-          sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
+          sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" #{condition} GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
         $http.get(ckanQueryURL, {params: $params})
 
       getSchoolPassOverTime: (educationLevel, subtype, code) ->
