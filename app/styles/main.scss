@@ -741,6 +741,7 @@ table.districts p {
   top: $header-height/1.58;
   bottom:0;
   overflow:hidden;
+  background: #ffffff;
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -1215,7 +1216,7 @@ map-bottom-toggle.filters {
   height: $footer-height;
   p{
     color:#ffffff;
-    margin-top:20px;
+    margin-top:15px;
     font-size:12px;
     line-height:14px;
   }
