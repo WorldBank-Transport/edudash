@@ -4,7 +4,7 @@
   top: 0;
   bottom: $bottom-bar-height + 1px;
   width: $flyout-width;
-  padding: 15px 30px;
+  padding: 10px 30px;
   background: $map-overlay;
   box-shadow: $map-overlay-outline;
   overflow-y: auto;
@@ -20,7 +20,7 @@
   }
   header,
   .stat {
-    margin: 1em 0;
+    margin: 0.6em 0;
   }
   h2, h3, h4 {
     margin: 0;
@@ -36,7 +36,7 @@
   .number {
     margin: 0;
     font-weight: bold;
-    color: #05a2dc;
+    color: $theme-blue;
   }
   .word {
     font-size: 1.2em;
