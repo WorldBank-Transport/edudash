@@ -85,34 +85,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             getData = -> $q (resolve, reject) ->
               WorldBankApi.getSchools $scope.schoolType, $scope.moreThan40
                 .success (data) ->
-                  resolve
-                    type: 'FeatureCollection'
-                    features:
-                      data.rows.map (school) ->
-                        type: 'Feature'
-                        id: school.cartodb_id
-                        geometry:
-                          type: 'Point'
-                          coordinates: [school.longitude, school.latitude]
-                        properties: school
+                  resolve data.rows.map (school) -> [
+                    school.latitude,
+                    school.longitude,
+                    properties: school,
+                  ]
                 .error reject
             options =
-              pointToLayer: (geojson, latlng) ->
-                L.circleMarker latlng,
-                  className: 'school-location'
-                  radius: 8
-              onEachFeature: (feature, layer) ->
+              className: 'school-location'
+              radius: 8
+              onEachFeature: (data, layer) ->
+                layer.feature = data
+                colorPin layer
                 layer.on 'mouseover', -> $scope.$apply ->
                   selectable =
                     layer: layer
-                    properties: feature.properties
+                    properties: data.properties
                   $scope.lastHoveredSchool = selectable
                   hoverSelect selectable
                 layer.on 'mouseout', -> $scope.$apply ->
                   $scope.unhoverSchool()
                 layer.on 'click', -> $scope.$apply ->
-                  $scope.setSchool feature.properties
-            layersSrv.addGeojsonLayer "schools-#{$scope.schoolType}", mapId,
+                  $scope.setSchool data
+            layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
               getData: getData
               options: options
 
@@ -144,15 +139,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               options: options
 
 
+        colorPin = (l) ->
+          v = switch
+            when $scope.visMode == 'passrate' then l.feature.properties.pass_2014
+            when $scope.visMode == 'ptratio' then l.feature.properties.pt_ratio
+          l.setStyle colorSrv.pinStyle v, $scope.visMode
+
         colorPins = ->
           if $scope.viewMode != 'schools'
             console.error 'colorPins should only be called when viewMode is "schools"'
             return
-          _(currentLayer.getLayers()).each (l) ->
-            v = switch
-              when $scope.visMode == 'passrate' then l.feature.properties.pass_2014
-              when $scope.visMode == 'ptratio' then l.feature.properties.pt_ratio
-            l.setStyle colorSrv.pinStyle v, $scope.visMode
+          _(currentLayer._group.getLayers()).each colorPin
 
         groupByDistrict = (rows) ->
           districts = {}

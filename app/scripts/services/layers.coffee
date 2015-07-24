@@ -50,6 +50,10 @@ angular.module('edudashAppSrv').factory 'layersSrv', [
       args.getData().then (geoData) ->
         L.geoJson geoData, args.options or {}
 
+    addFastCircles: makeLayer (args) ->
+      args.getData().then (data) ->
+        L.fastCircles data, args.options
+
     marker: makeLayer (args) ->
       L.marker args.latlng, args.options
 
