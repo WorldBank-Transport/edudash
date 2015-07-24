@@ -14,8 +14,8 @@ angular.module('edudashApp').controller 'DashboardCtrl', [
         primary = 'primary'
         secondary = 'secondary'
         mapLayers =
-            'primary': 'http://worldbank.cartodb.com/api/v2/viz/a031f6f0-c1d0-11e4-966d-0e4fddd5de28/viz.json'
-            'secondary': 'http://worldbank.cartodb.com/api/v2/viz/0d9008a8-c1d2-11e4-9470-0e4fddd5de28/viz.json'
+            'primary': 'http://wbank.cartodb.com/api/v2/viz/a031f6f0-c1d0-11e4-966d-0e4fddd5de28/viz.json'
+            'secondary': 'http://wbank.cartodb.com/api/v2/viz/0d9008a8-c1d2-11e4-9470-0e4fddd5de28/viz.json'
         if $routeParams.type == secondary
             $scope.schoolType = secondary
             $scope.title = 'Secondary School Dashboard'
