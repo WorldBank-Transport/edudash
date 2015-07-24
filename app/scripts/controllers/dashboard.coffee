@@ -151,7 +151,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           _(currentLayer.getLayers()).each (l) ->
             v = switch
               when $scope.visMode == 'passrate' then l.feature.properties.pass_2014
-              when $scope.visMode == 'pt_ratio' then l.feature.properties.pt_ratio
+              when $scope.visMode == 'ptratio' then l.feature.properties.pt_ratio
             l.setStyle colorSrv.pinStyle v, $scope.visMode
 
         groupByDistrict = (rows) ->
