@@ -226,6 +226,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 v = average(regionData.pt_ratio)
               l.setStyle colorSrv.areaStyle v, $scope.visMode
 
+        markSchool = (latlng) ->
+          unless schoolMarker?
+            icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
+            schoolMarker = layersSrv.marker 'school-marker', mapId,
+              latlng: latlng
+              options: icon: icon
+
+          schoolMarker.then (marker) ->
+            marker.setLatLng latlng
+
+        $scope.setMapView = (latlng, zoom, view) ->
+            if view?
+                $scope.showView(view)
+            unless zoom?
+                zoom = 9
+            leafletData.getMap(mapId).then (map) ->
+                map.setView latlng, zoom
 
         updateMap = () ->
           if $scope.viewMode != 'district'
@@ -257,24 +274,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.updateMap()
             return
         ), true
-
-        markSchool = (latlng) ->
-          unless schoolMarker?
-            icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
-            schoolMarker = layersSrv.marker 'school-marker', mapId,
-              latlng: latlng
-              options: icon: icon
-
-          schoolMarker.then (marker) ->
-            marker.setLatLng latlng
-
-        $scope.setMapView = (latlng, zoom, view) ->
-            if view?
-                $scope.showView(view)
-            unless zoom?
-                zoom = 9
-            leafletData.getMap(mapId).then (map) ->
-                map.setView latlng, zoom
 
         $scope.setSchool = (item, model, showAllSchools) ->
             unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
