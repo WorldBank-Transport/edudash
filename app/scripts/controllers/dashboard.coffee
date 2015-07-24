@@ -33,6 +33,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           selected: null
           allSchools: $q -> null
           filteredSchools: $q -> null
+          visiblePins: $q -> null
 
         # state transitioners
         angular.extend $scope,
@@ -62,7 +63,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               resolve data.map (s) -> [ s.latitude, s.longitude, s ]
             schools.then map, reject
           schools.then (schools) ->
-            layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
+            layerP = layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
               getData: () -> mapped
               options:
                 className: 'school-location'
@@ -71,6 +72,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   layer.feature = data
                   colorPin layer
                   attachLayerEvents layer
+            $scope.visiblePins = $q (resolve, reject) ->
+              getGroup = (layer) -> resolve layer._group
+              layerP.then getGroup, reject
+
+        $scope.$watchGroup ['visiblePins', 'visMode'], ([pinsP]) ->
+          pinsP.then (circles) -> _(circles.getLayers()).each colorPin
 
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
@@ -81,18 +88,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless currentLayer == null
               map.removeLayer currentLayer
               currentLayer = null
-
-        $scope.$watch 'visMode', (newMode) ->
-          if currentLayer == null
-            console.warn 'no layer yet, visMode waiting..'
-            return
-          if newMode not in ['passrate', 'ptratio']
-            console.error 'changed to invalid visualization mode:', newMode
-            return
-          if $scope.viewMode == 'schools'
-            colorPins()
-          else if $scope.viewMode == 'regional'
-            colorRegions()
 
         $scope.$watch 'hovered', (layer, oldLayer) ->
           if layer != null
@@ -259,12 +254,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             when $scope.visMode == 'passrate' then l.feature.passrate
             when $scope.visMode == 'ptratio' then l.feature.pt_ratio
           l.setStyle colorSrv.pinStyle v, $scope.visMode
-
-        colorPins = ->
-          if $scope.viewMode != 'schools'
-            console.error 'colorPins should only be called when viewMode is "schools"'
-            return
-          _(currentLayer._group.getLayers()).each colorPin
 
         groupByDistrict = (rows) ->
           districts = {}
