@@ -34,6 +34,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         angular.extend $scope,
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
+          setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
           hover: -> null
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
@@ -90,11 +91,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 fillOpacity: 0.6 )
               when 'regional' then weight: 0, opacity: 0.6
 
-        $scope.setSchoolType = (to) ->
-          $location.path "/dashboard/#{to}/"
-
-
-
 
         # widget local state (maybe should move to other directives)
         $scope.searchText = "dar"
@@ -105,8 +101,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # other global-ish stuff
         schoolMarker = null
-
-
 
         ptMin = 0
         ptMax = 150
