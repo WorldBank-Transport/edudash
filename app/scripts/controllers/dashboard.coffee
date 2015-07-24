@@ -29,6 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           schoolType: $routeParams.type
           hovered: null
           lastHovered: null
+          selected: null
 
         # state transitioners
         angular.extend $scope,
@@ -38,6 +39,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           hover: (thing) -> $scope.hovered = thing
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
+          select: (thing) -> $scope.selected = thing
 
 
         # State Listeners
@@ -90,6 +92,52 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 opacity: 0.5
                 fillOpacity: 0.6 )
               when 'regional' then weight: 0, opacity: 0.6
+
+
+        $scope.$watch 'selected', (layer, oldLayer) ->
+          if layer != null
+            if $scope.viewMode == 'schools'
+              markSchool [layer.feature.latitude, layer.feature.longitude]
+
+        $scope.setSchool = (item, model, showAllSchools) ->
+            unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
+              if($scope.schoolType == 'secondary')
+                OpenDataApi.getRank(item, $scope.selectedYear).success (response) ->
+                  row = response.result.records[0]
+                  if(response?)
+                    $scope.districtRank = {rank: row.DISTRICT_RANK_ALL, counter: row.district_schools}
+                    $scope.regionRank = {rank: row.REGIONAL_RANK_ALL, counter: row.regional_schools}
+
+            $scope.selectedSchool = item
+            unless showAllSchools? and showAllSchools == false
+                $scope.setViewMode 'schools'
+            # Silence invalid/null coordinates
+            leafletData.getMap(mapId).then (map) ->
+              try
+                  if map.getZoom() < 9
+                     zoom = 9
+                  else
+                      zoom = map.getZoom()
+                  latlng = [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude];
+                  markSchool latlng
+                  map.setView latlng, zoom
+              catch e
+                  console.log e
+            if item.pass_2014 < 10 && item.pass_2014 > 0
+                $scope.selectedSchool.pass_by_10 = 1
+            else
+                $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
+            $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
+            OpenDataApi.getSchoolPassOverTime($scope.schoolType, $scope.rankBest, item.CODE).success (data) ->
+              parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.PASS_RATE)}
+              $scope.passratetime = parseList
+
+            # TODO: cleaner way?
+            # Ensure the parent div has been fully rendered
+            setTimeout( () ->
+              if $scope.viewMode == 'schools'
+                chartSrv.drawNationalRanking item, $scope.worstSchools[0].RANK
+            , 400)
 
 
         # widget local state (maybe should move to other directives)
@@ -274,46 +322,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.updateMap()
             return
         ), true
-
-        $scope.setSchool = (item, model, showAllSchools) ->
-            unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
-              if($scope.schoolType == 'secondary')
-                OpenDataApi.getRank(item, $scope.selectedYear).success (response) ->
-                  row = response.result.records[0]
-                  if(response?)
-                    $scope.districtRank = {rank: row.DISTRICT_RANK_ALL, counter: row.district_schools}
-                    $scope.regionRank = {rank: row.REGIONAL_RANK_ALL, counter: row.regional_schools}
-
-            $scope.selectedSchool = item
-            unless showAllSchools? and showAllSchools == false
-                $scope.setViewMode 'schools'
-            # Silence invalid/null coordinates
-            leafletData.getMap(mapId).then (map) ->
-              try
-                  if map.getZoom() < 9
-                     zoom = 9
-                  else
-                      zoom = map.getZoom()
-                  latlng = [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude];
-                  markSchool latlng
-                  map.setView latlng, zoom
-              catch e
-                  console.log e
-            if item.pass_2014 < 10 && item.pass_2014 > 0
-                $scope.selectedSchool.pass_by_10 = 1
-            else
-                $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
-            $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
-            OpenDataApi.getSchoolPassOverTime($scope.schoolType, $scope.rankBest, item.CODE).success (data) ->
-              parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.PASS_RATE)}
-              $scope.passratetime = parseList
-
-            # TODO: cleaner way?
-            # Ensure the parent div has been fully rendered
-            setTimeout( () ->
-              if $scope.viewMode == 'schools'
-                chartSrv.drawNationalRanking item, $scope.worstSchools[0].RANK
-            , 400)
 
         $scope.getTimes = (n) ->
             new Array(n)
