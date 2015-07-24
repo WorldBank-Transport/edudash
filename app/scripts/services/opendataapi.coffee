@@ -9,8 +9,8 @@
 ###
 angular.module 'edudashAppSrv'
 .service 'OpenDataApi', [
-    '$http', '$resource', '$log', 'CsvParser', '$location'
-    ($http, $resource, $log, CsvParser, $location) ->
+    '$http', '$resource', '$log', 'CsvParser', '$location', '$q'
+    ($http, $resource, $log, CsvParser, $location, $q) ->
       # AngularJS will instantiate a singleton by calling "new" on this function
       regexp = /.*localhost.*/ig
       corsApi = if regexp.test($location.host()) then 'https://cors-anywhere.herokuapp.com' else 'http:/'
@@ -22,6 +22,29 @@ angular.module 'edudashAppSrv'
           'performance': '3a77adf7-925a-4a62-8c70-5e43f022b874'
           'improvement': 'bba2cbbb-97fb-48b1-aa51-8db69279fbc5'
         secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
+
+      converters =
+        text: (t) -> t
+        numeric: (n) -> +n
+
+      ckanResp = (httpPromise) ->
+        $q (resolve, reject) ->
+          parse = (resp) ->
+            if resp.data.success
+              convertMap = resp.data.result.fields.reduce ((m, c) ->
+                unless converters[c.type]?
+                  reject "Unknown data type: '#{c.type}'"
+                m[c.id] = converters[c.type]
+                m
+              ), {}
+              resolve resp.data.result.records.map (raw) ->
+                conv = {}
+                for key, val of raw
+                  conv[key] = convertMap[key] val
+                conv
+            else
+              reject data
+          httpPromise.then parse, reject
 
       getdata: () ->
         $params =
@@ -66,6 +89,21 @@ angular.module 'edudashAppSrv'
           sql: query
         req = $resource(corsApi + apiRoot + 'datastore_search_sql')
         req.get($params).$promise
+
+      getSchools: (year, schoolType) ->
+        ckanResp $http.get ckanQueryURL, params: sql: "
+          SELECT
+            \"CODE\" as id,
+            \"NAME\" as name,
+            \"LATITUDE\" as latitude,
+            \"LONGITUDE\" as longitude,
+            \"REGION\" as region,
+            \"DISTRICT\" as district,
+            \"WARD\" as ward,
+            \"PASS_RATE\" as passrate,
+            \"RANK\" as rank
+          FROM \"#{getTable(schoolType)}\"
+          WHERE \"YEAR_OF_RESULT\" = #{year}"
 
       getBestSchool: (educationLevel, subtype, moreThan40, year) ->
         $params =
@@ -128,23 +166,6 @@ angular.module 'edudashAppSrv'
         $params =
           sql: "SELECT \"PASS_RATE\", \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" WHERE \"CODE\" like '#{code}' ORDER BY \"YEAR_OF_RESULT\" ASC"
         $http.get(ckanQueryURL, {params: $params})
-
-      getSchools: (educationLevel) ->
-        fields = [
-          'cartodb_id'
-          'latitude'
-          'longitude'
-          'name'
-          'region'
-          'district'
-          'ward'
-          'pass_2012'
-          'pass_2013'
-          'pass_2014'
-          'pt_ratio'
-          'rank_2014'
-        ].join ','
-      # TODO implement me
 
       getCsv: (file) ->
         file = file.replace(/^(http|https):\/\//gm, '')

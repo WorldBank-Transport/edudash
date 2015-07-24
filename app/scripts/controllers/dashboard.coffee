@@ -24,25 +24,53 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # app state
         angular.extend $scope,
+          year: null  # set after init
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
           hovered: null
           lastHovered: null
           selected: null
+          allSchools: $q -> null
+          filteredSchools: $q -> null
 
         # state transitioners
         angular.extend $scope,
+          setYear: (newYear) -> $scope.year = newYear
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: (thing) -> $scope.hovered = thing
+          hover: (layer) -> $scope.hovered = layer
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (thing) -> $scope.selected = thing
+          select: (layer) -> $scope.selected = layer
 
 
         # State Listeners
+
+        $scope.$watchGroup ['year', 'schoolType'], ([year, schoolType]) ->
+          unless year == null
+            $scope.allSchools = OpenDataApi.getSchools year, schoolType
+
+        $scope.$watchGroup ['allSchools'], ([allSchools]) ->
+          $scope.filteredSchools = $q (resolve, reject) ->
+            allSchools.then resolve, reject
+
+        $scope.$watch 'filteredSchools', (schools) ->
+          mapped = $q (resolve, reject) ->
+            map = (data) ->
+              resolve data.map (s) -> [ s.latitude, s.longitude, s ]
+            schools.then map, reject
+          schools.then (schools) ->
+            layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
+              getData: () -> mapped
+              options:
+                className: 'school-location'
+                radius: 8
+                onEachFeature: (data, layer) ->
+                  layer.feature = data
+                  colorPin layer
+                  attachLayerEvents layer
 
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
@@ -53,12 +81,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless currentLayer == null
               map.removeLayer currentLayer
               currentLayer = null
-            mapLayerCreators[$scope.viewMode]().then (layer) ->
-              currentLayer = layer
-              if $scope.viewMode == 'schools'
-                colorPins()
-              else if $scope.viewMode == 'regional'
-                colorRegions()
 
         $scope.$watch 'visMode', (newMode) ->
           if currentLayer == null
@@ -93,11 +115,19 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 fillOpacity: 0.6 )
               when 'regional' then weight: 0, opacity: 0.6
 
-
         $scope.$watch 'selected', (layer, oldLayer) ->
           if layer != null
             if $scope.viewMode == 'schools'
-              markSchool [layer.feature.latitude, layer.feature.longitude]
+              setSchool layer
+
+
+        setSchool = (layer) ->
+          latlng = [layer.feature.latitude, layer.feature.longitude]
+          markSchool latlng
+          leafletData.getMap(mapId).then (map) ->
+            setMapView latlng, (Math.max 9, map.getZoom())
+          if $scope.schoolType == 'secondary'
+            OpenDataApi.getRank(layer.feature)
 
         $scope.setSchool = (item, model, showAllSchools) ->
             unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
@@ -111,18 +141,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
                 $scope.setViewMode 'schools'
-            # Silence invalid/null coordinates
-            leafletData.getMap(mapId).then (map) ->
-              try
-                  if map.getZoom() < 9
-                     zoom = 9
-                  else
-                      zoom = map.getZoom()
-                  latlng = [$scope.selectedSchool.latitude, $scope.selectedSchool.longitude];
-                  markSchool latlng
-                  map.setView latlng, zoom
-              catch e
-                  console.log e
             if item.pass_2014 < 10 && item.pass_2014 > 0
                 $scope.selectedSchool.pass_by_10 = 1
             else
@@ -185,6 +203,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
           # set up the initial view
           $scope.setViewMode 'schools'
+          $scope.setYear 2014
 
 
         attachLayerEvents = (layer) ->
@@ -237,7 +256,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (l) ->
           v = switch
-            when $scope.visMode == 'passrate' then l.feature.pass_2014
+            when $scope.visMode == 'passrate' then l.feature.passrate
             when $scope.visMode == 'ptratio' then l.feature.pt_ratio
           l.setStyle colorSrv.pinStyle v, $scope.visMode
 
@@ -284,7 +303,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           schoolMarker.then (marker) ->
             marker.setLatLng latlng
 
-        $scope.setMapView = (latlng, zoom, view) ->
+        setMapView = (latlng, zoom, view) ->
             if view?
                 $scope.setViewMode view
             unless zoom?
