@@ -35,7 +35,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: -> null
+          hover: (thing) -> $scope.hovered = thing
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
 
@@ -141,11 +141,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         attachLayerEvents = (layer) ->
           layer.on 'mouseover', -> $scope.$apply ->
-            $scope.hovered = layer
+            $scope.hover layer
           layer.on 'mouseout', -> $scope.$apply ->
-            $scope.hovered = null
+            $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $scope.selected = layer
+            $scope.select layer
 
         mapLayerCreators =
           schools: ->
