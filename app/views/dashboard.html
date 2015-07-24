@@ -29,30 +29,29 @@
       </div>
     </map-bottom-toggle>
 
-    <map-bottom-toggle
+  <map-bottom-toggle
       ng-if="activeMap!='districts'"
       title="{{ 'filters.title' | translate }}"
       emitkey="filtersToggle"
       class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
-        min="0"
-        max="100"
+        min="filterPassRate.minValue"
+        max="filterPassRate.maxValue"
         model-min="filterPassRate.range.min"
         model-max="filterPassRate.range.max"
-        model-min="filterPassRate.min"
-        model-max="filterPassRate.max"
-        attach-handle-values="true">
+
+        attach-handle-values="true"
+        >
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
-        min="0"
-        max="10"
+        min="filterPupilRatio.minValue"
+        max="filterPupilRatio.maxValue"
         model-min="filterPupilRatio.range.min"
         model-max="filterPupilRatio.range.max"
-        model-min="filterPupilRatio.min"
-        model-max="filterPupilRatio.max"
-        attach-handle-values="true">
+        attach-handle-values="true"
+        >
       </div>
     </map-bottom-toggle>
 

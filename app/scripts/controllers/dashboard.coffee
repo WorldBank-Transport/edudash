@@ -52,6 +52,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.ptRange =
             min: ptMin
             max: ptMax
+            
         $scope.filterPassRate = {
           range: {
               min: 0,
@@ -63,11 +64,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.filterPupilRatio = {
           range: {
               min: 0,
-              max: 10
+              max: 100
           },
           minValue: 0,
-          maxValue: 10
+          maxValue: 100
         };
+
         $scope.moreThan40 = $routeParams.morethan40
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
