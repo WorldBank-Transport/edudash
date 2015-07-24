@@ -16,19 +16,85 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi) ->
 
-        # state validation stuff
-        visModes = ['passrate', 'ptratio']
-        viewModes = ['schools', 'national', 'regional']
+        # other state
+        layers = {}
+        currentLayer = null
+
+        #### Template / Controller API via $scope ####
 
         # app state
-        $scope.visMode = 'passrate'
-        $scope.viewMode = null
-        $scope.schoolType = $routeParams.type
-        $scope.lastHoveredSchool = null
-        $scope.hoveredSchool = null
-        $scope.selectedSchool = null
-        $scope.lastHoveredRegion = null
-        $scope.hoveredRegion = null
+        angular.extend $scope,
+          viewMode: null  # set after init
+          visMode: 'passrate'
+          schoolType: $routeParams.type
+          hovered: null
+          lastHovered: null
+
+        # state transitioners
+        angular.extend $scope,
+          setViewMode: (newMode) -> $scope.viewMode = newMode
+          setVisMode: (newMode) -> $scope.visMode = newMode
+          hover: -> null
+          keepHovered: -> $scope.hovered = $scope.lastHovered
+          unHover: -> $scope.hovered = null
+
+
+        # State Listeners
+
+        $scope.$watch 'viewMode', (newMode, oldMode) ->
+          if newMode not in ['schools', 'national', 'regional']
+            console.error 'changed to invalid view mode:', newMode
+            return
+          # unless newMode == oldMode  # doesnt work for initial render
+          leafletData.getMap(mapId).then (map) ->
+            unless currentLayer == null
+              map.removeLayer currentLayer
+              currentLayer = null
+            mapLayerCreators[$scope.viewMode]().then (layer) ->
+              currentLayer = layer
+              if $scope.viewMode == 'schools'
+                colorPins()
+              else if $scope.viewMode == 'regional'
+                colorRegions()
+
+        $scope.$watch 'visMode', (newMode) ->
+          if currentLayer == null
+            console.warn 'no layer yet, visMode waiting..'
+            return
+          if newMode not in ['passrate', 'ptratio']
+            console.error 'changed to invalid visualization mode:', newMode
+            return
+          if $scope.viewMode == 'schools'
+            colorPins()
+          else if $scope.viewMode == 'regional'
+            colorRegions()
+
+        $scope.$watch 'hovered', (layer, oldLayer) ->
+          if layer != null
+            layer.bringToFront()
+            $scope.lastHovered = layer
+            layer.setStyle switch $scope.viewMode
+              when 'schools' then (
+                color: '#05a2dc'
+                weight: 5
+                opacity: 1
+                fillOpacity: 1 )
+              when 'regional' then weight: 5, opacity: 1
+
+          if oldLayer != null
+            oldLayer.setStyle switch $scope.viewMode
+              when 'schools' then (
+                color: '#fff'
+                weight: 2
+                opacity: 0.5
+                fillOpacity: 0.6 )
+              when 'regional' then weight: 0, opacity: 0.6
+
+        $scope.setSchoolType = (to) ->
+          $location.path "/dashboard/#{to}/"
+
+
+
 
         # widget local state (maybe should move to other directives)
         $scope.searchText = "dar"
@@ -41,9 +107,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         schoolMarker = null
 
 
-        # other state
-        layers = {}
-        currentLayer = null
 
         ptMin = 0
         ptMax = 150
@@ -79,7 +142,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           # add the basemap
           layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
           # set up the initial view
-          $scope.showView 'schools'
+          $scope.setViewMode 'schools'
+
+
+        attachLayerEvents = (layer) ->
+          layer.on 'mouseover', -> $scope.$apply ->
+            $scope.hovered = layer
+          layer.on 'mouseout', -> $scope.$apply ->
+            $scope.hovered = null
+          layer.on 'click', -> $scope.$apply ->
+            $scope.selected = layer
 
         mapLayerCreators =
           schools: ->
@@ -98,13 +170,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               onEachFeature: (data, layer) ->
                 layer.feature = data
                 colorPin layer
-                layer.on 'mouseover', -> $scope.$apply ->
-                  $scope.lastHoveredSchool = layer
-                  hoverSelect layer
-                layer.on 'mouseout', -> $scope.$apply ->
-                  $scope.unhoverSchool()
-                layer.on 'click', -> $scope.$apply ->
-                  $scope.setSchool data
+                attachLayerEvents layer
             layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
               getData: getData
               options: options
@@ -121,17 +187,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       properties: angular.extend district, geojson: null
                 .error reject
             options =
-              onEachFeature: (feature, layer) ->
-                layer.on 'mouseover', -> $scope.$apply ->
-                  selectable =
-                    layer: layer
-                    properties: feature.properties
-                  $scope.lastHoveredRegion = selectable
-                  hoverRegionSelect selectable
-                layer.on 'mouseout', -> $scope.$apply ->
-                  $scope.unhoverRegion()
-                layer.on 'click', -> $scope.$apply ->
-                  console.log 'go to', feature.properties.name, '...'
+              onEachFeature: (feature, layer) -> attachLayerEvents layer
             layersSrv.addGeojsonLayer "regions-#{$scope.schoolType}", mapId,
               getData: getData
               options: options
@@ -176,74 +232,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 v = average(regionData.pt_ratio)
               l.setStyle colorSrv.areaStyle v, $scope.visMode
 
-        $scope.keepHoveredSchool = ->
-          hoverSelect $scope.lastHoveredSchool
-
-        $scope.unkeepHoveredSchool = ->
-          $scope.unhoverSchool()
-
-        $scope.unhoverSchool = ->
-          $scope.hoveredSchool.setStyle
-            color: '#fff'
-            weight: 2
-            opacity: 0.5
-            fillOpacity: 0.6
-          $scope.hoveredSchool = null
-
-        hoverSelect = (layer) ->
-          layer.setStyle
-            color: '#05a2dc'
-            weight: 5
-            opacity: 1
-            fillOpacity: 1
-          layer.bringToFront()
-          $scope.hoveredSchool = layer
-
-        $scope.keepHoveredRegion = ->
-          hoverRegionSelect $scope.lastHoveredRegion
-
-        $scope.unkeepHoveredRegion = ->
-          $scope.unhoverRegion()
-
-        $scope.unhoverRegion = ->
-          $scope.hoveredRegion.layer.setStyle
-            weight: 0
-            opacity: 0.6
-          $scope.hoveredRegion = null
-
-        hoverRegionSelect = (selectable) ->
-          selectable.layer.setStyle
-            weight: 5
-            opacity: 1
-          selectable.layer.bringToFront()
-          $scope.hoveredRegion = selectable
-
-        $scope.setSchoolType = (to) ->
-          $location.path "/dashboard/#{to}/"
-
-        $scope.setVisMode = (to) ->
-          unless (visModes.indexOf to) == -1
-            $scope.visMode = to
-            if $scope.viewMode == 'schools'
-              colorPins()
-            else if $scope.viewMode == 'regional'
-              colorRegions()
-          else
-            console.error 'Could not change visualization to invalid mode:', to
-
-        $scope.showView = (view) ->
-          unless view == $scope.viewMode
-            $scope.viewMode = view
-            leafletData.getMap(mapId).then (map) ->
-              unless currentLayer == null
-                map.removeLayer currentLayer
-                currentLayer = null
-              mapLayerCreators[$scope.viewMode]().then (layer) ->
-                currentLayer = layer
-                if $scope.viewMode == 'schools'
-                  colorPins()
-                else if $scope.viewMode == 'regional'
-                  colorRegions()
 
         updateMap = () ->
           if $scope.viewMode != 'district'

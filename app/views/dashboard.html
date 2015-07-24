@@ -59,17 +59,17 @@
     <div
       class="map-flyout animate-hide"
       ng-style="{bottom: filtersHeight}"
-      ng-mouseenter="keepHoveredSchool()"
-      ng-mouseleave="unhoverSchool()"
-      ng-show="hoveredSchool !== null"
+      ng-mouseenter="keepHovered()"
+      ng-mouseleave="unHover()"
+      ng-show="viewMode==='schools' && hovered!==null"
       ng-include="'views/schoolFlyout.html'">
     </div>
     <div
       class="map-flyout animate-hide"
       ng-style="{bottom: filtersHeight}"
-      ng-mouseenter="keepHoveredRegion()"
-      ng-mouseleave="unhoverRegion()"
-      ng-show="hoveredRegion !== null"
+      ng-mouseenter="keepHovered()"
+      ng-mouseleave="unHover()"
+      ng-show="viewMode==='regional' && hovered!==null"
       ng-include="'views/regionFlyout.html'">
     </div>
   </div>
@@ -78,20 +78,20 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <!-- Remove this tab temporally until we get data for regions
           <li role="presentation" ng-class="{active: viewMode=='regional'}">
-            <a ng-click="showView('regional')">
+            <a ng-click="setViewMode('regional')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          -->
+          <!-- Remove this tab temporally until we get data for regions
           <li role="presentation" ng-class="{active: viewMode=='district'}">
-            <a ng-click="showView('district')">
+            <a ng-click="setViewMode('district')">
               <span class="hide-sm" translate="tab.district-view">Districts</span>
               <span class="show-sm" translate="tab.district">District</span>
             </a>
           </li>
+          -->
           <li role="presentation" ng-class="{active: schoolType=='primary'}">
             <a ng-click="setSchoolType('primary')">
               <span class="hide-sm" translate="tab.primary-schools-mode">Primary Schools</span>
