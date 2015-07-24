@@ -26,6 +26,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.schoolType = $routeParams.type
         $scope.lastHoveredSchool = null
         $scope.hoveredSchool = null
+        $scope.selectedSchool = null
         $scope.lastHoveredRegion = null
         $scope.hoveredRegion = null
 
@@ -88,7 +89,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   resolve data.rows.map (school) -> [
                     school.latitude,
                     school.longitude,
-                    properties: school,
+                    school,
                   ]
                 .error reject
             options =
@@ -98,11 +99,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 layer.feature = data
                 colorPin layer
                 layer.on 'mouseover', -> $scope.$apply ->
-                  selectable =
-                    layer: layer
-                    properties: data.properties
-                  $scope.lastHoveredSchool = selectable
-                  hoverSelect selectable
+                  $scope.lastHoveredSchool = layer
+                  hoverSelect layer
                 layer.on 'mouseout', -> $scope.$apply ->
                   $scope.unhoverSchool()
                 layer.on 'click', -> $scope.$apply ->
@@ -141,8 +139,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (l) ->
           v = switch
-            when $scope.visMode == 'passrate' then l.feature.properties.pass_2014
-            when $scope.visMode == 'ptratio' then l.feature.properties.pt_ratio
+            when $scope.visMode == 'passrate' then l.feature.pass_2014
+            when $scope.visMode == 'ptratio' then l.feature.pt_ratio
           l.setStyle colorSrv.pinStyle v, $scope.visMode
 
         colorPins = ->
@@ -185,21 +183,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.unhoverSchool()
 
         $scope.unhoverSchool = ->
-          $scope.hoveredSchool.layer.setStyle
+          $scope.hoveredSchool.setStyle
             color: '#fff'
             weight: 2
             opacity: 0.5
             fillOpacity: 0.6
           $scope.hoveredSchool = null
 
-        hoverSelect = (selectable) ->
-          selectable.layer.setStyle
+        hoverSelect = (layer) ->
+          layer.setStyle
             color: '#05a2dc'
             weight: 5
             opacity: 1
             fillOpacity: 1
-          selectable.layer.bringToFront()
-          $scope.hoveredSchool = selectable
+          layer.bringToFront()
+          $scope.hoveredSchool = layer
 
         $scope.keepHoveredRegion = ->
           hoverRegionSelect $scope.lastHoveredRegion
