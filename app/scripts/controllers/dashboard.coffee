@@ -238,7 +238,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.setMapView = (latlng, zoom, view) ->
             if view?
-                $scope.showView(view)
+                $scope.setViewMode view
             unless zoom?
                 zoom = 9
             leafletData.getMap(mapId).then (map) ->
@@ -286,7 +286,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.selectedSchool = item
             unless showAllSchools? and showAllSchools == false
-                $scope.showView('schools')
+                $scope.setViewMode 'schools'
             # Silence invalid/null coordinates
             leafletData.getMap(mapId).then (map) ->
               try
