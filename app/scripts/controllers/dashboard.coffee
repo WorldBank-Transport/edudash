@@ -33,7 +33,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           selected: null
           allSchools: $q -> null
           filteredSchools: $q -> null
-          visiblePins: $q -> null
+          pins: $q -> null
 
         # state transitioners
         angular.extend $scope,
@@ -41,10 +41,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: (layer) -> $scope.hovered = layer
+          hover: (id) -> (findSchool id).then ((s) -> $scope.hovered = s), $log.error
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (layer) -> $scope.selected = layer
+          select: (id) -> (findSchool id).then ((s) -> $scope.selected = s), $log.error
 
 
         # State Listeners
@@ -61,24 +61,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watch 'filteredSchools', (schools) ->
           mapped = $q (resolve, reject) ->
             map = (data) ->
-              resolve data.map (s) -> [ s.latitude, s.longitude, s ]
+              resolve data.map (s) -> [ s.latitude, s.longitude, s.id ]
             schools.then map, reject
           schools.then (schools) ->
-            layerP = layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
+            $scope.pins = layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
               getData: () -> mapped
               options:
                 className: 'school-location'
                 radius: 8
-                onEachFeature: (data, layer) ->
-                  layer.feature = data
-                  colorPin layer
-                  attachLayerEvents layer
-            $scope.visiblePins = $q (resolve, reject) ->
-              getGroup = (layer) -> resolve layer._group
-              layerP.then getGroup, reject
+                onEachFeature: processPin
 
-        $scope.$watchGroup ['visiblePins', 'visMode'], ([pinsP]) ->
-          pinsP.then (circles) -> _(circles.getLayers()).each colorPin
+        $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) ->
+          pinsP.then (pins) -> pins.eachVisibleLayer colorPin
 
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
@@ -90,40 +84,40 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               map.removeLayer currentLayer
               currentLayer = null
 
-        $scope.$watch 'hovered', (layer, oldLayer) ->
-          if layer != null
-            layer.bringToFront()
-            $scope.lastHovered = layer
-            layer.setStyle switch $scope.viewMode
-              when 'schools' then (
-                color: '#05a2dc'
-                weight: 5
-                opacity: 1
-                fillOpacity: 1 )
-              when 'regional' then weight: 5, opacity: 1
-
-          if oldLayer != null
-            oldLayer.setStyle switch $scope.viewMode
-              when 'schools' then (
-                color: '#fff'
-                weight: 2
-                opacity: 0.5
-                fillOpacity: 0.6 )
-              when 'regional' then weight: 0, opacity: 0.6
-
-        $scope.$watch 'selected', (layer, oldLayer) ->
-          if layer != null
+        $scope.$watch 'hovered', (thing, oldThing) ->
+          if thing != null
+            $scope.lastHovered = thing
             if $scope.viewMode == 'schools'
-              setSchool layer
+              getSchoolPin(thing.id).then (pin) ->
+                pin.bringToFront()
+                pin.setStyle
+                  color: '#05a2dc'
+                  weight: 5
+                  opacity: 1
+                  fillOpacity: 1
+            #   when 'regional' then weight: 5, opacity: 1
+
+          if oldThing != null
+            if $scope.viewMode == 'schools'
+              getSchoolPin(oldThing.id).then (pin) ->
+                pin.setStyle
+                  color: '#fff'
+                  weight: 2
+                  opacity: 0.5
+                  fillOpacity: 0.6
+              # when 'regional' then weight: 0, opacity: 0.6
+
+        $scope.$watch 'selected', (school) ->
+          if school != null
+            if $scope.viewMode == 'schools'
+              setSchool school
 
 
-        setSchool = (layer) ->
-          latlng = [layer.feature.latitude, layer.feature.longitude]
+        setSchool = (school) ->
+          latlng = [school.latitude, school.longitude]
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             setMapView latlng, (Math.max 9, map.getZoom())
-          if $scope.schoolType == 'secondary'
-            OpenDataApi.getRank(layer.feature)
 
         $scope.setSchool = (item, model, showAllSchools) ->
             unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
@@ -152,6 +146,35 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               if $scope.viewMode == 'schools'
                 chartSrv.drawNationalRanking item, $scope.worstSchools[0].RANK
             , 400)
+
+
+        findSchool = (id) ->
+          $q (resolve, reject) ->
+            findIt = (schools) ->
+              matches = schools.filter (s) -> s.id == id
+              if matches.length == 0
+                reject "Could not find school by id '#{id}'"
+              else
+                if matches.length > 1
+                  $log.warn "Found #{matches.length} schools for id '#{id}', using first"
+                  $log.log matches
+                resolve matches[0]
+            $scope.allSchools.then findIt, reject
+
+        getSchoolPin = (id) ->
+          $q (resolve, reject) ->
+            $scope.pins.then ((pins) -> resolve pins.getLayer id), reject
+
+        # get the (rank, total) of a school, filtered by its region or district
+        rank = (school, schools, rank_by) ->
+          if rank_by not in ['region', 'district']
+            throw new Error "invalid rank_by: '#{rank_by}'"
+          if school[rank_by] == undefined
+            return [undefined, undefined]
+          ranked = schools
+            .filter (s) -> s[rank_by] == school[rank_by]
+            .sort (a, b) -> a[rank_by] - b[rank_by]
+          [(ranked.indexOf school), schools.length]
 
 
         # widget local state (maybe should move to other directives)
@@ -202,13 +225,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.setYear 2014
 
 
-        attachLayerEvents = (layer) ->
+        processPin = (id, layer) ->
+          colorPin id, layer
           layer.on 'mouseover', -> $scope.$apply ->
-            $scope.hover layer
+            $scope.hover id
           layer.on 'mouseout', -> $scope.$apply ->
             $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $scope.select layer
+            $scope.select id
 
         mapLayerCreators =
           schools: ->
@@ -250,10 +274,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               options: options
 
 
-        colorPin = (l) ->
+        colorPin = (id, l) -> findSchool(id).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate' then l.feature.passrate
-            when $scope.visMode == 'ptratio' then l.feature.pt_ratio
+            when $scope.visMode == 'passrate' then school.passrate
+            when $scope.visMode == 'ptratio' then school.pt_ratio
           l.setStyle colorSrv.pinStyle v, $scope.visMode
 
         groupByDistrict = (rows) ->

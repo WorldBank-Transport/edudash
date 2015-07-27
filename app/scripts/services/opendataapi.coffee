@@ -103,7 +103,8 @@ angular.module 'edudashAppSrv'
             \"PASS_RATE\" as passrate,
             \"RANK\" as rank
           FROM \"#{getTable(schoolType)}\"
-          WHERE \"YEAR_OF_RESULT\" = #{year}"
+          WHERE \"YEAR_OF_RESULT\" = #{year}
+            AND \"MORE_THAN_40\" = 'YES'"
 
       getBestSchool: (educationLevel, subtype, moreThan40, year) ->
         $params =

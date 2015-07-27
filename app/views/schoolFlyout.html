@@ -1,30 +1,30 @@
 <header>
   <h2>School Name</h2>
-  <p class="word">{{ hovered.feature.name }}</p>
+  <p class="word">{{ hovered.name }}</p>
 </header>
 <div class="stat">
   <h3>Region</h3>
-  <p class="word">{{ hovered.feature.region }}</p>
+  <p class="word">{{ hovered.region }}</p>
 </div>
 <div class="stat">
   <h3>District</h3>
-  <p class="word">{{ hovered.feature.district }}</p>
+  <p class="word">{{ hovered.district }}</p>
 </div>
 <div class="stat">
   <h3>Ward</h3>
-  <p class="word">{{ hovered.feature.ward }}</p>
+  <p class="word">{{ hovered.ward }}</p>
 </div>
 <div class="stat">
   <h3>Pass Rate</h3>
-  <p class="number {{ hovered.feature.pass_2014 === null ?
-    'unknown' : hovered.feature.pass_2014 < 40 ?
-      'poor' : hovered.feature.pass_2014 < 60 ?
-        'medium' : 'good' }}">{{ hovered.feature.pass_2014 }} %</p>
+  <p class="number {{ hovered.passrate === null ?
+    'unknown' : hovered.passrate < 40 ?
+      'poor' : hovered.passrate < 60 ?
+        'medium' : 'good' }}">{{ hovered.passrate }} %</p>
 </div>
 <div class="stat">
   <h3>Pupil-Teacher Ratio</h3>
-  <p class="number {{ hovered.feature.pt_ratio === null ?
-    'unknown' : hovered.feature.pt_ratio < 35 ?
-      'good' : hovered.feature.pt_ratio > 50 ?
-        'poor' : 'medium' }}">{{ hovered.feature.pt_ratio }}</p>
+  <p class="number {{ hovered.ptratio === null ?
+    'unknown' : hovered.ptratio < 35 ?
+      'good' : hovered.ptratio > 50 ?
+        'poor' : 'medium' }}">{{ hovered.ptratio }}</p>
 </div>
