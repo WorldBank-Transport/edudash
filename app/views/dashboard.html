@@ -187,10 +187,10 @@
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
-                  <a ng-click="moreThan40='YES'">{{'tab.pupils.morethan40'|translate}}</a>
+                  <a ng-click="moreThan40=true">{{'tab.pupils.morethan40'|translate}}</a>
                 </li>
                 <li role="presentation" ng-class="{active: !moreThan40}">
-                  <a ng-click="moreThan40='NO'">{{'tab.pupils.lessthan40'|translate}}</a>
+                  <a ng-click="moreThan40=false">{{'tab.pupils.lessthan40'|translate}}</a>
                 </li>
               </ul>
             </div>

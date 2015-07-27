@@ -90,7 +90,9 @@ angular.module 'edudashAppSrv'
         req = $resource(corsApi + apiRoot + 'datastore_search_sql')
         req.get($params).$promise
 
-      getSchools: (year, schoolType) ->
+      getSchools: (year, schoolType, moreThan40) ->
+        mt40Query = if moreThan40? then "
+          AND \"MORE_THAN_40\"='#{if moreThan40 then 'YES' else 'NO'}'" else ''
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
             \"CODE\" as id,
@@ -105,7 +107,7 @@ angular.module 'edudashAppSrv'
             \"CHANGE_PREVIOUS_YEAR\" as change
           FROM \"#{getTable(schoolType)}\"
           WHERE \"YEAR_OF_RESULT\" = #{year}
-            AND \"MORE_THAN_40\" = 'YES'"
+            #{mt40Query}"
 
       getBestSchool: (educationLevel, subtype, moreThan40, year) ->
         $params =

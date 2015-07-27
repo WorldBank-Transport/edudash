@@ -53,10 +53,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # State Listeners
 
-        $scope.$watchGroup ['year', 'schoolType'], ([year, schoolType]) ->
-          unless year == null
-            $scope.allSchools = OpenDataApi.getSchools year, schoolType
-              .catch (err) -> $log.error err
+        $scope.$watchGroup ['year', 'schoolType', 'moreThan40'],
+          ([year, schoolType, moreThan40]) ->
+            unless year == null
+              $scope.allSchools = OpenDataApi.getSchools year, schoolType, moreThan40
+                .catch (err) -> $log.error err
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
           rankSchools('change').then (r) -> $scope.rankedByChange = r
@@ -65,18 +66,26 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.filteredSchools = $q (resolve, reject) ->
             allSchools.then resolve, reject
 
-        $scope.$watch 'filteredSchools', (schools) ->
+        $scope.$watch 'filteredSchools', (schools, oldSchools) ->
+          layerId = "schools-#{$scope.schoolType}-#{$scope.moreThan40}"
           mapped = $q (resolve, reject) ->
             map = (data) ->
               resolve data.map (s) -> [ s.latitude, s.longitude, s.id ]
             schools.then map, reject
           schools.then (schools) ->
-            $scope.pins = layersSrv.addFastCircles "schools-#{$scope.schoolType}", mapId,
+            $scope.pins = layersSrv.addFastCircles layerId, mapId,
               getData: () -> mapped
               options:
                 className: 'school-location'
                 radius: 8
                 onEachFeature: processPin
+
+        $scope.$watch 'pins', (blah, oldPins) ->
+          oldPins.then (pins) ->
+            if pins != null
+              leafletData.getMap(mapId).then (map) ->
+                if pins?
+                  map.removeLayer pins
 
         $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) ->
           pinsP.then (pins) -> pins.eachVisibleLayer colorPin
@@ -205,7 +214,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           minValue: 0,
           maxValue: 10
         };
-        $scope.moreThan40 = $routeParams.morethan40
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
