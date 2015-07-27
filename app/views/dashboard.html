@@ -143,16 +143,22 @@
                 <img src="images/searchicon.png" class="pull-right">
               </div>
               <div class="col-xs-10">
-                <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
+                <ui-select ng-model="selected" class="search-schools" on-select="select($item.id)">
                   <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
-                  <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
-                    <div ng-bind-html="school.NAME | highlight: $select.search"></div>
-                    <small class="text-muted">
-                      {{'school.center-code' | translate}}: {{school.CODE}}
-                      <br>
-                      {{'school.district' | translate}}:
-                      <span ng-bind-html="''+school.DISTRICT | highlight: $select.search"></span>
-                    </small>
+                  <ui-select-choices
+                      repeat="result in searchChoices"
+                      refresh="search($select.search)">
+                    <div
+                        ng-mouseenter="hover(result.id)"
+                        ng-mouseleave="unHover()">
+                      <div ng-bind-html="result.name | highlight: $select.search"></div>
+                      <small class="text-muted">
+                        {{'school.center-code' | translate}}: {{result.id}}
+                        <br>
+                        {{'school.district' | translate}}:
+                        <span ng-bind-html="''+result.district | highlight: $select.search"></span>
+                      </small>
+                    </div>
                   </ui-select-choices>
                 </ui-select>
               </div>

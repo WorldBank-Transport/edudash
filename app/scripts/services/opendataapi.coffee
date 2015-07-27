@@ -137,10 +137,15 @@ angular.module 'edudashAppSrv'
           sql: sql
         $http.get(ckanQueryURL, {params: $params})
 
-      getSchoolsChoices: (educationLevel, subtype, query, year) ->
-        $params =
-          sql: "SELECT * FROM \"#{getTable(educationLevel, subtype)}\" WHERE (\"NAME\" ILIKE '%#{query}%' OR \"CODE\" ILIKE '%#{query}%') AND \"YEAR_OF_RESULT\" = #{year} LIMIT 10"
-        $http.get(ckanQueryURL, {params: $params})
+      search: (educationLevel, subtype, query, year) ->
+        ckanResp $http.get ckanQueryURL, params: sql: "
+          SELECT \"CODE\" as id
+          FROM \"#{getTable(educationLevel, subtype)}\"
+          WHERE
+              (\"NAME\" ILIKE '%#{query}%'
+                OR \"CODE\" ILIKE '%#{query}%')
+            AND \"YEAR_OF_RESULT\" = #{year}
+          LIMIT 10"
 
       getTopDistricts: (filters) ->
         # TODO implement me

@@ -34,6 +34,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           allSchools: $q -> null
           filteredSchools: $q -> null
           pins: $q -> null
+          rankBy: null  # performance or improvement for primary
 
         # state transitioners
         angular.extend $scope,
@@ -166,15 +167,19 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.pins.then ((pins) -> resolve pins.getLayer id), reject
 
         # get the (rank, total) of a school, filtered by its region or district
-        rank = (school, schools, rank_by) ->
+        rank = (school, rank_by) ->
           if rank_by not in ['region', 'district']
             throw new Error "invalid rank_by: '#{rank_by}'"
-          if school[rank_by] == undefined
-            return [undefined, undefined]
-          ranked = schools
-            .filter (s) -> s[rank_by] == school[rank_by]
-            .sort (a, b) -> a[rank_by] - b[rank_by]
-          [(ranked.indexOf school), schools.length]
+          $q (resolve, reject) ->
+            rankSchool = (schools) ->
+              if school[rank_by] == undefined
+                return resolve [undefined, undefined]
+              ranked = schools
+                .filter (s) -> s[rank_by] == school[rank_by]
+                .sort (a, b) -> a.rank - b.rank
+              resolve [(ranked.indexOf school), ranked.length]
+
+            $scope.allSchools.then rankSchool, reject
 
 
         # widget local state (maybe should move to other directives)
@@ -338,11 +343,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
 
-        $scope.getSchoolsChoices = (query) ->
+        $scope.setSchool = $log.log
+
+        $scope.search = (query) ->
           if query?
-            OpenDataApi.getSchoolsChoices($scope.schoolType, $scope.rankBest, query, $scope.selectedYear).success (data) ->
-              $scope.searchText = query
-              $scope.schoolsChoices = data.result.records
+            OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
+              .then (data) -> $q.all _(data).map (s) -> findSchool s.id
+                .then (schools) ->
+                  $scope.searchText = query
+                  $scope.searchChoices = _.unique schools
 
         $scope.$watch 'passRange', ((newVal, oldVal) ->
             unless _.isEqual(newVal, oldVal)
