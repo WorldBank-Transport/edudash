@@ -20,9 +20,9 @@ angular.module('edudashAppSrv').factory 'chartSrv', [
 
     parsePassRateTime: (data, years) ->
       values = [];
-      for year in $scope.years
+      for year in years
         for row, i in data.result.records when (parseInt(row.YEAR_OF_RESULT) == year)
-          values.push [i, parseInt(row.avg)]
+          values.push [i, parseInt(row.avg || row.PASS_RATE)]
       passratetime =
         years: years
         data: values
