@@ -34,7 +34,7 @@ angular.module 'edudashAppSrv'
               convertMap = resp.data.result.fields.reduce ((m, c) ->
                 unless converters[c.type]?
                   reject "Unknown data type: '#{c.type}'"
-                m[c.id] = converters[c.type]
+                m[c.id] = converters[c.type] or converters.text
                 m
               ), {}
               resolve resp.data.result.records.map (raw) ->

@@ -52,6 +52,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watchGroup ['year', 'schoolType'], ([year, schoolType]) ->
           unless year == null
             $scope.allSchools = OpenDataApi.getSchools year, schoolType
+              .catch (err) -> $log.error err
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
           $scope.filteredSchools = $q (resolve, reject) ->
