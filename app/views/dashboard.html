@@ -165,14 +165,14 @@
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="schoolType==='primary' && selectedSchool|exists">
+          <div class="container-fluid" ng-hide="schoolType==='primary' && selected|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: rankBest==='performance'}">
-                  <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='performance'}">
+                  <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: rankBest==='improvement'}">
-                  <a ng-click="rankBest='improvement'">{{'button.best.improved'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                  <a ng-click="rankBy='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
