@@ -56,7 +56,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watchGroup ['year', 'schoolType', 'moreThan40'],
           ([year, schoolType, moreThan40]) ->
             unless year == null
-              $scope.allSchools = OpenDataApi.getSchools year, schoolType, moreThan40
+              $scope.allSchools = OpenDataApi.getSchools
+                  year: year
+                  schoolType: schoolType
+                  subtype: $scope.rankBy
+                  moreThan40: moreThan40
                 .catch (err) -> $log.error err
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
@@ -225,6 +229,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           # set up the initial view
           $scope.setViewMode 'schools'
           $scope.setYear 2014
+          if $scope.schoolType == 'primary'
+            $scope.rankBy = 'performance'
 
 
         processPin = (id, layer) ->

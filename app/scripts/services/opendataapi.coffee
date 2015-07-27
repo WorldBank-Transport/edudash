@@ -59,7 +59,10 @@ angular.module 'edudashAppSrv'
         req.get($params).$promise
 
       getTable = (educationLevel, subtype) ->
-        if(subtype?) then datasetMapping[educationLevel][subtype] else datasetMapping[educationLevel]
+        if(subtype?)
+          datasetMapping[educationLevel][subtype]
+        else
+          datasetMapping[educationLevel]
 
       getSql = (educationLevel, subtype, condition, sorted, limit, fields) ->
         strField = if fields? and fields.length > 0 then '"' + fields.join('","') + '"' else "*"
@@ -70,9 +73,9 @@ angular.module 'edudashAppSrv'
 
       getConditions = (educationLevel, moreThan40, year) ->
         condition = []
-        if(educationLevel == 'secondary' and moreThan40?)
-          condition.push "\"MORE_THAN_40\" = '#{moreThan40}'"
-        if(year)
+        if educationLevel == 'secondary' and moreThan40?
+          condition.push "\"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
+        if year
           condition.push '"YEAR_OF_RESULT" = ' + year
         if condition.length > 0 then "WHERE #{condition.join ' AND '}" else ""
 
@@ -90,9 +93,7 @@ angular.module 'edudashAppSrv'
         req = $resource(corsApi + apiRoot + 'datastore_search_sql')
         req.get($params).$promise
 
-      getSchools: (year, schoolType, moreThan40) ->
-        mt40Query = if moreThan40? then "
-          AND \"MORE_THAN_40\"='#{if moreThan40 then 'YES' else 'NO'}'" else ''
+      getSchools: ({year, schoolType, moreThan40, subtype}) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
             \"CODE\" as id,
@@ -105,9 +106,8 @@ angular.module 'edudashAppSrv'
             \"PASS_RATE\" as passrate,
             \"RANK\" as rank,
             \"CHANGE_PREVIOUS_YEAR\" as change
-          FROM \"#{getTable(schoolType)}\"
-          WHERE \"YEAR_OF_RESULT\" = #{year}
-            #{mt40Query}"
+          FROM \"#{getTable schoolType, subtype}\"
+          #{getConditions schoolType, moreThan40, year}"
 
       getBestSchool: (educationLevel, subtype, moreThan40, year) ->
         $params =
