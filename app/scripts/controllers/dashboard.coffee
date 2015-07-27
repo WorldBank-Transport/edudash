@@ -19,6 +19,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # other state
         layers = {}
         currentLayer = null
+        schoolIdMap = {}
 
         #### Template / Controller API via $scope ####
 
@@ -64,6 +65,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .catch (err) -> $log.error err
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
+          _(schools).each (school) -> schoolIdMap[school.id] = school
           rankSchools('change').then (r) -> $scope.rankedByChange = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
@@ -144,14 +146,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         findSchool = (id) ->
           $q (resolve, reject) ->
             findIt = (schools) ->
-              matches = schools.filter (s) -> s.id == id
-              if matches.length == 0
-                reject "Could not find school by id '#{id}'"
+              if schoolIdMap[id]?
+                resolve schoolIdMap[id]
               else
-                if matches.length > 1
-                  $log.warn "Found #{matches.length} schools for id '#{id}', using first"
-                  $log.log matches
-                resolve matches[0]
+                reject "Could not find school by id '#{id}'"
             $scope.allSchools.then findIt, reject
 
         getSchoolPin = (id) ->
