@@ -35,6 +35,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           filteredSchools: $q -> null
           pins: $q -> null
           rankBy: null  # performance or improvement for primary
+          rankedByChange: []
+          moreThan40: null  # students, for secondary schools
 
         # state transitioners
         angular.extend $scope,
@@ -46,6 +48,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
           select: (id) -> (findSchool id).then ((s) -> $scope.selected = s), $log.error
+          rankSchools: (a) -> rankSchools a
 
 
         # State Listeners
@@ -54,6 +57,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unless year == null
             $scope.allSchools = OpenDataApi.getSchools year, schoolType
               .catch (err) -> $log.error err
+
+        $scope.$watch 'allSchools', (all) -> all.then (schools) ->
+          rankSchools('change').then (r) -> $scope.rankedByChange = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
           $scope.filteredSchools = $q (resolve, reject) ->
@@ -119,34 +125,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             setMapView latlng, (Math.max 9, map.getZoom())
-
-        $scope.setSchool = (item, model, showAllSchools) ->
-            unless $scope.selectedSchool? and item._id == $scope.selectedSchool._id
-              if($scope.schoolType == 'secondary')
-                OpenDataApi.getRank(item, $scope.selectedYear).success (response) ->
-                  row = response.result.records[0]
-                  if(response?)
-                    $scope.districtRank = {rank: row.DISTRICT_RANK_ALL, counter: row.district_schools}
-                    $scope.regionRank = {rank: row.REGIONAL_RANK_ALL, counter: row.regional_schools}
-
-            $scope.selectedSchool = item
-            unless showAllSchools? and showAllSchools == false
-                $scope.setViewMode 'schools'
-            if item.pass_2014 < 10 && item.pass_2014 > 0
-                $scope.selectedSchool.pass_by_10 = 1
-            else
-                $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
-            $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
-            OpenDataApi.getSchoolPassOverTime($scope.schoolType, $scope.rankBest, item.CODE).success (data) ->
-              parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.PASS_RATE)}
-              $scope.passratetime = parseList
-
-            # TODO: cleaner way?
-            # Ensure the parent div has been fully rendered
-            setTimeout( () ->
-              if $scope.viewMode == 'schools'
-                chartSrv.drawNationalRanking item, $scope.worstSchools[0].RANK
-            , 400)
+          rank(school, 'region').then $log.log
 
 
         findSchool = (id) ->
@@ -180,6 +159,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               resolve [(ranked.indexOf school), ranked.length]
 
             $scope.allSchools.then rankSchool, reject
+
+        rankSchools = (rank_by) ->
+          if rank_by not in ['change']
+            throw new Error "invalid rank_by: '#{rank_by}'"
+          $q (resolve, reject) ->
+            getRanked = (schools) -> resolve _.unique(schools
+              .filter (s) -> s[rank_by]?
+              .sort (a, b) -> a[rank_by] - b[rank_by]
+            ).slice 0, 20
+            $scope.allSchools.then getRanked, reject
 
 
         # widget local state (maybe should move to other directives)

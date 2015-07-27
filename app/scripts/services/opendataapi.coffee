@@ -101,7 +101,8 @@ angular.module 'edudashAppSrv'
             \"DISTRICT\" as district,
             \"WARD\" as ward,
             \"PASS_RATE\" as passrate,
-            \"RANK\" as rank
+            \"RANK\" as rank,
+            \"CHANGE_PREVIOUS_YEAR\" as change
           FROM \"#{getTable(schoolType)}\"
           WHERE \"YEAR_OF_RESULT\" = #{year}
             AND \"MORE_THAN_40\" = 'YES'"

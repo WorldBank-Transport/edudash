@@ -11,13 +11,13 @@ angular.module 'edudashApp'
     restrict: 'E'
     templateUrl: 'views/schoollist.html'
     scope:
-      listTitle: '@title'
+      listTitle: '@listTitle'
       listType: '@type'
-      type: '@data'
-      listData: '=data'
-      setSchool: '=click'
+      schools: '=schools'
+      click: '=click'
+      hover: '=hover'
+      unHover: '=unHover'
       property: '@property'
-      max: '@max'+0
-      min: '@min'+0
+      max: '=max'
+      min: '=min'
       sufix: '@sufix'
-    link: (scope, element, attrs) ->
