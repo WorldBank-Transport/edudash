@@ -328,7 +328,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 $scope.selectedSchool.pass_by_10 = Math.round item.pass_2014/10
             $scope.selectedSchool.fail_by_10 = 10 - $scope.selectedSchool.pass_by_10
             OpenDataApi.getSchoolPassOverTime($scope.schoolType, $scope.rankBest, item.CODE).success (data) ->
-              parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.PASS_RATE)}
+              parseList = chartSrv.parsePassRateTime data, $scope.years
               $scope.passratetime = parseList
 
             # TODO: cleaner way?
@@ -376,9 +376,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.passRateChange = if(records.length == 2) then parseInt(records[1].avg - records[0].avg) else 0
 
           OpenDataApi.getPassOverTime($scope.schoolType, $scope.rankBest, $scope.moreThan40).success (data) ->
-            parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.avg)}
-            $scope.globalpassratetime = parseList
+            $scope.globalpassratetime = chartSrv.parsePassRateTime data, $scope.years
 
         $scope.$watch '[rankBest, moreThan40, selectedYear]', updateDashboard
         $scope.rankBest = 'performance' if (!$scope.rankBest? and $scope.schoolType is 'primary')
+        OpenDataApi.getYears($scope.schoolType, $scope.rankBest).success (data) ->
+          parseList = data.result.records.map (x) -> parseInt(x.YEAR_OF_RESULT)
+          $scope.years = parseList
+        $scope.selectYear = (y) ->
+          $scope.selectedYear = y
 ]

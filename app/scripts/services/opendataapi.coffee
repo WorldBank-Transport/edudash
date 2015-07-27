@@ -103,6 +103,11 @@ angular.module 'edudashAppSrv'
           sql: "SELECT * FROM \"#{getTable(educationLevel, subtype)}\" WHERE (\"NAME\" ILIKE '%#{query}%' OR \"CODE\" ILIKE '%#{query}%') AND \"YEAR_OF_RESULT\" = #{year} LIMIT 10"
         $http.get(ckanQueryURL, {params: $params})
 
+      getYears: (educationLevel, subtype) ->
+        $params =
+          sql: "SELECT DISTINCT \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" ORDER BY \"YEAR_OF_RESULT\""
+        $http.get(ckanQueryURL, {params: $params})
+
       getTopDistricts: (filters) ->
         # TODO implement me
 
