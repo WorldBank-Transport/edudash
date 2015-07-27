@@ -35,8 +35,6 @@
 
     <div id="spinner" class="loading ajax-loader"></div>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
-
     <!-- Google Analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -46,11 +44,6 @@
 
       ga('create', 'UA-XXXXX-X');
       ga('send', 'pageview');
-    </script>
-
-    <!-- initialize Select2 -->
-    <script>
-      $('select').select2();
     </script>
 
     <!-- Render maps on canvas! -->
@@ -96,6 +89,12 @@
     <script src="bower_components/fast-circles/leaflet.fast-circles.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0-rc.1/js/select2.min.js"></script>
+    <!-- initialize Select2 -->
+    <script>
+      $('select').select2();
+    </script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
