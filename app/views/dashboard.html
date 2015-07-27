@@ -125,7 +125,8 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{selectedYear}}</strong></div>
+            <div class="text-center"ng-hide="selectedSchool|exists"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{selectedYear}}</strong></div>
+            <div class="text-center"ng-show="selectedSchool|exists"><strong>{{selectedSchool.NAME}} {{selectedYear}}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
