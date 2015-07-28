@@ -150,6 +150,13 @@ angular.module 'edudashAppSrv'
             AND \"YEAR_OF_RESULT\" = #{year}
           LIMIT 10"
 
+      getYears: (educationLevel, subtype) ->
+        $log.log educationLevel, subtype
+        ckanResp $http.get ckanQueryURL, params: sql: "
+          SELECT DISTINCT \"YEAR_OF_RESULT\" as year
+          FROM \"#{getTable(educationLevel, subtype)}\"
+          ORDER BY \"YEAR_OF_RESULT\""
+
       getTopDistricts: (filters) ->
         # TODO implement me
 

@@ -35,7 +35,7 @@ angular.module 'edudashAppDir'
               color: '#05a2dc'
               fontSize: 10
           xAxis:
-            categories: _.pluck(value, 'key')
+            categories: value.years
             labels:
               enabled: true
               style:
@@ -67,7 +67,7 @@ angular.module 'edudashAppDir'
                 symbol: 'circle'
           series: [{
             name: 'Pass Rate',
-            data: _.pluck(value, 'val')
+            data: value.data
           }]
         element.highcharts(lineOptions)
 

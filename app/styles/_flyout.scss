@@ -20,7 +20,7 @@
   }
   header,
   .stat {
-    margin: 0.6em 0;
+    margin: 0.5em 0;
   }
   h2, h3, h4 {
     margin: 0;
@@ -39,10 +39,10 @@
     color: $theme-blue;
   }
   .word {
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
   .number {
-    font-size: 2.8em;
+    font-size: 2em;
     &.good { color: $rank-good; }
     &.medium { color: $rank-medium; }
     &.poor { color: $rank-poor; }

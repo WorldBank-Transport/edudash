@@ -29,30 +29,34 @@
       </div>
     </map-bottom-toggle>
 
-    <map-bottom-toggle
+  <map-bottom-toggle
       ng-if="activeMap!='districts'"
       title="{{ 'filters.title' | translate }}"
       emitkey="filtersToggle"
       class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
-        min="0"
-        max="100"
+        min="filterPassRate.minValue"
+        max="filterPassRate.maxValue"
         model-min="filterPassRate.range.min"
         model-max="filterPassRate.range.max"
-        model-min="filterPassRate.min"
-        model-max="filterPassRate.max"
-        attach-handle-values="true">
+        prevent-equal-min-max = "true"
+        attach-handle-values="true"
+        show-Values ="true"
+        step = "20"
+        >
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
-        min="0"
-        max="10"
+        min="filterPupilRatio.minValue"
+        max="filterPupilRatio.maxValue"
         model-min="filterPupilRatio.range.min"
         model-max="filterPupilRatio.range.max"
-        model-min="filterPupilRatio.min"
-        model-max="filterPupilRatio.max"
-        attach-handle-values="true">
+        prevent-equal-min-max = "true"
+        attach-handle-values="true"
+        show-Values ="true"
+        step = "5"
+        >
       </div>
     </map-bottom-toggle>
 
@@ -109,7 +113,13 @@
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
-            <ul year-selector class="dropdown-menu dropdown-menu-right"></ul>
+            <ul class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012">
+              <li>
+                <a ng-repeat="y in years" ng-click="setYear(y)">
+                  <span class="selectable" ng-class="{selected: year===y}"></span>{{y}}
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -117,7 +127,8 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{ year }}</strong></div>
+            <div class="text-center"ng-hide="selected|exists"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong></div>
+            <div class="text-center"ng-show="selected|exists"><strong>{{selected.name}} {{year}}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -279,7 +290,7 @@
                 <div class="col-lg-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
                 <div class="col-lg-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
               </div>
-              <div class="widget" ng-if="selected.pt_ratio|exists">
+              <div class="widget">
                   <pupil-teacher-ratio-chart min="25" max="40" datasource="selected"></pupil-teacher-ratio-chart>
               </div>
             </div>
