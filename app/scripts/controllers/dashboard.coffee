@@ -67,7 +67,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
           _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-          rankSchools('change').then (r) -> $scope.rankedByChange = r
+          rankSchools('CHANGE_PREVIOUS_YEAR').then (r) -> $scope.rankedByChange = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
           $scope.filteredSchools = $q (resolve, reject) ->
@@ -173,7 +173,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.allSchools.then rankSchool, reject
 
         rankSchools = (rank_by) ->
-          if rank_by not in ['change']
+          if rank_by not in ['CHANGE_PREVIOUS_YEAR']
             throw new Error "invalid rank_by: '#{rank_by}'"
           $q (resolve, reject) ->
             getRanked = (schools) -> resolve _.unique(schools
