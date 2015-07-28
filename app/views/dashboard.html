@@ -29,11 +29,11 @@
       </div>
     </map-bottom-toggle>
 
-  <map-bottom-toggle
-      ng-if="activeMap!='districts'"
-      title="{{ 'filters.title' | translate }}"
-      emitkey="filtersToggle"
-      class="filters">
+    <map-bottom-toggle
+        ng-if="activeMap!='districts'"
+        title="{{ 'filters.title' | translate }}"
+        emitkey="filtersToggle"
+        class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
         min="filterPassRate.minValue"
