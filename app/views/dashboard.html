@@ -323,17 +323,22 @@
                 <p class="widgetnumber">
                   <img ng-if="selected.CHANGE_PREVIOUS_YEAR > 0" ng-src="images/arrowgreen.png" class="arrow" />
                   <img ng-if="selected.CHANGE_PREVIOUS_YEAR < 0" ng-src="images/arrowred.png" class="arrow" />
-                  <img ng-if="selected.CHANGE_PREVIOUS_YEAR == 0" ng-src="images/arrowyellow.png" class="arrow" />
+                  <img ng-if="selected.CHANGE_PREVIOUS_YEAR === 0" ng-src="images/arrowyellow.png" class="arrow" />
                   <span ng-class="{
                       'text-red': selected.CHANGE_PREVIOUS_YEAR < 0,
-                      'text-yellow': selected.CHANGE_PREVIOUS_YEAR == 0,
+                      'text-yellow': selected.CHANGE_PREVIOUS_YEAR === 0,
                       'text-green': selected.CHANGE_PREVIOUS_YEAR > 0}">
                     {{ selected.CHANGE_PREVIOUS_YEAR }}%
                   </span>
                 </p>
               </div>
               <div ng-class="(selected.CHANGE_PREVIOUS_YEAR|exists)? 'col-md-8': 'col-md-12'">
-                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
+                <pass-rate-time
+                    title="{{'chart.pass-rate-time'| translate}}"
+                    ranges="40,60"
+                    colors="#f05e55,#fcce39,#2d991c"
+                    datasource="selectedAggregates"
+                ></pass-rate-time>
               </div>
               <div class="widget col-md-12">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>

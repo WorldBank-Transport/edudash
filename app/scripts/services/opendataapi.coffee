@@ -177,10 +177,14 @@ angular.module 'edudashAppSrv'
           sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" #{condition} GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
         $http.get(ckanQueryURL, {params: $params})
 
-      getSchoolPassOverTime: (educationLevel, subtype, code) ->
-        $params =
-          sql: "SELECT \"PASS_RATE\", \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" WHERE \"CODE\" like '#{code}' ORDER BY \"YEAR_OF_RESULT\" ASC"
-        $http.get(ckanQueryURL, {params: $params})
+      getSchoolAggregates: (educationLevel, subtype, code) ->
+        ckanResp $http.get ckanQueryURL, params: sql: "
+          SELECT
+            \"PASS_RATE\",
+            \"YEAR_OF_RESULT\"
+          FROM \"#{getTable(educationLevel, subtype)}\"
+          WHERE \"CODE\" like '#{code}'
+          ORDER BY \"YEAR_OF_RESULT\" ASC"
 
       getCsv: (file) ->
         file = file.replace(/^(http|https):\/\//gm, '')

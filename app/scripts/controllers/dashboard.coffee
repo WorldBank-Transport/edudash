@@ -26,14 +26,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # app state
         angular.extend $scope,
           year: null  # set after init
-          years: []
-          yearAggregates: {}
+          years: null
+          yearAggregates: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
           hovered: null
           lastHovered: null
           selected: null
+          selectedAggregates: null
           allSchools: $q -> null
           filteredSchools: $q -> null
           pins: $q -> null
@@ -165,6 +166,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             setMapView latlng, (Math.max 9, map.getZoom())
           rank(school, 'REGION').then $log.log
 
+          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBest, school.CODE
+            .then (data) ->
+              $scope.selectedAggregates = _(data).reduce ((agg, year) ->
+                agg[year.YEAR_OF_RESULT] =
+                  PASS_RATE: year.PASS_RATE
+                agg
+              ), {}
 
         findSchool = (code) ->
           $q (resolve, reject) ->
