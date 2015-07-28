@@ -227,6 +227,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
+        # INIT
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
           map.setView [-7.199, 34.1894], 6
@@ -239,6 +240,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.setYear 2014  # hard-coded default to speed up page-load
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
+
+
+          # leaving this as is for now, since we don't have this at school level
+          MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
+            $scope.pupilTeacherRatio = data.rate
+
+          # legacy query for passrate by year
+          OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBy, $scope.moreThan40, $scope.year).success (data) ->
+            records = data.result.records
+            $scope.passRateChange = if(records.length == 2) then parseInt(records[1].avg - records[0].avg) else 0
+
+          # legacy passrate guage datasource
+          OpenDataApi.getGlobalPassrate($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
+            $scope.passrate = parseFloat data.result.records[0].avg
 
 
         processPin = (code, layer) ->
@@ -391,8 +406,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 #         #   $scope.midistrics = result.data.rows
 #         # WorldBankApi.getTopDistricts({educationLevel: $scope.schoolType, metric: 'change', order: 'ASC'}).then (result) ->
 #         #   $scope.lidistrics = result.data.rows
-#         # MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
-#         #   $scope.pupilTeacherRatio = data.rate
+
 
 #         # updateDashboard = () ->
 #         #   OpenDataApi.getBestSchool($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
@@ -409,10 +423,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 #         #   OpenDataApi.getGlobalPassrate($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
 #         #     $scope.passrate = parseFloat data.result.records[0].avg
-
-#         #   OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-#         #     records = data.result.records
-#         #     $scope.passRateChange = if(records.length == 2) then parseInt(records[1].avg - records[0].avg) else 0
 
 #         #   OpenDataApi.getPassOverTime($scope.schoolType, $scope.rankBest, $scope.moreThan40).success (data) ->
 #         #     parseList = data.result.records.map (x) -> {key: x.YEAR_OF_RESULT, val: parseInt(x.avg)}
