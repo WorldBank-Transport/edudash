@@ -40,11 +40,10 @@
         max="filterPassRate.maxValue"
         model-min="filterPassRate.range.min"
         model-max="filterPassRate.range.max"
-        prevent-equal-min-max = "true"
+        prevent-equal-min-max="true"
         attach-handle-values="true"
-        show-Values ="true"
-        step = "20"
-        >
+        show-Values="true"
+        step="20">
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
@@ -52,11 +51,10 @@
         max="filterPupilRatio.maxValue"
         model-min="filterPupilRatio.range.min"
         model-max="filterPupilRatio.range.max"
-        prevent-equal-min-max = "true"
+        prevent-equal-min-max="true"
         attach-handle-values="true"
-        show-Values ="true"
-        step = "5"
-        >
+        show-Values="true"
+        step="5">
       </div>
     </map-bottom-toggle>
 
@@ -141,8 +139,8 @@
                     min="-5"
                     max="5"
                     datasource="Math.round(yearAggregates[year].PASS_RATE - yearAggregates[year-1].PASS_RATE)"
-                    since="year"
-                ></pass-rate-change>
+                    since="year">
+                </pass-rate-change>
               </div>
               <div class="col-xs-4">
                 <gauge-chart
@@ -151,8 +149,8 @@
                     ranges="35,50"
                     colors="#fcce39,#2d991c,#f05e55"
                     format="{y}"
-                    datasource="pupilTeacherRatio"
-                ></gauge-chart>
+                    datasource="pupilTeacherRatio">
+                </gauge-chart>
               </div>
               <div class="col-xs-4">
                 <gauge-chart
@@ -161,8 +159,8 @@
                     ranges="40,60"
                     colors="#f05e55,#fcce39,#2d991c"
                     format="{y} %"
-                    datasource="yearAggregates[year].PASS_RATE"
-                ></gauge-chart>
+                    datasource="yearAggregates[year].PASS_RATE">
+                </gauge-chart>
               </div>
             </div>
           </div>
@@ -172,8 +170,8 @@
                   title="{{'chart.pass-rate-time'| translate}}"
                   ranges="30,70"
                   colors="#f05e55,#fcce39,#2d991c"
-                  datasource="yearAggregates"
-              ></pass-rate-time>
+                  datasource="yearAggregates">
+              </pass-rate-time>
             </div>
           </div>
           <form class="form-horizontal">
@@ -225,8 +223,8 @@
                   unHover="unHover"
                   property="CHANGE_PREVIOUS_YEAR"
                   max="20"
-                  min="10"
-              ></school-list>
+                  min="10">
+              </school-list>
             </div>
             <div class="container-fluid" ng-if="rankBy==='performance'">
               <school-list
@@ -238,8 +236,8 @@
                   unHover="unHover"
                   property="RANK"
                   max="60"
-                  min="40"
-              ></school-list>
+                  min="40">
+              </school-list>
             </div>
           </div>
           <div class="container-fluid" ng-hide="schoolType==='secondary' && selected|exists">
@@ -264,8 +262,8 @@
                   property="PASS_RATE"
                   max="60"
                   min="40"
-                  sufix="%"
-              ></school-list>
+                  sufix="%">
+              </school-list>
             </div>
           </div>
 
@@ -316,8 +314,8 @@
                   min="40"
                   max="60"
                   datasource="selected"
-                  selectedyear="{{year}}"
-              ></rate-pass-chart>
+                  selectedyear="{{year}}">
+              </rate-pass-chart>
               <div class="widget col-md-4" ng-if="selected.CHANGE_PREVIOUS_YEAR|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
@@ -337,8 +335,8 @@
                     title="{{'chart.pass-rate-time'| translate}}"
                     ranges="40,60"
                     colors="#f05e55,#fcce39,#2d991c"
-                    datasource="selectedAggregates"
-                ></pass-rate-time>
+                    datasource="selectedAggregates">
+                </pass-rate-time>
               </div>
               <div class="widget col-md-12">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
@@ -346,14 +344,24 @@
               </div>
               <div class="widget row widget-full-width">
                 <div class="col-lg-6">
-                  <rank datasource="regionRank" title="chart.title.rank-region"></rank>
+                  <rank
+                      datasource="regionRank"
+                      title="chart.title.rank-region">
+                  </rank>
                 </div>
                 <div class="col-lg-6">
-                  <rank datasource="districtRank" title="chart.title.rank-district"></rank>
-                 </div>
+                  <rank
+                      datasource="districtRank"
+                      title="chart.title.rank-district">
+                  </rank>
+                </div>
               </div>
               <div class="widget">
-                <pupil-teacher-ratio-chart min="25" max="40" datasource="selected"></pupil-teacher-ratio-chart>
+                <pupil-teacher-ratio-chart
+                    min="25"
+                    max="40"
+                    datasource="selected">
+                </pupil-teacher-ratio-chart>
               </div>
             </div>
           </div>
