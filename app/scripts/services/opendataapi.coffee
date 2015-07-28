@@ -151,7 +151,6 @@ angular.module 'edudashAppSrv'
           LIMIT 10"
 
       getYears: (educationLevel, subtype) ->
-        $log.log educationLevel, subtype
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT DISTINCT \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
