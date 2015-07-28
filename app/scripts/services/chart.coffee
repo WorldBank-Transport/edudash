@@ -18,16 +18,6 @@ angular.module('edudashAppSrv').factory 'chartSrv', [
       w = d3.select(selector).style('width').replace('px', '')
       {h: h, w: w}
 
-    parsePassRateTime: (data, years) ->
-      values = [];
-      for year in years
-        for row, i in data.result.records when (parseInt(row.YEAR_OF_RESULT) == year)
-          values.push [i, parseInt(row.avg || row.PASS_RATE)]
-      passratetime =
-        years: years
-        data: values
-      passratetime
-
     drawNationalRanking: (item, worst) ->
       selector = ".widget #nationalRanking"
       nr = item.RANK
