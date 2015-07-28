@@ -11,5 +11,6 @@ angular.module 'edudashAppDir'
     restrict: 'EA'
     templateUrl: 'views/rank.html'
     scope:
-      data: '=datasource'
+      rank: '=datasource'
       title: '@title'
+      place: '@place'

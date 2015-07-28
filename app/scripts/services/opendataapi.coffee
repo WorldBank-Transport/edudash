@@ -159,18 +159,6 @@ angular.module 'edudashAppSrv'
       getTopDistricts: (filters) ->
         # TODO implement me
 
-      getRank: (selectedSchool, year) ->
-        query = "SELECT _id,
-                  \"REGIONAL_RANK_ALL\",
-                  \"NATIONAL_RANK_ALL\",
-                  \"DISTRICT_RANK_ALL\",
-                  (SELECT COUNT(*) FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE \"REGION\" = '#{selectedSchool.REGION}') as REGIONAL_SCHOOLS,
-                  (SELECT COUNT(*) FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE \"DISTRICT\" = '#{selectedSchool.DISTRICT}') as DISTRICT_SCHOOLS
-                  FROM \"743e5062-54ae-4c96-a826-16151b6f636b\" WHERE _id = #{selectedSchool._id} AND \"YEAR_OF_RESULT\" = #{year}"
-        $params =
-          sql: query
-        $http.get(ckanQueryURL, {params: $params})
-
       getPassOverTime: (educationLevel, subtype, moreThan40) ->
         condition = if(educationLevel == 'secondary' and moreThan40?) then "WHERE \"MORE_THAN_40\" = '#{moreThan40}'" else ''
         $params =

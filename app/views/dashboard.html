@@ -345,14 +345,16 @@
               <div class="widget row widget-full-width">
                 <div class="col-lg-6">
                   <rank
-                      datasource="regionRank"
-                      title="chart.title.rank-region">
+                      datasource="selectedRanks.region"
+                      title="chart.title.rank-region"
+                      place="{{ selected.REGION }}">
                   </rank>
                 </div>
                 <div class="col-lg-6">
                   <rank
-                      datasource="districtRank"
-                      title="chart.title.rank-district">
+                      datasource="selectedRanks.district"
+                      title="chart.title.rank-district"
+                      place="{{ selected.DISTRICT }}">
                   </rank>
                 </div>
               </div>
