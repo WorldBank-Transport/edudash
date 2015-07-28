@@ -171,7 +171,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               .then (ranks) -> school.ranks = ranks
 
           unless school.yearAggregates?
-            OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBest, school.CODE
+            OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
               .then (data) ->
                 school.yearAggregates = _(data).reduce ((agg, year) ->
                   agg[year.YEAR_OF_RESULT] =
