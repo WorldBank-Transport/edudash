@@ -179,19 +179,39 @@
           <div class="container-fluid" ng-hide="schoolType==='primary' && selected|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: rankBest==='performance'}">
-                  <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='performance'}">
+                  <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: rankBest==='improvement'}">
-                  <a ng-click="rankBest='improvement'">{{'button.best.improved'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                  <a ng-click="rankBy='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="rankBest==='improvement'">
-              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="CHANGE_PREVIOUS_YEAR" max="20" min="10"></school-list>
+            <div class="container-fluid" ng-if="rankBy==='improvement'">
+              <school-list
+                  list-title="{{'chart.top.most-improved-schools' | translate}}"
+                  type="good"
+                  schools="rankedBy"
+                  click="select"
+                  hover="hover"
+                  unHover="unHover"
+                  property="CHANGE_PREVIOUS_YEAR"
+                  max="20"
+                  min="10"
+              ></school-list>
             </div>
-            <div class="container-fluid" ng-if="rankBest==='performance'">
-              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="PASS_RATE" max="60" min="40" sufix="%"></school-list>
+            <div class="container-fluid" ng-if="rankBy==='performance'">
+              <school-list
+                  list-title="{{'chart.top.best-performing-schools' | translate}}"
+                  type="good"
+                  schools="rankedBy"
+                  click="select"
+                  hover="hover"
+                  unHover="unHover"
+                  property="RANK"
+                  max="60"
+                  min="40"
+              ></school-list>
             </div>
           </div>
           <div class="container-fluid" ng-hide="schoolType==='secondary' && selected|exists">
@@ -209,7 +229,7 @@
               <school-list
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
                   type="good"
-                  schools="rankedByChange"
+                  schools="rankedBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"
@@ -231,19 +251,19 @@
             <div id="districtinfo" class="container-fluid">
               <div class="col-sm-12 performance-nav">
                 <ul class="nav nav-tabs">
-                  <li role="presentation" ng-class="{active: rankBest==='performance'}" ng-init="rankBest='performance'">
-                    <a ng-click="rankBest='performance'">Performance</a>
+                  <li role="presentation" ng-class="{active: rankBy==='performance'}" ng-init="rankBy='performance'">
+                    <a ng-click="rankBy='performance'">Performance</a>
                   </li>
-                  <li role="presentation" ng-class="{active: rankBest==='improvement'}">
-                    <a ng-click="rankBest='improvement'">Improvement</a>
+                  <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                    <a ng-click="rankBy='improvement'">Improvement</a>
                   </li>
                 </ul>
               </div>
-              <div ng-if="rankBest==='performance'">
+              <div ng-if="rankBy==='performance'">
                 <top-district-list class="row" title="chart.top.best-performing" emoticon="happy" data="bpdistrics"></top-district-list>
                 <top-district-list class="row" title="chart.top.worst-performing" emoticon="sad" data="wpdistrics"></top-district-list>
               </div>
-              <div ng-if="rankBest==='improvement'">
+              <div ng-if="rankBy==='improvement'">
                 <top-district-list class="row" title="chart.top.most-improved" emoticon="happy" data="midistrics"></top-district-list>
                 <top-district-list class="row" title="chart.top.least-improved" emoticon="sad" data="lidistrics"></top-district-list>
               </div>

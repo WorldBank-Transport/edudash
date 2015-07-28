@@ -37,7 +37,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           filteredSchools: $q -> null
           pins: $q -> null
           rankBy: null  # performance or improvement for primary
-          rankedByChange: []
+          rankedBy: []
           moreThan40: null  # students, for secondary schools
 
         # state transitioners
@@ -50,24 +50,28 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
-          rankSchools: (a) -> rankSchools a
 
 
-        # State Listeners
+         # State Listeners
 
-        $scope.$watchGroup ['year', 'schoolType', 'moreThan40'],
-          ([year, schoolType, moreThan40]) ->
+        $scope.$watchGroup ['year', 'schoolType', 'rankBy', 'moreThan40'],
+          ([year, schoolType, rankBy, moreThan40]) ->
             unless year == null
               $scope.allSchools = OpenDataApi.getSchools
                   year: year
                   schoolType: schoolType
-                  subtype: $scope.rankBy
+                  subtype: rankBy
                   moreThan40: moreThan40
                 .catch (err) -> $log.error err
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
           _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-          rankSchools('CHANGE_PREVIOUS_YEAR').then (r) -> $scope.rankedByChange = r
+          rankSchools switch $scope.rankBy
+              when 'performance' then ['RANK']
+              when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+              when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
+              else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+            .then (r) -> $scope.rankedBy = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
           $scope.filteredSchools = $q (resolve, reject) ->
@@ -172,13 +176,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = (rank_by) ->
-          if rank_by not in ['CHANGE_PREVIOUS_YEAR']
-            throw new Error "invalid rank_by: '#{rank_by}'"
+        rankSchools = ([rank_by, desc]) ->
+          rb = rank_by
+          if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
+            throw new Error "invalid rank_by: '#{rb}'"
           $q (resolve, reject) ->
             getRanked = (schools) -> resolve _.unique(schools
-              .filter (s) -> s[rank_by]?
-              .sort (a, b) -> a[rank_by] - b[rank_by]
+              .filter (s) -> s[rb]?
+              .sort (a, b) -> if desc then b[rb] - a[rb] else a[rb] - b[rb]
             ).slice 0, 20
             $scope.allSchools.then getRanked, reject
 
