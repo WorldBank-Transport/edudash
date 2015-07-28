@@ -312,7 +312,12 @@
                 {{ selected.CODE }}
                 <span ng-if="selected.OWNERSHIP|exists" class="text-capitalize">, {{ selected.OWNERSHIP }}</span>
               </p>
-              <rate-pass-chart min="40" max="60" datasource="selected" selectedyear="{{year}}"></rate-pass-chart>
+              <rate-pass-chart
+                  min="40"
+                  max="60"
+                  datasource="selected"
+                  selectedyear="{{year}}"
+              ></rate-pass-chart>
               <div class="widget col-md-4" ng-if="selected.CHANGE_PREVIOUS_YEAR|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
