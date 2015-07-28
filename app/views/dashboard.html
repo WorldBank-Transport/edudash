@@ -303,31 +303,31 @@
               <p class="schoolname">
                 {{ selected.NAME }}
                 <span class="pull-right top-school-badge text-right">
-                  <img ng-if="selected.rank <= 100" src="images/topschoolbadge.png">
-                  <img ng-if="schoolType == 'primary' && selected.change_13_14 >= 62" src="images/mostimprovedbadgeprimary.png">
-                  <img ng-if="schoolType == 'secondary' && selected.change_13_14 >= 55" src="images/mostimprovedbadgesecondary.png">
+                  <img ng-if="selected.RANK <= 100" src="images/topschoolbadge.png">
+                  <img ng-if="schoolType == 'primary' && selected.CHANGE_PREVIOUS_YEAR >= 62" src="images/mostimprovedbadgeprimary.png">
+                  <img ng-if="schoolType == 'secondary' && selected.CHANGE_PREVIOUS_YEAR >= 55" src="images/mostimprovedbadgesecondary.png">
                 </span>
               </p>
               <p class="code">
                 {{ selected.CODE }}
-                <span ng-if="selected.ownership|exists" class="text-capitalize">, {{ selected.ownership }}</span>
+                <span ng-if="selected.OWNERSHIP|exists" class="text-capitalize">, {{ selected.OWNERSHIP }}</span>
               </p>
               <rate-pass-chart min="40" max="60" datasource="selected" selectedyear="{{year}}"></rate-pass-chart>
-              <div class="widget col-md-4" ng-if="selected.change_13_14|exists">
+              <div class="widget col-md-4" ng-if="selected.CHANGE_PREVIOUS_YEAR|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
-                  <img ng-if="selected.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow" />
-                  <img ng-if="selected.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow" />
-                  <img ng-if="selected.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow" />
+                  <img ng-if="selected.CHANGE_PREVIOUS_YEAR > 0" ng-src="images/arrowgreen.png" class="arrow" />
+                  <img ng-if="selected.CHANGE_PREVIOUS_YEAR < 0" ng-src="images/arrowred.png" class="arrow" />
+                  <img ng-if="selected.CHANGE_PREVIOUS_YEAR == 0" ng-src="images/arrowyellow.png" class="arrow" />
                   <span ng-class="{
-                      'text-red': selected.change_13_14 < 0,
-                      'text-yellow': selected.change_13_14 == 0,
-                      'text-green': selected.change_13_14 > 0}">
-                    {{ selected.change_13_14 }}%
+                      'text-red': selected.CHANGE_PREVIOUS_YEAR < 0,
+                      'text-yellow': selected.CHANGE_PREVIOUS_YEAR == 0,
+                      'text-green': selected.CHANGE_PREVIOUS_YEAR > 0}">
+                    {{ selected.CHANGE_PREVIOUS_YEAR }}%
                   </span>
                 </p>
               </div>
-              <div ng-class="(selected.change_13_14|exists)? 'col-md-8': 'col-md-12'">
+              <div ng-class="(selected.CHANGE_PREVIOUS_YEAR|exists)? 'col-md-8': 'col-md-12'">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
               </div>
               <div class="widget col-md-12">

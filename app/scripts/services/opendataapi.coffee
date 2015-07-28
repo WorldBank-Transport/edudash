@@ -88,16 +88,17 @@ angular.module 'edudashAppSrv'
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
+            \"CHANGE_PREVIOUS_YEAR\",
             \"CODE\",
+            \"DISTRICT\",
             \"NAME\",
             \"LATITUDE\",
             \"LONGITUDE\",
-            \"REGION\",
-            \"DISTRICT\",
-            \"WARD\",
+            \"OWNERSHIP\",
             \"PASS_RATE\",
             \"RANK\",
-            \"CHANGE_PREVIOUS_YEAR\"
+            \"REGION\",
+            \"WARD\"
           FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
 
