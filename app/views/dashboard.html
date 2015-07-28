@@ -127,8 +127,12 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"ng-hide="selected|exists"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong></div>
-            <div class="text-center"ng-show="selected|exists"><strong>{{selected.NAME}} {{year}}</strong></div>
+            <div class="text-center" ng-hide="selected|exists">
+              <strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong>
+            </div>
+            <div class="text-center" ng-show="selected|exists">
+              <strong>{{selected.NAME}} {{year}}</strong>
+            </div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -312,15 +316,15 @@
               <div class="widget col-md-4" ng-if="selected.change_13_14|exists">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
-                    <img ng-if="selected.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
-                    <img ng-if="selected.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
-                    <img ng-if="selected.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
-                            <span ng-class="{
-                                    'text-red': selected.change_13_14 < 0,
-                                    'text-yellow': selected.change_13_14 == 0,
-                                    'text-green': selected.change_13_14 > 0}">
-                                {{ selected.change_13_14 }}%
-                            </span>
+                  <img ng-if="selected.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow" />
+                  <img ng-if="selected.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow" />
+                  <img ng-if="selected.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow" />
+                  <span ng-class="{
+                      'text-red': selected.change_13_14 < 0,
+                      'text-yellow': selected.change_13_14 == 0,
+                      'text-green': selected.change_13_14 > 0}">
+                    {{ selected.change_13_14 }}%
+                  </span>
                 </p>
               </div>
               <div ng-class="(selected.change_13_14|exists)? 'col-md-8': 'col-md-12'">
@@ -331,11 +335,15 @@
                 <div id="nationalRanking" class="text-muted"></div>
               </div>
               <div class="widget row widget-full-width">
-                <div class="col-lg-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
-                <div class="col-lg-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
+                <div class="col-lg-6">
+                  <rank datasource="regionRank" title="chart.title.rank-region"></rank>
+                </div>
+                <div class="col-lg-6">
+                  <rank datasource="districtRank" title="chart.title.rank-district"></rank>
+                 </div>
               </div>
               <div class="widget">
-                  <pupil-teacher-ratio-chart min="25" max="40" datasource="selected"></pupil-teacher-ratio-chart>
+                <pupil-teacher-ratio-chart min="25" max="40" datasource="selected"></pupil-teacher-ratio-chart>
               </div>
             </div>
           </div>

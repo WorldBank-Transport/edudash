@@ -71,7 +71,7 @@ angular.module 'edudashAppDir'
           }]
         element.highcharts(lineOptions)
 
-      scope.$watch attrs.datasource, (newValue, oldValue) ->
+      scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue
         years = Object.keys newValue
           .map (y) -> parseInt y
           .sort()
