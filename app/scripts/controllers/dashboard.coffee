@@ -19,7 +19,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # other state
         layers = {}
         currentLayer = null
-        schoolIdMap = {}
+        schoolCodeMap = {}
 
         #### Template / Controller API via $scope ####
 
@@ -46,10 +46,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: (id) -> (findSchool id).then ((s) -> $scope.hovered = s), $log.error
+          hover: (code) -> (findSchool code).then ((s) -> $scope.hovered = s), $log.error
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (id) -> (findSchool id).then ((s) -> $scope.selected = s), $log.error
+          select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
           rankSchools: (a) -> rankSchools a
 
 
@@ -66,7 +66,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .catch (err) -> $log.error err
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
-          _(schools).each (school) -> schoolIdMap[school.id] = school
+          _(schools).each (school) -> schoolCodeMap[school.CODE] = school
           rankSchools('change').then (r) -> $scope.rankedByChange = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
@@ -77,7 +77,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           layerId = "schools-#{$scope.year}-#{$scope.schoolType}-#{$scope.moreThan40}"
           mapped = $q (resolve, reject) ->
             map = (data) ->
-              resolve data.map (s) -> [ s.latitude, s.longitude, s.id ]
+              resolve data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
             schools.then map, reject
           schools.then (schools) ->
             $scope.pins = layersSrv.addFastCircles layerId, mapId,
@@ -111,7 +111,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           if thing != null
             $scope.lastHovered = thing
             if $scope.viewMode == 'schools'
-              getSchoolPin(thing.id).then (pin) ->
+              getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
                 pin.setStyle
                   color: '#05a2dc'
@@ -122,7 +122,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
           if oldThing != null
             if $scope.viewMode == 'schools'
-              getSchoolPin(oldThing.id).then (pin) ->
+              getSchoolPin(oldThing.CODE).then (pin) ->
                 pin.setStyle
                   color: '#fff'
                   weight: 2
@@ -137,29 +137,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 
         setSchool = (school) ->
-          latlng = [school.latitude, school.longitude]
+          latlng = [school.LATITUDE, school.LONGITUDE]
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             setMapView latlng, (Math.max 9, map.getZoom())
-          rank(school, 'region').then $log.log
+          rank(school, 'REGION').then $log.log
 
 
-        findSchool = (id) ->
+        findSchool = (code) ->
           $q (resolve, reject) ->
             findIt = (schools) ->
-              if schoolIdMap[id]?
-                resolve schoolIdMap[id]
+              if schoolCodeMap[code]?
+                resolve schoolCodeMap[code]
               else
-                reject "Could not find school by id '#{id}'"
+                reject "Could not find school by code '#{code}'"
             $scope.allSchools.then findIt, reject
 
-        getSchoolPin = (id) ->
+        getSchoolPin = (code) ->
           $q (resolve, reject) ->
-            $scope.pins.then ((pins) -> resolve pins.getLayer id), reject
+            $scope.pins.then ((pins) -> resolve pins.getLayer code), reject
 
         # get the (rank, total) of a school, filtered by its region or district
         rank = (school, rank_by) ->
-          if rank_by not in ['region', 'district']
+          if rank_by not in ['REGION', 'DISTRICT']
             throw new Error "invalid rank_by: '#{rank_by}'"
           $q (resolve, reject) ->
             rankSchool = (schools) ->
@@ -233,17 +233,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
-            .then (years) -> $scope.years = _(years).map (y) -> y.year
+            .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
 
 
-        processPin = (id, layer) ->
-          colorPin id, layer
+        processPin = (code, layer) ->
+          colorPin code, layer
           layer.on 'mouseover', -> $scope.$apply ->
-            $scope.hover id
+            $scope.hover code
           layer.on 'mouseout', -> $scope.$apply ->
             $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $scope.select id
+            $scope.select code
 
         mapLayerCreators =
           schools: ->
@@ -251,8 +251,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               WorldBankApi.getSchools $scope.schoolType, $scope.moreThan40
                 .success (data) ->
                   resolve data.rows.map (school) -> [
-                    school.latitude,
-                    school.longitude,
+                    school.LATITUDE,
+                    school.LONGITUDE,
                     school,
                   ]
                 .error reject
@@ -285,9 +285,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               options: options
 
 
-        colorPin = (id, l) -> findSchool(id).then (school) ->
+        colorPin = (code, l) -> findSchool(code).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate' then school.passrate
+            when $scope.visMode == 'passrate' then school.PASS_RATE
             when $scope.visMode == 'ptratio' then school.pt_ratio
           l.setStyle colorSrv.pinStyle v, $scope.visMode
 
@@ -309,7 +309,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           WorldBankApi.getSchools($scope.schoolType).success (data) ->
             byRegion = groupByDistrict data.rows
             _(currentLayer.getLayers()).each (l) ->
-              regionData = byRegion[l.feature.properties.name]
+              regionData = byRegion[l.feature.properties.NAME]
               if not regionData
                 v = null
               else if $scope.visMode == 'passrate'
@@ -352,13 +352,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 #         $scope.setSchool = $log.log
 
-#         $scope.search = (query) ->
-#           if query?
-#             OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
-#               .then (data) -> $q.all _(data).map (s) -> findSchool s.id
-#                 .then (schools) ->
-#                   $scope.searchText = query
-#                   $scope.searchChoices = _.unique schools
+        $scope.search = (query) ->
+          if query?
+            OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
+              .then (data) -> $q.all _(data).map (s) -> findSchool s.CODE
+                .then (schools) ->
+                  $scope.searchText = query
+                  $scope.searchChoices = _.unique schools
 
 #         # $scope.$watch 'passRange', ((newVal, oldVal) ->
 #         #     unless _.isEqual(newVal, oldVal)

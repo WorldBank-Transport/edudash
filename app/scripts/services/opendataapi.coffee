@@ -96,16 +96,16 @@ angular.module 'edudashAppSrv'
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
-            \"CODE\" as id,
-            \"NAME\" as name,
-            \"LATITUDE\" as latitude,
-            \"LONGITUDE\" as longitude,
-            \"REGION\" as region,
-            \"DISTRICT\" as district,
-            \"WARD\" as ward,
-            \"PASS_RATE\" as passrate,
-            \"RANK\" as rank,
-            \"CHANGE_PREVIOUS_YEAR\" as change
+            \"CODE\",
+            \"NAME\",
+            \"LATITUDE\",
+            \"LONGITUDE\",
+            \"REGION\",
+            \"DISTRICT\",
+            \"WARD\",
+            \"PASS_RATE\",
+            \"RANK\",
+            \"CHANGE_PREVIOUS_YEAR\"
           FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
 
@@ -142,7 +142,7 @@ angular.module 'edudashAppSrv'
 
       search: (educationLevel, subtype, query, year) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
-          SELECT \"CODE\" as id
+          SELECT \"CODE\"
           FROM \"#{getTable(educationLevel, subtype)}\"
           WHERE
               (\"NAME\" ILIKE '%#{query}%'
@@ -153,7 +153,7 @@ angular.module 'edudashAppSrv'
       getYears: (educationLevel, subtype) ->
         $log.log educationLevel, subtype
         ckanResp $http.get ckanQueryURL, params: sql: "
-          SELECT DISTINCT \"YEAR_OF_RESULT\" as year
+          SELECT DISTINCT \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
           ORDER BY \"YEAR_OF_RESULT\""
 

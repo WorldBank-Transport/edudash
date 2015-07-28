@@ -1,18 +1,18 @@
 <header>
   <h2>Region Name</h2>
-  <p class="word">{{ hovered.feature.properties.name }}</p>
+  <p class="word">{{ hovered.NAME }}</p>
 </header>
 <div class="stat">
   <h3>Average Pass Rate</h3>
-  <p class="number {{ hovered.feature.properties.pass_2014 === null ?
-    'unknown' : hovered.feature.properties.pass_2014 < 40 ?
-      'poor' : hovered.feature.properties.pass_2014 < 60 ?
-        'medium' : 'good' }}">{{ hovered.feature.properties.pass_2014 }} %</p>
+  <p class="number {{ hovered.PASS_RATE === null ?
+    'unknown' : hovered.PASS_RATE < 40 ?
+      'poor' : hovered.PASS_RATE < 60 ?
+        'medium' : 'good' }}">{{ hovered.PASS_RATE }} %</p>
 </div>
 <div class="stat">
   <h3>Average Pupil-Teacher Ratio</h3>
-  <p class="number {{ hovered.feature.properties.pt_ratio === null ?
-    'unknown' : hovered.feature.properties.pt_ratio < 35 ?
-      'good' : hovered.feature.properties.pt_ratio > 50 ?
-        'poor' : 'medium' }}">{{ hovered.feature.properties.pt_ratio }}</p>
+  <p class="number {{ hovered.PUPIL_TEACHER_RATIO === null ?
+    'unknown' : hovered.PUPIL_TEACHER_RATIO < 35 ?
+      'good' : hovered.PUPIL_TEACHER_RATIO > 50 ?
+        'poor' : 'medium' }}">{{ hovered.PUPIL_TEACHER_RATIO }}</p>
 </div>

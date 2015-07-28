@@ -10,10 +10,10 @@
     <tr ng-repeat="school in schools">
       <td class="rank">{{ $index + 1 }}.</td>
       <td class="name"
-          ng-click="click(school.id)"
-          ng-mouseenter="hover(school.id)"
+          ng-click="click(school.CODE)"
+          ng-mouseenter="hover(school.CODE)"
           ng-mouseleave="unHover()">
-        <strong>{{ school.name }}</strong>
+        <strong>{{ school.NAME }}</strong>
       </td>
       <td ng-class="{
         'passrategreen': school[property]>=(max+0),

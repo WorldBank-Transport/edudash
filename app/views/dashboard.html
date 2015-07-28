@@ -128,7 +128,7 @@
         <div class="map-details-container">
           <div class="page-header">
             <div class="text-center"ng-hide="selected|exists"><strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong></div>
-            <div class="text-center"ng-show="selected|exists"><strong>{{selected.name}} {{year}}</strong></div>
+            <div class="text-center"ng-show="selected|exists"><strong>{{selected.NAME}} {{year}}</strong></div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
@@ -143,7 +143,7 @@
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchool|exists">
+          <div class="container-fluid perfomance-gauges" ng-hide="selected|exists">
             <div class="row col-xs-12">
                 <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
             </div>
@@ -154,20 +154,20 @@
                 <img src="images/searchicon.png" class="pull-right">
               </div>
               <div class="col-xs-10">
-                <ui-select ng-model="selected" class="search-schools" on-select="select($item.id)">
-                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
+                <ui-select ng-model="selected" class="search-schools" on-select="select($item.CODE)">
+                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.NAME }}</ui-select-match>
                   <ui-select-choices
                       repeat="result in searchChoices"
                       refresh="search($select.search)">
                     <div
-                        ng-mouseenter="hover(result.id)"
+                        ng-mouseenter="hover(result.CODE)"
                         ng-mouseleave="unHover()">
-                      <div ng-bind-html="result.name | highlight: $select.search"></div>
+                      <div ng-bind-html="result.NAME | highlight: $select.search"></div>
                       <small class="text-muted">
-                        {{'school.center-code' | translate}}: {{result.id}}
+                        {{'school.center-code' | translate}}: {{result.CODE}}
                         <br>
-                        {{'school.district' | translate}}:
-                        <span ng-bind-html="''+result.district | highlight: $select.search"></span>
+                        {{'school.DISTRICT' | translate}}:
+                        <span ng-bind-html="''+result.DISTRICT | highlight: $select.search"></span>
                       </small>
                     </div>
                   </ui-select-choices>
@@ -176,7 +176,7 @@
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="schoolType==='primary' && selectedSchool|exists">
+          <div class="container-fluid" ng-hide="schoolType==='primary' && selected|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBest==='performance'}">
@@ -213,7 +213,7 @@
                   click="select"
                   hover="hover"
                   unHover="unHover"
-                  property="passrate"
+                  property="PASS_RATE"
                   max="60"
                   min="40"
                   sufix="%"
@@ -253,7 +253,7 @@
           <div ng-if="viewMode=='schools'">
             <div ng-if="selected|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
-                {{ selected.name }}
+                {{ selected.NAME }}
                 <span class="pull-right top-school-badge text-right">
                   <img ng-if="selected.rank <= 100" src="images/topschoolbadge.png">
                   <img ng-if="schoolType == 'primary' && selected.change_13_14 >= 62" src="images/mostimprovedbadgeprimary.png">
@@ -261,7 +261,7 @@
                 </span>
               </p>
               <p class="code">
-                {{ selected.code }}
+                {{ selected.CODE }}
                 <span ng-if="selected.ownership|exists" class="text-capitalize">, {{ selected.ownership }}</span>
               </p>
               <rate-pass-chart min="40" max="60" datasource="selected" selectedyear="{{year}}"></rate-pass-chart>
