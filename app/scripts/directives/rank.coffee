@@ -13,4 +13,3 @@ angular.module 'edudashAppDir'
     scope:
       data: '=datasource'
       title: '@title'
-    link: (scope, element, attrs) ->
