@@ -102,31 +102,6 @@ angular.module 'edudashAppSrv'
           FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
 
-      getBestSchool: (educationLevel, subtype, moreThan40, year) ->
-        $params =
-          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"RANK" ASC', "20")
-        $http.get(ckanQueryURL, {params: $params})
-
-      getWorstSchool: (educationLevel, subtype, moreThan40, year) ->
-        $params =
-          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"RANK" DESC', "20")
-        $http.get(ckanQueryURL, {params: $params})
-
-      mostImprovedSchools: (educationLevel, subtype, moreThan40, year) ->
-        $params =
-          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"CHANGE_PREVIOUS_YEAR" DESC', "20")
-        $http.get(ckanQueryURL, {params: $params})
-
-      leastImprovedSchools: (educationLevel, subtype, moreThan40, year) ->
-        $params =
-          sql: getSql(educationLevel, subtype, getConditions(educationLevel, moreThan40, year), '"CHANGE_PREVIOUS_YEAR" ASC', "20")
-        $http.get(ckanQueryURL, {params: $params})
-
-      getGlobalPassrate: (educationLevel, subtype, moreThan40, year) ->
-        $params =
-          sql: "SELECT AVG(\"PASS_RATE\") FROM \"#{getTable(educationLevel, subtype)}\" #{getConditions(educationLevel, moreThan40, year)}"
-        $http.get(ckanQueryURL, {params: $params})
-
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->
         condition = switch educationLevel
           when 'secondary' then "WHERE \"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
@@ -155,15 +130,6 @@ angular.module 'edudashAppSrv'
           SELECT DISTINCT \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
           ORDER BY \"YEAR_OF_RESULT\""
-
-      getTopDistricts: (filters) ->
-        # TODO implement me
-
-      getPassOverTime: (educationLevel, subtype, moreThan40) ->
-        condition = if(educationLevel == 'secondary' and moreThan40?) then "WHERE \"MORE_THAN_40\" = '#{moreThan40}'" else ''
-        $params =
-          sql: "SELECT AVG(\"PASS_RATE\"), \"YEAR_OF_RESULT\" FROM \"#{getTable(educationLevel, subtype)}\" #{condition} GROUP BY \"YEAR_OF_RESULT\" ORDER BY \"YEAR_OF_RESULT\" ASC"
-        $http.get(ckanQueryURL, {params: $params})
 
       getSchoolAggregates: (educationLevel, subtype, code) ->
         ckanResp $http.get ckanQueryURL, params: sql: "

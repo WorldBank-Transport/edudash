@@ -36,10 +36,10 @@
         class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider
-        min="filterPassRate.minValue"
-        max="filterPassRate.maxValue"
-        model-min="filterPassRate.range.min"
-        model-max="filterPassRate.range.max"
+        min="0"
+        max="100"
+        model-min="0"
+        model-max="100"
         prevent-equal-min-max="true"
         attach-handle-values="true"
         show-Values="true"
@@ -47,10 +47,10 @@
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
-        min="filterPupilRatio.minValue"
-        max="filterPupilRatio.maxValue"
-        model-min="filterPupilRatio.range.min"
-        model-max="filterPupilRatio.range.max"
+        min="0"
+        max="100"
+        model-min="0"
+        model-max="100"
         prevent-equal-min-max="true"
         attach-handle-values="true"
         show-Values="true"
@@ -345,14 +345,14 @@
               <div class="widget row widget-full-width">
                 <div class="col-lg-6">
                   <rank
-                      datasource="selectedRanks.region"
+                      datasource="selected.ranks.region"
                       title="chart.title.rank-region"
                       place="{{ selected.REGION }}">
                   </rank>
                 </div>
                 <div class="col-lg-6">
                   <rank
-                      datasource="selectedRanks.district"
+                      datasource="selected.ranks.district"
                       title="chart.title.rank-district"
                       place="{{ selected.DISTRICT }}">
                   </rank>
