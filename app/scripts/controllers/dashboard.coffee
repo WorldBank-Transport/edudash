@@ -27,6 +27,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         angular.extend $scope,
           year: null  # set after init
           years: []
+          yearAggregates: {}
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -51,18 +52,35 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
 
+        # view util functions
+        angular.extend $scope,
+          Math: Math
+
 
          # State Listeners
 
         $scope.$watchGroup ['year', 'schoolType', 'rankBy', 'moreThan40'],
-          ([year, schoolType, rankBy, moreThan40]) ->
-            unless year == null
-              $scope.allSchools = OpenDataApi.getSchools
-                  year: year
-                  schoolType: schoolType
-                  subtype: rankBy
-                  moreThan40: moreThan40
-                .catch (err) -> $log.error err
+          ([year, schoolType, rankBy, moreThan40]) -> unless year == null
+            $scope.allSchools = OpenDataApi.getSchools
+                year: year
+                schoolType: schoolType
+                subtype: rankBy
+                moreThan40: moreThan40
+              .catch (err) -> $log.error err
+
+            # leaving this as is for now, since we don't have this at school level
+            MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
+              $scope.pupilTeacherRatio = data.rate
+
+        $scope.$watchGroup ['schoolType', 'rankBy', 'moreThan40'],
+          ([schoolType, rankBy, moreThan40]) ->
+            OpenDataApi.getYearAggregates schoolType, rankBy, moreThan40
+              .then (years) ->
+                $scope.yearAggregates = _(years).reduce ((agg, y) ->
+                  agg[y.YEAR_OF_RESULT] =
+                    PASS_RATE: y.average_pass_rate
+                  agg
+                ), {}
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
           _(schools).each (school) -> schoolCodeMap[school.CODE] = school
@@ -240,20 +258,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.setYear 2014  # hard-coded default to speed up page-load
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
-
-
-          # leaving this as is for now, since we don't have this at school level
-          MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
-            $scope.pupilTeacherRatio = data.rate
-
-          # legacy query for passrate by year
-          OpenDataApi.getGlobalChange($scope.schoolType, $scope.rankBy, $scope.moreThan40, $scope.year).success (data) ->
-            records = data.result.records
-            $scope.passRateChange = if(records.length == 2) then parseInt(records[1].avg - records[0].avg) else 0
-
-          # legacy passrate guage datasource
-          OpenDataApi.getGlobalPassrate($scope.schoolType, $scope.rankBest, $scope.moreThan40, $scope.selectedYear).success (data) ->
-            $scope.passrate = parseFloat data.result.records[0].avg
 
 
         processPin = (code, layer) ->

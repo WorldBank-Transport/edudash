@@ -136,7 +136,7 @@
                 <pass-rate-change
                     min="-5"
                     max="5"
-                    datasource="passRateChange"
+                    datasource="Math.round(yearAggregates[year].PASS_RATE - yearAggregates[year-1].PASS_RATE)"
                     since="year"
                 ></pass-rate-change>
               </div>
@@ -157,7 +157,7 @@
                     ranges="40,60"
                     colors="#f05e55,#fcce39,#2d991c"
                     format="{y} %"
-                    datasource="passrate"
+                    datasource="yearAggregates[year].PASS_RATE"
                 ></gauge-chart>
               </div>
             </div>
