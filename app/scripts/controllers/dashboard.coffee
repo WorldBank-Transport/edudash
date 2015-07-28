@@ -34,8 +34,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           hovered: null
           lastHovered: null
           selected: null
-          selectedAggregates: null
-          selectedRanks: null
           allSchools: $q -> null
           filteredSchools: $q -> null
           pins: $q -> null
@@ -166,18 +164,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           leafletData.getMap(mapId).then (map) ->
             setMapView latlng, (Math.max 9, map.getZoom())
 
-          $q.all
-              region: (rank school, 'REGION')
-              district: (rank school, 'DISTRICT')
-            .then (ranks) -> $scope.selectedRanks = ranks
+          unless school.ranks?
+            $q.all
+                region: (rank school, 'REGION')
+                district: (rank school, 'DISTRICT')
+              .then (ranks) -> school.ranks = ranks
 
-          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBest, school.CODE
-            .then (data) ->
-              $scope.selectedAggregates = _(data).reduce ((agg, year) ->
-                agg[year.YEAR_OF_RESULT] =
-                  PASS_RATE: year.PASS_RATE
-                agg
-              ), {}
+          unless school.yearAggregates?
+            OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBest, school.CODE
+              .then (data) ->
+                school.yearAggregates = _(data).reduce ((agg, year) ->
+                  agg[year.YEAR_OF_RESULT] =
+                    PASS_RATE: year.PASS_RATE
+                  agg
+                ), {}
 
         findSchool = (code) ->
           $q (resolve, reject) ->
