@@ -1,8 +1,8 @@
 <div>
-    <div class="col-md-12" style="height: 64px" ng-if="data != 0">
+    <div class="col-md-12" style="height: 64px" ng-if="data !== 0">
         <p ng-class="{'text-green': data >= max, 'text-yellow': data < max && data > min, 'text-red':data <= min}" class="big-character">{{sign}}{{ data }}%</p>
     </div>
-    <div class="col-md-12" style="height: 64px" ng-if="data == 0">
+    <div class="col-md-12" style="height: 64px" ng-if="data === 0">
         <div><p class="medium-character" style="position: static;">NA</p></div>
     </div>
     <div class="col-md-12" style="position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 5px; left: -5px; top: 64px;">

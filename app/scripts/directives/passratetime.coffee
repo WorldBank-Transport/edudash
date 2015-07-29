@@ -71,9 +71,15 @@ angular.module 'edudashAppDir'
           }]
         element.highcharts(lineOptions)
 
-      scope.$watch attrs.datasource, (newValue, oldValue) ->
-        if newValue
-          updateChart(newValue)
+      scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue
+        years = Object.keys newValue
+          .map (y) -> parseInt y
+          .sort()
+        vals = years.map (y) -> [
+          y,
+          Math.round newValue[''+y].PASS_RATE  # explicit string-cast for key
+        ]
+        updateChart years: years, data: vals
 
       attrs.$observe 'title', (value) ->
         # TODO This way we could custom the style for swahilli
