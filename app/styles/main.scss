@@ -197,6 +197,11 @@ h1 {
     margin-right: auto;
 }
 
+.position {
+  position: relative;
+  display: block;
+}
+
 table.schools {
     table-layout: fixed;
     width: 95%;
@@ -763,7 +768,7 @@ table.districts p {
   height: 80px;
 }
 
-#spinner {
+.loading.ajax-loader {
   position:absolute;
   top:0;
   left:0;

@@ -215,9 +215,10 @@
             </div>
             <div class="container-fluid" ng-if="rankBy==='improvement'">
               <school-list
+                  class="position"
                   list-title="{{'chart.top.most-improved-schools' | translate}}"
                   type="good"
-                  schools="rankedBy"
+                  dataset="rankedBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"
@@ -228,9 +229,10 @@
             </div>
             <div class="container-fluid" ng-if="rankBy==='performance'">
               <school-list
+                  class="position"
                   list-title="{{'chart.top.best-performing-schools' | translate}}"
                   type="good"
-                  schools="rankedBy"
+                  dataset="rankedBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"
@@ -253,9 +255,10 @@
             </div>
             <div class="container-fluid">
               <school-list
+                  class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
                   type="good"
-                  schools="rankedBy"
+                  dataset="rankedBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"

@@ -10,11 +10,11 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi'
+    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
-    $timeout, MetricsSrv, colorSrv, OpenDataApi) ->
+    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv) ->
 
         # other state
         layers = {}
@@ -38,7 +38,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           filteredSchools: null
           pins: null
           rankBy: null  # performance or improvement for primary
-          rankedBy: []
+          rankedBy: null
           moreThan40: null  # students, for secondary schools
 
         # state transitioners
@@ -84,9 +84,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), {}
 
         $scope.$watch 'allSchools', (promise) -> if promise?
+          ranked = $q.defer()
+          $scope.rankedBy = ranked.promise
           promise.then (schools) -> if schools?
             _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-            OpenDataApi.getSchoolDetails $scope
+            detailsPromise = OpenDataApi.getSchoolDetails $scope
               .then (schools) ->
                 _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
                 rankSchools switch $scope.rankBy
@@ -94,7 +96,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
                     when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
                     else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
-                  .then (r) -> $scope.rankedBy = r
+                  .then ranked.resolve
+          loadingSrv.containerLoad promise, document.getElementById mapId
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) -> if allSchools?
           $scope.filteredSchools = $q (resolve, reject) ->
