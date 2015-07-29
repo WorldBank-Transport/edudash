@@ -16,9 +16,9 @@
         <strong>{{ school.NAME }}</strong>
       </td>
       <td ng-class="{
-        'passrategreen': school[property]>=(max+0),
-        'passrateyellow': school[property] < (max+0) && school[property] > (min+0),
-        'passratered':school[property] <= (min+0)}">
+        'passrategreen': school[property] >= max,
+        'passrateyellow': school[property] < max && school[property] > min,
+        'passratered':school[property] <= min}">
         {{ school[property] }}{{ sufix }}
       </td>
     </tr>

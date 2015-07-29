@@ -1,11 +1,11 @@
 <div class="col-md-12 no-padding">
-    <p class="performance-header best-perform" ng-class="{'tableheaderdistrictbad': districtListTileEmoticon == 'sad', 'tableheaderdistrictgood': districtListTileEmoticon == 'happy'}">
+    <p class="performance-header best-perform" ng-class="{'tableheaderdistrictbad': districtListTileEmoticon === 'sad', 'tableheaderdistrictgood': districtListTileEmoticon === 'happy'}">
       <span class="glyphicon glyphicon-star" aria-hidden="true"></span>{{districtListTile | translate}}</p>
 
     <table class="districts school-performance col-md-12">
         <tr ng-repeat="district in tdlData track by $index">
             <td class="rank">{{$index + 1}}.</td>
             <td class="name" ng-click="setMapView([district.latitude, district.longitude], 9, 0)">{{district.name}}</td>
-            <td class="rank" ng-class="{'passratered': districtListTileEmoticon == 'sad', 'passrategreen': districtListTileEmoticon == 'happy'}">{{district.rate}}</td></tr>
+            <td class="rank" ng-class="{'passratered': districtListTileEmoticon === 'sad', 'passrategreen': districtListTileEmoticon === 'happy'}">{{district.rate}}</td></tr>
     </table>
 </div>

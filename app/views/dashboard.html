@@ -1,4 +1,4 @@
-<div class="map-widget {'has-filters': viewMode != 'districts'}">
+<div class="map-widget {'has-filters': viewMode !== 'districts'}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
@@ -30,7 +30,7 @@
     </map-bottom-toggle>
 
     <map-bottom-toggle
-        ng-if="activeMap!='districts'"
+        ng-if="activeMap!=='districts'"
         title="{{ 'filters.title' | translate }}"
         emitkey="filtersToggle"
         class="filters">
@@ -80,27 +80,27 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: viewMode=='regional'}">
+          <li role="presentation" ng-class="{active: viewMode==='regional'}">
             <a ng-click="setViewMode('regional')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
           <!-- Remove this tab temporally until we get data for regions
-          <li role="presentation" ng-class="{active: viewMode=='district'}">
+          <li role="presentation" ng-class="{active: viewMode==='district'}">
             <a ng-click="setViewMode('district')">
               <span class="hide-sm" translate="tab.district-view">Districts</span>
               <span class="show-sm" translate="tab.district">District</span>
             </a>
           </li>
           -->
-          <li role="presentation" ng-class="{active: schoolType=='primary'}">
+          <li role="presentation" ng-class="{active: schoolType==='primary'}">
             <a ng-click="setSchoolType('primary')">
               <span class="hide-sm" translate="tab.primary-schools-mode">Primary Schools</span>
               <span class="show-sm" translate="tab.primary">Primary</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: schoolType=='secondary'}">
+          <li role="presentation" ng-class="{active: schoolType==='secondary'}">
             <a ng-click="setSchoolType('secondary')">
               <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
               <span class="show-sm" translate="tab.secondary">Secondary</span>
@@ -273,7 +273,7 @@
             </div>
           </div>
 
-          <div ng-if="viewMode=='districts'">
+          <div ng-if="viewMode==='districts'">
             <div id="districtinfo" class="container-fluid">
               <div class="col-sm-12 performance-nav">
                 <ul class="nav nav-tabs">
@@ -296,14 +296,14 @@
             </div>
           </div>
 
-          <div ng-if="viewMode=='schools'">
+          <div ng-if="viewMode==='schools'">
             <div ng-if="selected|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
                 {{ selected.NAME }}
                 <span class="pull-right top-school-badge text-right">
                   <img ng-if="selected.RANK <= 100" src="images/topschoolbadge.png">
-                  <img ng-if="schoolType == 'primary' && selected.CHANGE_PREVIOUS_YEAR >= 62" src="images/mostimprovedbadgeprimary.png">
-                  <img ng-if="schoolType == 'secondary' && selected.CHANGE_PREVIOUS_YEAR >= 55" src="images/mostimprovedbadgesecondary.png">
+                  <img ng-if="schoolType === 'primary' && selected.CHANGE_PREVIOUS_YEAR >= 62" src="images/mostimprovedbadgeprimary.png">
+                  <img ng-if="schoolType === 'secondary' && selected.CHANGE_PREVIOUS_YEAR >= 55" src="images/mostimprovedbadgesecondary.png">
                 </span>
               </p>
               <p class="code">
