@@ -34,9 +34,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           hovered: null
           lastHovered: null
           selected: null
-          allSchools: $q -> null
-          filteredSchools: $q -> null
-          pins: $q -> null
+          allSchools: null
+          filteredSchools: null
+          pins: null
           rankBy: null  # performance or improvement for primary
           rankedBy: []
           moreThan40: null  # students, for secondary schools
@@ -83,9 +83,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   agg
                 ), {}
 
-        $scope.$watch 'allSchools', (all) -> all.then (schools) ->
-          _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-          OpenDataApi.getSchoolDetails $scope
+        $scope.$watch 'allSchools', (promise) -> if promise?
+          promise.then (schools) -> if schools?
+            _(schools).each (school) -> schoolCodeMap[school.CODE] = school
+            OpenDataApi.getSchoolDetails $scope
               .then (schools) ->
                 _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
                 rankSchools switch $scope.rankBy
@@ -95,33 +96,35 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
                   .then (r) -> $scope.rankedBy = r
 
-        $scope.$watchGroup ['allSchools'], ([allSchools]) ->
+        $scope.$watchGroup ['allSchools'], ([allSchools]) -> if allSchools?
           $scope.filteredSchools = $q (resolve, reject) ->
             allSchools.then resolve, reject
 
         $scope.$watch 'filteredSchools', (schools, oldSchools) ->
           layerId = "schools-#{$scope.year}-#{$scope.schoolType}-#{$scope.moreThan40}"
-          mapped = $q (resolve, reject) ->
-            map = (data) ->
-              resolve data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
-            schools.then map, reject
-          schools.then (schools) ->
-            $scope.pins = layersSrv.addFastCircles layerId, mapId,
-              getData: () -> mapped
-              options:
-                className: 'school-location'
-                radius: 8
-                onEachFeature: processPin
+          if schools?
+            mapped = $q (resolve, reject) ->
+              map = (data) -> if data?
+                resolve data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
+              schools.then map, reject
+            schools.then (schools) ->
+              $scope.pins = layersSrv.addFastCircles layerId, mapId,
+                getData: () -> mapped
+                options:
+                  className: 'school-location'
+                  radius: 8
+                  onEachFeature: processPin
 
-        $scope.$watch 'pins', (blah, oldPins) ->
+        $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           oldPins.then (pins) ->
             if pins != null
               leafletData.getMap(mapId).then (map) ->
                 if pins?
                   map.removeLayer pins
 
-        $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) ->
-          pinsP.then (pins) -> pins.eachVisibleLayer colorPin
+        $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) -> if pinsP?
+          pinsP.then (pins) ->
+            pins.eachVisibleLayer colorPin
 
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
