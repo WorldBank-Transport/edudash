@@ -85,12 +85,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.$watch 'allSchools', (all) -> all.then (schools) ->
           _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-          rankSchools switch $scope.rankBy
-              when 'performance' then ['RANK']
-              when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
-              when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
-              else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
-            .then (r) -> $scope.rankedBy = r
+          OpenDataApi.getSchoolDetails $scope
+              .then (schools) ->
+                _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
+                rankSchools switch $scope.rankBy
+                    when 'performance' then ['RANK']
+                    when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+                    when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
+                    else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+                  .then (r) -> $scope.rankedBy = r
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) ->
           $scope.filteredSchools = $q (resolve, reject) ->
@@ -166,10 +169,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-
-          unless (_(['OWNERSHIP']).every (k) -> school[k]?)
-            OpenDataApi.getSchoolDetails angular.extend {code: school.CODE}, $scope
-              .then ([details]) -> angular.extend school, details
 
           unless school.ranks?
             $q.all
