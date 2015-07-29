@@ -88,19 +88,30 @@ angular.module 'edudashAppSrv'
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
-            \"CHANGE_PREVIOUS_YEAR\",
             \"CODE\",
             \"DISTRICT\",
             \"NAME\",
             \"LATITUDE\",
             \"LONGITUDE\",
-            \"OWNERSHIP\",
             \"PASS_RATE\",
-            \"RANK\",
             \"REGION\",
             \"WARD\"
           FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
+
+      getSchoolDetails: ({year, schoolType, rankBy, moreThan40, code}) ->
+        extraCondition = switch schoolType
+          when 'secondary' then "AND \"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
+          else ''
+        ckanResp $http.get ckanQueryURL, params: sql: "
+          SELECT
+            \"CHANGE_PREVIOUS_YEAR\",
+            \"OWNERSHIP\",
+            \"RANK\"
+          FROM \"#{getTable schoolType, rankBy}\"
+          WHERE \"YEAR_OF_RESULT\" = #{year}
+            AND \"CODE\" = '#{code}'
+            #{extraCondition}"
 
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->
         condition = switch educationLevel
@@ -137,7 +148,7 @@ angular.module 'edudashAppSrv'
             \"PASS_RATE\",
             \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
-          WHERE \"CODE\" like '#{code}'
+          WHERE \"CODE\" = '#{code}'
           ORDER BY \"YEAR_OF_RESULT\" ASC"
 
       getCsv: (file) ->

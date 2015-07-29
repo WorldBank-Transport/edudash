@@ -167,6 +167,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
 
+          unless (_(['OWNERSHIP']).every (k) -> school[k]?)
+            OpenDataApi.getSchoolDetails angular.extend {code: school.CODE}, $scope
+              .then ([details]) -> angular.extend school, details
+
           unless school.ranks?
             $q.all
                 region: (rank school, 'REGION')
