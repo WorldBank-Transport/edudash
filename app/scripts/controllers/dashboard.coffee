@@ -114,6 +114,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           oldPins.then (pins) ->
             leafletData.getMap(mapId).then (map) -> map.removeLayer pins
 
+        $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
+          oldMarker.then (marker) ->
+              leafletData.getMap(mapId).then (map) -> map.removeLayer marker
+
         $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) -> if pinsP?
           pinsP.then (pins) ->
             pins.eachVisibleLayer colorPin
@@ -175,6 +179,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.filteredSchools = null
           $scope.pins = null
           $scope.rankedBy = null
+          $scope.schoolMarker = null
 
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
@@ -332,13 +337,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               l.setStyle colorSrv.areaStyle v, $scope.visMode
 
         markSchool = (latlng) ->
-          unless schoolMarker?
+          unless $scope.schoolMarker?
             icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
-            schoolMarker = layersSrv.marker 'school-marker', mapId,
+            $scope.schoolMarker = layersSrv.marker 'school-marker', mapId,
               latlng: latlng
               options: icon: icon
 
-          schoolMarker.then (marker) ->
+          $scope.schoolMarker.then (marker) ->
             marker.setLatLng latlng
 
         search = (query) ->
