@@ -11,12 +11,7 @@ angular.module 'edudashAppSrv'
 .service 'OpenDataApi', [
     '$http', '$resource', '$log', 'CsvParser', '$location', '$q'
     ($http, $resource, $log, CsvParser, $location, $q) ->
-      # AngularJS will instantiate a singleton by calling "new" on this function
-      regexp = /.*localhost.*/ig
-      corsApi = if regexp.test($location.host()) then 'https://cors-anywhere.herokuapp.com' else 'http:/'
-      apiRoot = '/data.takwimu.org/api/action/'
-#      apiRoot = '/tsd.dgstg.org/api/action/'
-      ckanQueryURL = corsApi + apiRoot + 'datastore_search_sql'
+      ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
           'performance': '3a77adf7-925a-4a62-8c70-5e43f022b874'
@@ -46,18 +41,6 @@ angular.module 'edudashAppSrv'
               reject data
           httpPromise.then parse, reject
 
-      getdata: () ->
-        $params =
-          resource_id: '3221ccb4-3b75-4137-a8bd-471a436ed7a5'
-        req = $resource(corsApi + apiRoot + 'datastore_search')
-        req.get($params).$promise
-
-      getDataset: (id) ->
-        $params =
-          resource_id: id
-        req = $resource(corsApi + apiRoot + 'datastore_search')
-        req.get($params).$promise
-
       getTable = (educationLevel, subtype) ->
         if(subtype?)
           datasetMapping[educationLevel][subtype]
@@ -82,7 +65,7 @@ angular.module 'edudashAppSrv'
       datasetByQuery: (query) ->
         $params =
           sql: query
-        req = $resource(corsApi + apiRoot + 'datastore_search_sql')
+        req = $resource ckanQueryURL
         req.get($params).$promise
 
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
@@ -150,23 +133,4 @@ angular.module 'edudashAppSrv'
           FROM \"#{getTable(educationLevel, subtype)}\"
           WHERE \"CODE\" = '#{code}'
           ORDER BY \"YEAR_OF_RESULT\" ASC"
-
-      getCsv: (file) ->
-        file = file.replace(/^(http|https):\/\//gm, '')
-        resourceUrl = corsApi + '/' + file
-        $resource(resourceUrl, {},
-          getDataSet: {
-            method: 'GET'
-            isArray: false
-            headers:
-              'Content-Type': 'text/csv; charset=utf-8'
-            responseType: 'text'
-            transformResponse: (data, headers) ->
-              #$log.debug 'csv raw data'
-              result = CsvParser.parseToJson data
-              #$log.debug result
-              result
-          }
-        )
-
   ]
