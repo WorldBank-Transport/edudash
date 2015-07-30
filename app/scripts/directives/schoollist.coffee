@@ -22,7 +22,10 @@ angular.module 'edudashApp'
       min: '=min'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
-      scope.schools = []
-      scope.$watch 'dataset', (p) -> if p?
-        p.then (schools) -> scope.schools = schools
-        loadingSrv.containerLoad p, el[0]
+      scope.schools = null
+      scope.$watch 'dataset', (p) ->
+        if p?
+          p.then (schools) -> scope.schools = schools
+          loadingSrv.containerLoad p, el[0]
+        else
+          scope.schools = null

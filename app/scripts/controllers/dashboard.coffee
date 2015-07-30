@@ -47,7 +47,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: (code) -> (findSchool code).then ((s) -> $scope.hovered = s), $log.error
+          hover: (code) ->  (findSchool code).then ((s) -> $scope.hovered = s), $log.error
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
@@ -60,18 +60,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # State Listeners
 
-        $scope.$watchGroup ['year', 'schoolType', 'rankBy', 'moreThan40'],
-          ([year, schoolType, rankBy, moreThan40]) -> unless year == null
-            $scope.allSchools = OpenDataApi.getSchools
-                year: year
-                schoolType: schoolType
-                subtype: rankBy
-                moreThan40: moreThan40
-              .catch (err) -> $log.error err
-
-            # leaving this as is for now, since we don't have this at school level
-            MetricsSrv.getPupilTeacherRatio({level: $scope.schoolType}).then (data) ->
-              $scope.pupilTeacherRatio = data.rate
+        $scope.$watchGroup ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40'],
+          ([viewMode, year, rest...], [oldViewMode]) -> if year?
+            if viewMode == 'schools' then loadSchools viewMode, year, rest...
+            else if oldViewMode == 'schools' then clearSchools()
 
         $scope.$watchGroup ['schoolType', 'rankBy', 'moreThan40'],
           ([schoolType, rankBy, moreThan40]) ->
@@ -120,10 +112,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           oldPins.then (pins) ->
-            if pins != null
-              leafletData.getMap(mapId).then (map) ->
-                if pins?
-                  map.removeLayer pins
+            leafletData.getMap(mapId).then (map) -> map.removeLayer pins
 
         $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) -> if pinsP?
           pinsP.then (pins) ->
@@ -170,6 +159,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
 
+        loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
+          $scope.allSchools = OpenDataApi.getSchools
+              year: year
+              schoolType: schoolType
+              subtype: rankBy
+              moreThan40: moreThan40
+            .catch (err) -> $log.error err
+          # leaving this as is for now, since we don't have this at school level
+          MetricsSrv.getPupilTeacherRatio({level: schoolType}).then (data) ->
+            $scope.pupilTeacherRatio = data.rate
+
+        clearSchools = ->
+          $scope.allSchools = null
+          $scope.filteredSchools = null
+          $scope.pins = null
+          $scope.rankedBy = null
+
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
           markSchool latlng
@@ -193,12 +199,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         findSchool = (code) ->
           $q (resolve, reject) ->
-            findIt = (schools) ->
-              if schoolCodeMap[code]?
-                resolve schoolCodeMap[code]
-              else
-                reject "Could not find school by code '#{code}'"
-            $scope.allSchools.then findIt, reject
+            if $scope.allSchools?
+              findIt = (schools) ->
+                if schoolCodeMap[code]?
+                  resolve schoolCodeMap[code]
+                else
+                  reject "Could not find school by code '#{code}'"
+              $scope.allSchools.then findIt, reject
+            else
+              reject 'No schools to find from'
 
         getSchoolPin = (code) ->
           $q (resolve, reject) ->
