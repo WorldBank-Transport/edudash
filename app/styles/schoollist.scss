@@ -51,6 +51,10 @@
     color: $poor-perform;
     font-weight:bold;
     }
+  &.passrateyellow{
+    color: $rank-medium;
+    font-weight:bold;
+  }
   }
   tr{
   &:hover{
