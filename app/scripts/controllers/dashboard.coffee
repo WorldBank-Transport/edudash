@@ -169,12 +169,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-
+          rankField = switch $scope.rankBy
+            when 'performance' then 'RANK'
+            when 'improvement' then 'CHANGE_PREVIOUS_YEAR'
+            when null then 'CHANGE_PREVIOUS_YEAR'  # secondary TODO fix me
+            else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+          if school[rankField]?
+            rankSchools [rankField, false, true]
+              .then (ranked) ->
+                nationalRank = ranked.indexOf school
+                chartSrv.drawNationalRanking nationalRank+1, ranked.length
           unless school.ranks?
             $q.all
                 region: (rank school, 'REGION')
                 district: (rank school, 'DISTRICT')
-              .then (ranks) -> school.ranks = ranks
+              .then (ranks) ->
+                school.ranks = ranks
 
           unless school.yearAggregates?
             OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
@@ -208,22 +218,24 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 return resolve [undefined, undefined]
               ranked = schools
                 .filter (s) -> s[rank_by] == school[rank_by]
-                .sort (a, b) -> a.rank - b.rank
+                .sort (a, b) -> a.rank - b.rank # TODO fix me, this should be base on the type of dashboard
               resolve
-                rank: (ranked.indexOf school)
+                rank: (ranked.indexOf school) + 1
                 total: ranked.length
 
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = ([rank_by, desc]) ->
+        rankSchools = ([rank_by, desc, all]) ->
           rb = rank_by
           if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
             throw new Error "invalid rank_by: '#{rb}'"
           $q (resolve, reject) ->
-            getRanked = (schools) -> resolve _.unique(schools
-              .filter (s) -> s[rb]?
-              .sort (a, b) -> if desc then b[rb] - a[rb] else a[rb] - b[rb]
-            ).slice 0, 20
+            getRanked = (schools) ->
+              list = _.unique(schools
+                .filter (s) -> s[rb]?
+                .sort (a, b) -> if desc then b[rb] - a[rb] else a[rb] - b[rb]
+              )
+              resolve if all then list else list.slice 0, 20
             $scope.allSchools.then getRanked, reject
 
 
