@@ -30,7 +30,7 @@ angular.module 'edudashAppDir'
           title:
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
             useHTML: true
-            x: -100
+            align: 'left'
             style:
               color: '#05a2dc'
               fontSize: 10
