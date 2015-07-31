@@ -23,8 +23,9 @@
 </div>
 <div class="stat">
   <h3>Pupil-Teacher Ratio</h3>
-  <p class="number {{ hovered.PUPIL_TEACHER_RATIO === null ?
+  <p ng-if="hovered.PUPIL_TEACHER_RATIO !== undefined" class="number {{ hovered.PUPIL_TEACHER_RATIO === null ?
     'unknown' : hovered.PUPIL_TEACHER_RATIO < 35 ?
       'good' : hovered.PUPIL_TEACHER_RATIO > 50 ?
-        'poor' : 'medium' }}">{{ hovered.PUPIL_TEACHER_RATIO }}</p>
+        'poor' : 'medium' }}">'{{ hovered.PUPIL_TEACHER_RATIO }}'</p>
+  <p ng-if="hovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character" style="position: static">NA</p>
 </div>
