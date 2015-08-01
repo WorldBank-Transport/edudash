@@ -79,6 +79,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           ranked = $q.defer()
           $scope.rankedBy = ranked.promise
           promise.then (schools) -> if schools?
+            if $scope.selected? then $scope.select $scope.selected.CODE
             _(schools).each (school) -> schoolCodeMap[school.CODE] = school
             detailsPromise = OpenDataApi.getSchoolDetails $scope
               .then (schools) ->

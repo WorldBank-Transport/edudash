@@ -319,7 +319,7 @@
                   datasource="selected"
                   selectedyear="{{year}}">
               </rate-pass-chart>
-              <div class="widget col-md-4" ng-if="selected.CHANGE_PREVIOUS_YEAR|exists">
+              <div class="no-padding widget col-md-4">
                 <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
                 <p class="widgetnumber">
                   <img ng-if="selected.CHANGE_PREVIOUS_YEAR > 0" ng-src="images/arrowgreen.png" class="arrow" />
@@ -333,7 +333,7 @@
                   </span>
                 </p>
               </div>
-              <div ng-class="(selected.CHANGE_PREVIOUS_YEAR|exists)? 'col-md-8': 'col-md-12'">
+              <div class="col-md-8">
                 <pass-rate-time
                     title="{{'chart.pass-rate-time'| translate}}"
                     ranges="40,60"

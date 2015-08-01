@@ -514,6 +514,10 @@ div.cartodb-share a{
   margin-bottom:10px;
   overflow:hidden;
 }
+#schoolinfo .no-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
 
 #schoolinfo .widget.first {
   position: relative;
@@ -552,7 +556,7 @@ div.cartodb-share a{
 }
 
 #schoolinfo img.arrow {
-    margin-right: 5px;
+    margin-right: 0px;
 }
 
 #schoolinfo img.teacher {
@@ -1115,13 +1119,16 @@ map-bottom-toggle.filters {
 
 
 .text-red {
-    color: $rank-poor;
+  color: $rank-poor;
+  font-size: 24px;
 }
 .text-yellow {
-    color: $rank-medium;
+  color: $rank-medium;
+  font-size: 24px;
 }
 .text-green {
-    color: $rank-good;
+  color: $rank-good;
+  font-size: 24px;
 }
 
 .big-character {
