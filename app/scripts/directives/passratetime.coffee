@@ -72,12 +72,11 @@ angular.module 'edudashAppDir'
         element.highcharts(lineOptions)
 
       scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue
-        years = Object.keys newValue
-          .map (y) -> parseInt y
-          .sort()
+        years = if newValue.years? then newValue.years.sort() else Object.keys(newValue).sort()
+        values = if newValue.values? then newValue.values else newValue
         vals = years.map (y) -> [
           y,
-          Math.round newValue[''+y].PASS_RATE  # explicit string-cast for key
+          if values[''+y]? then Math.round values[''+y].PASS_RATE else 0 # explicit string-cast for key
         ]
         updateChart years: years, data: vals
 

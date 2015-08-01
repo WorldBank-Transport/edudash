@@ -207,11 +207,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unless school.yearAggregates?
             OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
               .then (data) ->
-                school.yearAggregates = _(data).reduce ((agg, year) ->
-                  agg[year.YEAR_OF_RESULT] =
-                    PASS_RATE: year.PASS_RATE
-                  agg
-                ), {}
+                school.yearAggregates =
+                  values: _(data).reduce ((agg, year) ->
+                    agg[year.YEAR_OF_RESULT] =
+                      PASS_RATE: year.PASS_RATE
+                    agg
+                  ), {}
+                  years: $scope.years
 
         findSchool = (code) ->
           $q (resolve, reject) ->
