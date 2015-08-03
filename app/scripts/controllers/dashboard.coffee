@@ -10,11 +10,11 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv'
+    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'watchComputeSrv',
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
-    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv) ->
+    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, watchComputeSrv) ->
 
         # other state
         layers = {}
@@ -57,42 +57,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           Math: Math
 
 
-        ###*
-        # Assigns computed values to the $scope when dependencies change
-        # @param {string} what The property of $scope to be updated
-        # @param {object} opts
-        # @param {string[]} opts.dependencies Properties of $scope that trigger a recompute
-        # @param {function} opts.computer Computes the new value
-        # @param {boolean} [opts.waitForPromise] Update $scope only after the value resolves
-        # @param {function} [opts.filter] Conditionally update $scope
-        ###
-        $scope.compute = (what, opts) ->
-          unless typeof what == 'string'
-            throw new Error 'First parameter of $scope.compute must be a string'
-          unless opts?
-            throw new Error 'opts must be an object'
-          unless opts.dependencies instanceof Array
-            throw new Error 'opts.dependencies must be an array of strings'
-          unless typeof opts.computer == 'function'
-            throw new Error 'opts.computer must be a function'
+        watchCompute = watchComputeSrv $scope
 
-          setResult = (result) => this[what] = result
-
-          this.$watchGroup opts.dependencies, (current, old) ->
-            if opts.filter?
-              unless typeof opts.filter == 'function'
-                throw new Error 'opts.filter must be a function'
-              unless opts.filter current, old
-                return
-            result = opts.computer current, old
-            if opts.waitForPromise == true
-              unless result? and typeof result.then == 'function'
-                throw new Error 'waitForPromise requires that opts.computer returns a Promise'
-              result.then setResult, (err) -> throw err
-            else
-              setResult result
-
-        $scope.compute 'allSchools',
+        watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
           filter: ([vm, year]) -> year?
           computer: ([viewMode, year, rest...], [oldViewMode]) ->
@@ -100,7 +67,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else if oldViewMode == 'schools' then clearSchools()
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
-        $scope.compute 'pupilTeacherRatio',
+        watchCompute 'pupilTeacherRatio',
           dependencies: ['year', 'schoolType']
           waitForPromise: true
           filter: ([year]) -> year?
@@ -108,7 +75,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             MetricsSrv.getPupilTeacherRatio(level: schoolType)
               .then ((data) -> resolve data.rate), reject
 
-        $scope.compute 'yearAggregates',
+        watchCompute 'yearAggregates',
           dependencies: ['schoolType', 'rankBy', 'moreThan40'],
           waitForPromise: true,
           computer: ([schoolType, rankBy, moreThan40]) -> $q (resolve, reject) ->
@@ -121,7 +88,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), {}
               .catch reject
 
-        $scope.compute '_schoolDetails',
+        watchCompute '_schoolDetails',
           dependencies: ['allSchools'],
           waitForPromise: true
           filter: ([allSchools]) -> allSchools?
@@ -130,7 +97,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               OpenDataApi.getSchoolDetails $scope
                 .then resolve, reject
 
-        $scope.compute 'schoolCodeMap',
+        watchCompute 'schoolCodeMap',
           dependencies: ['allSchools', '_schoolDetails']
           waitForPromise: true  # unwraps the promise
           filter: ([allSchools]) -> allSchools?
@@ -148,7 +115,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   resolve map
                 .catch reject
 
-        $scope.compute 'rankedBy',
+        watchCompute 'rankedBy',
           dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
           filter: ([allSchools, rankBy, map]) -> allSchools? and map?
           computer: ([allSchools, rankBy, map]) ->
@@ -161,13 +128,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   else reject "invalid rankBy: '#{rankBy}'"
               ), reject
 
-        $scope.compute 'filteredSchools',
+        watchCompute 'filteredSchools',
           dependencies: ['allSchools']
           filter: ([allSchools]) -> allSchools?
           computer: ([allSchools]) ->
             $q (res, x) -> allSchools.then res, x
 
-        $scope.compute 'pins',
+        watchCompute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
           waitForPromise: true
           filter: ([filteredSchools]) -> filteredSchools?
@@ -186,7 +153,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     onEachFeature: processPin
               ), reject
 
-        $scope.compute 'lastHovered',
+        watchCompute 'lastHovered',
           dependencies: ['hovered']
           filter: ([thing]) -> thing?
           computer: ([thing]) -> thing
