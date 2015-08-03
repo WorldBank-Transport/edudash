@@ -110,13 +110,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), {}
               .catch reject
 
-        # this watch only does side-effects. would be nice to eliminate
-        $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
-          loadingSrv.containerLoad schoolsP, document.getElementById mapId
-          schoolsP.then (schools) ->
-            if $scope.selected?
-              $scope.select $scope.selected.CODE
-
         $scope.compute '_schoolDetails',
           dependencies: ['allSchools'],
           waitForPromise: true
@@ -192,6 +185,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing]) -> thing
 
         # side-effects only
+        $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
+          loadingSrv.containerLoad schoolsP, document.getElementById mapId
+          schoolsP.then (schools) ->
+            if $scope.selected?
+              $scope.select $scope.selected.CODE
+
+        # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
@@ -238,6 +238,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   fillOpacity: 0.6
               # when 'regional' then weight: 0, opacity: 0.6
 
+        # side-effects only
         $scope.$watch 'selected', (school) ->
           if school != null
             if $scope.viewMode == 'schools'
