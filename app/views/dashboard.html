@@ -11,12 +11,20 @@
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
       </p>
-      <div ng-if="visMode==='passrate'">
+      <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
           <li class="poor">0&ndash;40</li>
           <li class="medium">40&ndash;60</li>
           <li class="good">60&ndash;100</li>
+        </ol>
+      </div>
+      <div ng-if="visMode==='passrate' && schoolType==='secondary'">
+        <ol class="passrate">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="poor">1&ndash;3</li>
+          <li class="medium">3.1&ndash;4.2</li>
+          <li class="good">4.3&ndash;5</li>
         </ol>
       </div>
       <div ng-if="visMode==='ptratio'">
@@ -35,15 +43,25 @@
         emitkey="filtersToggle"
         class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
-      <div range-slider
-        min="0"
-        max="100"
-        model-min="0"
-        model-max="100"
+      <div range-slider ng-if="schoolType==='primary'"
+        min="filterPassRateP.range.min"
+        max="filterPassRateP.range.max"
+        model-min="filterPassRateP.minValue"
+        model-max="filterPassRateP.maxValue"
         prevent-equal-min-max="true"
         attach-handle-values="true"
         show-Values="true"
         step="20">
+      </div>
+        <div range-slider ng-if="schoolType==='secondary'"
+        min="filterPassRateS.range.min"
+        max="filterPassRateS.range.max"
+        model-min="filterPassRateS.minValue"
+        model-max="filterPassRateS.maxValue"
+        prevent-equal-min-max="true"
+        attach-handle-values="true"
+        show-Values="true"
+        step="1">
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider

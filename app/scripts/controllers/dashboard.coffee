@@ -40,7 +40,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           rankBy: null  # performance or improvement for primary
           rankedBy: null
           moreThan40: null  # students, for secondary schools
-
+          filterPassRateP: # To be used in primary school view 
+            range: {
+              min: 0,
+              max: 100
+            },
+            minValue: 0,
+            maxValue: 100
+           filterPassRateS: # To be used in secondary school view 
+            range: {
+              min: 0,
+              max: 10
+            },
+            minValue: 0,
+            maxValue: 10 
         # state transitioners
         angular.extend $scope,
           setYear: (newYear) -> $scope.year = newYear
@@ -320,9 +333,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, l) -> findSchool(code).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate' then school.PASS_RATE
-            when $scope.visMode == 'ptratio' then school.pt_ratio
-          l.setStyle colorSrv.pinStyle v, $scope.visMode
+            when $scope.visMode == 'passrate'  && $scope.schoolType == 'primary' then school.PASS_RATE
+            when $scope.visMode == 'passrate'  && $scope.schoolType == 'secondary' then school.AVG_GPA
+            when $scope.visMode == 'ptratio' then school.PASS_RATE
+          l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
 
         groupByDistrict = (rows) ->
           districts = {}
