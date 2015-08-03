@@ -159,32 +159,36 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([allSchools]) -> if allSchools?
             $q (res, x) -> allSchools.then res, x
 
-        $scope.$watch 'filteredSchools', (schools, oldSchools) ->
-          layerId = "schools-#{$scope.year}-#{$scope.schoolType}-#{$scope.moreThan40}"
-          if schools?
-            mapped = $q (resolve, reject) ->
-              map = (data) -> if data?
-                resolve data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
-              schools.then map, reject
-            schools.then (schools) ->
-              $scope.pins = layersSrv.addFastCircles layerId, mapId,
-                getData: () -> mapped
-                options:
-                  className: 'school-location'
-                  radius: 8
-                  onEachFeature: processPin
+        $scope.compute 'pins',
+          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
+          waitForPromise: true
+          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchools]) ->
+            $q (resolve, reject) ->
+              unless schoolsP?
+                resolve null
+              else
+                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
+                schoolsP.then ((schools) ->
+                  resolve layersSrv.addFastCircles layerId, mapId,
+                    getData: -> $q (res, rej) ->
+                      map = (data) -> if data?
+                        res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
+                      schoolsP.then map, rej
+                    options:
+                      className: 'school-location'
+                      radius: 8
+                      onEachFeature: processPin
+                ), reject
 
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
-          oldPins.then (pins) ->
-            leafletData.getMap(mapId).then (map) -> map.removeLayer pins
+          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
         $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
           oldMarker.then (marker) ->
               leafletData.getMap(mapId).then (map) -> map.removeLayer marker
 
-        $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) -> if pinsP?
-          pinsP.then (pins) ->
-            pins.eachVisibleLayer colorPin
+        $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
+          pins.eachVisibleLayer colorPin
 
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
@@ -290,9 +294,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               reject 'No schools to find from'
 
-        getSchoolPin = (code) ->
-          $q (resolve, reject) ->
-            $scope.pins.then ((pins) -> resolve pins.getLayer code), reject
+        getSchoolPin = (code) -> $q (resolve, reject) ->
+          layer = $scope.pins.getLayer code
+          if layer?
+            resolve layer
+          else
+            reject "No pin found for school code #{code}"
 
         # get the (rank, total) of a school, filtered by its region or district
         rank = (school, rank_by) ->
