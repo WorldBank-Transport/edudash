@@ -186,6 +186,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       onEachFeature: processPin
                 ), reject
 
+        $scope.compute 'lastHovered',
+          dependencies: ['hovered']
+          filter: ([thing]) -> thing?
+          computer: ([thing]) -> thing
+
         # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
@@ -210,9 +215,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               map.removeLayer currentLayer
               currentLayer = null
 
+        # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
           if thing != null
-            $scope.lastHovered = thing
             if $scope.viewMode == 'schools'
               getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
