@@ -19,7 +19,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # other state
         layers = {}
         currentLayer = null
-        schoolCodeMap = {}
 
         #### Template / Controller API via $scope ####
 
@@ -105,22 +104,55 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), {}
               .catch reject
 
-        $scope.$watch 'allSchools', (promise) -> if promise?
-          ranked = $q.defer()
-          $scope.rankedBy = ranked.promise
-          promise.then (schools) -> if schools?
-            if $scope.selected? then $scope.select $scope.selected.CODE
-            _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-            detailsPromise = OpenDataApi.getSchoolDetails $scope
-              .then (schools) ->
-                _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
-                rankSchools switch $scope.rankBy
-                    when 'performance' then ['RANK']
-                    when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
-                    when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
-                    else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
-                  .then ranked.resolve
-          loadingSrv.containerLoad promise, document.getElementById mapId
+        # this watch only does side-effects. would be nice to eliminate
+        $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
+          loadingSrv.containerLoad schoolsP, document.getElementById mapId
+          schoolsP.then (schools) ->
+            if $scope.selected?
+              $scope.select $scope.selected.CODE
+
+        $scope.compute '_schoolDetails',
+          dependencies: ['allSchools'],
+          waitForPromise: true
+          computer: ([allSchools]) ->
+            unless allSchools?
+              $q.when null
+            else
+              $q (resolve, reject) -> allSchools.then ->
+                OpenDataApi.getSchoolDetails $scope
+                  .then resolve, reject
+
+        $scope.compute 'schoolCodeMap',
+          dependencies: ['allSchools', '_schoolDetails']
+          waitForPromise: true  # unwraps the promise
+          computer: ([allSchools, details]) ->
+            $q (resolve, reject) ->
+              unless allSchools
+                resolve null
+              else
+                allSchools
+                  .then (basics) ->
+                    map = _(basics).reduce ((byCode, s) ->
+                      byCode[s.CODE] = s
+                      byCode
+                    ), {}
+                    if details?
+                      _(details).each (s) -> angular.extend map[s.CODE], s
+                    else
+                    resolve map
+                  .catch reject
+
+        $scope.compute 'rankedBy',
+          dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
+          computer: ([allSchools, rankBy, map]) -> if allSchools? and map?
+            $q (resolve, reject) ->
+              allSchools.then ((schools) ->
+                resolve rankSchools schools, switch rankBy
+                  when 'performance' then ['RANK']
+                  when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+                  when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
+                  else reject "invalid rankBy: '#{rankBy}'"
+              ), reject
 
         $scope.$watchGroup ['allSchools'], ([allSchools]) -> if allSchools?
           $scope.filteredSchools = $q (resolve, reject) ->
@@ -223,10 +255,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             when null then 'CHANGE_PREVIOUS_YEAR'  # secondary TODO fix me
             else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
           if school[rankField]?
-            rankSchools [rankField, false, true]
-              .then (ranked) ->
-                nationalRank = ranked.indexOf school
-                chartSrv.drawNationalRanking nationalRank+1, ranked.length
+            $scope.allSchools.then (schools) ->
+              ranked = rankSchools schools, [rankField, false, true]
+              nationalRank = ranked.indexOf school
+              chartSrv.drawNationalRanking nationalRank+1, ranked.length
           unless school.ranks?
             $q.all
                 region: (rank school, 'REGION')
@@ -247,10 +279,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         findSchool = (code) ->
           $q (resolve, reject) ->
-            if $scope.allSchools?
+            if $scope.allSchools? and $scope.schoolCodeMap?
               findIt = (schools) ->
-                if schoolCodeMap[code]?
-                  resolve schoolCodeMap[code]
+                if $scope.schoolCodeMap[code]?
+                  resolve $scope.schoolCodeMap[code]
                 else
                   reject "Could not find school by code '#{code}'"
               $scope.allSchools.then findIt, reject
@@ -278,18 +310,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = ([rank_by, desc, all]) ->
-          rb = rank_by
-          if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
-            throw new Error "invalid rank_by: '#{rb}'"
-          $q (resolve, reject) ->
-            getRanked = (schools) ->
-              list = _.unique(schools
-                .filter (s) -> s[rb]?
-                .sort (a, b) -> if desc then b[rb] - a[rb] else a[rb] - b[rb]
-              )
-              resolve if all then list else list.slice 0, 20
-            $scope.allSchools.then getRanked, reject
+        rankSchools = (schools, [orderBy, desc, all]) ->
+          ob = orderBy
+          if ob not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
+            throw new Error "invalid orderBy: '#{ob}'"
+          list = _.unique(schools
+            .filter (s) -> s[ob]?
+            .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
+          )
+          if all then list else list.slice 0, 20
 
 
         # widget local state (maybe should move to other directives)
