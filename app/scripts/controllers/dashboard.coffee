@@ -81,14 +81,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           promise.then (schools) -> if schools?
             if $scope.selected? then $scope.select $scope.selected.CODE
             _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-            detailsPromise = OpenDataApi.getSchoolDetails $scope
+            OpenDataApi.getSchoolDetails $scope
               .then (schools) ->
                 _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
-                rankSchools switch $scope.rankBy
-                    when 'performance' then ['RANK']
-                    when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
-                    when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
-                    else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+                rankSchools [getMetricField(), true]
                   .then ranked.resolve
           loadingSrv.containerLoad promise, document.getElementById mapId
 
@@ -187,11 +183,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = switch $scope.rankBy
-            when 'performance' then 'RANK'
-            when 'improvement' then 'CHANGE_PREVIOUS_YEAR'
-            when null then 'CHANGE_PREVIOUS_YEAR'  # secondary TODO fix me
-            else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+          rankField = getMetricField
           if school[rankField]?
             rankSchools [rankField, false, true]
               .then (ranked) ->
@@ -250,7 +242,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         rankSchools = ([rank_by, desc, all]) ->
           rb = rank_by
-          if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
+          if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK', 'PASS_RATE', 'AVG_GPA', 'CHANGE_PREVIOUS_YEAR_GPA', 'AVG_MARK']
             throw new Error "invalid rank_by: '#{rb}'"
           $q (resolve, reject) ->
             getRanked = (schools) ->
@@ -368,6 +360,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
+
+        getMetricField = () ->
+          switch
+            when $scope.schoolType == 'secondary' && $scope.rankBy == 'performance' then 'AVG_GPA'
+            when $scope.schoolType == 'secondary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
+            when $scope.schoolType == 'primary' && $scope.rankBy == 'performance' then 'AVG_MARK'
+            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_MARK' # TODO to be confirm
 
 
         # todo: figure out if these are needed
