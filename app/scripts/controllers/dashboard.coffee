@@ -325,9 +325,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, l) -> findSchool(code).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate'  && $scope.schoolType == 'primary' then school.PASS_RATE
+            when $scope.visMode == 'passrate'  && $scope.schoolType == 'primary' then school.AVG_MARK
             when $scope.visMode == 'passrate'  && $scope.schoolType == 'secondary' then school.AVG_GPA
-            when $scope.visMode == 'ptratio' then school.PASS_RATE
+            when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
           l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
 
         groupByDistrict = (rows) ->

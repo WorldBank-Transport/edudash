@@ -25,9 +25,9 @@ angular.module 'edudashAppSrv'
           else 'good'
         when mode == 'passrate' && schoolType=='secondary' then switch
           when val == null then 'unknown'
-          when val > 4.2 then 'good'
+          when val > 4.2 then 'poor'
           when val > 3 then 'medium'
-          else 'poor'  
+          else 'good'  
         when mode == 'ptratio' then switch
           when val == null then 'unknown'
           when val < 35 then 'good'
