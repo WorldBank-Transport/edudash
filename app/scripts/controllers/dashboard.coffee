@@ -69,6 +69,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.compute = (what, opts) ->
           unless typeof what == 'string'
             throw new Error 'First parameter of $scope.compute must be a string'
+          unless opts?
+            throw new Error 'opts must be an object'
           unless opts.dependencies instanceof Array
             throw new Error 'opts.dependencies must be an array of strings'
           unless typeof opts.computer == 'function'
