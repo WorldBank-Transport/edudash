@@ -2,19 +2,21 @@
 
 describe 'Controller: DashboardCtrl', ->
 
-  # load the app and mock out dashboard controller's dependencies
-  beforeEach module ['edudashAppCtrl', 'edudashAppSrv', () ->
-    cartodb:
-      createLayer: -> addTo: -> done: -> null
-    L:
-      map: -> null
+  beforeEach module 'leafletMap'
+  beforeEach module 'edudashAppSrv'
+  beforeEach module 'edudashAppCtrl'
+
+  # work around angular translations issue
+  beforeEach module 'edudashApp', ($provide, $translateProvider) ->
+    $translateProvider.translations 'en', {}
+    null  # returning a value breaks angular because angular is awful
 
   # inject the controller and get its scope
   $scope = null
   beforeEach inject ($rootScope, $controller) ->
     $scope = $rootScope.$new()
-    $controller('DashboardCtrl', {$scope: $scope})
+    $controller 'DashboardCtrl', $scope: $scope
 
-#  it 'should define `activeMap` on $scope', ->
-#    expect($scope.activeMap?).toBe(true)
-  ]
+
+  it 'should define `visMode` on $scope', ->
+    expect($scope.visMode?).toBe true

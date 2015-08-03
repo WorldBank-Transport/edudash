@@ -9,4 +9,4 @@
 ###
 angular.module('leafletMap')
     .factory 'L', ->
-        window.L
+        window.L or {}

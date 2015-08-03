@@ -2,10 +2,10 @@
 
 ###*
  # @ngdoc service
- # @name edudashApp.L
+ # @name edudashApp.d3
  # @description
- # # L
+ # # d3
  # Factory in the edudashApp.
 ###
 angular.module('edudashAppSrv')
-  .factory 'd3', -> window.d3
+  .factory 'd3', ($window) -> $window.d3 or {}

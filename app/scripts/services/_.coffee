@@ -9,4 +9,4 @@
 ###
 angular.module('edudashAppSrv')
     .factory '_', ->
-        window._
+        window._ or {}
