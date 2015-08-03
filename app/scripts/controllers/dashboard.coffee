@@ -103,7 +103,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.compute 'pupilTeacherRatio',
           dependencies: ['year', 'schoolType']
           waitForPromise: true
-          fitler: ([year]) -> year?
+          filter: ([year]) -> year?
           computer: ([year, schoolType]) -> $q (resolve, reject) ->
             MetricsSrv.getPupilTeacherRatio(level: schoolType)
               .then ((data) -> resolve data.rate), reject
@@ -124,37 +124,34 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.compute '_schoolDetails',
           dependencies: ['allSchools'],
           waitForPromise: true
+          filter: ([allSchools]) -> allSchools?
           computer: ([allSchools]) ->
-            unless allSchools?
-              $q.when null
-            else
-              $q (resolve, reject) -> allSchools.then ->
-                OpenDataApi.getSchoolDetails $scope
-                  .then resolve, reject
+            $q (resolve, reject) -> allSchools.then ->
+              OpenDataApi.getSchoolDetails $scope
+                .then resolve, reject
 
         $scope.compute 'schoolCodeMap',
           dependencies: ['allSchools', '_schoolDetails']
           waitForPromise: true  # unwraps the promise
+          filter: ([allSchools]) -> allSchools?
           computer: ([allSchools, details]) ->
             $q (resolve, reject) ->
-              unless allSchools
-                resolve null
-              else
-                allSchools
-                  .then (basics) ->
-                    map = _(basics).reduce ((byCode, s) ->
-                      byCode[s.CODE] = s
-                      byCode
-                    ), {}
-                    if details?
-                      _(details).each (s) -> angular.extend map[s.CODE], s
-                    else
-                    resolve map
-                  .catch reject
+              allSchools
+                .then (basics) ->
+                  map = _(basics).reduce ((byCode, s) ->
+                    byCode[s.CODE] = s
+                    byCode
+                  ), {}
+                  if details?
+                    _(details).each (s) -> angular.extend map[s.CODE], s
+                  else
+                  resolve map
+                .catch reject
 
         $scope.compute 'rankedBy',
           dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
-          computer: ([allSchools, rankBy, map]) -> if allSchools? and map?
+          filter: ([allSchools, rankBy, map]) -> allSchools? and map?
+          computer: ([allSchools, rankBy, map]) ->
             $q (resolve, reject) ->
               allSchools.then ((schools) ->
                 resolve rankSchools schools, switch rankBy
@@ -166,29 +163,28 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.compute 'filteredSchools',
           dependencies: ['allSchools']
-          computer: ([allSchools]) -> if allSchools?
+          filter: ([allSchools]) -> allSchools?
+          computer: ([allSchools]) ->
             $q (res, x) -> allSchools.then res, x
 
         $scope.compute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
           waitForPromise: true
+          filter: ([filteredSchools]) -> filteredSchools?
           computer: ([schoolsP, year, schoolType, moreThan40], [oldSchools]) ->
             $q (resolve, reject) ->
-              unless schoolsP?
-                resolve null
-              else
-                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
-                schoolsP.then ((schools) ->
-                  resolve layersSrv.addFastCircles layerId, mapId,
-                    getData: -> $q (res, rej) ->
-                      map = (data) -> if data?
-                        res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
-                      schoolsP.then map, rej
-                    options:
-                      className: 'school-location'
-                      radius: 8
-                      onEachFeature: processPin
-                ), reject
+              layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
+              schoolsP.then ((schools) ->
+                resolve layersSrv.addFastCircles layerId, mapId,
+                  getData: -> $q (res, rej) ->
+                    map = (data) -> if data?
+                      res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
+                    schoolsP.then map, rej
+                  options:
+                    className: 'school-location'
+                    radius: 8
+                    onEachFeature: processPin
+              ), reject
 
         $scope.compute 'lastHovered',
           dependencies: ['hovered']
