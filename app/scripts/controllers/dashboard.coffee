@@ -219,6 +219,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     agg
                   ), {}
                   years: $scope.years
+                school.change = if school.yearAggregates.values[$scope.year-1]? then Math.round(school.yearAggregates.values[$scope.year].PASS_RATE - school.yearAggregates.values[$scope.year-1].PASS_RATE) else undefined
 
         findSchool = (code) ->
           $q (resolve, reject) ->
