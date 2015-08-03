@@ -264,10 +264,20 @@
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
-                  <a ng-click="moreThan40=true">{{'tab.pupils.morethan40'|translate}}</a>
+                  <a ng-click="moreThan40=true" class="col-lg-6">{{'tab.pupils.morethan40'|translate}}</a>
                 </li>
                 <li role="presentation" ng-class="{active: !moreThan40}">
-                  <a ng-click="moreThan40=false">{{'tab.pupils.lessthan40'|translate}}</a>
+                  <a ng-click="moreThan40=false" class="col-lg-6">{{'tab.pupils.lessthan40'|translate}}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-12 performance-nav">
+              <ul class="nav nav-tabs" ng-init="rankBy='performance'">
+                <li role="presentation" ng-class="{active: rankBy==='performance'}">
+                  <a ng-click="rankBy='performance'" class="col-lg-6">{{'button.best.performing'|translate}}</a>
+                </li>
+                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                  <a ng-click="rankBy='improvement'" class="col-lg-6">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
