@@ -58,22 +58,50 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           Math: Math
 
 
-        # State Listeners
+        ###*
+        # Assigns computed values to the $scope when dependencies change
+        # @param {string} what The property of $scope to be updated
+        # @param {object} opts
+        # @param {string[]} opts.dependencies Properties of $scope that trigger a recompute
+        # @param {function} opts.computer Computes the new value
+        # @param {boolean} [opts.waitForPromise] Update $scope only after the value resolves
+        ###
+        $scope.compute = (what, opts) ->
+          unless typeof what == 'string'
+            throw new Error 'First parameter of $scope.compute must be a string'
+          unless opts.dependencies instanceof Array
+            throw new Error 'opts.dependencies must be an array of strings'
+          unless typeof opts.computer == 'function'
+            throw new Error 'opts.computer must be a function'
+
+          setResult = (result) => this[what] = result
+
+          this.$watchGroup opts.dependencies, (current, old) ->
+            result = opts.computer current, old
+            if opts.waitForPromise == true
+              unless typeof result.then == 'function'
+                throw new Error 'waitForPromise requires that opts.computer returns a Promise'
+              result.then setResult, (err) -> throw err
+            else
+              setResult result
 
         $scope.$watchGroup ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40'],
           ([viewMode, year, rest...], [oldViewMode]) -> if year?
             if viewMode == 'schools' then loadSchools viewMode, year, rest...
             else if oldViewMode == 'schools' then clearSchools()
 
-        $scope.$watchGroup ['schoolType', 'rankBy', 'moreThan40'],
-          ([schoolType, rankBy, moreThan40]) ->
+        $scope.compute 'yearAggregates',
+          dependencies: ['schoolType', 'rankBy', 'moreThan40'],
+          waitForPromise: true,
+          computer: ([schoolType, rankBy, moreThan40]) -> $q (resolve, reject) ->
             OpenDataApi.getYearAggregates schoolType, rankBy, moreThan40
               .then (years) ->
-                $scope.yearAggregates = _(years).reduce ((agg, y) ->
+                resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
                     PASS_RATE: y.average_pass_rate
                   agg
                 ), {}
+              .catch reject
 
         $scope.$watch 'allSchools', (promise) -> if promise?
           ranked = $q.defer()
