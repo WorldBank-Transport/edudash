@@ -86,6 +86,14 @@ describe 'Controller: DashboardCtrl', ->
     $scope.$digest()
     expect($scope.a).toBe 1
 
+  it 'should throw when waitForPromise and compute returns undefined', ->
+    $scope.compute 'a',
+      dependencies: []
+      waitForPromise: true
+      computer: ->  # undefined
+    expect -> $scope.$digest()
+      .toThrow new Error 'waitForPromise requires that opts.computer returns a Promise'
+
   it 'should throw when waitForPromise and compute doesn\'t return a promise', ->
     $scope.compute 'a',
       dependencies: []

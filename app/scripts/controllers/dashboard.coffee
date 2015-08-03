@@ -81,7 +81,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           this.$watchGroup opts.dependencies, (current, old) ->
             result = opts.computer current, old
             if opts.waitForPromise == true
-              unless typeof result.then == 'function'
+              unless result? and typeof result.then == 'function'
                 throw new Error 'waitForPromise requires that opts.computer returns a Promise'
               result.then setResult, (err) -> throw err
             else
