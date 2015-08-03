@@ -92,10 +92,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               setResult result
 
-        $scope.$watchGroup ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40'],
-          ([viewMode, year, rest...], [oldViewMode]) -> if year?
+        $scope.compute 'allSchools',
+          dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
+          filter: ([vm, year]) -> year?
+          computer: ([viewMode, year, rest...], [oldViewMode]) ->
             if viewMode == 'schools' then loadSchools viewMode, year, rest...
             else if oldViewMode == 'schools' then clearSchools()
+
+        # When we get per-school pupil-teacher ratio data, we can compute this client-side
+        $scope.compute 'pupilTeacherRatio',
+          dependencies: ['year', 'schoolType']
+          waitForPromise: true
+          fitler: ([year]) -> year?
+          computer: ([year, schoolType]) -> $q (resolve, reject) ->
+            MetricsSrv.getPupilTeacherRatio(level: schoolType)
+              .then ((data) -> resolve data.rate), reject
 
         $scope.compute 'yearAggregates',
           dependencies: ['schoolType', 'rankBy', 'moreThan40'],
@@ -248,15 +259,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.filtersHeight = opts.height
 
         loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
-          $scope.allSchools = OpenDataApi.getSchools
-              year: year
-              schoolType: schoolType
-              subtype: rankBy
-              moreThan40: moreThan40
-            .catch (err) -> $log.error err
-          # leaving this as is for now, since we don't have this at school level
-          MetricsSrv.getPupilTeacherRatio({level: schoolType}).then (data) ->
-            $scope.pupilTeacherRatio = data.rate
+          OpenDataApi.getSchools
+            year: year
+            schoolType: schoolType
+            subtype: rankBy
+            moreThan40: moreThan40
 
         clearSchools = ->
           $scope.allSchools = null
