@@ -42,7 +42,7 @@ angular.module 'edudashAppSrv'
           httpPromise.then parse, reject
 
       getTable = (educationLevel, subtype) ->
-        if(subtype?)
+        if(subtype? and educationLevel is 'primary')
           datasetMapping[educationLevel][subtype]
         else
           datasetMapping[educationLevel]
@@ -69,6 +69,7 @@ angular.module 'edudashAppSrv'
         req.get($params).$promise
 
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
+        extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
             \"CODE\",
@@ -79,7 +80,8 @@ angular.module 'edudashAppSrv'
             \"PASS_RATE\",
             \"REGION\",
             \"WARD\"
-          FROM \"#{getTable schoolType, subtype}\"
+            #{extraFields}
+            FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
 
       getSchoolDetails: ({year, schoolType, rankBy, moreThan40}) ->
