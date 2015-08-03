@@ -154,9 +154,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   else reject "invalid rankBy: '#{rankBy}'"
               ), reject
 
-        $scope.$watchGroup ['allSchools'], ([allSchools]) -> if allSchools?
-          $scope.filteredSchools = $q (resolve, reject) ->
-            allSchools.then resolve, reject
+        $scope.compute 'filteredSchools',
+          dependencies: ['allSchools']
+          computer: ([allSchools]) -> if allSchools?
+            $q (res, x) -> allSchools.then res, x
 
         $scope.$watch 'filteredSchools', (schools, oldSchools) ->
           layerId = "schools-#{$scope.year}-#{$scope.schoolType}-#{$scope.moreThan40}"
