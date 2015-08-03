@@ -64,6 +64,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # @param {string[]} opts.dependencies Properties of $scope that trigger a recompute
         # @param {function} opts.computer Computes the new value
         # @param {boolean} [opts.waitForPromise] Update $scope only after the value resolves
+        # @param {function} [opts.filter] Conditionally update $scope
         ###
         $scope.compute = (what, opts) ->
           unless typeof what == 'string'
@@ -78,6 +79,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setResult = (result) => this[what] = result
 
           this.$watchGroup opts.dependencies, (current, old) ->
+            if opts.filter?
+              unless typeof opts.filter == 'function'
+                throw new Error 'opts.filter must be a function'
+              unless opts.filter current, old
+                return
             result = opts.computer current, old
             if opts.waitForPromise == true
               unless result? and typeof result.then == 'function'

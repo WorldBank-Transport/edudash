@@ -36,6 +36,11 @@ describe 'Controller: DashboardCtrl', ->
       .toThrow new Error 'opts.dependencies must be an array of strings'
     expect -> $scope.compute 'z', dependencies: []
       .toThrow new Error 'opts.computer must be a function'
+    expect -> $scope.compute 'z',
+        dependencies: []
+        computer: -> 1
+        filter: 'not a function'
+      .toThrow new Error 'opts.filter must be a function'
 
   it 'should get an initial value from computer() with no dependencies', ->
     $scope.compute 'a',
@@ -109,3 +114,18 @@ describe 'Controller: DashboardCtrl', ->
       computer: -> $q (r, reject) -> reject 1
     expect -> $scope.$digest()
       .toThrow 1
+
+  it 'should filter computes if a filter callback is provided', ->
+    $scope.compute 'a',
+      dependencies: []
+      filter: -> false
+      computer: -> 1
+    $scope.$digest()
+    expect($scope.a?).toBe false
+
+    $scope.compute 'b',
+      dependencies: []
+      filter: -> true
+      computer: -> 1
+    $scope.$digest()
+    expect($scope.b).toBe 1
