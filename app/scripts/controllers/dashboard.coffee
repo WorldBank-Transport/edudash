@@ -180,16 +180,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       onEachFeature: processPin
                 ), reject
 
+        # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
+        # side-effects only
         $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
           oldMarker.then (marker) ->
               leafletData.getMap(mapId).then (map) -> map.removeLayer marker
 
+        # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
 
+        # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
             console.error 'changed to invalid view mode:', newMode
