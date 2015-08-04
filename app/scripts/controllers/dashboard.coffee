@@ -95,21 +95,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), {}
               .catch reject
 
-        watchCompute '_schoolDetails',
-          dependencies: ['allSchools'],
-          waitForPromise: true
-          computer: ([allSchools]) ->
-            $q (resolve, reject) ->
-              unless allSchools?
-                resolve null
-              else
-                allSchools
-                  .then -> OpenDataApi.getSchoolDetails $scope
-                    .then resolve, reject
-                  .catch reject
-
         watchCompute 'schoolCodeMap',
-          dependencies: ['allSchools', '_schoolDetails']
+          dependencies: ['allSchools']
           waitForPromise: true  # unwraps the promise
           computer: ([allSchools, details]) -> $q (resolve, reject) ->
             unless allSchools?
@@ -117,14 +104,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               allSchools
                 .then (basics) ->
-                  map = _(basics).reduce ((byCode, s) ->
+                  resolve _(basics).reduce ((byCode, s) ->
                     byCode[s.CODE] = s
                     byCode
                   ), {}
-                  if details?
-                    _(details).each (s) -> angular.extend map[s.CODE], s
-                  else
-                  resolve map
                 .catch reject
 
         watchCompute 'rankedBy',

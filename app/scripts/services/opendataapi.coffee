@@ -71,30 +71,19 @@ angular.module 'edudashAppSrv'
       getSchools: ({year, schoolType, moreThan40, subtype}) ->
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
+            \"CHANGE_PREVIOUS_YEAR\",
             \"CODE\",
             \"DISTRICT\",
-            \"NAME\",
             \"LATITUDE\",
             \"LONGITUDE\",
+            \"NAME\",
+            \"OWNERSHIP\",
             \"PASS_RATE\",
+            \"RANK\",
             \"REGION\",
             \"WARD\"
           FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
-
-      getSchoolDetails: ({year, schoolType, rankBy, moreThan40}) ->
-        extraCondition = switch schoolType
-          when 'secondary' then "AND \"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
-          else ''
-        ckanResp $http.get ckanQueryURL, params: sql: "
-          SELECT
-            \"CODE\",
-            \"CHANGE_PREVIOUS_YEAR\",
-            \"OWNERSHIP\",
-            \"RANK\"
-          FROM \"#{getTable schoolType, rankBy}\"
-          WHERE \"YEAR_OF_RESULT\" = #{year}
-            #{extraCondition}"
 
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->
         condition = switch educationLevel
