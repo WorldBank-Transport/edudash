@@ -50,7 +50,7 @@
     "button.best.performing" : "Best Performing",
     "button.best.improved" : "Best Improved",
     "map.tooltip": "Explore the map and click on a school to get started.",
-    "chart.title.change-since-2013": "change since 2013",
+    "chart.title.change-since-2013": "change since",
     "chart.title.national-raking": "national ranking",
     "chart.title.pupil-teacher-ratio": "pupil teacher ratio",
     "chart.title.passrate-over-time": "pass rates over time",
@@ -93,6 +93,15 @@
     "map.selected.ward": "Ward",
     "map.selected.passrate": "Pass Rate",
     "map.selected.pt-ratio": "Pupil-Teacher Ratio",
+    "map.selected.avg-mark": "Average Mark",
+    "map.selected.avg-gpa": "Average GPA",
 
-    "footer.licensenote": "The content of this website is published under a CC BY NC SA 3.0 license, and the source code is published under a GPL 3.0 license. Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license."
+    "footer.licensenote1": "The content of this website is published under a ",
+    "footer.licensenote2": ", and the ",
+    "footer.licensenote3": " is published under a ",
+    "footer.licensenote4": ". Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license.",
+    "footer.link1": "CC BY NC SA 3.0 license",
+    "footer.link2": "source code",
+    "footer.link3": "GPL 3.0 license"
+
 }

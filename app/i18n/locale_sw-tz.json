@@ -54,7 +54,7 @@
     "chart.top.more-than-40-NO": "Wasiozidi arobaini (40)",
     "button.best.performing" : "Zilizofuzu Vizuri",
     "button.best.improved" : "Zilizoinua Matokeo",
-    "chart.title.change-since-2013": "Mabadiliko tangu 2013",
+    "chart.title.change-since-2013": "Mabadiliko tangu",
     "chart.title.national-raking": "Cheo katika orodha la taifa",
     "chart.title.pupil-teacher-ratio": "Uwiano wa wanafunzi na walimu",
     "chart.title.passrate-over-time": "Kiwango cha kufuzu kwa muda",
@@ -98,9 +98,18 @@
     "map.selected.ward": "Kata",
     "map.selected.passrate": "Kiwango cha kufuzu",
     "map.selected.pt-ratio": "Uwiano wa Wanafunzi na Walimu",
+    "map.selected.avg-mark": "Alama wastani",
+    "map.selected.avg-gpa": "Kiwango wastani cha GPA",
 
     "sidepanel.title.primary": "Dashibodi ya shule za Msingi",
     "sidepanel.title.secondary": "Dashibodi ya Shule za Upili",
 
-    "footer.licensenote": "The content of this website is published under a CC BY NC SA 3.0 license, and the source code is published under a GPL 3.0 license. Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license."
+    "footer.licensenote1": "Tovuti hii imechapishwa kwa leseni ya ",
+    "footer.licensenote2": ". ",
+    "footer.licensenote3": " na kuchapishwa kwa leseni ya ",
+    "footer.licensenote4": ". Wageni wa tovuti wanahamasishwa kuangalia programu kwa makini na kuitumia kama watachapisha programu zao kwa leseni inayolingana",
+    "footer.link1": "CC BY NC SA 3.0",
+    "footer.link2": "Programu imeandikwa",
+    "footer.link3": "GPL 3.0"
+
 }

@@ -39,7 +39,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           rankBy: null  # performance or improvement for primary
           rankedBy: null
           moreThan40: null  # students, for secondary schools
-
+          filterPassRateP: # To be used in primary school view 
+            range: {
+              min: 0,
+              max: 100
+            },
+            minValue: 0,
+            maxValue: 100
+           filterPassRateS: # To be used in secondary school view 
+            range: {
+              min: 0,
+              max: 10
+            },
+            minValue: 0,
+            maxValue: 10 
         # state transitioners
         angular.extend $scope,
           setYear: (newYear) -> $scope.year = newYear
@@ -114,11 +127,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, switch rankBy
-                    when 'performance' then ['RANK']
-                    when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
-                    when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
-                    else reject "invalid rankBy: '#{rankBy}'"
+                  resolve rankSchools schools, [getMetricField(), true]
                 ), reject
 
         watchCompute 'filteredSchools',
@@ -233,11 +242,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = switch $scope.rankBy
-            when 'performance' then 'RANK'
-            when 'improvement' then 'CHANGE_PREVIOUS_YEAR'
-            when null then 'CHANGE_PREVIOUS_YEAR'  # secondary TODO fix me
-            else throw new Error "invalid rankBy: '#{$scope.rankBy}'"
+          rankField = getMetricField
           if school[rankField]?
             $scope.allSchools.then (schools) ->
               ranked = rankSchools schools, [rankField, false, true]
@@ -260,6 +265,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     agg
                   ), {}
                   years: $scope.years
+                school.change = if school.yearAggregates.values[$scope.year-1]? then Math.round(school.yearAggregates.values[$scope.year].PASS_RATE - school.yearAggregates.values[$scope.year-1].PASS_RATE) else undefined
 
         findSchool = (code) ->
           $q (resolve, reject) ->
@@ -299,7 +305,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         rankSchools = (schools, [orderBy, desc, all]) ->
           ob = orderBy
-          if ob not in ['CHANGE_PREVIOUS_YEAR', 'RANK']
+          if ob not in ['CHANGE_PREVIOUS_YEAR',
+                        'RANK',
+                        'PASS_RATE',
+                        'AVG_GPA',
+                        'CHANGE_PREVIOUS_YEAR_GPA',
+                        'AVG_MARK' ]
             throw new Error "invalid orderBy: '#{ob}'"
           list = _.unique(schools
             .filter (s) -> s[ob]?
@@ -366,9 +377,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, l) -> findSchool(code).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate' then school.PASS_RATE
-            when $scope.visMode == 'ptratio' then school.pt_ratio
-          l.setStyle colorSrv.pinStyle v, $scope.visMode
+            when $scope.visMode == 'passrate' && $scope.schoolType == 'primary' then school.AVG_MARK
+            when $scope.visMode == 'passrate' && $scope.schoolType == 'secondary' then school.AVG_GPA
+            when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
+          l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
 
         groupByDistrict = (rows) ->
           districts = {}
@@ -414,6 +426,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
+
+        getMetricField = () ->
+          switch
+            when $scope.schoolType == 'secondary' && $scope.rankBy == 'performance' then 'AVG_GPA'
+            when $scope.schoolType == 'secondary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
+            when $scope.schoolType == 'primary' && $scope.rankBy == 'performance' then 'AVG_MARK'
+            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_MARK' # TODO to be confirm
 
 
         # todo: figure out if these are needed
