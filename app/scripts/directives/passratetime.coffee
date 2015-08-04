@@ -19,8 +19,7 @@ angular.module 'edudashAppDir'
             type: 'line'
             height: 120
             width: element.parent().width()
-            margin: [10, 0, 0, 0]
-            spacingLeft: 1
+            margin: [13, 0, 10, 1]
           credits:
             enabled: false
           exporting:
@@ -36,11 +35,12 @@ angular.module 'edudashAppDir'
               fontSize: 10
           xAxis:
             categories: value.years
+            lineColor: '#FFFFFF'
             labels:
               enabled: true
               style:
                 fontWeight: 'bold'
-              y: -10
+              y: 10
           yAxis:
             gridLineWidth: 0
             title:
@@ -63,7 +63,7 @@ angular.module 'edudashAppDir'
               enableMouseTracking: true
             series:
               marker:
-                radius: 8
+                radius: 6
                 symbol: 'circle'
           series: [{
             name: 'Pass Rate',
