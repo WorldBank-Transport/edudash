@@ -19,6 +19,17 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
 
     ###*
     # Assigns computed values to the $scope when dependencies change
+    #
+    # Note that the semantics of the `computer` parameters are different from
+    # angular's $scope.$watchGroup listener parameters in order to encourage
+    # the use of pure functions:
+    #
+    # - newValues contains the current values from $scope, as in $watchGroup
+    # - oldValues contains the previous newValues, contrary to $watchGroup,
+    #   which has the previous value for each member independently
+    # - The third scope parameter is absent to encourage a pure `computer`.
+    #   Declare all scope values needed for the computation in `dependencies`.
+    #
     # @param {string} what The property of $scope to be updated
     # @param {object} opts
     # @param {string[]} opts.dependencies Properties of $scope that trigger a recompute
@@ -35,16 +46,26 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
         throw new Error 'opts.dependencies must be an array of strings'
       unless typeof opts.computer == 'function'
         throw new Error 'opts.computer must be a function'
+      if opts.filter?
+        unless typeof opts.filter == 'function'
+          throw new Error 'opts.filter must be a function'
+      if opts.waitForPromise?
+        unless typeof opts.waitForPromise == 'boolean'
+          throw new Error 'opts.waitForPromise must be a boolean'
+
+      oldVals = (null for d in opts.dependencies)
 
       setResult = (result) -> $scope[what] = result
 
-      $scope.$watchGroup opts.dependencies, (current, old) ->
+      $scope.$watchGroup opts.dependencies, (newVals, ngOld, scope) ->
         if opts.filter?
-          unless typeof opts.filter == 'function'
-            throw new Error 'opts.filter must be a function'
-          unless opts.filter current, old
+          unless opts.filter newVals, oldVals, scope
             return
-        result = opts.computer current, old
+
+        # compute the new value. Discard's angular's `oldVals`; see jsDoc above
+        result = opts.computer newVals, oldVals, scope
+        oldVals = newVals.slice()
+
         if opts.waitForPromise == true
           unless result? and typeof result.then == 'function'
             throw new Error 'waitForPromise requires that opts.computer returns a Promise'

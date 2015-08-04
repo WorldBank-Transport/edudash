@@ -45,6 +45,11 @@ describe 'watchComputeSrv', ->
         computer: -> 1
         filter: 'not a function'
       .toThrow new Error 'opts.filter must be a function'
+    expect -> (watchComputeSrv $scope) 'z',
+        dependencies: []
+        computer: -> 1
+        waitForPromise: 'not a boolean'
+      .toThrow new Error 'opts.waitForPromise must be a boolean'
 
   it 'should get an initial value from computer() with no dependencies', ->
     (watchComputeSrv $scope) 'a',
@@ -67,12 +72,13 @@ describe 'watchComputeSrv', ->
   it 'should pass new and old values to computer', ->
     (watchComputeSrv $scope) 'b',
       dependencies: ['a']
-      computer: ([a], [oldA]) -> a - oldA
+      computer: ([a], [oldA]) -> [a, oldA]
     $scope.a = 1
     $scope.$digest()
+    expect($scope.b).toEqual [1, null]
     $scope.a = 3
     $scope.$digest()
-    expect($scope.b).toBe 2
+    expect($scope.b).toEqual [3, 1]
 
   it 'should work with multiple dependencies', ->
     (watchComputeSrv $scope) 'c',
@@ -133,3 +139,16 @@ describe 'watchComputeSrv', ->
       computer: -> 1
     $scope.$digest()
     expect($scope.b).toBe 1
+
+  it 'should provide previous newVals as oldVals, not $watchGroup oldVals', ->
+    (watchComputeSrv $scope) 'aChanged',
+      dependencies: ['a', 'b']
+      computer: ([newA], [oldA]) -> newA != oldA
+    $scope.a = 1
+    $scope.$digest()
+    $scope.a = 2
+    $scope.$digest()
+    expect($scope.aChanged).toBe true
+    $scope.b = 3
+    $scope.$digest()
+    expect($scope.aChanged).toBe false
