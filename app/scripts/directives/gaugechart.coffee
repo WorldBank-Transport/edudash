@@ -37,9 +37,8 @@ angular.module 'edudashAppDir'
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
             useHTML: true
             y: 70
-            x: 70
             width: width + 40
-            align: 'center'
+            align: 'left'
             style:
               color: '#05a2dc'
           pane:
@@ -128,9 +127,8 @@ angular.module 'edudashAppDir'
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
             useHTML: true
             y: 70
-            x: 70
             width: width + 40
-            align: 'center'
+            align: 'left'
             style:
               color: '#05a2dc'
           chart.setTitle(titleObj)

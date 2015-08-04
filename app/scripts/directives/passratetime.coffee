@@ -87,7 +87,7 @@ angular.module 'edudashAppDir'
           titleObj =
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
             useHTML: true
-            x: -80
+            align: 'left'
             style:
               color: '#05a2dc'
               fontSize: 10
