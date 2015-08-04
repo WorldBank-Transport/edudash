@@ -43,11 +43,6 @@ describe 'watchComputeSrv', ->
     expect -> (watchComputeSrv $scope) 'z',
         dependencies: []
         computer: -> 1
-        filter: 'not a function'
-      .toThrow new Error 'opts.filter must be a function'
-    expect -> (watchComputeSrv $scope) 'z',
-        dependencies: []
-        computer: -> 1
         waitForPromise: 'not a boolean'
       .toThrow new Error 'opts.waitForPromise must be a boolean'
 
@@ -124,21 +119,6 @@ describe 'watchComputeSrv', ->
       computer: -> $q (r, reject) -> reject 1
     expect -> $scope.$digest()
       .toThrow 1
-
-  it 'should filter computes if a filter callback is provided', ->
-    (watchComputeSrv $scope) 'a',
-      dependencies: []
-      filter: -> false
-      computer: -> 1
-    $scope.$digest()
-    expect($scope.a?).toBe false
-
-    (watchComputeSrv $scope) 'b',
-      dependencies: []
-      filter: -> true
-      computer: -> 1
-    $scope.$digest()
-    expect($scope.b).toBe 1
 
   it 'should provide previous newVals as oldVals, not $watchGroup oldVals', ->
     (watchComputeSrv $scope) 'aChanged',

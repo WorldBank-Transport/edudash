@@ -35,7 +35,6 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
     # @param {string[]} opts.dependencies Properties of $scope that trigger a recompute
     # @param {function} opts.computer Computes the new value
     # @param {boolean} [opts.waitForPromise] Update $scope only after the value resolves
-    # @param {function} [opts.filter] Conditionally update $scope
     ###
     (what, opts) ->
       unless typeof what == 'string'
@@ -46,9 +45,6 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
         throw new Error 'opts.dependencies must be an array of strings'
       unless typeof opts.computer == 'function'
         throw new Error 'opts.computer must be a function'
-      if opts.filter?
-        unless typeof opts.filter == 'function'
-          throw new Error 'opts.filter must be a function'
       if opts.waitForPromise?
         unless typeof opts.waitForPromise == 'boolean'
           throw new Error 'opts.waitForPromise must be a boolean'
@@ -58,10 +54,6 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
       setResult = (result) -> $scope[what] = result
 
       $scope.$watchGroup opts.dependencies, (newVals, ngOld, scope) ->
-        if opts.filter?
-          unless opts.filter newVals, oldVals, scope
-            return
-
         # compute the new value. Discard's angular's `oldVals`; see jsDoc above
         result = opts.computer newVals, oldVals, scope
         oldVals = newVals.slice()

@@ -61,19 +61,26 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
-          filter: ([vm, year]) -> year?
-          computer: ([viewMode, year, rest...], [oldViewMode]) ->
-            if viewMode == 'schools' then loadSchools viewMode, year, rest...
-            else if oldViewMode == 'schools' then clearSchools()
+          computer: ([viewMode, year, rest...]) ->
+            if year?
+              if viewMode == 'schools' then loadSchools viewMode, year, rest...
+              else
+                if oldViewMode == 'schools' then clearSchools()
+                null
+            else
+              null
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
         watchCompute 'pupilTeacherRatio',
           dependencies: ['year', 'schoolType']
           waitForPromise: true
-          filter: ([year]) -> year?
-          computer: ([year, schoolType]) -> $q (resolve, reject) ->
-            MetricsSrv.getPupilTeacherRatio(level: schoolType)
-              .then ((data) -> resolve data.rate), reject
+          computer: ([year, schoolType]) ->
+            $q (resolve, reject) ->
+              if year?
+                MetricsSrv.getPupilTeacherRatio(level: schoolType)
+                  .then ((data) -> resolve data.rate), reject
+              else
+                resolve null
 
         watchCompute 'yearAggregates',
           dependencies: ['schoolType', 'rankBy', 'moreThan40'],
@@ -91,18 +98,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute '_schoolDetails',
           dependencies: ['allSchools'],
           waitForPromise: true
-          filter: ([allSchools]) -> allSchools?
           computer: ([allSchools]) ->
-            $q (resolve, reject) -> allSchools.then ->
-              OpenDataApi.getSchoolDetails $scope
-                .then resolve, reject
+            $q (resolve, reject) ->
+              unless allSchools?
+                resolve null
+              else
+                allSchools
+                  .then -> OpenDataApi.getSchoolDetails $scope
+                    .then resolve, reject
+                  .catch reject
 
         watchCompute 'schoolCodeMap',
           dependencies: ['allSchools', '_schoolDetails']
           waitForPromise: true  # unwraps the promise
-          filter: ([allSchools]) -> allSchools?
-          computer: ([allSchools, details]) ->
-            $q (resolve, reject) ->
+          computer: ([allSchools, details]) -> $q (resolve, reject) ->
+            unless allSchools?
+              resolve null
+            else
               allSchools
                 .then (basics) ->
                   map = _(basics).reduce ((byCode, s) ->
@@ -117,46 +129,51 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'rankedBy',
           dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
-          filter: ([allSchools, rankBy, map]) -> allSchools? and map?
           computer: ([allSchools, rankBy, map]) ->
-            $q (resolve, reject) ->
-              allSchools.then ((schools) ->
-                resolve rankSchools schools, switch rankBy
-                  when 'performance' then ['RANK']
-                  when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
-                  when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
-                  else reject "invalid rankBy: '#{rankBy}'"
-              ), reject
+            unless allSchools? and map?
+              null
+            else
+              $q (resolve, reject) ->
+                allSchools.then ((schools) ->
+                  resolve rankSchools schools, switch rankBy
+                    when 'performance' then ['RANK']
+                    when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+                    when null then ['CHANGE_PREVIOUS_YEAR', true]  # secondary
+                    else reject "invalid rankBy: '#{rankBy}'"
+                ), reject
 
         watchCompute 'filteredSchools',
           dependencies: ['allSchools']
-          filter: ([allSchools]) -> allSchools?
           computer: ([allSchools]) ->
-            $q (res, x) -> allSchools.then res, x
+            unless allSchools?
+              null
+            else
+              $q (res, x) -> allSchools.then res, x
 
         watchCompute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
           waitForPromise: true
-          filter: ([filteredSchools]) -> filteredSchools?
           computer: ([schoolsP, year, schoolType, moreThan40], [oldSchools]) ->
             $q (resolve, reject) ->
-              layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
-              schoolsP.then ((schools) ->
-                resolve layersSrv.addFastCircles layerId, mapId,
-                  getData: -> $q (res, rej) ->
-                    map = (data) -> if data?
-                      res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
-                    schoolsP.then map, rej
-                  options:
-                    className: 'school-location'
-                    radius: 8
-                    onEachFeature: processPin
-              ), reject
+              unless schoolsP?
+                resolve null
+              else
+                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
+                schoolsP.then ((schools) ->
+                  resolve layersSrv.addFastCircles layerId, mapId,
+                    getData: -> $q (res, rej) ->
+                      map = (data) -> if data?
+                        res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
+                      schoolsP.then map, rej
+                    options:
+                      className: 'school-location'
+                      radius: 8
+                      onEachFeature: processPin
+                ), reject
 
         watchCompute 'lastHovered',
           dependencies: ['hovered']
-          filter: ([thing]) -> thing?
-          computer: ([thing]) -> thing
+          computer: ([thing], [oldThing]) -> thing or oldThing
 
         # side-effects only
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
