@@ -98,16 +98,18 @@
     "map.selected.ward": "Kata",
     "map.selected.passrate": "Kiwango cha kufuzu",
     "map.selected.pt-ratio": "Uwiano wa Wanafunzi na Walimu",
+    "map.selected.avg-mark": "Alama wastani",
+    "map.selected.avg-gpa": "Kiwango wastani cha GPA",
 
     "sidepanel.title.primary": "Dashibodi ya shule za Msingi",
     "sidepanel.title.secondary": "Dashibodi ya Shule za Upili",
 
-    "footer.licensenote1": "The content of this website is published under a ",
-    "footer.licensenote2": ", and the ",
-    "footer.licensenote3": " is published under a ",
-    "footer.licensenote4": ". Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license.",
-    "footer.link1": "CC BY NC SA 3.0 license",
-    "footer.link2": "source code",
-    "footer.link3": "GPL 3.0 license"
+    "footer.licensenote1": "Tovuti hii imechapishwa kwa leseni ya ",
+    "footer.licensenote2": ". ",
+    "footer.licensenote3": " na kuchapishwa kwa leseni ya ",
+    "footer.licensenote4": ". Wageni wa tovuti wanahamasishwa kuangalia programu kwa makini na kuitumia kama watachapisha programu zao kwa leseni inayolingana",
+    "footer.link1": "CC BY NC SA 3.0",
+    "footer.link2": "Programu imeandikwa",
+    "footer.link3": "GPL 3.0"
 
 }
