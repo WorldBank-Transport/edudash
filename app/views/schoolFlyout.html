@@ -1,28 +1,42 @@
 <header>
-  <h2>School Name</h2>
+  <h2 translate="map.selected.school-name">School Name</h2>
   <p class="word">{{ hovered.NAME }}</p>
 </header>
 <div class="stat">
-  <h3>Region</h3>
+  <h3 translate="map.selected.region">Region</h3>
   <p class="word">{{ hovered.REGION }}</p>
 </div>
 <div class="stat">
-  <h3>District</h3>
+  <h3 translate="map.selected.district">District</h3>
   <p class="word">{{ hovered.DISTRICT }}</p>
 </div>
 <div class="stat">
-  <h3>Ward</h3>
+  <h3 translate="map.selected.ward">Ward</h3>
   <p class="word">{{ hovered.WARD }}</p>
 </div>
 <div class="stat">
-  <h3>Pass Rate</h3>
+  <h3 translate="map.selected.passrate">Pass Rate</h3>
   <p class="number {{ hovered.PASS_RATE === null ?
     'unknown' : hovered.PASS_RATE < 40 ?
       'poor' : hovered.PASS_RATE < 60 ?
         'medium' : 'good' }}">{{ hovered.PASS_RATE }} %</p>
 </div>
+<div class="stat" ng-if="hovered.AVG_MARK">
+    <h3 translate="map.selected.avg-mark">Average Mark</h3>
+    <p class="number {{ hovered.AVG_MARK === null ?
+    'unknown' : hovered.AVG_MARK < 150 ?
+      'poor' : hovered.AVG_MARK < 200 ?
+        'medium' : 'good' }}">{{ hovered.AVG_MARK }}</p>
+</div>
+<div class="stat" ng-if="hovered.AVG_GPA != undefined">
+    <h3 translate="map.selected.avg-gpa">Average GPA</h3>
+    <p class="number {{ hovered.AVG_GPA === null ?
+    'unknown' : hovered.AVG_GPA < 3 ?
+      'good' : hovered.AVG_GPA < 4.2 ?
+        'medium' : 'poor' }}">{{ hovered.AVG_GPA }}</p>
+</div>
 <div class="stat">
-  <h3>Pupil-Teacher Ratio</h3>
+  <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
   <p ng-if="hovered.PUPIL_TEACHER_RATIO !== undefined" class="number {{ hovered.PUPIL_TEACHER_RATIO === null ?
     'unknown' : hovered.PUPIL_TEACHER_RATIO < 35 ?
       'good' : hovered.PUPIL_TEACHER_RATIO > 50 ?
