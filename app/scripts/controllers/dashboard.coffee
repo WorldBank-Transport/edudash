@@ -62,11 +62,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
           computer: ([viewMode, year, rest...]) ->
-            if year?
-              if viewMode == 'schools' then loadSchools viewMode, year, rest...
-              else
-                if oldViewMode == 'schools' then clearSchools()
-                null
+            if year? and viewMode == 'schools' then loadSchools viewMode, year, rest...
             else
               null
 
@@ -227,13 +223,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             schoolType: schoolType
             subtype: rankBy
             moreThan40: moreThan40
-
-        clearSchools = ->
-          $scope.allSchools = null
-          $scope.filteredSchools = null
-          $scope.pins = null
-          $scope.rankedBy = null
-          $scope.schoolMarker = null
 
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
