@@ -132,9 +132,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
           waitForPromise: true
-          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchools]) ->
+          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchoolsP]) ->
             $q (resolve, reject) ->
-              unless schoolsP?
+              # Only continue when we have a new promise for the schools.
+              # year, schoolType. etc. are dependencies because we need them
+              # for the layerId, but they can sometimes trigger before we have
+              # an up-to-date promise for the schools themselves.
+              unless schoolsP? and schoolsP != oldSchoolsP
                 resolve null
               else
                 layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
