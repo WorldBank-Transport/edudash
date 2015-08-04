@@ -102,5 +102,12 @@
     "sidepanel.title.primary": "Dashibodi ya shule za Msingi",
     "sidepanel.title.secondary": "Dashibodi ya Shule za Upili",
 
-    "footer.licensenote": "The content of this website is published under a CC BY NC SA 3.0 license, and the source code is published under a GPL 3.0 license. Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license."
+    "footer.licensenote1": "The content of this website is published under a ",
+    "footer.licensenote2": ", and the ",
+    "footer.licensenote3": " is published under a ",
+    "footer.licensenote4": ". Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license.",
+    "footer.link1": "CC BY NC SA 3.0 license",
+    "footer.link2": "source code",
+    "footer.link3": "GPL 3.0 license"
+
 }
