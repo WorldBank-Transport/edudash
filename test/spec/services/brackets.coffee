@@ -69,21 +69,22 @@ describe 'watchComputeSrv', ->
   it 'AVG_MARK ranges', ->
     expect(b.getBracket -1, 'AVG_MARK').toBe b.bracket.UNKNOWN
     expect(b.getBracket 0,  'AVG_MARK').toBe b.bracket.POOR
-    expect(b.getBracket 40, 'AVG_MARK').toBe b.bracket.POOR
-    expect(b.getBracket 41, 'AVG_MARK').toBe b.bracket.MEDIUM
+    expect(b.getBracket 39, 'AVG_MARK').toBe b.bracket.POOR
+    expect(b.getBracket 40, 'AVG_MARK').toBe b.bracket.MEDIUM
     expect(b.getBracket 60, 'AVG_MARK').toBe b.bracket.MEDIUM
     expect(b.getBracket 61, 'AVG_MARK').toBe b.bracket.GOOD
     expect(b.getBracket 100,'AVG_MARK').toBe b.bracket.GOOD
     expect(b.getBracket 101,'AVG_MARK').toBe b.bracket.UNKNOWN
 
   it 'AVG_GPA ranges', ->
-    expect(b.getBracket -1,   'AVG_GPA').toBe b.bracket.UNKNOWN
-    expect(b.getBracket 0,    'AVG_GPA').toBe b.bracket.POOR
-    expect(b.getBracket 2.99, 'AVG_GPA').toBe b.bracket.POOR
-    expect(b.getBracket 3,    'AVG_GPA').toBe b.bracket.MEDIUM
-    expect(b.getBracket 4.199,'AVG_GPA').toBe b.bracket.MEDIUM
-    expect(b.getBracket 4.2,  'AVG_GPA').toBe b.bracket.GOOD
-    expect(b.getBracket 100,  'AVG_GPA').toBe b.bracket.GOOD
+    expect(b.getBracket 0,  'AVG_GPA').toBe b.bracket.UNKNOWN
+    expect(b.getBracket 1,  'AVG_GPA').toBe b.bracket.POOR
+    expect(b.getBracket 3,  'AVG_GPA').toBe b.bracket.POOR
+    expect(b.getBracket 3.1,'AVG_GPA').toBe b.bracket.MEDIUM
+    expect(b.getBracket 4.2,'AVG_GPA').toBe b.bracket.MEDIUM
+    expect(b.getBracket 4.3,'AVG_GPA').toBe b.bracket.GOOD
+    expect(b.getBracket 5,  'AVG_GPA').toBe b.bracket.GOOD
+    expect(b.getBracket 5.1,'AVG_GPA').toBe b.bracket.UNKNOWN
 
   it 'CHANGE_PREVIOUS_YEAR ranges', ->
     expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR').toBe b.bracket.POOR

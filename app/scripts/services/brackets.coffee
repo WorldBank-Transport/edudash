@@ -36,15 +36,15 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
       switch metric
 
         when 'AVG_MARK' then switch
-          when 0 <= val <= 40 then bracket.POOR 
-          when 40 < val <= 60 then bracket.MEDIUM
+          when 0 <= val < 40 then bracket.POOR
+          when 40 <= val <= 60 then bracket.MEDIUM
           when 60 < val <= 100 then bracket.GOOD
           else bracket.UNKNOWN
 
         when 'AVG_GPA' then switch
-          when 0 <= val < 3 then bracket.POOR
-          when 3 <= val < 4.2 then bracket.MEDIUM
-          when 4.2 <= val then bracket.GOOD  # what's the upper limit?
+          when 1 <= val <= 3 then bracket.POOR
+          when 3 < val <= 4.2 then bracket.MEDIUM
+          when 4.2 < val <= 5 then bracket.GOOD  # what's the upper limit?
           else bracket.UNKNOWN
 
         when 'CHANGE_PREVIOUS_YEAR', 'CHANGE_PREVIOUS_YEAR_GPA' then switch
