@@ -23,7 +23,6 @@
     "underscore": "^1.7.0",
     "leaflet": "~0.7.3",
     "Leaflet.awesome-markers": "^2.0.2",
-    "d3": "~3.5.5",
     "highcharts": "~4.1.5",
     "angular-rangeslider": "~0.0.14",
     "fast-circles": "~0.0.3"

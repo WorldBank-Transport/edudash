@@ -9,11 +9,11 @@
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
-    '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
+    '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'watchComputeSrv',
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
-    _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
+    _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, watchComputeSrv) ->
 
         # other state
@@ -242,12 +242,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = getMetricField
+          rankField = getMetricField()
           if school[rankField]?
             $scope.allSchools.then (schools) ->
-              ranked = rankSchools schools, [rankField, false, true]
-              nationalRank = ranked.indexOf school
-              chartSrv.drawNationalRanking nationalRank+1, ranked.length
+              ranked = rankSchools schools, [rankField, true, true]
+              school.nationalRank =
+                rank: (ranked.indexOf school) + 1
+                size: ranked.length
           unless school.ranks?
             $q.all
                 region: (rank school, 'REGION')
