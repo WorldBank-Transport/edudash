@@ -303,6 +303,11 @@ module.exports = function (grunt) {
               'dist/leaflet.css'
             ]
           },
+          'bootstrap': {
+            'main': [
+              'dist/css/bootstrap.css'
+            ]
+          },
           'highcharts': {
             'main': [
               'highcharts.js',
