@@ -87,8 +87,33 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'regions',
           dependencies: ['viewMode']
           computer: ([viewMode]) ->
-            $log.log 'vm', viewMode
             if viewMode == 'regions' then loadRegions() else null
+
+        watchCompute 'detailedRegions',
+          dependencies: ['regions', 'allSchools']
+          waitForPromise: true
+          computer: ([regions, allSchools]) -> $q (resolve, reject) ->
+            unless regions? and allSchools?
+              resolve null
+            else
+              $q.all
+                  regions: regions
+                  schools: allSchools
+                .then ({regions, schools}) ->
+                  detailsByRegion = {}
+                  schoolsByRegion = groupBy schools, 'REGION'
+                  for region, schools of schoolsByRegion
+                    detailsByRegion[region] =
+                      # TODO: should these averages be weighted by number of pupils?
+                      AVG_GPA: averageProp schools, 'AVG_GPA'
+                      CHANGE_PREVIOUS_YEAR_GPA: averageProp schools, 'CHANGE_PREVIOUS_YEAR_GPA'
+                      AVG_MARK: averageProp schools, 'AVG_MARK'
+                      CHANGE_PREVIOUS_YEAR_MARK: 'CHANGE_PREVIOUS_YEAR_MARK'  # TODO: confirm
+                  resolve regions.map (region) ->
+                    # TODO: warn about regions mismatch
+                    angular.extend region,
+                      properties: detailsByRegion[region.id] or {}
+                .catch reject
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
         watchCompute 'pupilTeacherRatio',
@@ -175,29 +200,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'polygons',
-          dependencies: ['regions']
+          dependencies: ['detailedRegions']
           waitForPromise: true
           computer: ([regions]) -> $q (resolve, reject) ->
             unless regions?
               resolve null
             else
-              getAsGeoJSON = $q (res, rej) ->
-                toFeatureCollection = (data) ->
-                  if data?
-                    res
-                      type: 'FeatureCollection'
-                      features: data.map ({geometry}) ->
-                        type: 'Feature'
-                        geometry: geometry
-                  else
-                    rej 'No data?'
-                regions.then toFeatureCollection, rej
-              regions
-                .then (regions) ->
-                  resolve layersSrv.addGeojsonLayer 'regions', mapId,
-                    getData: -> getAsGeoJSON
-                    options: onEachFeature: processPoly
-                .catch reject
+              resolve layersSrv.addGeojsonLayer 'regions', mapId,
+                getData: -> $q.when
+                  type: 'FeatureCollection'
+                  features: regions
+                options: onEachFeature: processPoly
 
         watchCompute 'lastHovered',
           dependencies: ['hovered']
@@ -222,27 +235,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
-
-        # side-effects only
-        $scope.$watchGroup ['polygons'], ([polys]) -> if polys?
-          $log.log 'polys', polys
-
-
-        # colorRegions = ->
-        #   if $scope.viewMode != 'regions'
-        #     console.error 'colorRegions should only be called when viewMode is "regions"'
-        #     return
-        #   WorldBankApi.getSchools($scope.schoolType).success (data) ->
-        #     byRegion = groupByDistrict data.rows
-        #     _(currentLayer.getLayers()).each (l) ->
-        #       regionData = byRegion[l.feature.properties.NAME]
-        #       if not regionData
-        #         v = null
-        #       else if $scope.visMode == 'passrate'
-        #         v = average(regionData.pass_2014)
-        #       else
-        #         v = average(regionData.pt_ratio)
-        #       l.setStyle colorSrv.areaStyle v, $scope.visMode
 
         # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
@@ -299,9 +291,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             staticApi.getRegions()
               .then (topo) ->
                 {features} = topojson.feature topo, topo.objects.tz_Regions
-                resolve features.map (feature, i) ->
-                    name: i  # topojson is currently missing the name
-                    geometry: feature.geometry
+                resolve features.map (feature) ->
+                  type: feature.type
+                  id: feature.properties.name.toUpperCase()
+                  geometry: feature.geometry
               .catch reject
 
         setSchool = (school) ->
@@ -424,6 +417,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.select code
 
         processPoly = (feature, layer) ->
+          colorPoly feature, layer
           layer.on 'mouseover', -> $scope.$apply ->
             $log.info 'hover'
           layer.on 'mouseout', -> $scope.$apply ->
@@ -438,6 +432,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             when $scope.visMode == 'passrate' && $scope.schoolType == 'secondary' then school.AVG_GPA
             when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
           l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
+
+        colorPoly = (feature, layer) ->
+          v = feature.properties[getMetricField()]
+          layer.setStyle colorSrv.areaStyle v, $scope.visMode, $scope.schoolType
 
         groupBy = (rows, prop) ->
           grouped = {}
