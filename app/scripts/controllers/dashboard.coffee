@@ -10,16 +10,15 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', 'chartSrv', '$log','$location','$translate',
-    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv'
+    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'watchComputeSrv',
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, chartSrv, $log, $location, $translate,
-    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv) ->
+    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, watchComputeSrv) ->
 
         # other state
         layers = {}
         currentLayer = null
-        schoolCodeMap = {}
 
         #### Template / Controller API via $scope ####
 
@@ -71,67 +70,124 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           Math: Math
 
 
-        # State Listeners
+        watchCompute = watchComputeSrv $scope
 
-        $scope.$watchGroup ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40'],
-          ([viewMode, year, rest...], [oldViewMode]) -> if year?
-            if viewMode == 'schools' then loadSchools viewMode, year, rest...
-            else if oldViewMode == 'schools' then clearSchools()
+        watchCompute 'allSchools',
+          dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
+          computer: ([viewMode, year, rest...]) ->
+            if year? and viewMode == 'schools' then loadSchools viewMode, year, rest...
+            else
+              null
 
-        $scope.$watchGroup ['schoolType', 'rankBy', 'moreThan40'],
-          ([schoolType, rankBy, moreThan40]) ->
+        # When we get per-school pupil-teacher ratio data, we can compute this client-side
+        watchCompute 'pupilTeacherRatio',
+          dependencies: ['year', 'schoolType']
+          waitForPromise: true
+          computer: ([year, schoolType]) ->
+            $q (resolve, reject) ->
+              if year?
+                MetricsSrv.getPupilTeacherRatio(level: schoolType)
+                  .then ((data) -> resolve data.rate), reject
+              else
+                resolve null
+
+        watchCompute 'yearAggregates',
+          dependencies: ['schoolType', 'rankBy', 'moreThan40'],
+          waitForPromise: true,
+          computer: ([schoolType, rankBy, moreThan40]) -> $q (resolve, reject) ->
             OpenDataApi.getYearAggregates schoolType, rankBy, moreThan40
               .then (years) ->
-                $scope.yearAggregates = _(years).reduce ((agg, y) ->
+                resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
                     PASS_RATE: y.average_pass_rate
                   agg
                 ), {}
+              .catch reject
 
-        $scope.$watch 'allSchools', (promise) -> if promise?
-          ranked = $q.defer()
-          $scope.rankedBy = ranked.promise
-          promise.then (schools) -> if schools?
-            if $scope.selected? then $scope.select $scope.selected.CODE
-            _(schools).each (school) -> schoolCodeMap[school.CODE] = school
-            OpenDataApi.getSchoolDetails $scope
-              .then (schools) ->
-                _(schools).each (details) -> angular.extend schoolCodeMap[details.CODE], details
-                rankSchools [getMetricField(), true]
-                  .then ranked.resolve
-          loadingSrv.containerLoad promise, document.getElementById mapId
+        watchCompute 'schoolCodeMap',
+          dependencies: ['allSchools']
+          waitForPromise: true  # unwraps the promise
+          computer: ([allSchools, details]) -> $q (resolve, reject) ->
+            unless allSchools?
+              resolve null
+            else
+              allSchools
+                .then (basics) ->
+                  resolve _(basics).reduce ((byCode, s) ->
+                    byCode[s.CODE] = s
+                    byCode
+                  ), {}
+                .catch reject
 
-        $scope.$watchGroup ['allSchools'], ([allSchools]) -> if allSchools?
-          $scope.filteredSchools = $q (resolve, reject) ->
-            allSchools.then resolve, reject
+        watchCompute 'rankedBy',
+          dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
+          computer: ([allSchools, rankBy, map]) ->
+            unless allSchools? and map?
+              null
+            else
+              $q (resolve, reject) ->
+                allSchools.then ((schools) ->
+                  resolve rankSchools schools, [getMetricField(), true]
+                ), reject
 
-        $scope.$watch 'filteredSchools', (schools, oldSchools) ->
-          layerId = "schools-#{$scope.year}-#{$scope.schoolType}-#{$scope.moreThan40}"
-          if schools?
-            mapped = $q (resolve, reject) ->
-              map = (data) -> if data?
-                resolve data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
-              schools.then map, reject
-            schools.then (schools) ->
-              $scope.pins = layersSrv.addFastCircles layerId, mapId,
-                getData: () -> mapped
-                options:
-                  className: 'school-location'
-                  radius: 8
-                  onEachFeature: processPin
+        watchCompute 'filteredSchools',
+          dependencies: ['allSchools']
+          computer: ([allSchools]) ->
+            unless allSchools?
+              null
+            else
+              $q (res, x) -> allSchools.then res, x
 
+        watchCompute 'pins',
+          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
+          waitForPromise: true
+          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchoolsP]) ->
+            $q (resolve, reject) ->
+              # Only continue when we have a new promise for the schools.
+              # year, schoolType. etc. are dependencies because we need them
+              # for the layerId, but they can sometimes trigger before we have
+              # an up-to-date promise for the schools themselves.
+              unless schoolsP? and schoolsP != oldSchoolsP
+                resolve null
+              else
+                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
+                schoolsP.then ((schools) ->
+                  resolve layersSrv.addFastCircles layerId, mapId,
+                    getData: -> $q (res, rej) ->
+                      map = (data) -> if data?
+                        res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
+                      schoolsP.then map, rej
+                    options:
+                      className: 'school-location'
+                      radius: 8
+                      onEachFeature: processPin
+                ), reject
+
+        watchCompute 'lastHovered',
+          dependencies: ['hovered']
+          computer: ([thing], [oldThing]) -> thing or oldThing
+
+        # side-effects only
+        $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
+          loadingSrv.containerLoad schoolsP, document.getElementById mapId
+          schoolsP.then (schools) ->
+            if $scope.selected?
+              $scope.select $scope.selected.CODE
+
+        # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
-          oldPins.then (pins) ->
-            leafletData.getMap(mapId).then (map) -> map.removeLayer pins
+          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
+        # side-effects only
         $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
           oldMarker.then (marker) ->
               leafletData.getMap(mapId).then (map) -> map.removeLayer marker
 
-        $scope.$watchGroup ['pins', 'visMode'], ([pinsP]) -> if pinsP?
-          pinsP.then (pins) ->
-            pins.eachVisibleLayer colorPin
+        # side-effects only
+        $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
+          pins.eachVisibleLayer colorPin
 
+        # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regional']
             console.error 'changed to invalid view mode:', newMode
@@ -142,9 +198,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               map.removeLayer currentLayer
               currentLayer = null
 
+        # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
           if thing != null
-            $scope.lastHovered = thing
             if $scope.viewMode == 'schools'
               getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
@@ -165,6 +221,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   fillOpacity: 0.6
               # when 'regional' then weight: 0, opacity: 0.6
 
+        # side-effects only
         $scope.$watch 'selected', (school) ->
           if school != null
             if $scope.viewMode == 'schools'
@@ -174,22 +231,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.filtersHeight = opts.height
 
         loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
-          $scope.allSchools = OpenDataApi.getSchools
-              year: year
-              schoolType: schoolType
-              subtype: rankBy
-              moreThan40: moreThan40
-            .catch (err) -> $log.error err
-          # leaving this as is for now, since we don't have this at school level
-          MetricsSrv.getPupilTeacherRatio({level: schoolType}).then (data) ->
-            $scope.pupilTeacherRatio = data.rate
-
-        clearSchools = ->
-          $scope.allSchools = null
-          $scope.filteredSchools = null
-          $scope.pins = null
-          $scope.rankedBy = null
-          $scope.schoolMarker = null
+          OpenDataApi.getSchools
+            year: year
+            schoolType: schoolType
+            subtype: rankBy
+            moreThan40: moreThan40
 
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
@@ -198,10 +244,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             map.setView latlng, (Math.max 9, map.getZoom())
           rankField = getMetricField
           if school[rankField]?
-            rankSchools [rankField, false, true]
-              .then (ranked) ->
-                nationalRank = ranked.indexOf school
-                chartSrv.drawNationalRanking nationalRank+1, ranked.length
+            $scope.allSchools.then (schools) ->
+              ranked = rankSchools schools, [rankField, false, true]
+              nationalRank = ranked.indexOf school
+              chartSrv.drawNationalRanking nationalRank+1, ranked.length
           unless school.ranks?
             $q.all
                 region: (rank school, 'REGION')
@@ -223,19 +269,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         findSchool = (code) ->
           $q (resolve, reject) ->
-            if $scope.allSchools?
+            if $scope.allSchools? and $scope.schoolCodeMap?
               findIt = (schools) ->
-                if schoolCodeMap[code]?
-                  resolve schoolCodeMap[code]
+                if $scope.schoolCodeMap[code]?
+                  resolve $scope.schoolCodeMap[code]
                 else
                   reject "Could not find school by code '#{code}'"
               $scope.allSchools.then findIt, reject
             else
               reject 'No schools to find from'
 
-        getSchoolPin = (code) ->
-          $q (resolve, reject) ->
-            $scope.pins.then ((pins) -> resolve pins.getLayer code), reject
+        getSchoolPin = (code) -> $q (resolve, reject) ->
+          layer = $scope.pins.getLayer code
+          if layer?
+            resolve layer
+          else
+            reject "No pin found for school code #{code}"
 
         # get the (rank, total) of a school, filtered by its region or district
         rank = (school, rank_by) ->
@@ -254,18 +303,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = ([rank_by, desc, all]) ->
-          rb = rank_by
-          if rb not in ['CHANGE_PREVIOUS_YEAR', 'RANK', 'PASS_RATE', 'AVG_GPA', 'CHANGE_PREVIOUS_YEAR_GPA', 'AVG_MARK']
-            throw new Error "invalid rank_by: '#{rb}'"
-          $q (resolve, reject) ->
-            getRanked = (schools) ->
-              list = _.unique(schools
-                .filter (s) -> s[rb]?
-                .sort (a, b) -> if desc then b[rb] - a[rb] else a[rb] - b[rb]
-              )
-              resolve if all then list else list.slice 0, 20
-            $scope.allSchools.then getRanked, reject
+        rankSchools = (schools, [orderBy, desc, all]) ->
+          ob = orderBy
+          if ob not in ['CHANGE_PREVIOUS_YEAR',
+                        'RANK',
+                        'PASS_RATE',
+                        'AVG_GPA',
+                        'CHANGE_PREVIOUS_YEAR_GPA',
+                        'AVG_MARK' ]
+            throw new Error "invalid orderBy: '#{ob}'"
+          list = _.unique(schools
+            .filter (s) -> s[ob]?
+            .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
+          )
+          if all then list else list.slice 0, 20
 
 
         # widget local state (maybe should move to other directives)
@@ -326,8 +377,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, l) -> findSchool(code).then (school) ->
           v = switch
-            when $scope.visMode == 'passrate'  && $scope.schoolType == 'primary' then school.AVG_MARK
-            when $scope.visMode == 'passrate'  && $scope.schoolType == 'secondary' then school.AVG_GPA
+            when $scope.visMode == 'passrate' && $scope.schoolType == 'primary' then school.AVG_MARK
+            when $scope.visMode == 'passrate' && $scope.schoolType == 'secondary' then school.AVG_GPA
             when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
           l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
 
