@@ -11,7 +11,7 @@ angular.module 'edudashAppDir'
     restrict: 'EA'
     template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
-      scope.$watch 'nationalRank', (newValue, oldValue) -> if newValue?
+      scope.$watch 'selected.nationalRank', (newValue, oldValue) -> if newValue?
         width = element.parent().width()
         element.highcharts({
             exporting:
