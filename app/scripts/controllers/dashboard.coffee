@@ -80,7 +80,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
           computer: ([viewMode, year, rest...]) ->
-            if year? and viewMode == 'schools' then loadSchools viewMode, year, rest...
+            if year? then loadSchools viewMode, year, rest...
             else
               null
 
@@ -116,10 +116,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               .catch reject
 
         watchCompute 'schoolCodeMap',
-          dependencies: ['allSchools']
+          dependencies: ['viewMode', 'allSchools']
           waitForPromise: true  # unwraps the promise
-          computer: ([allSchools, details]) -> $q (resolve, reject) ->
-            unless allSchools?
+          computer: ([viewMode, allSchools]) -> $q (resolve, reject) ->
+            unless viewMode == 'schools' and allSchools?
               resolve null
             else
               allSchools
@@ -131,9 +131,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .catch reject
 
         watchCompute 'rankedBy',
-          dependencies: ['allSchools', 'rankBy', 'schoolCodeMap']
-          computer: ([allSchools, rankBy, map]) ->
-            unless allSchools? and map?
+          dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap']
+          computer: ([viewMode, allSchools, rankBy, map]) ->
+            unless viewMode == 'schools' and allSchools? and map?
               null
             else
               $q (resolve, reject) ->
@@ -142,9 +142,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'filteredSchools',
-          dependencies: ['allSchools']
-          computer: ([allSchools]) ->
-            unless allSchools?
+          dependencies: ['viewMode', 'allSchools']
+          computer: ([viewMode, allSchools]) ->
+            unless viewMode == 'schools' and allSchools?
               null
             else
               $q (res, x) -> allSchools.then res, x
