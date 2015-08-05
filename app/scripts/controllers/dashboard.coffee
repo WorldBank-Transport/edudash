@@ -64,7 +64,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          hover: (code) ->  (findSchool code).then ((s) -> $scope.hovered = s), $log.error
+          hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
@@ -109,10 +109,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       CHANGE_PREVIOUS_YEAR_GPA: averageProp schools, 'CHANGE_PREVIOUS_YEAR_GPA'
                       AVG_MARK: averageProp schools, 'AVG_MARK'
                       CHANGE_PREVIOUS_YEAR_MARK: 'CHANGE_PREVIOUS_YEAR_MARK'  # TODO: confirm
+                      PASS_RATE: averageProp schools, 'PASS_RATE'
                   resolve regions.map (region) ->
                     # TODO: warn about regions mismatch
-                    angular.extend region,
-                      properties: detailsByRegion[region.id] or {}
+                    properties = angular.extend detailsByRegion[region.id] or {},
+                      NAME: region.id
+                    angular.extend region, properties: properties
+
                 .catch reject
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
@@ -154,6 +157,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     byCode
                   ), {}
                 .catch reject
+
+        watchCompute 'regionIdMap',
+          dependencies: ['detailedRegions']
+          computer: ([regions]) ->
+            unless regions?
+              null
+            else
+              regions.reduce ((map, region) ->
+                map[region.id] = region
+                map
+              ), {}
 
         watchCompute 'rankedBy',
           dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap']
@@ -297,6 +311,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   geometry: feature.geometry
               .catch reject
 
+        hoverThing = (id) ->
+          if $scope.viewMode == 'schools'
+            findSchool id
+              .then (s) -> $scope.hovered = s
+              .catch $log.error
+          else if $scope.viewMode == 'regions'
+            findRegion id
+              .then (r) -> $scope.hovered = r
+              .catch $log.error
+
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
           markSchool latlng
@@ -338,6 +362,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               $scope.allSchools.then findIt, reject
             else
               reject 'No schools to find from'
+
+        findRegion = (id) ->
+          $q (resolve, reject) ->
+            if $scope.regionIdMap?
+              if $scope.regionIdMap[id]?
+                resolve $scope.regionIdMap[id]
+              else
+                reject "Could not find region by id '#{id}'"
+            else
+              reject 'No regions to find from'
 
         getSchoolPin = (code) -> $q (resolve, reject) ->
           layer = $scope.pins.getLayer code
@@ -419,11 +453,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         processPoly = (feature, layer) ->
           colorPoly feature, layer
           layer.on 'mouseover', -> $scope.$apply ->
-            $log.info 'hover'
+            $scope.hover feature.id
           layer.on 'mouseout', -> $scope.$apply ->
             $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $log.info 'select'
+            $scope.select feature.id
 
 
         colorPin = (code, l) -> findSchool(code).then (school) ->
