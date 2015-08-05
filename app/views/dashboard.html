@@ -192,7 +192,7 @@
               </pass-rate-time>
             </div>
           </div>
-          <form class="form-horizontal">
+          <form class="form-horizontal" ng-if="viewMode==='schools'">
             <div class="form-group contained">
               <div class="col-xs-1 text-right control-label" style="padding-right: 1px">
                 <img src="images/searchicon.png" class="pull-right">
@@ -231,7 +231,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="rankBy==='improvement'">
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.most-improved-schools' | translate}}"
@@ -245,7 +245,7 @@
                   min="10">
               </school-list>
             </div>
-            <div class="container-fluid" ng-if="rankBy==='performance'">
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.best-performing-schools' | translate}}"
@@ -281,7 +281,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid" ng-if="viewMode==='schools'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
