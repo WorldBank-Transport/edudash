@@ -279,7 +279,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   weight: 5
                   opacity: 1
                   fillOpacity: 1
-            #   when 'regions' then weight: 5, opacity: 1
+            else if $scope.viewMode == 'regions'
+              getRegionLayer(thing.id).then (layer) ->
+                layer.bringToFront()
+                layer.setStyle
+                  weight: 6
+                  opacity: 1
+                  fillOpacity: 0.9
 
           if oldThing != null
             if $scope.viewMode == 'schools'
@@ -289,7 +295,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   weight: 2
                   opacity: 0.5
                   fillOpacity: 0.6
-              # when 'regions' then weight: 0, opacity: 0.6
+            else if $scope.viewMode == 'regions'
+              getRegionLayer(oldThing.id).then (layer) ->
+                layer.setStyle
+                  weight: 2
+                  opacity: 0.6
+                  fillOpacity: 0.75
 
         # side-effects only
         $scope.$watch 'selected', (school) ->
@@ -386,6 +397,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             resolve layer
           else
             reject "No pin found for school code #{code}"
+
+        getRegionLayer = (id) -> $q (resolve, reject) ->
+          unless $scope.polygons?
+            reject 'No polygon layers to find from'
+          else
+            layer = null
+            $scope.polygons.eachLayer (l) ->
+              if l.feature.id == id
+                if layer?
+                  $log.warn "Multiple layers found for id #{id}"
+                layer = l
+            unless layer?
+              reject "No region layer found for '#{id}'"
+            else
+              resolve layer
 
         # get the (rank, total) of a school, filtered by its region or district
         rank = (school, rank_by) ->
