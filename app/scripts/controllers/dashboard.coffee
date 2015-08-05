@@ -251,6 +251,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           pins.eachVisibleLayer colorPin
 
         # side-effects only
+        $scope.$watchGroup ['polygons', 'regionIdMap'],
+          ([polygons, regionIdMap]) ->
+            if polygons? and regionIdMap?
+              polygons.eachLayer (layer) ->
+                colorPoly regionIdMap[layer.feature.id], layer
+
+        # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
           if newMode not in ['schools', 'national', 'regions']
             console.error 'changed to invalid view mode:', newMode
