@@ -90,33 +90,39 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if viewMode == 'regions' then loadRegions() else null
 
         watchCompute 'detailedRegions',
-          dependencies: ['regions', 'allSchools']
+          dependencies: ['regions', 'allSchools', 'schoolType']
           waitForPromise: true
-          computer: ([regions, allSchools]) -> $q (resolve, reject) ->
-            unless regions? and allSchools?
-              resolve null
-            else
-              $q.all
-                  regions: regions
-                  schools: allSchools
-                .then ({regions, schools}) ->
-                  detailsByRegion = {}
-                  schoolsByRegion = groupBy schools, 'REGION'
-                  for region, schools of schoolsByRegion
-                    detailsByRegion[region] =
-                      # TODO: should these averages be weighted by number of pupils?
-                      AVG_GPA: averageProp schools, 'AVG_GPA'
-                      CHANGE_PREVIOUS_YEAR_GPA: averageProp schools, 'CHANGE_PREVIOUS_YEAR_GPA'
-                      AVG_MARK: averageProp schools, 'AVG_MARK'
-                      CHANGE_PREVIOUS_YEAR_MARK: 'CHANGE_PREVIOUS_YEAR_MARK'  # TODO: confirm
-                      PASS_RATE: averageProp schools, 'PASS_RATE'
-                  resolve regions.map (region) ->
-                    # TODO: warn about regions mismatch
-                    properties = angular.extend detailsByRegion[region.id] or {},
-                      NAME: region.id
-                    angular.extend region, properties: properties
+          computer: ([regions, allSchools, schoolType]) ->
+            $q (resolve, reject) ->
+              unless regions? and allSchools?
+                resolve null
+              else
+                $q.all
+                    regions: regions
+                    schools: allSchools
+                  .then ({regions, schools}) ->
+                    detailsByRegion = {}
+                    schoolsByRegion = groupBy schools, 'REGION'
+                    for id, regSchools of schoolsByRegion
+                      detailsByRegion[id] =
+                        # TODO: should these averages be weighted by number of pupils?
+                        CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
+                        PASS_RATE: averageProp regSchools, 'PASS_RATE'
+                      angular.extend detailsByRegion[id],
+                        if schoolType == 'primary'
+                          AVG_MARK: averageProp regSchools, 'AVG_MARK'
+                        else if schoolType == 'secondary'
+                          AVG_GPA: averageProp regSchools, 'AVG_GPA'
+                          CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
+                        else
+                          throw new Error 'Expected "primary" or "secondary" for schoolType'
+                    resolve regions.map (region) ->
+                      # TODO: warn about regions mismatch
+                      properties = angular.extend detailsByRegion[region.id] or {},
+                        NAME: region.id
+                      angular.extend region, properties: properties
 
-                .catch reject
+                  .catch reject
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
         watchCompute 'pupilTeacherRatio',
@@ -539,7 +545,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             when $scope.schoolType == 'secondary' && $scope.rankBy == 'performance' then 'AVG_GPA'
             when $scope.schoolType == 'secondary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
             when $scope.schoolType == 'primary' && $scope.rankBy == 'performance' then 'AVG_MARK'
-            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_MARK' # TODO to be confirm
+            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR' # TODO to be confirm
 
 
         # todo: figure out if these are needed
