@@ -954,20 +954,21 @@ ul.main-nav li ul li a{
 .open > .dropdown-menu{
   @include border-radius(0);
   border:none;
-  top:47px;
+  top:43px;
   width:465px;
-  background-color: rgba(5, 162, 220, 0.9);
+  background-color: $theme-blue;
   color: #ffffff;
   padding-left:20px;
   ul{
     border-right:none;
     background: $theme-blue;
-    padding:20px;
+    padding:0px;
     display:block;
   }
   li{
     float:left;
-    padding:30px 30px;
+    color: #ffffff;
+    padding:8px 20px;
   &:hover{
     font-weight:bold;
     cursor: pointer;
