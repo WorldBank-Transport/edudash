@@ -305,6 +305,7 @@ module.exports = function (grunt) {
           },
           'bootstrap': {
             'main': [
+              'dist/js/bootstrap.js',
               'dist/css/bootstrap.css'
             ]
           },
