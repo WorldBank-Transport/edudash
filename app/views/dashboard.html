@@ -129,12 +129,12 @@
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012">
-              <li>
-                <a ng-repeat="y in years" ng-click="setYear(y)">
+            <ul class="dropdown-menu dropdown-menu-right">
+              <a ng-repeat="y in years" ng-click="setYear(y)">
+                <li>
                   <span class="selectable" ng-class="{selected: year===y}"></span>{{y}}
-                </a>
-              </li>
+                </li>
+              </a>
             </ul>
           </li>
         </ul>
