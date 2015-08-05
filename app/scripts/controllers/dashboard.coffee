@@ -176,9 +176,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'polygons',
           dependencies: ['regions']
-          computer: ([regions]) ->
+          waitForPromise: true
+          computer: ([regions]) -> $q (resolve, reject) ->
             unless regions?
-              null
+              resolve null
             else
               getAsGeoJSON = $q (res, rej) ->
                 toFeatureCollection = (data) ->
@@ -191,13 +192,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   else
                     rej 'No data?'
                 regions.then toFeatureCollection, rej
-              $q (resolve, reject) ->
-                regions
-                  .then (regions) ->
-                    resolve layersSrv.addGeojsonLayer 'regions', mapId,
-                      getData: -> getAsGeoJSON
-                      options: onEachFeature: processPoly
-                  .catch reject
+              regions
+                .then (regions) ->
+                  resolve layersSrv.addGeojsonLayer 'regions', mapId,
+                    getData: -> getAsGeoJSON
+                    options: onEachFeature: processPoly
+                .catch reject
 
         watchCompute 'lastHovered',
           dependencies: ['hovered']
@@ -222,6 +222,27 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
+
+        # side-effects only
+        $scope.$watchGroup ['polygons'], ([polys]) -> if polys?
+          $log.log 'polys', polys
+
+
+        # colorRegions = ->
+        #   if $scope.viewMode != 'regions'
+        #     console.error 'colorRegions should only be called when viewMode is "regions"'
+        #     return
+        #   WorldBankApi.getSchools($scope.schoolType).success (data) ->
+        #     byRegion = groupByDistrict data.rows
+        #     _(currentLayer.getLayers()).each (l) ->
+        #       regionData = byRegion[l.feature.properties.NAME]
+        #       if not regionData
+        #         v = null
+        #       else if $scope.visMode == 'passrate'
+        #         v = average(regionData.pass_2014)
+        #       else
+        #         v = average(regionData.pt_ratio)
+        #       l.setStyle colorSrv.areaStyle v, $scope.visMode
 
         # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
@@ -418,32 +439,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
           l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
 
-        groupByDistrict = (rows) ->
-          districts = {}
+        groupBy = (rows, prop) ->
+          grouped = {}
           for row in rows
-            unless districts[row.district]
-              districts[row.district] = {pt_ratio: [], pass_2014: []}
-            for prop in ['pt_ratio', 'pass_2014']
-              districts[row.district][prop].push(row[prop])
-          districts
+            unless grouped[row[prop]]?
+              grouped[row[prop]] = []
+            grouped[row[prop]].push row
+          grouped
 
         average = (nums) -> (nums.reduce (a, b) -> a + b) / nums.length
 
-        colorRegions = ->
-          if $scope.viewMode != 'regions'
-            console.error 'colorRegions should only be called when viewMode is "regions"'
-            return
-          WorldBankApi.getSchools($scope.schoolType).success (data) ->
-            byRegion = groupByDistrict data.rows
-            _(currentLayer.getLayers()).each (l) ->
-              regionData = byRegion[l.feature.properties.NAME]
-              if not regionData
-                v = null
-              else if $scope.visMode == 'passrate'
-                v = average(regionData.pass_2014)
-              else
-                v = average(regionData.pt_ratio)
-              l.setStyle colorSrv.areaStyle v, $scope.visMode
+        averageProp = (rows, prop) -> average _(rows).map (r) -> r[prop]
 
         markSchool = (latlng) ->
           unless $scope.schoolMarker?
