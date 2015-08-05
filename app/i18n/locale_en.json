@@ -82,11 +82,12 @@
     "main.link.data": "data",
     "speakout.title": "Your voice matters! Complete this form to share feedback about the data.",
 
-    "map.selected.region": "Region Name",
+    "map.selected.region-name": "Region Name",
     "map.selected.number-school": "Number of Schools",
     "map.selected.goberment": "Government Schools",
     "map.selected.private-school": "Private Schools",
     "map.selected.average-pass-rate": "Average Pass Rate",
+    "map.selected.average-pt-ratio": "Average Pupil-Teacher Ratio",
     "map.selected.school-name": "School Name",
     "map.selected.region": "Region",
     "map.selected.district": "District",
