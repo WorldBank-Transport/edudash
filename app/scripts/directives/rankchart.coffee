@@ -11,7 +11,7 @@ angular.module 'edudashAppDir'
     restrict: 'EA'
     template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
-      scope.$watch 'selected.nationalRank', (newValue, oldValue) -> if newValue?
+      scope.$watch 'selected.ranks.national', (newValue, oldValue) -> if newValue?
         width = element.parent().width()
         element.highcharts({
             exporting:
@@ -27,7 +27,7 @@ angular.module 'edudashAppDir'
               margin: 0
           }, (chart)->
             rank = newValue.rank
-            worstRank = newValue.size
+            worstRank = newValue.total
             lineRange = width * 0.7;
             startLine = width - lineRange;
             n=5
