@@ -34,5 +34,5 @@ angular.module 'edudashApp'
           when 'GOOD' then 'passrategreen'
           when 'MEDIUM' then 'passrateyellow'
           when 'POOR' then 'passratered'
-          when 'UNKNOWN' then '#aaa'
+          when 'UNKNOWN' then 'passrateunknow'
           else throw new Error "Unknown bracket: '#{brace}'"
