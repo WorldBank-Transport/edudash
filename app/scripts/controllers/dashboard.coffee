@@ -70,6 +70,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
           search: (q) -> search q
+          getColor: (v) -> colorSrv.color brackets.getBracket v, $scope.metric
 
         # view util functions
         angular.extend $scope,
@@ -493,15 +494,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.select feature.id
 
 
-        colorPin = (code, layer) -> findSchool(code).then (school) ->
-          val = school[$scope.metric]
-          color = colorSrv.color brackets.getBracket val, $scope.metric
-          layer.setStyle colorSrv.pinOff color
+        colorPin = (code, layer) ->
+          findSchool(code).then (school) ->
+            val = school[$scope.metric]
+            layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
-          color = colorSrv.color brackets.getBracket val, $scope.metric
-          layer.setStyle colorSrv.polygonOff color
+          layer.setStyle colorSrv.polygonOff $scope.getColor val
 
         groupBy = (rows, prop) ->
           grouped = {}
