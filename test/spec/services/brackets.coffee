@@ -75,3 +75,22 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
     expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'MEDIUM'
     expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
+
+  it 'PASS_RATE ranges', ->
+    expect(b.getBracket -1, 'PASS_RATE').toEqual 'UNKNOWN'
+    expect(b.getBracket 0,  'PASS_RATE').toEqual 'POOR'
+    expect(b.getBracket 39, 'PASS_RATE').toEqual 'POOR'
+    expect(b.getBracket 40, 'PASS_RATE').toEqual 'MEDIUM'
+    expect(b.getBracket 60, 'PASS_RATE').toEqual 'MEDIUM'
+    expect(b.getBracket 61, 'PASS_RATE').toEqual 'GOOD'
+    expect(b.getBracket 100,'PASS_RATE').toEqual 'GOOD'
+    expect(b.getBracket 101,'PASS_RATE').toEqual 'UNKNOWN'
+
+  it 'PUPIL_TEACHER_RATIO ranges', ->
+    expect(b.getBracket 0, 'PUPIL_TEACHER_RATIO').toEqual 'UNKNOWN'
+    expect(b.getBracket 1,  'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
+    expect(b.getBracket 34, 'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
+    expect(b.getBracket 35, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
+    expect(b.getBracket 50, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
+    expect(b.getBracket 51, 'PUPIL_TEACHER_RATIO').toEqual 'POOR'
+    expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'

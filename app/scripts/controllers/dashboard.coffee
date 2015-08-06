@@ -70,7 +70,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
           search: (q) -> search q
-          getColor: (v) -> colorSrv.color brackets.getBracket v, $scope.metric
+          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
+          getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
 
         # view util functions
         angular.extend $scope,
