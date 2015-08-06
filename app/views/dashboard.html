@@ -89,7 +89,7 @@
       ng-style="{bottom: filtersHeight}"
       ng-mouseenter="keepHovered()"
       ng-mouseleave="unHover()"
-      ng-show="viewMode==='regional' && hovered!==null"
+      ng-show="viewMode==='regions' && hovered!==null"
       ng-include="'views/regionFlyout.html'">
     </div>
   </div>
@@ -98,8 +98,8 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: viewMode==='regional'}">
-            <a ng-click="setViewMode('regional')">
+          <li role="presentation" ng-class="{active: viewMode==='regions'}">
+            <a ng-click="setViewMode('regions')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
@@ -192,7 +192,7 @@
               </pass-rate-time>
             </div>
           </div>
-          <form class="form-horizontal">
+          <form class="form-horizontal" ng-if="viewMode==='schools'">
             <div class="form-group contained">
               <div class="col-xs-1 text-right control-label" style="padding-right: 1px">
                 <img src="images/searchicon.png" class="pull-right">
@@ -231,7 +231,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="rankBy==='improvement'">
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.most-improved-schools' | translate}}"
@@ -245,7 +245,7 @@
                   min="10">
               </school-list>
             </div>
-            <div class="container-fluid" ng-if="rankBy==='performance'">
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.best-performing-schools' | translate}}"
@@ -281,7 +281,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid" ng-if="viewMode==='schools'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
@@ -298,7 +298,7 @@
             </div>
           </div>
 
-          <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
+          <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regions views -->
             <div class="row col-xs-12">
               <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
             </div>

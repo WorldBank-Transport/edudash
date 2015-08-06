@@ -18,16 +18,17 @@ angular.module 'edudashAppSrv'
 
     categorize: (val, mode, schoolType) ->
       switch
-        when mode == 'passrate' && schoolType=='primary' then switch
-          when val == null then 'unknown'
-          when val < 40 then 'poor'
-          when val < 60 then 'medium'
-          else 'good'
-        when mode == 'passrate' && schoolType=='secondary' then switch
-          when val == null then 'unknown'
-          when val > 4.2 then 'poor'
-          when val > 3 then 'medium'
-          else 'good'  
+        when mode == 'passrate' then switch schoolType
+          when 'primary' then switch
+            when val == null then 'unknown'
+            when val < 40 then 'poor'
+            when val < 60 then 'medium'
+            else 'good'
+          when 'secondary' then switch
+            when val == null then 'unknown'
+            when val > 4.2 then 'poor'
+            when val > 3 then 'medium'
+            else 'good'
         when mode == 'ptratio' then switch
           when val == null then 'unknown'
           when val < 35 then 'good'
@@ -42,8 +43,8 @@ angular.module 'edudashAppSrv'
       fillOpacity: 0.75
       fillColor: this.colorize val, mode, schoolType
 
-    areaStyle: (val, mode) ->
+    areaStyle: (val, mode, schoolType) ->
       weight: 2
       color: '#fff'
-      fillColor: this.colorize val, mode, null
+      fillColor: this.colorize val, mode, schoolType
       fillOpacity: 0.75
