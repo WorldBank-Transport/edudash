@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv',
+    'staticApi', 'watchComputeSrv', 'bracketsSrv',
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv) ->
+    staticApi, watchComputeSrv, brackets) ->
 
         # other state
         layers = {}
@@ -29,6 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           year: null  # set after init
           years: null
           yearAggregates: null
+          metric: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -69,6 +70,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
           search: (q) -> search q
+          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
+          getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
 
         # view util functions
         angular.extend $scope,
@@ -76,6 +79,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 
         watchCompute = watchComputeSrv $scope
+
+        watchCompute 'metric',
+          dependencies: ['schoolType', 'rankBy']
+          computer: ([schoolType, criteria]) ->
+            unless schoolType? and criteria?
+              null
+            else
+              brackets.getMetric schoolType, criteria
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
@@ -183,7 +194,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, [getMetricField(), true]
+                  resolve rankSchools schools, [$scope.metric, true]
                 ), reject
 
         watchCompute 'filteredSchools',
@@ -277,36 +288,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
           if thing != null
-            if $scope.viewMode == 'schools'
-              getSchoolPin(thing.CODE).then (pin) ->
+            switch $scope.viewMode
+              when 'schools' then getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
-                pin.setStyle
-                  color: '#05a2dc'
-                  weight: 5
-                  opacity: 1
-                  fillOpacity: 1
-            else if $scope.viewMode == 'regions'
-              getRegionLayer(thing.id).then (layer) ->
+                pin.setStyle colorSrv.pinOn()
+              when 'regions' then getRegionLayer(thing.id).then (layer) ->
                 layer.bringToFront()
-                layer.setStyle
-                  weight: 6
-                  opacity: 1
-                  fillOpacity: 0.9
+                layer.setStyle colorSrv.polygonOn()
 
           if oldThing != null
-            if $scope.viewMode == 'schools'
-              getSchoolPin(oldThing.CODE).then (pin) ->
-                pin.setStyle
-                  color: '#fff'
-                  weight: 2
-                  opacity: 0.5
-                  fillOpacity: 0.6
-            else if $scope.viewMode == 'regions'
-              getRegionLayer(oldThing.id).then (layer) ->
-                layer.setStyle
-                  weight: 2
-                  opacity: 0.6
-                  fillOpacity: 0.75
+            switch $scope.viewMode
+              when 'schools' then getSchoolPin(oldThing.CODE).then (pin) ->
+                pin.setStyle colorSrv.pinOff()
+              when 'regions' then getRegionLayer(oldThing.id).then (layer) ->
+                layer.setStyle colorSrv.polygonOff()
 
         # side-effects only
         $scope.$watch 'selected', (school) ->
@@ -350,7 +345,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = getMetricField()
+          rankField = $scope.metric
           if school[rankField]?
             $scope.allSchools.then (schools) ->
               ranked = rankSchools schools, [rankField, true, true]
@@ -500,16 +495,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.select feature.id
 
 
-        colorPin = (code, l) -> findSchool(code).then (school) ->
-          v = switch
-            when $scope.visMode == 'passrate' && $scope.schoolType == 'primary' then school.AVG_MARK
-            when $scope.visMode == 'passrate' && $scope.schoolType == 'secondary' then school.AVG_GPA
-            when $scope.visMode == 'ptratio' then school.PUPIL_TEACHER_RATIO
-          l.setStyle colorSrv.pinStyle v, $scope.visMode, $scope.schoolType
+        colorPin = (code, layer) ->
+          findSchool(code).then (school) ->
+            val = school[$scope.metric]
+            layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->
-          v = feature.properties[getMetricField()]
-          layer.setStyle colorSrv.areaStyle v, $scope.visMode, $scope.schoolType
+          val = feature.properties[$scope.metric]
+          layer.setStyle colorSrv.polygonOff $scope.getColor val
 
         groupBy = (rows, prop) ->
           grouped = {}
@@ -540,14 +533,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
-
-        getMetricField = () ->
-          switch
-            when $scope.schoolType == 'secondary' && $scope.rankBy == 'performance' then 'AVG_GPA'
-            when $scope.schoolType == 'secondary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
-            when $scope.schoolType == 'primary' && $scope.rankBy == 'performance' then 'AVG_MARK'
-            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR' # TODO to be confirm
-
 
         # todo: figure out if these are needed
         $scope.getTimes = (n) ->
