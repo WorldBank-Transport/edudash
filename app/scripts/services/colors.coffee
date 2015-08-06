@@ -20,18 +20,17 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
   pinOff: (colour) ->
     style =
       color: '#fff'
-      fillOpacity: 0.75
-      opacity: 0.6
-      weight: 2
+      fillOpacity: 1
+      opacity: 0.75
+      weight: 3
     if colour?
       style.fillColor = colour
     style
 
   pinOn: ->
     color: '#05a2dc'
-    fillOpacity: 1
     opacity: 1
-    weight: 5
+    weight: 6
 
   polygonOff: (colour) ->
     style =
