@@ -94,3 +94,13 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket 50, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
     expect(b.getBracket 51, 'PUPIL_TEACHER_RATIO').toEqual 'POOR'
     expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'
+
+  it 'getRank by school', ->
+    expect(b.getRank 'primary').toEqual ['AVG_MARK', true]
+    expect(b.getRank 'secondary').toEqual ['AVG_GPA', false]
+
+  it 'should validate getRank parameter', ->
+    expect -> b.getRank 'z'
+    .toThrow new Error "Unknown school type 'z'"
+    expect -> b.getRank undefined
+    .toThrow new Error "Unknown school type 'undefined'"
