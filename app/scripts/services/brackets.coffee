@@ -9,15 +9,6 @@
 ###
 angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
-  colour: (brace) ->
-    switch brace
-      when 'GOOD' then '#38a21c'
-      when 'MEDIUM' then '#e9c941'
-      when 'POOR' then '#f56053'
-      when 'UNKNOWN' then '#aaa'
-      else throw new Error "Unknown bracket: '#{brace}'"
-
-
   getBracket: (val, metric) ->
     unless typeof val in ['number', 'undefined']
       throw new Error "val must be a number. Got: '#{val}' which is '#{typeof val}'"

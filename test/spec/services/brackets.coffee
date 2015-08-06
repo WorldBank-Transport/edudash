@@ -75,21 +75,3 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
     expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'MEDIUM'
     expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
-
-  it 'should validate colour() parameters', ->
-    expect -> b.colour()
-      .toThrow new Error "Unknown bracket: 'undefined'"
-    expect -> b.colour {}
-      .toThrow new Error "Unknown bracket: '[object Object]'"
-    expect -> b.colour _: 'GOOD'
-      .toThrow new Error "Unknown bracket: '[object Object]'"
-
-  it 'should return hex colour strings from colour()', ->
-    expect(typeof b.colour 'GOOD').toEqual 'string'
-    expect(typeof b.colour 'MEDIUM').toEqual 'string'
-    expect(typeof b.colour 'POOR').toEqual 'string'
-    expect(typeof b.colour 'UNKNOWN').toEqual 'string'
-    expect((b.colour 'GOOD').slice(0, 1)).toEqual '#'
-    expect((b.colour 'MEDIUM').slice(0, 1)).toEqual '#'
-    expect((b.colour 'POOR').slice(0, 1)).toEqual '#'
-    expect((b.colour 'UNKNOWN').slice(0, 1)).toEqual '#'

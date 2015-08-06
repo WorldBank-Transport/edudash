@@ -495,12 +495,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, layer) -> findSchool(code).then (school) ->
           val = school[$scope.metric]
-          color = brackets.colour brackets.getBracket val, $scope.metric
+          color = colorSrv.color brackets.getBracket val, $scope.metric
           layer.setStyle colorSrv.pinOff color
 
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
-          color = brackets.colour brackets.getBracket val, $scope.metric
+          color = colorSrv.color brackets.getBracket val, $scope.metric
           layer.setStyle colorSrv.polygonOff color
 
         groupBy = (rows, prop) ->
