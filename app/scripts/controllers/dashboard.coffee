@@ -192,7 +192,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, [getMetricField(), true]
+                  resolve rankSchools schools, [$scope.metric, true]
                 ), reject
 
         watchCompute 'filteredSchools',
@@ -343,7 +343,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = getMetricField()
+          rankField = $scope.metric
           if school[rankField]?
             $scope.allSchools.then (schools) ->
               ranked = rankSchools schools, [rankField, true, true]
@@ -532,14 +532,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
-
-        getMetricField = () ->
-          switch
-            when $scope.schoolType == 'secondary' && $scope.rankBy == 'performance' then 'AVG_GPA'
-            when $scope.schoolType == 'secondary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
-            when $scope.schoolType == 'primary' && $scope.rankBy == 'performance' then 'AVG_MARK'
-            when $scope.schoolType == 'primary' && $scope.rankBy == 'improvement' then 'CHANGE_PREVIOUS_YEAR' # TODO to be confirm
-
 
         # todo: figure out if these are needed
         $scope.getTimes = (n) ->
