@@ -10,25 +10,6 @@ describe 'watchComputeSrv', ->
   beforeEach inject (_bracketsSrv_) ->
     b = _bracketsSrv_
 
-
-  it 'should provide brackets for good, med, poor, unknown', ->
-    expect(b.bracket.GOOD?).toBe true
-    expect(b.bracket.MEDIUM?).toBe true
-    expect(b.bracket.POOR?).toBe true
-    expect(b.bracket.UNKNOWN?).toBe true
-
-  it 'should provide unique brackets', ->
-    expect(b.bracket.GOOD in [
-        b.bracket.MEDIUM,
-        b.bracket.POOR,
-        b.bracket.UNKNOWN,
-      ]).toBe false
-    expect(b.bracket.MEDIUM in [
-        b.bracket.POOR,
-        b.bracket.UNKNOWN,
-      ]).toBe false
-    expect(b.bracket.POOR == b.bracket.UNKNOWN).toBe false
-
   it 'should validate getMetric parameters', ->
     expect -> b.getMetric()
       .toThrow new Error "Unknown school type 'undefined'"
@@ -59,41 +40,41 @@ describe 'watchComputeSrv', ->
       .toThrow new Error "Unknown metric: 'not a metric'"
 
   it 'should return UNKNOWN for NaN', ->
-    expect(b.getBracket NaN, 'AVG_MARK').toBe b.bracket.UNKNOWN
-    expect(b.getBracket NaN, 'AVG_GPA').toBe b.bracket.UNKNOWN
-    expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR').toBe b.bracket.UNKNOWN
-    expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR_GPA').toBe b.bracket.UNKNOWN
-    expect(b.getBracket undefined, 'AVG_MARK').toBe b.bracket.UNKNOWN
+    expect(b.getBracket NaN, 'AVG_MARK').toEqual 'UNKNOWN'
+    expect(b.getBracket NaN, 'AVG_GPA').toEqual 'UNKNOWN'
+    expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR').toEqual 'UNKNOWN'
+    expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'UNKNOWN'
+    expect(b.getBracket undefined, 'AVG_MARK').toEqual 'UNKNOWN'
 
   it 'AVG_MARK ranges', ->
-    expect(b.getBracket -1, 'AVG_MARK').toBe b.bracket.UNKNOWN
-    expect(b.getBracket 0,  'AVG_MARK').toBe b.bracket.POOR
-    expect(b.getBracket 39, 'AVG_MARK').toBe b.bracket.POOR
-    expect(b.getBracket 40, 'AVG_MARK').toBe b.bracket.MEDIUM
-    expect(b.getBracket 60, 'AVG_MARK').toBe b.bracket.MEDIUM
-    expect(b.getBracket 61, 'AVG_MARK').toBe b.bracket.GOOD
-    expect(b.getBracket 100,'AVG_MARK').toBe b.bracket.GOOD
-    expect(b.getBracket 101,'AVG_MARK').toBe b.bracket.UNKNOWN
+    expect(b.getBracket -1, 'AVG_MARK').toEqual 'UNKNOWN'
+    expect(b.getBracket 0,  'AVG_MARK').toEqual 'POOR'
+    expect(b.getBracket 39, 'AVG_MARK').toEqual 'POOR'
+    expect(b.getBracket 40, 'AVG_MARK').toEqual 'MEDIUM'
+    expect(b.getBracket 60, 'AVG_MARK').toEqual 'MEDIUM'
+    expect(b.getBracket 61, 'AVG_MARK').toEqual 'GOOD'
+    expect(b.getBracket 100,'AVG_MARK').toEqual 'GOOD'
+    expect(b.getBracket 101,'AVG_MARK').toEqual 'UNKNOWN'
 
   it 'AVG_GPA ranges', ->
-    expect(b.getBracket 0,  'AVG_GPA').toBe b.bracket.UNKNOWN
-    expect(b.getBracket 1,  'AVG_GPA').toBe b.bracket.POOR
-    expect(b.getBracket 3,  'AVG_GPA').toBe b.bracket.POOR
-    expect(b.getBracket 3.1,'AVG_GPA').toBe b.bracket.MEDIUM
-    expect(b.getBracket 4.2,'AVG_GPA').toBe b.bracket.MEDIUM
-    expect(b.getBracket 4.3,'AVG_GPA').toBe b.bracket.GOOD
-    expect(b.getBracket 5,  'AVG_GPA').toBe b.bracket.GOOD
-    expect(b.getBracket 5.1,'AVG_GPA').toBe b.bracket.UNKNOWN
+    expect(b.getBracket 0,  'AVG_GPA').toEqual 'UNKNOWN'
+    expect(b.getBracket 1,  'AVG_GPA').toEqual 'POOR'
+    expect(b.getBracket 3,  'AVG_GPA').toEqual 'POOR'
+    expect(b.getBracket 3.1,'AVG_GPA').toEqual 'MEDIUM'
+    expect(b.getBracket 4.2,'AVG_GPA').toEqual 'MEDIUM'
+    expect(b.getBracket 4.3,'AVG_GPA').toEqual 'GOOD'
+    expect(b.getBracket 5,  'AVG_GPA').toEqual 'GOOD'
+    expect(b.getBracket 5.1,'AVG_GPA').toEqual 'UNKNOWN'
 
   it 'CHANGE_PREVIOUS_YEAR ranges', ->
-    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR').toBe b.bracket.POOR
-    expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR').toBe b.bracket.MEDIUM
-    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR').toBe b.bracket.GOOD
+    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR').toEqual 'POOR'
+    expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR').toEqual 'MEDIUM'
+    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR').toEqual 'GOOD'
 
   it 'CHANGE_PREVIOUS_YEAR_GPA ranges', ->
-    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toBe b.bracket.POOR
-    expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_GPA').toBe b.bracket.MEDIUM
-    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toBe b.bracket.GOOD
+    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
+    expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'MEDIUM'
+    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
 
   it 'should validate colour() parameters', ->
     expect -> b.colour()
@@ -104,11 +85,11 @@ describe 'watchComputeSrv', ->
       .toThrow new Error "Unknown bracket: '[object Object]'"
 
   it 'should return hex colour strings from colour()', ->
-    expect(typeof b.colour b.bracket.GOOD).toEqual 'string'
-    expect(typeof b.colour b.bracket.MEDIUM).toEqual 'string'
-    expect(typeof b.colour b.bracket.POOR).toEqual 'string'
-    expect(typeof b.colour b.bracket.UNKNOWN).toEqual 'string'
-    expect((b.colour b.bracket.GOOD).slice(0, 1)).toEqual '#'
-    expect((b.colour b.bracket.MEDIUM).slice(0, 1)).toEqual '#'
-    expect((b.colour b.bracket.POOR).slice(0, 1)).toEqual '#'
-    expect((b.colour b.bracket.UNKNOWN).slice(0, 1)).toEqual '#'
+    expect(typeof b.colour 'GOOD').toEqual 'string'
+    expect(typeof b.colour 'MEDIUM').toEqual 'string'
+    expect(typeof b.colour 'POOR').toEqual 'string'
+    expect(typeof b.colour 'UNKNOWN').toEqual 'string'
+    expect((b.colour 'GOOD').slice(0, 1)).toEqual '#'
+    expect((b.colour 'MEDIUM').slice(0, 1)).toEqual '#'
+    expect((b.colour 'POOR').slice(0, 1)).toEqual '#'
+    expect((b.colour 'UNKNOWN').slice(0, 1)).toEqual '#'

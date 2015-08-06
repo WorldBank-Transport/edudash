@@ -9,21 +9,12 @@
 ###
 angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
-  bracket =
-    GOOD: _: 'GOOD'
-    MEDIUM: _: 'MEDIUM'
-    POOR: _: 'POOR'
-    UNKNOWN: _: 'UNKNOWN'
-
-  bracket: bracket
-
-
   colour: (brace) ->
     switch brace
-      when bracket.GOOD then '#38a21c'
-      when bracket.MEDIUM then '#e9c941'
-      when bracket.POOR then '#f56053'
-      when bracket.UNKNOWN then '#aaa'
+      when 'GOOD' then '#38a21c'
+      when 'MEDIUM' then '#e9c941'
+      when 'POOR' then '#f56053'
+      when 'UNKNOWN' then '#aaa'
       else throw new Error "Unknown bracket: '#{brace}'"
 
 
@@ -31,26 +22,26 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
     unless typeof val in ['number', 'undefined']
       throw new Error "val must be a number. Got: '#{val}' which is '#{typeof val}'"
     if isNaN val  # NaN or undefined
-      bracket.UNKNOWN
+      'UNKNOWN'
     else
       switch metric
 
         when 'AVG_MARK' then switch
-          when 0 <= val < 40 then bracket.POOR
-          when 40 <= val <= 60 then bracket.MEDIUM
-          when 60 < val <= 100 then bracket.GOOD
-          else bracket.UNKNOWN
+          when 0 <= val < 40 then 'POOR'
+          when 40 <= val <= 60 then 'MEDIUM'
+          when 60 < val <= 100 then 'GOOD'
+          else 'UNKNOWN'
 
         when 'AVG_GPA' then switch
-          when 1 <= val <= 3 then bracket.POOR
-          when 3 < val <= 4.2 then bracket.MEDIUM
-          when 4.2 < val <= 5 then bracket.GOOD  # what's the upper limit?
-          else bracket.UNKNOWN
+          when 1 <= val <= 3 then 'POOR'
+          when 3 < val <= 4.2 then 'MEDIUM'
+          when 4.2 < val <= 5 then 'GOOD'  # what's the upper limit?
+          else 'UNKNOWN'
 
         when 'CHANGE_PREVIOUS_YEAR', 'CHANGE_PREVIOUS_YEAR_GPA' then switch
-          when val < 0 then bracket.POOR
-          when val == 0 then bracket.MEDIUM
-          when val > 0 then bracket.GOOD
+          when val < 0 then 'POOR'
+          when val == 0 then 'MEDIUM'
+          when val > 0 then 'GOOD'
           # `when`s are exhaustive: tested typeof === number and !isNaN
 
         else throw new Error "Unknown metric: '#{metric}'"
