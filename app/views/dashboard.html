@@ -350,13 +350,16 @@
               <div class="no-padding widget col-md-4">
                 <p class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</p>
                 <p class="widgetnumber">
-                  <img ng-if="selected.change > 0" ng-src="images/arrowgreen.png" class="arrow" />
-                  <img ng-if="selected.change < 0" ng-src="images/arrowred.png" class="arrow" />
-                  <img ng-if="selected.change == 0" ng-src="images/arrowyellow.png" class="arrow" />
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
+                      ng-src="images/arrowgreen.png" class="arrow" />
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'POOR'"
+                      ng-src="images/arrowred.png" class="arrow" />
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM'"
+                      ng-src="images/arrowyellow.png" class="arrow" />
                   <span ng-class="{
-                      'text-red': selected.change < 0,
-                      'text-yellow': selected.change == 0,
-                      'text-green': selected.change > 0}">
+                      'text-red': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
+                      'text-yellow': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
+                      'text-green': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
                     {{ selected.change }}
                   </span>
                   <p ng-if="selected.change === undefined" class="medium-character" style="position: static">NA</p>
