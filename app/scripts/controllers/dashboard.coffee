@@ -500,8 +500,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
-          unless val?
-            val = NaN
           color = brackets.colour brackets.getBracket val, $scope.metric
           layer.setStyle colorSrv.polygonOff color
 

@@ -28,9 +28,9 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
 
   getBracket: (val, metric) ->
-    unless typeof val == 'number'
+    unless typeof val in ['number', 'undefined']
       throw new Error "val must be a number. Got: '#{val}' which is '#{typeof val}'"
-    if isNaN val
+    if isNaN val  # NaN or undefined
       bracket.UNKNOWN
     else
       switch metric

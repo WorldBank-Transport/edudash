@@ -51,8 +51,6 @@ describe 'watchComputeSrv', ->
       .toEqual 'CHANGE_PREVIOUS_YEAR_GPA'
 
   it 'should validate getBracket parameters', ->
-    expect -> b.getBracket()
-      .toThrow new Error "val must be a number. Got: 'undefined' which is 'undefined'"
     expect -> b.getBracket 'z'
       .toThrow new Error "val must be a number. Got: 'z' which is 'string'"
     expect -> b.getBracket 1
@@ -65,6 +63,7 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket NaN, 'AVG_GPA').toBe b.bracket.UNKNOWN
     expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR').toBe b.bracket.UNKNOWN
     expect(b.getBracket NaN, 'CHANGE_PREVIOUS_YEAR_GPA').toBe b.bracket.UNKNOWN
+    expect(b.getBracket undefined, 'AVG_MARK').toBe b.bracket.UNKNOWN
 
   it 'AVG_MARK ranges', ->
     expect(b.getBracket -1, 'AVG_MARK').toBe b.bracket.UNKNOWN
