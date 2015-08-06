@@ -20,12 +20,13 @@ angular.module 'edudashApp'
       property: '@property'
       max: '=max'
       min: '=min'
+      limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
       scope.schools = null
       scope.$watch 'dataset', (p) ->
         if p?
-          p.then (schools) -> scope.schools = schools
+          p.then (schools) -> scope.schools = schools.slice 0, scope.limit
           loadingSrv.containerLoad p, el[0]
         else
           scope.schools = null

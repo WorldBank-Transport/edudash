@@ -348,7 +348,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           rankField = $scope.metric
           if school[rankField]?
             $scope.allSchools.then (schools) ->
-              ranked = rankSchools schools, [rankField, true, true]
+              ranked = rankSchools schools, [rankField, true]
               school.nationalRank =
                 rank: (ranked.indexOf school) + 1
                 size: ranked.length
@@ -432,7 +432,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = (schools, [orderBy, desc, all]) ->
+        rankSchools = (schools, [orderBy, desc]) ->
           ob = orderBy
           if ob not in ['CHANGE_PREVIOUS_YEAR',
                         'RANK',
@@ -441,11 +441,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                         'CHANGE_PREVIOUS_YEAR_GPA',
                         'AVG_MARK' ]
             throw new Error "invalid orderBy: '#{ob}'"
-          list = _.unique(schools
+          _.unique(schools
             .filter (s) -> s[ob]?
             .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
           )
-          if all then list else list.slice 0, 20
 
 
         # widget local state (maybe should move to other directives)

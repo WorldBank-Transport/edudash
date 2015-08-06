@@ -240,9 +240,11 @@
                   click="select"
                   hover="hover"
                   unHover="unHover"
-                  property="CHANGE_PREVIOUS_YEAR"
-                  max="20"
-                  min="10">
+                  property="PASS_RATE"
+                  max="60"
+                  min="40"
+                  sufix="%"
+                  limit="10">
               </school-list>
             </div>
             <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
@@ -254,9 +256,11 @@
                   click="select"
                   hover="hover"
                   unHover="unHover"
-                  property="RANK"
+                  property="PASS_RATE"
                   max="60"
-                  min="40">
+                  min="40"
+                  sufix="%"
+                  limit="10">
               </school-list>
             </div>
           </div>
@@ -293,7 +297,8 @@
                   property="PASS_RATE"
                   max="60"
                   min="40"
-                  sufix="%">
+                  sufix="%"
+                  limit="10">
               </school-list>
             </div>
           </div>
