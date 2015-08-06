@@ -96,6 +96,10 @@
       $('select').select2();
     </script>
 
+    <!-- Monkey-patch a leaflet function that is broken on chrome by the
+         optimizing compiler. DO NOT REMOVE probably. -->
+    <script src="scripts/hacks.js"></script>
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
 
