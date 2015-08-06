@@ -7,7 +7,7 @@
  # # schoolList
 ###
 angular.module 'edudashApp'
-  .directive 'schoolList', (loadingSrv) ->
+  .directive 'schoolList', (loadingSrv, bracketsSrv) ->
     restrict: 'E'
     templateUrl: 'views/schoollist.html'
     scope:
@@ -18,8 +18,6 @@ angular.module 'edudashApp'
       hover: '=hover'
       unHover: '=unHover'
       property: '@property'
-      max: '=max'
-      min: '=min'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
@@ -30,3 +28,11 @@ angular.module 'edudashApp'
           loadingSrv.containerLoad p, el[0]
         else
           scope.schools = null
+
+      scope.getStyle = (val, prop) ->
+        switch bracketsSrv.getBracket val, prop
+          when 'GOOD' then 'passrategreen'
+          when 'MEDIUM' then 'passrateyellow'
+          when 'POOR' then 'passratered'
+          when 'UNKNOWN' then '#aaa'
+          else throw new Error "Unknown bracket: '#{brace}'"

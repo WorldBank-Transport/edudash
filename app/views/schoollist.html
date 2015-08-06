@@ -15,10 +15,7 @@
           ng-mouseleave="unHover()">
         <strong>{{ school.NAME }}</strong>
       </td>
-      <td ng-class="{
-        'passrategreen': school[property] >= max,
-        'passrateyellow': school[property] < max && school[property] > min,
-        'passratered':school[property] <= min}">
+      <td ng-class="getStyle(school[property], property)">
         {{ school[property] }}{{ sufix }}
       </td>
     </tr>
