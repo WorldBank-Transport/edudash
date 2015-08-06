@@ -99,7 +99,7 @@
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
           <li role="presentation" ng-class="{active: viewMode==='regions'}">
-            <a ng-click="setViewMode('regions')">
+            <a ng-click="setViewMode(viewMode==='regions' ? 'schools' : 'regions')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>

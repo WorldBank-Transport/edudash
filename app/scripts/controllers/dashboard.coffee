@@ -273,6 +273,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               leafletData.getMap(mapId).then (map) -> map.removeLayer marker
 
         # side-effects only
+        $scope.$watch 'polygons', (newPolys, oldPolys) -> if oldPolys?
+          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPolys
+
+        # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
 
