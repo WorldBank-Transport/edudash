@@ -30,6 +30,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           years: null
           yearAggregates: null
           metric: null
+          sortMetric:  null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -87,6 +88,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               null
             else
               brackets.getMetric schoolType, criteria
+
+        watchCompute 'sortMetric',
+          dependencies: ['schoolType', 'rankBy']
+          computer: ([schoolType, criteria]) ->
+            unless schoolType? and criteria?
+              null
+            else
+              brackets.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
@@ -194,7 +203,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, [$scope.metric, true]
+                  resolve rankSchools schools, $scope.sortMetric
                 ), reject
 
         watchCompute 'filteredSchools',
