@@ -345,17 +345,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
-          rankField = $scope.metric
-          if school[rankField]?
-            $scope.allSchools.then (schools) ->
-              ranked = rankSchools schools, [rankField, true]
-              school.nationalRank =
-                rank: (ranked.indexOf school) + 1
-                size: ranked.length
+          [ob, desc] = brackets.getRank $scope.schoolType
           unless school.ranks?
             $q.all
-                region: (rank school, 'REGION')
-                district: (rank school, 'DISTRICT')
+                national: (rank school, 'NATIONAL', [ob, desc])
+                region: (rank school, 'REGION', [ob, desc])
+                district: (rank school, 'DISTRICT', [ob, desc])
               .then (ranks) ->
                 school.ranks = ranks
 
@@ -415,17 +410,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               resolve layer
 
-        # get the (rank, total) of a school, filtered by its region or district
-        rank = (school, rank_by) ->
-          if rank_by not in ['REGION', 'DISTRICT']
+        # get the (rank, total) of a school, filtered by its region or district or national
+        rank = (school, rank_by, [ob, desc]) ->
+          if rank_by not in ['REGION', 'DISTRICT', 'NATIONAL']
             throw new Error "invalid rank_by: '#{rank_by}'"
           $q (resolve, reject) ->
             rankSchool = (schools) ->
-              if school[rank_by] == undefined
+              if rank_by != 'NATIONAL' and school[rank_by] == undefined
                 return resolve [undefined, undefined]
               ranked = schools
-                .filter (s) -> s[rank_by] == school[rank_by]
-                .sort (a, b) -> a.rank - b.rank # TODO fix me, this should be base on the type of dashboard
+                .filter (s) -> rank_by == 'NATIONAL' or s[rank_by] == school[rank_by]
+                .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
               resolve
                 rank: (ranked.indexOf school) + 1
                 total: ranked.length
@@ -443,7 +438,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             throw new Error "invalid orderBy: '#{ob}'"
           _.unique(schools
             .filter (s) -> s[ob]?
-            .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
+              .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
           )
 
 
