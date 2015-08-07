@@ -394,14 +394,14 @@
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='primary'">
                 <div class="col-lg-4">
-                  <p class="widgettitle">AVERAGE MARK</p>
+                  <p class="widgettitle" translate="chart.title.mark">average mark</p>
                   <p class="widgetnumber">
                     <span>{{ selected.AVG_MARK }}</span>
                   </p>
                   <p ng-if="selected.AVG_MARK === undefined" class="medium-character" style="position: static">NA</p>
                 </div>
                 <div class="col-lg-8">
-                  <p class="widgettitle">CHANGE MARK PREVIOUS YEAR</p>
+                  <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
                   <p class="widgetnumber">
                     <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
                            ng-src="images/arrowgreen.png" class="arrow" />
@@ -420,7 +420,7 @@
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
                 <div class="col-lg-4">
-                  <p class="widgettitle">AVERAGE GPA</p>
+                  <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
                   <p class="widgetnumber">
                     <span ng-class="{
                       'text-red': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'POOR',
@@ -430,7 +430,7 @@
                   <p ng-if="selected.AVG_GPA === undefined" class="medium-character" style="position: static">NA</p>
                 </div>
                 <div class="col-lg-8">
-                  <p class="widgettitle">CHANGE GPA PREVIOUS YEAR</p>
+                  <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
                   <p class="widgetnumber">
                     <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'"
                       ng-src="images/arrowgreen.png" class="arrow" />
