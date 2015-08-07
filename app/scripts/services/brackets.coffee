@@ -17,17 +17,12 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
     else
       switch metric
 
-        when 'AVG_MARK' then switch
-          when 0 <= val < 40 then 'POOR'
-          when 40 <= val <= 60 then 'MEDIUM'
-          when 60 < val <= 100 then 'GOOD'
-          else 'UNKNOWN'
-
+        when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
+        # According to Mark we don't have to validate GPA ranges
         when 'AVG_GPA' then switch
-          when 1 <= val <= 3 then 'POOR'
+          when val <= 3 then 'GOOD'
           when 3 < val <= 4.2 then 'MEDIUM'
-          when 4.2 < val <= 5 then 'GOOD'  # what's the upper limit?
-          else 'UNKNOWN'
+          when val > 4.2 then 'POOR'  # what's the upper limit?
 
         when 'CHANGE_PREVIOUS_YEAR', 'CHANGE_PREVIOUS_YEAR_GPA' then switch
           when val < 0 then 'POOR'
@@ -56,12 +51,23 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
     unless criteria in ['performance', 'improvement']
       throw new Error "Unknown criteria '#{criteria}'"
     switch schoolType
-      when 'primary' then switch criteria
-        when 'performance' then 'AVG_MARK'
-        when 'improvement' then 'CHANGE_PREVIOUS_YEAR'
+      when 'primary' then 'PASS_RATE'
       when 'secondary' then switch criteria
         when 'performance' then 'AVG_GPA'
         when 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
+
+  getSortMetric: (schoolType, criteria) ->
+    unless schoolType in ['primary', 'secondary']
+      throw new Error "Unknown school type '#{schoolType}'"
+    unless criteria in ['performance', 'improvement']
+      throw new Error "Unknown criteria '#{criteria}'"
+    switch schoolType
+      when 'primary' then switch criteria
+        when 'performance' then ['AVG_MARK', true]
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+      when 'secondary' then switch criteria
+        when 'performance' then ['AVG_GPA', false]
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR_GPA', false]
 
   getRank: (schoolType) ->
     unless schoolType in ['primary', 'secondary']

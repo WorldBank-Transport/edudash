@@ -23,13 +23,34 @@ describe 'watchComputeSrv', ->
   it 'should provide the correct metric from getMetric', ->
     # exhaustive check because we can
     expect b.getMetric 'primary', 'performance'
-      .toEqual 'AVG_MARK'
+      .toEqual 'PASS_RATE'
     expect b.getMetric 'primary', 'improvement'
-      .toEqual 'CHANGE_PREVIOUS_YEAR'
+      .toEqual 'PASS_RATE'
     expect b.getMetric 'secondary', 'performance'
       .toEqual 'AVG_GPA'
     expect b.getMetric 'secondary', 'improvement'
       .toEqual 'CHANGE_PREVIOUS_YEAR_GPA'
+
+  it 'should validate getSortMetric parameters', ->
+    expect -> b.getSortMetric()
+      .toThrow new Error "Unknown school type 'undefined'"
+    expect -> b.getSortMetric 'bad school type'
+      .toThrow new Error "Unknown school type 'bad school type'"
+    expect -> b.getSortMetric 'primary'
+      .toThrow new Error "Unknown criteria 'undefined'"
+    expect -> b.getSortMetric 'primary', 'bad criteria'
+      .toThrow new Error "Unknown criteria 'bad criteria'"
+
+  it 'should provide the correct metric from getSortMetric', ->
+    # exhaustive check because we can
+    expect b.getSortMetric 'primary', 'performance'
+      .toEqual ['AVG_MARK', true]
+    expect b.getSortMetric 'primary', 'improvement'
+      .toEqual ['CHANGE_PREVIOUS_YEAR', true]
+    expect b.getSortMetric 'secondary', 'performance'
+      .toEqual ['AVG_GPA', false]
+    expect b.getSortMetric 'secondary', 'improvement'
+      .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', false]
 
   it 'should validate getBracket parameters', ->
     expect -> b.getBracket 'z'
@@ -47,24 +68,21 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket undefined, 'AVG_MARK').toEqual 'UNKNOWN'
 
   it 'AVG_MARK ranges', ->
-    expect(b.getBracket -1, 'AVG_MARK').toEqual 'UNKNOWN'
-    expect(b.getBracket 0,  'AVG_MARK').toEqual 'POOR'
-    expect(b.getBracket 39, 'AVG_MARK').toEqual 'POOR'
-    expect(b.getBracket 40, 'AVG_MARK').toEqual 'MEDIUM'
-    expect(b.getBracket 60, 'AVG_MARK').toEqual 'MEDIUM'
-    expect(b.getBracket 61, 'AVG_MARK').toEqual 'GOOD'
-    expect(b.getBracket 100,'AVG_MARK').toEqual 'GOOD'
-    expect(b.getBracket 101,'AVG_MARK').toEqual 'UNKNOWN'
+    expect -> b.getBracket 0,  'AVG_MARK'
+      .toThrow new Error "AVG_MARK shall not be bracket"
+    expect -> b.getBracket -1, 'AVG_MARK'
+      .toThrow new Error "AVG_MARK shall not be bracket"
+    expect -> b.getBracket 1,  'AVG_MARK'
+      .toThrow new Error "AVG_MARK shall not be bracket"
 
   it 'AVG_GPA ranges', ->
-    expect(b.getBracket 0,  'AVG_GPA').toEqual 'UNKNOWN'
-    expect(b.getBracket 1,  'AVG_GPA').toEqual 'POOR'
-    expect(b.getBracket 3,  'AVG_GPA').toEqual 'POOR'
+    expect(b.getBracket 1,  'AVG_GPA').toEqual 'GOOD'
+    expect(b.getBracket 3,  'AVG_GPA').toEqual 'GOOD'
     expect(b.getBracket 3.1,'AVG_GPA').toEqual 'MEDIUM'
     expect(b.getBracket 4.2,'AVG_GPA').toEqual 'MEDIUM'
-    expect(b.getBracket 4.3,'AVG_GPA').toEqual 'GOOD'
-    expect(b.getBracket 5,  'AVG_GPA').toEqual 'GOOD'
-    expect(b.getBracket 5.1,'AVG_GPA').toEqual 'UNKNOWN'
+    expect(b.getBracket 4.3,'AVG_GPA').toEqual 'POOR'
+    expect(b.getBracket 5,  'AVG_GPA').toEqual 'POOR'
+
 
   it 'CHANGE_PREVIOUS_YEAR ranges', ->
     expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR').toEqual 'POOR'

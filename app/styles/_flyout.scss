@@ -47,6 +47,7 @@
     &.MEDIUM { color: $rank-medium; }
     &.POOR { color: $rank-poor; }
     &.UNKNOWN { color: $unknown; }
+    &.NOCOLOR { color: #000000; }
   }
   .stat .stat .number,
   header .stat .number {
