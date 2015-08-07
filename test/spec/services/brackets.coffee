@@ -29,7 +29,7 @@ describe 'watchComputeSrv', ->
     expect b.getMetric 'secondary', 'performance'
       .toEqual 'AVG_GPA'
     expect b.getMetric 'secondary', 'improvement'
-      .toEqual 'CHANGE_PREVIOUS_YEAR_GPA'
+      .toEqual 'AVG_GPA'
 
   it 'should validate getSortMetric parameters', ->
     expect -> b.getSortMetric()
@@ -53,8 +53,9 @@ describe 'watchComputeSrv', ->
       .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', false]
 
   it 'should validate getBracket parameters', ->
-    expect -> b.getBracket 'z'
-      .toThrow new Error "val must be a number. Got: 'z' which is 'string'"
+    expect(b.getBracket 'x', 'AVG_MARK').toEqual 'UNKNOWN'
+#    expect -> b.getBracket 'z'
+#      .toThrow new Error "val must be a number. Got: 'z' which is 'string'"
     expect -> b.getBracket 1
       .toThrow new Error "Unknown metric: 'undefined'"
     expect -> b.getBracket 1, 'not a metric'
@@ -90,9 +91,12 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR').toEqual 'GOOD'
 
   it 'CHANGE_PREVIOUS_YEAR_GPA ranges', ->
-    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
+    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
     expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'MEDIUM'
-    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
+    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
+    expect(b.getBracket '-1','CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
+    expect(b.getBracket '0', 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'MEDIUM'
+    expect(b.getBracket '1', 'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'POOR'
 
   it 'PASS_RATE ranges', ->
     expect(b.getBracket -1, 'PASS_RATE').toEqual 'UNKNOWN'

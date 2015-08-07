@@ -10,11 +10,13 @@
 angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
   getBracket: (val, metric) ->
-    unless typeof val in ['number', 'undefined']
+    unless typeof val in ['number', 'undefined', 'string']
       throw new Error "val must be a number. Got: '#{val}' which is '#{typeof val}'"
     if isNaN val  # NaN or undefined
       'UNKNOWN'
     else
+      if typeof val is 'string' # this is a hack since the negative come as string values
+        val = parseInt val
       switch metric
 
         when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
@@ -24,10 +26,15 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
           when 3 < val <= 4.2 then 'MEDIUM'
           when val > 4.2 then 'POOR'  # what's the upper limit?
 
-        when 'CHANGE_PREVIOUS_YEAR', 'CHANGE_PREVIOUS_YEAR_GPA' then switch
+        when 'CHANGE_PREVIOUS_YEAR' then switch
           when val < 0 then 'POOR'
           when val == 0 then 'MEDIUM'
           when val > 0 then 'GOOD'
+
+        when 'CHANGE_PREVIOUS_YEAR_GPA' then switch
+          when val < 0 then 'GOOD'
+          when val == 0 then 'MEDIUM'
+          when val > 0 then 'POOR'
           # `when`s are exhaustive: tested typeof === number and !isNaN
 
         when 'PASS_RATE' then switch
@@ -52,9 +59,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
       throw new Error "Unknown criteria '#{criteria}'"
     switch schoolType
       when 'primary' then 'PASS_RATE'
-      when 'secondary' then switch criteria
-        when 'performance' then 'AVG_GPA'
-        when 'improvement' then 'CHANGE_PREVIOUS_YEAR_GPA'
+      when 'secondary' then 'AVG_GPA'
 
   getSortMetric: (schoolType, criteria) ->
     unless schoolType in ['primary', 'secondary']
