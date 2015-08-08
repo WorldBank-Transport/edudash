@@ -392,6 +392,61 @@
                   </rank>
                 </div>
               </div>
+              <div class="widget row widget-full-width" ng-if="schoolType==='primary'">
+                <div class="col-lg-4">
+                  <p class="widgettitle" translate="chart.title.mark">average mark</p>
+                  <p class="widgetnumber">
+                    <span>{{ selected.AVG_MARK }}</span>
+                  </p>
+                  <p ng-if="selected.AVG_MARK === undefined" class="medium-character" style="position: static">NA</p>
+                </div>
+                <div class="col-lg-8">
+                  <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
+                  <p class="widgetnumber">
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
+                           ng-src="images/arrowgreen.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR'"
+                           ng-src="images/arrowred.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM'"
+                           ng-src="images/arrowyellow.png" class="arrow" />
+                    <span ng-class="{
+                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
+                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
+                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
+                      {{ selected.CHANGE_PREVIOUS_YEAR }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
+                <div class="col-lg-4">
+                  <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
+                  <p class="widgetnumber">
+                    <span ng-class="{
+                      'text-red': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'POOR',
+                      'text-yellow': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'GOOD'}">{{ selected.AVG_GPA }}</span>
+                  </p>
+                  <p ng-if="selected.AVG_GPA === undefined" class="medium-character" style="position: static">NA</p>
+                </div>
+                <div class="col-lg-8">
+                  <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
+                  <p class="widgetnumber">
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'"
+                      ng-src="images/arrowgreen.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR'"
+                      ng-src="images/arrowred.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM'"
+                      ng-src="images/arrowyellow.png" class="arrow" />
+                    <span ng-class="{
+                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR',
+                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'}">
+                      {{ selected.CHANGE_PREVIOUS_YEAR_GPA }}
+                    </span>
+                  </p>
+                </div>
+              </div>
               <div class="widget">
                 <pupil-teacher-ratio-chart
                     min="25"
