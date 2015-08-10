@@ -12,3 +12,5 @@ angular.module('edudashAppSrv').service 'staticApi', ($http, $q) ->
     $q (resolve, reject) -> ($http.get url).then ((resp) -> resolve resp.data), reject
 
   getRegions: -> getData '/layers/tz_regions.json'
+
+  getDistricts: -> getData '/layers/tz_districts.json'

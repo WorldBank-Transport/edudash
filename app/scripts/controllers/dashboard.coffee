@@ -115,6 +115,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               switch polyType
                 when 'regions' then loadRegions()
+                when 'districts' then loadDistricts()
                 else (
                   $log.warn "unknown polyType '#{polyType}'"
                   null
@@ -123,17 +124,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'detailedPolys',
           dependencies: ['polygons', 'polyType', 'allSchools', 'schoolType']
           waitForPromise: true
-          computer: ([polygons, polyType, allSchools, schoolType]) ->
+          computer: ([polygons, polyType, allSchools, schoolType], [oldPolys]) ->
             $q (resolve, reject) ->
-              unless polygons? and allSchools?
+              unless polygons? and allSchools? and polygons != oldPolys
                 resolve null
               else
                 $q.all
-                    regions: polygons
+                    polys: polygons
                     schools: allSchools
-                  .then ({regions, schools}) ->
+                  .then ({polys, schools}) ->
                     detailsByRegion = {}
-                    schoolsByRegion = groupBy schools, 'REGION'
+                    schoolsByRegion = groupBy schools, switch polyType
+                      when 'regions' then 'REGION'
+                      when 'districts' then 'DISTRICT'
+                      else (
+                        reject "cannot group polygons by unknown polyType '#{polyType}'"
+                        return
+                      )
                     for id, regSchools of schoolsByRegion
                       detailsByRegion[id] =
                         # TODO: should these averages be weighted by number of pupils?
@@ -147,8 +154,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                           CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
                         else
                           throw new Error 'Expected "primary" or "secondary" for schoolType'
-                    resolve regions.map (region) ->
-                      # TODO: warn about regions mismatch
+                    resolve polys.map (region) ->
+                      # TODO: warn about polys mismatch
                       properties = angular.extend detailsByRegion[region.id] or {},
                         NAME: region.id
                       angular.extend region, properties: properties
@@ -251,13 +258,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'polyLayer',
-          dependencies: ['detailedPolys']
+          dependencies: ['detailedPolys', 'polyType']
           waitForPromise: true
-          computer: ([polys]) -> $q (resolve, reject) ->
-            unless polys?
+          computer: ([polys, polyType], [oldPolys]) -> $q (resolve, reject) ->
+            unless polys? and polys != oldPolys
               resolve null
             else
-              resolve layersSrv.addGeojsonLayer 'polygons', mapId,
+              layerId = "polygons-#{polyType}"
+              resolve layersSrv.addGeojsonLayer layerId, mapId,
                 getData: -> $q.when
                   type: 'FeatureCollection'
                   features: polys
@@ -296,7 +304,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           ([polyLayer, polyIdMap]) ->
             if polyLayer? and polyIdMap?
               polyLayer.eachLayer (layer) ->
-                colorPoly polyIdMap[layer.feature.id], layer
+                feature = polyIdMap[layer.feature.id]
+                if feature?
+                  colorPoly feature, layer
 
         # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
@@ -348,6 +358,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             staticApi.getRegions()
               .then (topo) ->
                 {features} = topojson.feature topo, topo.objects.tz_Regions
+                resolve features.map (feature) ->
+                  type: feature.type
+                  id: feature.properties.name.toUpperCase()
+                  geometry: feature.geometry
+              .catch reject
+
+        loadDistricts = ->
+          $q (resolve, reject) ->
+            staticApi.getDistricts()
+              .then (topo) ->
+                {features} = topojson.feature topo, topo.objects.tz_districts
                 resolve features.map (feature) ->
                   type: feature.type
                   id: feature.properties.name.toUpperCase()
