@@ -63,6 +63,7 @@
     "chart.title.mark.change-previous-year": "change mark previous year",
     "chart.title.gpa": "average gpa",
     "chart.title.gpa.change-previous-year": "change gpa previous year",
+    "chart.metric.missing-data": "missing data",
     "distric": "District",
     "region": "Region",
     "about.paragraph": "This is the about view",

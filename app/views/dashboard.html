@@ -361,7 +361,7 @@
                       'text-green': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
                     {{ selected.change }}
                   </span>
-                  <p ng-if="selected.change === undefined" class="medium-character" style="position: static">NA</p>
+                  <p ng-if="selected.change === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </p>
               </div>
               <div class="col-md-8">
@@ -398,7 +398,7 @@
                   <p class="widgetnumber">
                     <span>{{ selected.AVG_MARK }}</span>
                   </p>
-                  <p ng-if="selected.AVG_MARK === undefined" class="medium-character" style="position: static">NA</p>
+                  <p ng-if="selected.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
@@ -427,7 +427,7 @@
                       'text-yellow': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'MEDIUM',
                       'text-green': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'GOOD'}">{{ selected.AVG_GPA }}</span>
                   </p>
-                  <p ng-if="selected.AVG_GPA === undefined" class="medium-character" style="position: static">NA</p>
+                  <p ng-if="selected.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
