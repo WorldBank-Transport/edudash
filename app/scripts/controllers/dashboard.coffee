@@ -282,6 +282,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if $scope.selected?
               $scope.select $scope.selected.CODE
 
+        # side-effect: map spinner for polygons load
+        $scope.$watch 'polygons', (polysP) -> if polysP?
+          loadingSrv.containerLoad polysP, document.getElementById mapId
+
         # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
