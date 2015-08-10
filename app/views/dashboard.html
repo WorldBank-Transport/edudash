@@ -1,4 +1,4 @@
-<div class="map-widget {'has-filters': viewMode !== 'districts'}">
+<div ng-class="{'map-widget': true, 'has-filters': viewMode !== 'polygons'}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
@@ -38,7 +38,7 @@
     </map-bottom-toggle>
 
     <map-bottom-toggle
-        ng-if="activeMap!=='districts'"
+        ng-if="viewMode!=='polygons'"
         title="{{ 'filters.title' | translate }}"
         emitkey="filtersToggle"
         class="filters">
@@ -89,7 +89,7 @@
       ng-style="{bottom: filtersHeight}"
       ng-mouseenter="keepHovered()"
       ng-mouseleave="unHover()"
-      ng-show="viewMode==='regions' && hovered!==null"
+      ng-show="viewMode==='polygons' && hovered!==null"
       ng-include="'views/regionFlyout.html'">
     </div>
   </div>
@@ -98,20 +98,18 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: viewMode==='regions'}">
-            <a ng-click="setViewMode(viewMode==='regions' ? 'schools' : 'regions')">
+          <li role="presentation" ng-class="{active: polyType==='regions'}">
+            <a ng-click="togglePolygons('regions')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          <!-- Remove this tab temporally until we get data for regions
-          <li role="presentation" ng-class="{active: viewMode==='district'}">
-            <a ng-click="setViewMode('district')">
-              <span class="hide-sm" translate="tab.district-view">Districts</span>
-              <span class="show-sm" translate="tab.district">District</span>
+          <li role="presentation" ng-class="{active: polyType==='districts'}">
+            <a ng-click="togglePolygons('districts')">
+              <span class="hide-sm" translate="tab.district-view">Regions</span>
+              <span class="show-sm" translate="tab.district">Regional</span>
             </a>
           </li>
-          -->
           <li role="presentation" ng-class="{active: schoolType==='primary'}">
             <a ng-click="setSchoolType('primary')">
               <span class="hide-sm" translate="tab.primary-schools-mode">Primary Schools</span>
