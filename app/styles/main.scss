@@ -1162,7 +1162,10 @@ map-bottom-toggle.filters {
   margin-left: 0px;
   white-space: nowrap;
   left: 0;
-}
+}&.missing-data {
+   font-size: 15px;
+   text-transform: uppercase;
+ }
 .text-grey {
   color: $unknown;
 }

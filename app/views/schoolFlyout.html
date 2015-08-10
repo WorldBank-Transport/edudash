@@ -38,5 +38,5 @@
       class="number {{ getBracket(hovered.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}">
     {{ hovered.PUPIL_TEACHER_RATIO }}
   </p>
-  <p ng-if="hovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character" style="position: static">NA</p>
+  <p ng-if="hovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
 </div>
