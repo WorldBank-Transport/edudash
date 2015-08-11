@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv',
+    'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets) ->
+    staticApi, watchComputeSrv, brackets, $modal) ->
 
         # other state
         layers = {}
@@ -543,5 +543,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.anchorScroll = () ->
             $anchorScroll()
+
+        $scope.showModal = (total) ->
+          $scope.totalToShow = total
+          modalInstance = $modal.open
+            animation: true,
+            templateUrl: 'views/schoollistmodal.html',
+            controller: 'SchoollistmodalCtrl',
+            size: 'lg',
+            resolve:
+              items: () ->
+                schoolList: $scope.rankedBy
+                total: $scope.totalToShow
+
+          modalInstance.result.then (selectedItem) ->
+            $scope.select(selectedItem)
+          , () ->
+            $log.info('Modal dismissed at: ' + new Date())
+
 
 ]

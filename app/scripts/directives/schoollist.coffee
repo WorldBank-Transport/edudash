@@ -18,6 +18,8 @@ angular.module 'edudashApp'
       hover: '=hover'
       unHover: '=unHover'
       property: '@property'
+      showModal: '=showmodal'
+      showTotalModal: '@showtotalmodal'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->

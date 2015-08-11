@@ -20,6 +20,7 @@ angular
     'ngTouch',
     'ui.select',
     'ui-rangeSlider',
+    'ui.bootstrap'
   ])
   .config ($routeProvider, uiSelectConfig) ->
     $routeProvider
