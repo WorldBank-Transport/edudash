@@ -312,7 +312,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   getData: -> $q.when thing
                   options: onEachFeature: (feature, layer) ->
                     colorPoly feature, layer
-                    layer.setStyle colorSrv.polygonOn()
+                    layer.setStyle colorSrv.polygonSelect()
                 layer
               )
               else throw new Error 'blah blah blah'
@@ -351,6 +351,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 layer: newL
               .then ({map, layer}) ->
                 map.fitBounds layer.getBounds()
+            if $scope.polyType = 'regions'
+              $scope.polyType = 'districts'
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
