@@ -37,7 +37,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polyType: null
           hovered: null
           lastHovered: null
+          selectedCode: null
           selected: null
+          selectedLayer: null
           allSchools: null
           filteredSchools: null
           pins: null
@@ -72,7 +74,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
+          select: (code) -> $scope.selectedCode = code
           search: (q) -> search q
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
@@ -275,11 +277,51 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           dependencies: ['hovered']
           computer: ([thing], [oldThing]) -> thing or oldThing
 
+        watchCompute 'selected',
+          dependencies: ['selectedCode', 'viewMode']
+          waitForPromise: true
+          computer: ([code, viewMode]) ->
+            unless code?
+              $q.when null
+            else switch viewMode
+              when 'schools' then findSchool code
+              when 'polygons' then findPoly code
+              else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
+
+        watchCompute 'selectedLayer',
+          dependencies: ['selected', 'viewMode']
+          computer: ([thing, viewMode]) ->
+            unless thing?
+              null
+            else switch viewMode
+              when 'schools' then (
+                latlng = [thing.LATITUDE, thing.LONGITUDE]
+                # note that layerSrv.marker is cached by the id provided ('school-marker')
+                layer = layersSrv.marker 'school-marker', mapId,
+                  latlng: latlng
+                  options: icon: layersSrv.awesomeIcon
+                    markerColor: 'blue'
+                    icon: 'map-marker'
+                # so we have to reset the latlng for subsequent times
+                layer.then (l) -> l.setLatLng latlng
+                layer
+              )
+              when 'polygons' then (
+                layerId = "poly-marker-#{thing.id}"
+                layer = layersSrv.addGeojsonLayer layerId, mapId,
+                  getData: -> $q.when thing
+                  options: onEachFeature: (feature, layer) ->
+                    colorPoly feature, layer
+                    layer.setStyle colorSrv.polygonOn()
+                layer
+              )
+              else throw new Error 'blah blah blah'
+
         # side-effects only
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
-            if $scope.selected?
+            if $scope.selected? and $scope.viewMode == 'schools'
               $scope.select $scope.selected.CODE
 
         # side-effect: map spinner for polygons load
@@ -291,13 +333,24 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
         # side-effects only
-        $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
-          oldMarker.then (marker) ->
-              leafletData.getMap(mapId).then (map) -> map.removeLayer marker
-
-        # side-effects only
         $scope.$watch 'polyLayer', (newPolys, oldPolys) -> if oldPolys?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPolys
+
+        # side-effect: remove old selected layer
+        $scope.$watch 'selectedLayer', (newL, oldLayer) -> if oldLayer?
+          $q.all
+              map: leafletData.getMap(mapId)
+              layer: oldLayer
+            .then ({map, layer}) -> map.removeLayer layer
+
+        # side-effect: zoom in to selected polyLayer
+        $scope.$watch 'selectedLayer', (newL) ->
+          if $scope.viewMode == 'polygons'
+            $q.all
+                map: leafletData.getMap(mapId)
+                layer: newL
+              .then ({map, layer}) ->
+                map.fitBounds layer.getBounds()
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
@@ -342,10 +395,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 layer.setStyle colorSrv.polygonOff()
 
         # side-effects only
-        $scope.$watch 'selected', (school) ->
-          if school != null
-            if $scope.viewMode == 'schools'
-              setSchool school
+        $scope.$watch 'selected', (thing) -> if thing?
+          if $scope.viewMode == 'schools'
+            setSchool thing
+          else if $scope.viewMode == 'polygons'
+            # pass
+          else
+            $log.warn "Unknown viewMode to update selected: '#{$scope.viewMode}'"
 
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
@@ -391,7 +447,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
-          markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
           [ob, desc] = brackets.getRank $scope.schoolType
@@ -498,9 +553,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # controller constants
         mapId = 'map'
 
-        # other global-ish stuff
-        schoolMarker = null
-
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
@@ -558,16 +610,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         average = (nums) -> (nums.reduce (a, b) -> a + b) / nums.length
 
         averageProp = (rows, prop) -> average _(rows).map (r) -> r[prop]
-
-        markSchool = (latlng) ->
-          unless $scope.schoolMarker?
-            icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
-            $scope.schoolMarker = layersSrv.marker 'school-marker', mapId,
-              latlng: latlng
-              options: icon: icon
-
-          $scope.schoolMarker.then (marker) ->
-            marker.setLatLng latlng
 
         search = (query) ->
           if query?
