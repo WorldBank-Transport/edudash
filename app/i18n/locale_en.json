@@ -87,7 +87,8 @@
     "main.link.data": "data",
     "speakout.title": "Your voice matters! Complete this form to share feedback about the data.",
 
-    "map.selected.region-name": "Region Name",
+    "map.selected.regions-name": "Region Name",
+    "map.selected.districts-name": "District Name",
     "map.selected.number-school": "Number of Schools",
     "map.selected.goberment": "Government Schools",
     "map.selected.private-school": "Private Schools",
@@ -101,6 +102,7 @@
     "map.selected.pt-ratio": "Pupil-Teacher Ratio",
     "map.selected.avg-mark": "Average Mark",
     "map.selected.avg-gpa": "Average GPA",
+    "map.missing-data": "missing data",
 
     "footer.licensenote1": "The content of this website is published under a ",
     "footer.licensenote2": ", and the ",

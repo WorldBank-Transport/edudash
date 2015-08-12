@@ -1,18 +1,33 @@
+<!--
+  Note that lastHovered is used in several places.
+  This is OK because:
+   1. lastHovered is always equal to hovered when hovered is not null
+   2. lastHovered keeps its value for the flyout fade when the mouse leaves
+-->
 <header>
-  <h2 translate="map.selected.region-name">Region Name</h2>
-  <p class="word">{{ hovered.properties.NAME }}</p>
+  <h2 translate="map.selected.{{polyType}}-name">Polygon Name</h2>
+  <p class="word">{{ lastHovered.properties.NAME }}</p>
 </header>
 <div class="stat">
   <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
-  <p class="number {{ hovered.properties.PASS_RATE === null ?
-    'unknown' : hovered.properties.PASS_RATE < 40 ?
-      'poor' : hovered.properties.PASS_RATE < 60 ?
-        'medium' : 'good' }}">{{ Math.round(hovered.properties.PASS_RATE) }} %</p>
+  <p class="number NOCOLOR MISSING"
+      ng-hide="lastHovered.properties.PASS_RATE|exists"
+      translate="map.missing-data">Missing Data</p>
+  <p class="number
+      {{ getBracket(lastHovered.properties.PASS_RATE, 'PASS_RATE') }}"
+      ng-show="lastHovered.properties.PASS_RATE|exists">
+    {{ Math.round(lastHovered.properties.PASS_RATE) }} %
+  </p>
 </div>
-<div translate="map.selected.average-pt-ratio" class="stat">
-  <h3>Average Pupil-Teacher Ratio</h3>
-  <p class="number {{ hovered.properties.PUPIL_TEACHER_RATIO === null ?
-    'unknown' : hovered.properties.PUPIL_TEACHER_RATIO < 35 ?
-      'good' : hovered.properties.PUPIL_TEACHER_RATIO > 50 ?
-        'poor' : 'medium' }}">{{ hovered.properties.PUPIL_TEACHER_RATIO }}</p>
+<div class="stat">
+  <h3 translate="map.selected.average-pt-ratio">Average Pupil-Teacher Ratio</h3>
+  <p class="number NOCOLOR MISSING"
+      ng-hide="lastHovered.properties.PUPIL_TEACHER_RATIO|exists"
+      translate="map.missing-data">Missing Data</p>
+  <p class="number
+      {{ getBracket(lastHovered.properties.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}"
+      ng-show="lastHovered.properties.PUPIL_TEACHER_RATIO|exists">
+    <!-- todo: colourify -->
+    {{ Math.round(lastHovered.properties.PUPIL_TEACHER_RATIO) }}
+  </p>
 </div>

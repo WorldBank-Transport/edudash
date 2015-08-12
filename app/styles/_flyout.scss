@@ -48,6 +48,10 @@
     &.POOR { color: $rank-poor; }
     &.UNKNOWN { color: $unknown; }
     &.NOCOLOR { color: #000000; }
+    &.MISSING {
+      font-size: 1.25em;
+      font-style: italic;
+    }
   }
   .stat .stat .number,
   header .stat .number {
