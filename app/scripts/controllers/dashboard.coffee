@@ -289,9 +289,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
 
         watchCompute 'selectedLayer',
-          dependencies: ['selected', 'viewMode']
-          computer: ([thing, viewMode]) ->
-            unless thing?
+          dependencies: ['selectedCode', 'selected', 'viewMode']
+          computer: ([code, thing, viewMode]) ->
+            unless code? and thing?
               null
             else switch viewMode
               when 'schools' then (
@@ -336,6 +336,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watch 'polyLayer', (newPolys, oldPolys) -> if oldPolys?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPolys
 
+        # side-effect: ensure that a selectedLayer is always in front, if exists
+        $scope.$watch 'polyLayer', -> if $scope.selectedLayer?
+          $scope.selectedLayer.then (l) -> l.bringToFront()
+
+        # side-effect: clear selectedLayer sometimes
+        $scope.$watch 'polyType', (newType, oldType) ->
+          unless newType?
+            $scope.select null
+          else
+            if oldType == 'districts'
+              $scope.select null
+
         # side-effect: remove old selected layer
         $scope.$watch 'selectedLayer', (newL, oldLayer) -> if oldLayer?
           $q.all
@@ -344,7 +356,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             .then ({map, layer}) -> map.removeLayer layer
 
         # side-effect: zoom in to selected polyLayer
-        $scope.$watch 'selectedLayer', (newL) ->
+        $scope.$watch 'selectedLayer', (newL) -> if newL?
           if $scope.viewMode == 'polygons'
             $q.all
                 map: leafletData.getMap(mapId)
@@ -352,11 +364,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               .then ({map, layer}) ->
                 map.fitBounds layer.getBounds()
             if $scope.polyType = 'regions'
+              # clicked a region -- switch to districts mode
               $scope.polyType = 'districts'
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
+
+        # side-effects: zoom to bounds if nothing selected
+        $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
+          unless $scope.selectedLayer?
+            leafletData.getMap mapId
+              .then (map) -> map.fitBounds polyLayer.getBounds()
 
         # side-effects only
         $scope.$watchGroup ['polyLayer', 'polyIdMap'],
@@ -388,6 +407,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
+                if $scope.selectedLayer?
+                  $scope.selectedLayer.then (l) -> l.bringToFront()
 
           if oldThing != null
             switch $scope.viewMode
