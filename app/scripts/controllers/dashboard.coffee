@@ -544,22 +544,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.anchorScroll = () ->
             $anchorScroll()
 
-        $scope.showModal = (total) ->
-          $scope.totalToShow = total
-          modalInstance = $modal.open
-            animation: true,
-            templateUrl: 'views/schoollistmodal.html',
-            controller: 'SchoollistmodalCtrl',
-            size: 'lg',
-            resolve:
-              items: () ->
-                schoolList: $scope.rankedBy
-                total: $scope.totalToShow
-
-          modalInstance.result.then (selectedItem) ->
-            $scope.select(selectedItem)
-          , () ->
-            $log.info('Modal dismissed at: ' + new Date())
 
 
 ]
