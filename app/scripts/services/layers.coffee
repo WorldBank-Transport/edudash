@@ -47,7 +47,8 @@ angular.module('edudashAppSrv').factory 'layersSrv', [
             map.addLayer layer
       layers[id]
 
-    addTileLayer: makeLayer (url) -> L.tileLayer url
+    addTileLayer: makeLayer (args) ->
+      L.tileLayer args.url, args
 
     addGeojsonLayer: makeLayer (args) ->
       args.getData().then (geoData) ->
