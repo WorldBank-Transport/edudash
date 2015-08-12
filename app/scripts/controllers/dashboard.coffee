@@ -467,7 +467,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # INIT
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
-          map.setView [-7.199, 34.1894], 6
+          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
           # add the basemap
           layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
           # set up the initial view
