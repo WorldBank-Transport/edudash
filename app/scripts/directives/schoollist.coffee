@@ -40,8 +40,7 @@ angular.module 'edudashApp'
           when 'UNKNOWN' then 'passrateunknow'
           else throw new Error "Unknown bracket: '#{brace}'"
 
-      scope.showModal = (total) ->
-        scope.totalToShow = total
+      scope.showModal = () ->
         modalInstance = $modal.open
           animation: true,
           templateUrl: 'views/schoollistmodal.html',
@@ -50,7 +49,7 @@ angular.module 'edudashApp'
           resolve:
             items: () ->
               schoolList: scope.allSchools
-              total: scope.totalToShow
+              total: scope.modalLimit
 
         modalInstance.result.then (selectedItem) ->
           scope.click(selectedItem)
