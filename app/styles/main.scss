@@ -376,6 +376,7 @@ div.cartodb-share a{
   -moz-transition: all 250ms ease-in;
   -o-transition: all 250ms ease-in;
   transition: all 250ms ease-in;
+  cursor: pointer;
 }
 .link {
   color: $theme-blue;

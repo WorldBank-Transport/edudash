@@ -2,7 +2,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  bottom: $bottom-bar-height + 1px;
+  bottom: 0;
   width: $flyout-width;
   padding: 10px 30px;
   background: $map-overlay;
@@ -16,7 +16,7 @@
     }
   }
   .has-filters & {
-    bottom: ($bottom-bar-height + 1px) * 2;
+    bottom: $bottom-bar-height + 1px;
   }
   header,
   .stat {
@@ -48,6 +48,10 @@
     &.POOR { color: $rank-poor; }
     &.UNKNOWN { color: $unknown; }
     &.NOCOLOR { color: #000000; }
+    &.MISSING {
+      font-size: 1.25em;
+      font-style: italic;
+    }
   }
   .stat .stat .number,
   header .stat .number {
