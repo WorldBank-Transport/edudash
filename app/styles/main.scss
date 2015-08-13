@@ -1274,3 +1274,7 @@ map-bottom-toggle.filters {
 .vert-padding{
     @include buffer-top-bottom(30px);
 }
+.full-size-scroll {
+  height: 450px;
+  overflow-y: auto;
+}

@@ -20,6 +20,7 @@ angular
     'ngTouch',
     'ui.select',
     'ui-rangeSlider',
+    'ui.bootstrap',
     'i18nEdudashApp',
     'leafletMap',
     'edudashAppCtrl',

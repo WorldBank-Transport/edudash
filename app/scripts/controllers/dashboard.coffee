@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv',
+    'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets) ->
+    staticApi, watchComputeSrv, brackets, $modal) ->
 
         # other state
         layers = {}
@@ -582,9 +582,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # INIT
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
-          map.setView [-7.199, 34.1894], 6
+          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
           # add the basemap
-          layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+          layersSrv.addTileLayer 'gray', mapId,
+            url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+            id: 'worldbank-education.map-5e5fgg2o'
+            accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
           # set up the initial view
           $scope.setViewMode 'schools'
           if $scope.schoolType == 'primary'
@@ -650,5 +653,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.anchorScroll = () ->
             $anchorScroll()
+
+
 
 ]
