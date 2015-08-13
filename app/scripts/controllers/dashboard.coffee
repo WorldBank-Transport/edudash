@@ -467,7 +467,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # INIT
         leafletData.getMap(mapId).then (map) ->
           # initialize the map view
-          map.setView [-7.199, 34.1894], 6
+          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
           # add the basemap
           layersSrv.addTileLayer 'gray', mapId,
             url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
