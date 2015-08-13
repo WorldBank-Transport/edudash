@@ -39,9 +39,10 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
           # `when`s are exhaustive: tested typeof === number and !isNaN
 
         when 'PASS_RATE' then switch
-          when val < 40 then 'POOR'
+          when 0 <= val < 40 then 'POOR'
           when 40 <= val <= 60 then 'MEDIUM'
-          when val > 60 then 'GOOD'
+          when 60 < val <= 100 then 'GOOD'
+          else 'UNKNOWN'
 
         when 'PUPIL_TEACHER_RATIO' then switch
           when 0 < val < 35 then 'GOOD'
