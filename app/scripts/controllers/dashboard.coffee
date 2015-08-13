@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv',
+    'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets) ->
+    staticApi, watchComputeSrv, brackets, $modal) ->
 
         # other state
         layers = {}
@@ -546,5 +546,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.anchorScroll = () ->
             $anchorScroll()
+
+
 
 ]

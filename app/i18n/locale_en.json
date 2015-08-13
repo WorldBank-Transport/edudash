@@ -108,6 +108,9 @@
     "footer.licensenote4": ". Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license.",
     "footer.link1": "CC BY NC SA 3.0 license",
     "footer.link2": "source code",
-    "footer.link3": "GPL 3.0 license"
+    "footer.link3": "GPL 3.0 license",
 
+    "modal.open": "Show Top ",
+    "modal.title": "Top School List",
+    "modal.cancel": "Cancel"
 }
