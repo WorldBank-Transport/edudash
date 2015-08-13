@@ -107,6 +107,9 @@
     "footer.licensenote4": ". Wageni wa tovuti wanahamasishwa kuangalia programu kwa makini na kuitumia kama watachapisha programu zao kwa leseni inayolingana",
     "footer.link1": "CC BY NC SA 3.0",
     "footer.link2": "Programu imeandikwa",
-    "footer.link3": "GPL 3.0"
+    "footer.link3": "GPL 3.0",
 
+    "modal.open": "Onyesha {{modalLimit}} zilizofuzu zaidi",
+    "modal.title": "Orodha ya shule zilizofuzu zaidi",
+    "modal.cancel": "Ondoka"
 }

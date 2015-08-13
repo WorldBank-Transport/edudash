@@ -21,4 +21,4 @@
     </tr>
   </table>
 </div>
-<a ng-click="showModal(modalLimit)" ng-show="schools.length && modalLimit">{{'modal.open'|translate}} {{showTotalModal}}</a>
+<a ng-click="showModal()" ng-show="schools.length && modalLimit" translate="modal.open" translate-values="{modalLimit: '{{modalLimit}}'}"></a>
