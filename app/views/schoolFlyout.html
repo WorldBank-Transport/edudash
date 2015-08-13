@@ -1,42 +1,48 @@
+<!--
+  Note that lastHovered is used in several places.
+  This is OK because:
+   1. lastHovered is always equal to hovered when hovered is not null
+   2. lastHovered keeps its value for the flyout fade when the mouse leaves
+-->
 <header>
   <h2 translate="map.selected.school-name">School Name</h2>
-  <p class="word">{{ hovered.NAME }}</p>
+  <p class="word">{{ lastHovered.NAME }}</p>
 </header>
 <div class="stat">
   <h3 translate="map.selected.region">Region</h3>
-  <p class="word">{{ hovered.REGION }}</p>
+  <p class="word">{{ lastHovered.REGION }}</p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.district">District</h3>
-  <p class="word">{{ hovered.DISTRICT }}</p>
+  <p class="word">{{ lastHovered.DISTRICT }}</p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.ward">Ward</h3>
-  <p class="word">{{ hovered.WARD }}</p>
+  <p class="word">{{ lastHovered.WARD }}</p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.passrate">Pass Rate</h3>
-  <p class="number {{ getBracket(hovered.PASS_RATE, 'PASS_RATE') }}">
-    {{ hovered.PASS_RATE }} %
+  <p class="number {{ getBracket(lastHovered.PASS_RATE, 'PASS_RATE') }}">
+    {{ lastHovered.PASS_RATE }} %
   </p>
 </div>
-<div class="stat" ng-if="hovered.AVG_MARK|exists">
+<div class="stat" ng-if="lastHovered.AVG_MARK|exists">
   <h3 translate="map.selected.avg-mark">Average Mark</h3>
   <p class="number NOCOLOR">
-    {{ hovered.AVG_MARK }}
+    {{ lastHovered.AVG_MARK }}
   </p>
 </div>
-<div class="stat" ng-if="hovered.AVG_GPA|exists">
+<div class="stat" ng-if="lastHovered.AVG_GPA|exists">
   <h3 translate="map.selected.avg-gpa">Average GPA</h3>
-  <p class="number {{ getBracket(hovered.AVG_GPA, 'AVG_GPA') }}">
-    {{ hovered.AVG_GPA }}
+  <p class="number {{ getBracket(lastHovered.AVG_GPA, 'AVG_GPA') }}">
+    {{ lastHovered.AVG_GPA }}
   </p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
-  <p ng-if="hovered.PUPIL_TEACHER_RATIO|exists"
-      class="number {{ getBracket(hovered.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}">
-    {{ hovered.PUPIL_TEACHER_RATIO }}
+  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO|exists"
+      class="number {{ getBracket(lastHovered.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}">
+    {{ lastHovered.PUPIL_TEACHER_RATIO }}
   </p>
-  <p ng-if="hovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
+  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
 </div>

@@ -34,17 +34,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
+          polyType: null
           hovered: null
           lastHovered: null
+          selectedCode: null
           selected: null
+          selectedLayer: null
           allSchools: null
           filteredSchools: null
           pins: null
           rankBy: null  # performance or improvement for primary
           rankedBy: null
           moreThan40: null  # students, for secondary schools
-          regions: null
           polygons: null
+          detailedPolys: null
+          polyLayer: null
           filterPassRateP: # To be used in primary school view 
             range: {
               min: 0,
@@ -66,10 +70,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
+          togglePolygons: (level) -> ($scope.polyType = level) and $scope.setViewMode 'polygons'
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (code) -> (findSchool code).then ((s) -> $scope.selected = s), $log.error
+          select: (code) -> $scope.selectedCode = code
           search: (q) -> search q
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
@@ -104,25 +109,40 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               null
 
-        watchCompute 'regions',
-          dependencies: ['viewMode']
-          computer: ([viewMode]) ->
-            if viewMode == 'regions' then loadRegions() else null
+        watchCompute 'polygons',
+          dependencies: ['viewMode', 'polyType']
+          computer: ([viewMode, polyType]) ->
+            unless viewMode == 'polygons'
+              null
+            else
+              switch polyType
+                when 'regions' then loadRegions()
+                when 'districts' then loadDistricts()
+                else (
+                  $log.warn "unknown polyType '#{polyType}'"
+                  null
+                )
 
-        watchCompute 'detailedRegions',
-          dependencies: ['regions', 'allSchools', 'schoolType']
+        watchCompute 'detailedPolys',
+          dependencies: ['polygons', 'polyType', 'allSchools', 'schoolType']
           waitForPromise: true
-          computer: ([regions, allSchools, schoolType]) ->
+          computer: ([polygons, polyType, allSchools, schoolType], [oldPolys]) ->
             $q (resolve, reject) ->
-              unless regions? and allSchools?
+              unless polygons? and allSchools? and polygons != oldPolys
                 resolve null
               else
                 $q.all
-                    regions: regions
+                    polys: polygons
                     schools: allSchools
-                  .then ({regions, schools}) ->
+                  .then ({polys, schools}) ->
                     detailsByRegion = {}
-                    schoolsByRegion = groupBy schools, 'REGION'
+                    schoolsByRegion = groupBy schools, switch polyType
+                      when 'regions' then 'REGION'
+                      when 'districts' then 'DISTRICT'
+                      else (
+                        reject "cannot group polygons by unknown polyType '#{polyType}'"
+                        return
+                      )
                     for id, regSchools of schoolsByRegion
                       detailsByRegion[id] =
                         # TODO: should these averages be weighted by number of pupils?
@@ -136,8 +156,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                           CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
                         else
                           throw new Error 'Expected "primary" or "secondary" for schoolType'
-                    resolve regions.map (region) ->
-                      # TODO: warn about regions mismatch
+                    resolve polys.map (region) ->
+                      # TODO: warn about polys mismatch
                       properties = angular.extend detailsByRegion[region.id] or {},
                         NAME: region.id
                       angular.extend region, properties: properties
@@ -184,14 +204,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   ), {}
                 .catch reject
 
-        watchCompute 'regionIdMap',
-          dependencies: ['detailedRegions']
-          computer: ([regions]) ->
-            unless regions?
+        watchCompute 'polyIdMap',
+          dependencies: ['detailedPolys']
+          computer: ([polygons]) ->
+            unless polygons?
               null
             else
-              regions.reduce ((map, region) ->
-                map[region.id] = region
+              polygons.reduce ((map, polygon) ->
+                map[polygon.id] = polygon
                 map
               ), {}
 
@@ -239,53 +259,136 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                       onEachFeature: processPin
                 ), reject
 
-        watchCompute 'polygons',
-          dependencies: ['detailedRegions']
+        watchCompute 'polyLayer',
+          dependencies: ['detailedPolys', 'polyType']
           waitForPromise: true
-          computer: ([regions]) -> $q (resolve, reject) ->
-            unless regions?
+          computer: ([polys, polyType], [oldPolys]) -> $q (resolve, reject) ->
+            unless polys? and polys != oldPolys
               resolve null
             else
-              resolve layersSrv.addGeojsonLayer 'regions', mapId,
+              layerId = "polygons-#{polyType}"
+              resolve layersSrv.addGeojsonLayer layerId, mapId,
                 getData: -> $q.when
                   type: 'FeatureCollection'
-                  features: regions
+                  features: polys
                 options: onEachFeature: processPoly
 
         watchCompute 'lastHovered',
           dependencies: ['hovered']
           computer: ([thing], [oldThing]) -> thing or oldThing
 
+        watchCompute 'selected',
+          dependencies: ['selectedCode', 'viewMode']
+          waitForPromise: true
+          computer: ([code, viewMode]) ->
+            unless code?
+              $q.when null
+            else switch viewMode
+              when 'schools' then findSchool code
+              when 'polygons' then findPoly code
+              else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
+
+        watchCompute 'selectedLayer',
+          dependencies: ['selectedCode', 'selected', 'viewMode']
+          computer: ([code, thing, viewMode]) ->
+            unless code? and thing?
+              null
+            else switch viewMode
+              when 'schools' then (
+                latlng = [thing.LATITUDE, thing.LONGITUDE]
+                # note that layerSrv.marker is cached by the id provided ('school-marker')
+                layer = layersSrv.marker 'school-marker', mapId,
+                  latlng: latlng
+                  options: icon: layersSrv.awesomeIcon
+                    markerColor: 'blue'
+                    icon: 'map-marker'
+                # so we have to reset the latlng for subsequent times
+                layer.then (l) -> l.setLatLng latlng
+                layer
+              )
+              when 'polygons' then (
+                layerId = "poly-marker-#{thing.id}"
+                layer = layersSrv.addGeojsonLayer layerId, mapId,
+                  getData: -> $q.when thing
+                  options: onEachFeature: (feature, layer) ->
+                    colorPoly feature, layer
+                    layer.setStyle colorSrv.polygonSelect()
+                layer
+              )
+              else throw new Error 'blah blah blah'
+
         # side-effects only
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
-            if $scope.selected?
+            if $scope.selected? and $scope.viewMode == 'schools'
               $scope.select $scope.selected.CODE
+
+        # side-effect: map spinner for polygons load
+        $scope.$watch 'polygons', (polysP) -> if polysP?
+          loadingSrv.containerLoad polysP, document.getElementById mapId
 
         # side-effects only
         $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
           leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
 
         # side-effects only
-        $scope.$watch 'schoolMarker', (blah, oldMarker) -> if oldMarker?
-          oldMarker.then (marker) ->
-              leafletData.getMap(mapId).then (map) -> map.removeLayer marker
+        $scope.$watch 'polyLayer', (newPolys, oldPolys) -> if oldPolys?
+          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPolys
+
+        # side-effect: ensure that a selectedLayer is always in front, if exists
+        $scope.$watch 'polyLayer', -> if $scope.selectedLayer?
+          $scope.selectedLayer.then (l) -> l.bringToFront()
+
+        # side-effect: clear selectedLayer sometimes
+        $scope.$watch 'polyType', (newType, oldType) ->
+          unless newType?
+            $scope.select null
+          else
+            if oldType == 'districts'
+              $scope.select null
+
+        # side-effect: remove old selected layer
+        $scope.$watch 'selectedLayer', (newL, oldLayer) -> if oldLayer?
+          $q.all
+              map: leafletData.getMap(mapId)
+              layer: oldLayer
+            .then ({map, layer}) -> map.removeLayer layer
+
+        # side-effect: zoom in to selected polyLayer
+        $scope.$watch 'selectedLayer', (newL) -> if newL?
+          if $scope.viewMode == 'polygons'
+            $q.all
+                map: leafletData.getMap(mapId)
+                layer: newL
+              .then ({map, layer}) ->
+                map.fitBounds layer.getBounds()
+            if $scope.polyType = 'regions'
+              # clicked a region -- switch to districts mode
+              $scope.polyType = 'districts'
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
 
+        # side-effects: zoom to bounds if nothing selected
+        $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
+          unless $scope.selectedLayer?
+            leafletData.getMap mapId
+              .then (map) -> map.fitBounds polyLayer.getBounds()
+
         # side-effects only
-        $scope.$watchGroup ['polygons', 'regionIdMap'],
-          ([polygons, regionIdMap]) ->
-            if polygons? and regionIdMap?
-              polygons.eachLayer (layer) ->
-                colorPoly regionIdMap[layer.feature.id], layer
+        $scope.$watchGroup ['polyLayer', 'polyIdMap'],
+          ([polyLayer, polyIdMap]) ->
+            if polyLayer? and polyIdMap?
+              polyLayer.eachLayer (layer) ->
+                feature = polyIdMap[layer.feature.id]
+                if feature?
+                  colorPoly feature, layer
 
         # side-effects only
         $scope.$watch 'viewMode', (newMode, oldMode) ->
-          if newMode not in ['schools', 'national', 'regions']
+          if newMode not in ['schools', 'polygons']
             console.error 'changed to invalid view mode:', newMode
             return
           # unless newMode == oldMode  # doesnt work for initial render
@@ -301,22 +404,27 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'schools' then getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
                 pin.setStyle colorSrv.pinOn()
-              when 'regions' then getRegionLayer(thing.id).then (layer) ->
+              when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
+                if $scope.selectedLayer?
+                  $scope.selectedLayer.then (l) -> l.bringToFront()
 
           if oldThing != null
             switch $scope.viewMode
               when 'schools' then getSchoolPin(oldThing.CODE).then (pin) ->
                 pin.setStyle colorSrv.pinOff()
-              when 'regions' then getRegionLayer(oldThing.id).then (layer) ->
+              when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
         # side-effects only
-        $scope.$watch 'selected', (school) ->
-          if school != null
-            if $scope.viewMode == 'schools'
-              setSchool school
+        $scope.$watch 'selected', (thing) -> if thing?
+          if $scope.viewMode == 'schools'
+            setSchool thing
+          else if $scope.viewMode == 'polygons'
+            # pass
+          else
+            $log.warn "Unknown viewMode to update selected: '#{$scope.viewMode}'"
 
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
@@ -339,19 +447,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   geometry: feature.geometry
               .catch reject
 
+        loadDistricts = ->
+          $q (resolve, reject) ->
+            staticApi.getDistricts()
+              .then (topo) ->
+                {features} = topojson.feature topo, topo.objects.tz_districts
+                resolve features.map (feature) ->
+                  type: feature.type
+                  id: feature.properties.name.toUpperCase()
+                  geometry: feature.geometry
+              .catch reject
+
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
             findSchool id
               .then (s) -> $scope.hovered = s
               .catch $log.error
-          else if $scope.viewMode == 'regions'
-            findRegion id
+          else if $scope.viewMode == 'polygons'
+            findPoly id
               .then (r) -> $scope.hovered = r
               .catch $log.error
 
         setSchool = (school) ->
           latlng = [school.LATITUDE, school.LONGITUDE]
-          markSchool latlng
           leafletData.getMap(mapId).then (map) ->
             map.setView latlng, (Math.max 9, map.getZoom())
           [ob, desc] = brackets.getRank $scope.schoolType
@@ -387,15 +505,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               reject 'No schools to find from'
 
-        findRegion = (id) ->
+        findPoly = (id) ->
           $q (resolve, reject) ->
-            if $scope.regionIdMap?
-              if $scope.regionIdMap[id]?
-                resolve $scope.regionIdMap[id]
+            if $scope.polyIdMap?
+              if $scope.polyIdMap[id]?
+                resolve $scope.polyIdMap[id]
               else
-                reject "Could not find region by id '#{id}'"
+                reject "Could not find polygon by id '#{id}'"
             else
-              reject 'No regions to find from'
+              reject 'No polygons to find from'
 
         getSchoolPin = (code) -> $q (resolve, reject) ->
           layer = $scope.pins.getLayer code
@@ -404,18 +522,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           else
             reject "No pin found for school code #{code}"
 
-        getRegionLayer = (id) -> $q (resolve, reject) ->
-          unless $scope.polygons?
+        getPolyLayer = (id) -> $q (resolve, reject) ->
+          unless $scope.polyLayer?
             reject 'No polygon layers to find from'
           else
             layer = null
-            $scope.polygons.eachLayer (l) ->
+            $scope.polyLayer.eachLayer (l) ->
               if l.feature.id == id
                 if layer?
                   $log.warn "Multiple layers found for id #{id}"
                 layer = l
             unless layer?
-              reject "No region layer found for '#{id}'"
+              reject "No polygon layer found for '#{id}'"
             else
               resolve layer
 
@@ -458,9 +576,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # controller constants
         mapId = 'map'
 
-        # other global-ish stuff
-        schoolMarker = null
-
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
@@ -480,6 +595,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.setYear 2014  # hard-coded default to speed up page-load
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
+          # fix the map's container awareness (it gets it wrong)
+          $timeout (-> map.invalidateSize()), 1
 
 
         processPin = (code, layer) ->
@@ -521,16 +638,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         average = (nums) -> (nums.reduce (a, b) -> a + b) / nums.length
 
         averageProp = (rows, prop) -> average _(rows).map (r) -> r[prop]
-
-        markSchool = (latlng) ->
-          unless $scope.schoolMarker?
-            icon = layersSrv.awesomeIcon markerColor: 'blue', icon: 'map-marker'
-            $scope.schoolMarker = layersSrv.marker 'school-marker', mapId,
-              latlng: latlng
-              options: icon: icon
-
-          $scope.schoolMarker.then (marker) ->
-            marker.setLatLng latlng
 
         search = (query) ->
           if query?

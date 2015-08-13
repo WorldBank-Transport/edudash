@@ -20,6 +20,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
       switch metric
 
         when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
+
         # According to Mark we don't have to validate GPA ranges
         when 'AVG_GPA' then switch
           when val <= 3 then 'GOOD'
