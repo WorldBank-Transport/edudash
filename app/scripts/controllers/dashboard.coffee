@@ -469,7 +469,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           # initialize the map view
           map.setView [-7.199, 34.1894], 6
           # add the basemap
-          layersSrv.addTileLayer 'gray', mapId, '//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+          layersSrv.addTileLayer 'gray', mapId,
+            url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+            id: 'worldbank-education.map-5e5fgg2o'
+            accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
           # set up the initial view
           $scope.setViewMode 'schools'
           if $scope.schoolType == 'primary'
