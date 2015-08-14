@@ -741,6 +741,9 @@ table.districts p {
   max-width: 220px;
   padding:5px 15px;
 }
+.full-screen-height {
+  height: $b;
+}
 
 
 @media screen and (max-width: $b) {
@@ -1234,7 +1237,7 @@ map-bottom-toggle.filters {
 // footer
 .footer{
   background:$theme-blue;
-  position: absolute;
+  position: fixed;
   width: 100%;
   bottom:0;
   height: $footer-height;
