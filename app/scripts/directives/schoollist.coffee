@@ -19,6 +19,7 @@ angular.module 'edudashApp'
       unHover: '=unHover'
       property: '@property'
       modalLimit: '@modallimit'
+      rankby: '=rankby'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
@@ -50,6 +51,7 @@ angular.module 'edudashApp'
             items: () ->
               schoolList: scope.allSchools
               total: scope.modalLimit
+              type: scope.rankby
 
         modalInstance.result.then (selectedItem) ->
           scope.click(selectedItem)

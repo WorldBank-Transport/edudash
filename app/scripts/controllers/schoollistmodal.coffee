@@ -12,6 +12,7 @@ angular.module 'edudashAppCtrl'
     $scope.items = $q (resolve, reject) ->
       if items?
         $scope.limit = items.total
+        $scope.type = items.type
         resolve items.schoolList
       else
         reject "There are no school"

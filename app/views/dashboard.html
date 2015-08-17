@@ -218,7 +218,7 @@
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="schoolType==='primary' && selected|exists">
+          <div class="container-fluid margin-top" ng-hide="schoolType==='primary' && selected|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
@@ -232,9 +232,10 @@
             <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
               <school-list
                   class="position"
-                  list-title="{{'chart.top.most-improved-schools' | translate}}"
+                  list-title="{{'chart.top.schools.improvement' | translate}}"
                   type="good"
                   dataset="rankedBy"
+                  rankBy="rankBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"
@@ -247,9 +248,10 @@
             <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
               <school-list
                   class="position"
-                  list-title="{{'chart.top.best-performing-schools' | translate}}"
+                  list-title="{{'chart.top.schools.performance' | translate}}"
                   type="good"
                   dataset="rankedBy"
+                  rankBy="rankBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"
@@ -260,7 +262,7 @@
               </school-list>
             </div>
           </div>
-          <div class="container-fluid" ng-hide="schoolType==='secondary' && selected|exists">
+          <div class="container-fluid margin-top" ng-hide="schoolType==='secondary' && selected|exists">
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
@@ -271,7 +273,7 @@
                 </li>
               </ul>
             </div>
-            <div class="col-sm-12 performance-nav">
+            <div class="container-fluid margin-top">
               <ul class="nav nav-tabs" ng-init="rankBy='performance'">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
                   <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
@@ -287,6 +289,7 @@
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
                   type="good"
                   dataset="rankedBy"
+                  rankby="rankBy"
                   click="select"
                   hover="hover"
                   unHover="unHover"

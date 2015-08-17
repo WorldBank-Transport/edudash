@@ -40,10 +40,10 @@
     "chart.top.worst-performing": "Wilaya zenye matokeo duni zaidi",
     "chart.top.most-improved": "Wilaya Zilizoinua Matokeo",
     "chart.top.least-improved": "Wilaya zenye maendeleo duni",
-    "chart.top.most-improved-schools": "Shule zilizoinua matokeo",
-    "chart.top.least-improved-schools": "Shule zenye maendeleo duni",
-    "chart.top.best-performing-schools": "Shule zilizofuzu vizuri",
-    "chart.top.worst-performing-schools": "Shule zenye matokeo duni zaidi",
+    "chart.top.schools.improvement": "Shule zilizoinua matokeo",
+    "chart.top.schools.least-improvement": "Shule zenye maendeleo duni",
+    "chart.top.schools.performance": "Shule zilizofuzu vizuri",
+    "chart.top.schools.least-performance": "Shule zenye matokeo duni zaidi",
     "chart.top.more-than-40-YES": "Zaidi ya arobaini (40)",
     "chart.top.more-than-40-NO": "Wasiozidi arobaini (40)",
     "button.best.performing" : "Zilizofuzu Vizuri",
@@ -112,7 +112,9 @@
     "footer.link2": "Programu imeandikwa",
     "footer.link3": "GPL 3.0",
 
-    "modal.open": "Onyesha {{modalLimit}} zilizofuzu zaidi",
-    "modal.title": "Orodha ya shule zilizofuzu zaidi",
+    "modal.open.performance": "Onyesha {{modalLimit}} zilizofuzu zaidi",
+    "modal.open.improvement": "Onyesha {{modalLimit}} zilizoinua zaidi",
+    "modal.title.performance": "Orodha ya shule zilizofuzu zaidi",
+    "modal.title.improvement": "Orodha ya shule zilizoinua zaidi",
     "modal.cancel": "Ondoka"
 }
