@@ -43,10 +43,10 @@
     "chart.top.worst-performing": "Worst performing districts",
     "chart.top.most-improved": "Most improved districts",
     "chart.top.least-improved": "Least improved districts",
-    "chart.top.most-improved-schools": "Most improved schools",
-    "chart.top.least-improved-schools": "Least improved schools",
-    "chart.top.best-performing-schools": "Best performing schools",
-    "chart.top.worst-performing-schools": "Worst performing schools",
+    "chart.top.schools.improvement": "Most improved schools",
+    "chart.top.schools.least-improvement": "Least improved schools",
+    "chart.top.schools.performance": "Best performing schools",
+    "chart.top.schools.least-performance": "Worst performing schools",
     "button.best.performing" : "Best Performing",
     "button.best.improved" : "Best Improved",
     "map.tooltip": "Explore the map and click on a school to get started.",
@@ -112,7 +112,9 @@
     "footer.link2": "source code",
     "footer.link3": "GPL 3.0 license",
 
-    "modal.open": "Show Top {{modalLimit}}",
-    "modal.title": "Top School List",
+    "modal.open.performance": "Show Top {{modalLimit}}",
+    "modal.open.improvement": "Show Top {{modalLimit}}",
+    "modal.title.performance": "Top School List",
+    "modal.title.improvement": "Top School List",
     "modal.cancel": "Cancel"
 }

@@ -1,10 +1,10 @@
 <div class="modal-header">
-  <h3 class="modal-title" translate="modal.title">Top Schools</h3>
+  <h3 class="modal-title" translate="modal.title.{{type}}">Top Schools</h3>
 </div>
 <div class="modal-body full-size-scroll">
   <school-list
     class="position"
-    list-title="{{'chart.top.most-improved-schools' | translate}}"
+    list-title="{{'chart.top.schools.' + type| translate}}"
     type="good"
     dataset="items"
     click="select"
