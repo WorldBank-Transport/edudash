@@ -42,8 +42,8 @@ angular.module('edudashAppSrv').service 'utils', ->
       total: filtered.length
 
     else
-      ordered = list.slice().sort (a, b) -> a[rankProp] - b[rankProp]
+      ordered = filtered.slice().sort (a, b) -> a[rankProp] - b[rankProp]
       if order == 'DESC' then ordered.reverse()
 
       rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
-      total: filtered.length
+      total: ordered.length

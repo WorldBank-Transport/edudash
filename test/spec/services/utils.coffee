@@ -72,3 +72,8 @@ describe 'utils', ->
       .toEqual rank: 1, total: 2
     expect u.rank o, [o, {a: 2}], 'a', null, 'DESC'
       .toEqual rank: 2, total: 2
+
+  it 'should have a total and rank reflecting the groupBy filtering', ->
+    o = a: 1, b: 'z'
+    expect u.rank o, [o, {a: 0, b: 'y'}], 'a', 'b'
+      .toEqual rank: 1, total: 1
