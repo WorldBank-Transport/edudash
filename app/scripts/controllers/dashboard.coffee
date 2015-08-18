@@ -135,21 +135,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     polys: polygons
                     schools: allSchools
                   .then ({polys, schools}) ->
-                    detailsByPoly = {}
-                    schoolsByPoly = groupBy schools, polyGroupProp polyType
-                    for id, regSchools of schoolsByPoly
-                      detailsByPoly[id] =
-                        # TODO: should these averages be weighted by number of pupils?
-                        CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
-                        PASS_RATE: averageProp regSchools, 'PASS_RATE'
-                      angular.extend detailsByPoly[id],
-                        if schoolType == 'primary'
-                          AVG_MARK: averageProp regSchools, 'AVG_MARK'
-                        else if schoolType == 'secondary'
-                          AVG_GPA: averageProp regSchools, 'AVG_GPA'
-                          CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
-                        else
-                          throw new Error 'Expected "primary" or "secondary" for schoolType'
+                    detailsByPoly = getDetailsByPoly schools, polyType, schoolType
                     resolve polys.map (poly) ->
                       # TODO: warn about polys mismatch
                       properties = angular.extend detailsByPoly[poly.id] or {},
@@ -623,6 +609,24 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
           layer.setStyle colorSrv.polygonOff $scope.getColor val
+
+        getDetailsByPoly = (schools, polyType, schoolType) ->
+          detailsByPoly = {}
+          schoolsByPoly = groupBy schools, polyGroupProp polyType
+          for id, regSchools of schoolsByPoly
+            detailsByPoly[id] =
+              # TODO: should these averages be weighted by number of pupils?
+              CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
+              PASS_RATE: averageProp regSchools, 'PASS_RATE'
+            angular.extend detailsByPoly[id],
+              if schoolType == 'primary'
+                AVG_MARK: averageProp regSchools, 'AVG_MARK'
+              else if schoolType == 'secondary'
+                AVG_GPA: averageProp regSchools, 'AVG_GPA'
+                CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
+              else
+                throw new Error 'Expected "primary" or "secondary" for schoolType'
+          detailsByPoly
 
         polyGroupProp = (polyType) ->
           switch polyType
