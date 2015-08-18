@@ -7,19 +7,12 @@
  # # 
  # Factory in the edudashApp.
 ###
-angular.module('edudashAppLoading', [])
-.config(($httpProvider) ->
-    $("#spinner").hide();
-    requestCounter = 0
-    $httpProvider.defaults.transformRequest.push  (data, headersGetter) ->
-      $("#spinner").show()
-      requestCounter++
-      data
-    $httpProvider.defaults.transformResponse.push (data) ->
-      if(requestCounter > 0)
-        requestCounter--
-      if(requestCounter == 0)
-        $("#spinner").hide()
-      data
-
-)
+angular.module('edudashAppSrv').factory 'loadingSrv', ($log) ->
+  containerLoad: (promise, container) ->
+    loader = ($ '<div class="loading ajax-loader"></div>')[0]
+    container.appendChild loader
+    promise
+      .then -> container.removeChild loader
+      .catch (err) ->
+        loader.remove()
+        $log.error err

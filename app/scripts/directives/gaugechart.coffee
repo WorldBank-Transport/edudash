@@ -7,7 +7,7 @@
  # # gaugeChart
 ###
 angular.module 'edudashAppDir'
-  .directive 'gaugeChart', ->
+  .directive 'gaugeChart', ['$translate', ($translate) ->
     restrict: 'EA'
     template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
@@ -37,9 +37,8 @@ angular.module 'edudashAppDir'
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
             useHTML: true
             y: 70
-            x: 70
             width: width + 40
-            align: 'center'
+            align: 'left'
             style:
               color: '#05a2dc'
           pane:
@@ -118,6 +117,13 @@ angular.module 'edudashAppDir'
       scope.$watch datasource, (newValue, oldValue) ->
         if newValue?
           update(parseFloat(newValue.toFixed(1)))
+        else
+          $translate('chart.metric.missing-data').then (na) ->
+            element.html(
+                '<p class="medium-character missing-data" style="position: static">' + na + '</p>
+                 <div class="col-md-12" style="position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 5px; left: -5px; top: 64px;">
+                   <span class="chart-title ng-binding" style="font-size: 10px; font-weight: bold;">'+attrs.title+'</span>
+                 </div>')
 
       attrs.$observe 'title', (value) ->
         # TODO This way we could custom the style for swahilli
@@ -128,9 +134,9 @@ angular.module 'edudashAppDir'
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
             useHTML: true
             y: 70
-            x: 70
             width: width + 40
-            align: 'center'
+            align: 'left'
             style:
               color: '#05a2dc'
           chart.setTitle(titleObj)
+  ]

@@ -1,30 +1,48 @@
+<!--
+  Note that lastHovered is used in several places.
+  This is OK because:
+   1. lastHovered is always equal to hovered when hovered is not null
+   2. lastHovered keeps its value for the flyout fade when the mouse leaves
+-->
 <header>
-  <h2>School Name</h2>
-  <p class="word">{{ hoveredSchool.properties.name }}</p>
+  <h2 translate="map.selected.school-name">School Name</h2>
+  <p class="word">{{ lastHovered.NAME }}</p>
 </header>
 <div class="stat">
-  <h3>Region</h3>
-  <p class="word">{{ hoveredSchool.properties.region }}</p>
+  <h3 translate="map.selected.region">Region</h3>
+  <p class="word">{{ lastHovered.REGION }}</p>
 </div>
 <div class="stat">
-  <h3>District</h3>
-  <p class="word">{{ hoveredSchool.properties.district }}</p>
+  <h3 translate="map.selected.district">District</h3>
+  <p class="word">{{ lastHovered.DISTRICT }}</p>
 </div>
 <div class="stat">
-  <h3>Ward</h3>
-  <p class="word">{{ hoveredSchool.properties.ward }}</p>
+  <h3 translate="map.selected.ward">Ward</h3>
+  <p class="word">{{ lastHovered.WARD }}</p>
 </div>
 <div class="stat">
-  <h3>Pass Rate</h3>
-  <p class="number {{ hoveredSchool.properties.pass_2014 === null ?
-    'unknown' : hoveredSchool.properties.pass_2014 < 40 ?
-      'poor' : hoveredSchool.properties.pass_2014 < 60 ?
-        'medium' : 'good' }}">{{ hoveredSchool.properties.pass_2014 }} %</p>
+  <h3 translate="map.selected.passrate">Pass Rate</h3>
+  <p class="number {{ getBracket(lastHovered.PASS_RATE, 'PASS_RATE') }}">
+    {{ lastHovered.PASS_RATE }} %
+  </p>
+</div>
+<div class="stat" ng-if="lastHovered.AVG_MARK|exists">
+  <h3 translate="map.selected.avg-mark">Average Mark</h3>
+  <p class="number NOCOLOR">
+    {{ lastHovered.AVG_MARK }}
+  </p>
+</div>
+<div class="stat" ng-if="lastHovered.AVG_GPA|exists">
+  <h3 translate="map.selected.avg-gpa">Average GPA</h3>
+  <p class="number {{ getBracket(lastHovered.AVG_GPA, 'AVG_GPA') }}">
+    {{ lastHovered.AVG_GPA }}
+  </p>
 </div>
 <div class="stat">
-  <h3>Pupil-Teacher Ratio</h3>
-  <p class="number {{ hoveredSchool.properties.pt_ratio === null ?
-    'unknown' : hoveredSchool.properties.pt_ratio < 35 ?
-      'good' : hoveredSchool.properties.pt_ratio > 50 ?
-        'poor' : 'medium' }}">{{ hoveredSchool.properties.pt_ratio }}</p>
+  <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
+  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO|exists"
+      class="number {{ getBracket(lastHovered.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}">
+    {{ lastHovered.PUPIL_TEACHER_RATIO }}
+  </p>
+  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
 </div>

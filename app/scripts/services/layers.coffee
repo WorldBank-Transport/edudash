@@ -27,8 +27,8 @@ angular.module('edudashAppSrv').factory 'layersSrv', [
         $q.all
           map: leafletData.getMap mapId
           layer: layers[id]
-        .then (p) ->
-          unless p.map.hasLayer p.layer
+        .then ({map, layer}) ->
+          unless map.hasLayer layer
             # hack around bad leaflet layers init bug
             # Without this, adding a geoJson layer with paths, then removing it,
             # and then adding it to a different map (eg. load Primary Schools,
@@ -40,15 +40,23 @@ angular.module('edudashAppSrv').factory 'layersSrv', [
                 parent.eachLayer (child) ->
                   delete child._container
                   resetChildren child
-            ) p.layer
-            p.map.addLayer p.layer
+              # hack like above but for fast-circles
+              if parent._group?
+                resetChildren parent._group
+            ) layer
+            map.addLayer layer
       layers[id]
 
-    addTileLayer: makeLayer (url) -> L.tileLayer url
+    addTileLayer: makeLayer (args) ->
+      L.tileLayer args.url, args
 
     addGeojsonLayer: makeLayer (args) ->
       args.getData().then (geoData) ->
         L.geoJson geoData, args.options or {}
+
+    addFastCircles: makeLayer (args) ->
+      args.getData().then (data) ->
+        L.fastCircles data, args.options
 
     marker: makeLayer (args) ->
       L.marker args.latlng, args.options

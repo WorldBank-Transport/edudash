@@ -19,7 +19,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.select',
-    'ui-rangeSlider',
+    'ui-rangeSlider'
   ])
   .config ($routeProvider, uiSelectConfig) ->
     $routeProvider
@@ -44,9 +44,6 @@ angular
       .when '/brn',
         templateUrl: 'views/brn.html'
         controller: 'BrnCtrl'
-      .when '/showdata',
-        templateUrl: 'views/showdata.html'
-        controller: 'ShowdataCtrl'
       .otherwise
         redirectTo: '/'
     uiSelectConfig.theme = 'bootstrap';

@@ -18,8 +18,14 @@ angular.module 'edudashAppDir'
         min: '@min'
       }
       link: (scope, element, attrs) ->
-        if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then element.show() else element.hide()
         scope.getTimes = (n) ->
-          if scope.selectedSchool? and scope.selectedSchool['pt_ratio']? then new Array(n) else 0
+          if scope.selectedSchool? and scope.selectedSchool['PUPIL_TEACHER_RATIO']? then new Array(parseInt(n)) else 0
+        scope.getClass = (index, value, max, min) ->
+          sex = if index % 2 == 0 then 'boy' else 'girl'
+          color = switch
+            when value <= min then 'yellow'
+            when value >= max then 'red'
+            else 'green'
+          "#{sex}-#{color}"
 
   ]

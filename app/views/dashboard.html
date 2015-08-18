@@ -1,4 +1,4 @@
-<div class="map-widget {'has-filters': viewMode != 'districts'}">
+<div ng-class="{'map-widget': true, 'has-filters': viewMode !== 'polygons'}">
   <div class="map-position-wrap">
     <div leaflet-map
       id="map"
@@ -11,12 +11,20 @@
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
       </p>
-      <div ng-if="visMode==='passrate'">
+      <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
-          <li class="poor">0&ndash;40</li>
+          <li class="poor">&lt;40</li>
           <li class="medium">40&ndash;60</li>
-          <li class="good">60&ndash;100</li>
+          <li class="good">&gt;60</li>
+        </ol>
+      </div>
+      <div ng-if="visMode==='passrate' && schoolType==='secondary'">
+        <ol class="passrate">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="good">1&ndash;3</li>
+          <li class="medium">3.1&ndash;4.2</li>
+          <li class="poor">4.3&ndash;5</li>
         </ol>
       </div>
       <div ng-if="visMode==='ptratio'">
@@ -30,47 +38,59 @@
     </map-bottom-toggle>
 
     <map-bottom-toggle
-      ng-if="activeMap!='districts'"
-      title="{{ 'filters.title' | translate }}"
-      emitkey="filtersToggle"
-      class="filters">
+        ng-if="viewMode!=='polygons'"
+        title="{{ 'filters.title' | translate }}"
+        emitkey="filtersToggle"
+        class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
-      <div range-slider
-        min="0"
-        max="100"
-        model-min="filterPassRate.range.min"
-        model-max="filterPassRate.range.max"
-        model-min="filterPassRate.min"
-        model-max="filterPassRate.max"
-        attach-handle-values="true">
+      <div range-slider ng-if="schoolType==='primary'"
+        min="filterPassRateP.range.min"
+        max="filterPassRateP.range.max"
+        model-min="filterPassRateP.minValue"
+        model-max="filterPassRateP.maxValue"
+        prevent-equal-min-max="true"
+        attach-handle-values="true"
+        show-Values="true"
+        step="20">
+      </div>
+        <div range-slider ng-if="schoolType==='secondary'"
+        min="filterPassRateS.range.min"
+        max="filterPassRateS.range.max"
+        model-min="filterPassRateS.minValue"
+        model-max="filterPassRateS.maxValue"
+        prevent-equal-min-max="true"
+        attach-handle-values="true"
+        show-Values="true"
+        step="1">
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
         min="0"
-        max="10"
-        model-min="filterPupilRatio.range.min"
-        model-max="filterPupilRatio.range.max"
-        model-min="filterPupilRatio.min"
-        model-max="filterPupilRatio.max"
-        attach-handle-values="true">
+        max="100"
+        model-min="0"
+        model-max="100"
+        prevent-equal-min-max="true"
+        attach-handle-values="true"
+        show-Values="true"
+        step="5">
       </div>
     </map-bottom-toggle>
 
     <div
       class="map-flyout animate-hide"
       ng-style="{bottom: filtersHeight}"
-      ng-mouseenter="keepHoveredSchool()"
-      ng-mouseleave="unhoverSchool()"
-      ng-show="hoveredSchool !== null"
+      ng-mouseenter="keepHovered()"
+      ng-mouseleave="unHover()"
+      ng-show="viewMode==='schools' && hovered!==null"
       ng-include="'views/schoolFlyout.html'">
     </div>
     <div
       class="map-flyout animate-hide"
       ng-style="{bottom: filtersHeight}"
-      ng-mouseenter="keepHoveredRegion()"
-      ng-mouseleave="unhoverRegion()"
-      ng-show="hoveredRegion !== null"
-      ng-include="'views/regionFlyout.html'">
+      ng-mouseenter="keepHovered()"
+      ng-mouseleave="unHover()"
+      ng-show="viewMode==='polygons' && hovered!==null"
+      ng-include="'views/polygonFlyout.html'">
     </div>
   </div>
 
@@ -78,25 +98,25 @@
     <div class="row map-widget-row">
       <div class="col-sm-12 map-container">
         <ul class="nav nav-tabs" id="nav-tabs-dashboard">
-          <li role="presentation" ng-class="{active: viewMode=='regional'}">
-            <a ng-click="showView('regional')">
+          <li role="presentation" ng-class="{active: polyType==='regions'}">
+            <a ng-click="togglePolygons('regions')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: viewMode=='district'}">
-            <a ng-click="showView('district')">
-              <span class="hide-sm" translate="tab.district-view">Districts</span>
-              <span class="show-sm" translate="tab.district">District</span>
+          <li role="presentation" ng-class="{active: polyType==='districts'}">
+            <a ng-click="togglePolygons('districts')">
+              <span class="hide-sm" translate="tab.district-view">Regions</span>
+              <span class="show-sm" translate="tab.district">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: schoolType=='primary'}">
+          <li role="presentation" ng-class="{active: schoolType==='primary'}">
             <a ng-click="setSchoolType('primary')">
               <span class="hide-sm" translate="tab.primary-schools-mode">Primary Schools</span>
               <span class="show-sm" translate="tab.primary">Primary</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: schoolType=='secondary'}">
+          <li role="presentation" ng-class="{active: schoolType==='secondary'}">
             <a ng-click="setSchoolType('secondary')">
               <span class="hide-sm" translate="tab.secondary-schools-mode">Secondary Schools</span>
               <span class="show-sm" translate="tab.secondary">Secondary</span>
@@ -107,7 +127,13 @@
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
-            <ul year-selector class="dropdown-menu dropdown-menu-right" ng-init="selectedYear=2012"></ul>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <a ng-repeat="y in years" ng-click="setYear(y)">
+                <li>
+                  <span class="selectable" ng-class="{selected: year===y}"></span>{{y}}
+                </li>
+              </a>
+            </ul>
           </li>
         </ul>
       </div>
@@ -115,153 +141,323 @@
       <div class="sidebar">
         <div class="map-details-container">
           <div class="page-header">
-            <div class="text-center"><strong>{{ ('sidepanel.title.' + schoolType) | translate }}</strong></div>
+            <div class="text-center" ng-hide="selected|exists">
+              <strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong>
+            </div>
+            <div class="text-center" ng-show="selected|exists">
+              <strong>{{selected.NAME}} {{year}}</strong>
+            </div>
           </div>
           <div class="container-fluid perfomance-gauges">
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
-                <pass-rate-change min="-5" max="5" datasource="passRateChange" since="selectedYear"></pass-rate-change>
+                <pass-rate-change
+                    min="-5"
+                    max="5"
+                    datasource="Math.round(yearAggregates[year].PASS_RATE - yearAggregates[year-1].PASS_RATE)"
+                    since="year">
+                </pass-rate-change>
               </div>
               <div class="col-xs-4">
-                <gauge-chart title="{{'chart.pupil-teacher-ration'| translate}}" tooltip="ratio" ranges="35,50" colors="#fcce39,#2d991c,#f05e55" format="{y}" datasource="pupilTeacherRatio"></gauge-chart>
+                <gauge-chart
+                    title="{{'chart.pupil-teacher-ration'| translate}}"
+                    tooltip="ratio"
+                    ranges="35,50"
+                    colors="#fcce39,#2d991c,#f05e55"
+                    format="{y}"
+                    datasource="pupilTeacherRatio">
+                </gauge-chart>
               </div>
               <div class="col-xs-4">
-                <gauge-chart title="{{'chart.average-pass-rate'| translate}}" tooltip="passrate" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" format="{y} %" datasource="passrate"></gauge-chart>
+                <gauge-chart
+                    title="{{'chart.average-pass-rate'| translate}}"
+                    tooltip="passrate"
+                    ranges="40,60"
+                    colors="#f05e55,#fcce39,#2d991c"
+                    format="{y} %"
+                    datasource="yearAggregates[year].PASS_RATE">
+                </gauge-chart>
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchool|exists">
+          <div class="container-fluid perfomance-gauges" ng-hide="selected|exists">
             <div class="row col-xs-12">
-                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="30,70" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
+              <pass-rate-time
+                  title="{{'chart.pass-rate-time'| translate}}"
+                  ranges="30,70"
+                  colors="#f05e55,#fcce39,#2d991c"
+                  datasource="yearAggregates">
+              </pass-rate-time>
             </div>
           </div>
-          <form class="form-horizontal">
+          <form class="form-horizontal" ng-if="viewMode==='schools'">
             <div class="form-group contained">
               <div class="col-xs-1 text-right control-label" style="padding-right: 1px">
                 <img src="images/searchicon.png" class="pull-right">
               </div>
               <div class="col-xs-10">
-                <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
-                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
-                  <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)" class="school-dropdown">
-                    <div ng-bind-html="school.NAME | highlight: $select.search"></div>
-                    <small class="text-school-list">
-                      {{'school.center-code' | translate}}: {{school.CODE}}
-                      <br>
-                      {{'school.district' | translate}}:
-                      <span ng-bind-html="''+school.DISTRICT | highlight: $select.search"></span>
-                    </small>
+                <ui-select ng-model="selected" class="search-schools" on-select="select($item.CODE)">
+                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.NAME }}</ui-select-match>
+                  <ui-select-choices
+                      repeat="result in searchChoices"
+                      refresh="search($select.search)"
+                      class="school-dropdown">
+                    <div
+                        ng-mouseenter="hover(result.CODE)"
+                        ng-mouseleave="unHover()">
+                      <div ng-bind-html="result.NAME | highlight: $select.search"></div>
+                      <small class="text-school-list">
+                        {{'school.center-code' | translate}}: {{result.CODE}}
+                        <br>
+                        {{'school.DISTRICT' | translate}}:
+                        <span ng-bind-html="''+result.DISTRICT | highlight: $select.search"></span>
+                      </small>
+                    </div>
                   </ui-select-choices>
                 </ui-select>
               </div>
             </div>
           </form>
 
-          <div class="container-fluid" ng-hide="schoolType==='primary' && selectedSchool|exists">
+          <div class="container-fluid margin-top" ng-hide="schoolType==='primary' && selected|exists">
             <div class="col-sm-12 performance-nav">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: rankBest==='performance'}">
-                  <a ng-click="rankBest='performance'">{{'button.best.performing'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='performance'}">
+                  <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: rankBest==='improvement'}">
-                  <a ng-click="rankBest='improvement'">{{'button.best.improved'|translate}}</a>
+                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                  <a ng-click="rankBy='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="rankBest==='improvement'">
-              <school-list title="chart.top.most-improved-schools" type="good" data="mostImprovedSchools" click="setSchool" property="CHANGE_PREVIOUS_YEAR" max="20" min="10"></school-list>
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.schools.improvement' | translate}}"
+                  type="good"
+                  dataset="rankedBy"
+                  rankBy="rankBy"
+                  click="select"
+                  hover="hover"
+                  unHover="unHover"
+                  property="PASS_RATE"
+                  modalLimit="300"
+                  sufix="%"
+                  limit="10">
+              </school-list>
             </div>
-            <div class="container-fluid" ng-if="rankBest==='performance'">
-              <school-list title="chart.top.best-performing-schools" type="good" data="bestSchools" click="setSchool" property="PASS_RATE" max="60" min="40" sufix="%"></school-list>
+            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.schools.performance' | translate}}"
+                  type="good"
+                  dataset="rankedBy"
+                  rankBy="rankBy"
+                  click="select"
+                  hover="hover"
+                  unHover="unHover"
+                  property="PASS_RATE"
+                  modalLimit="100"
+                  sufix="%"
+                  limit="10">
+              </school-list>
             </div>
           </div>
-          <div class="container-fluid" ng-hide="schoolType==='secondary' && selectedSchool|exists">
-            <div class="col-sm-12 performance-nav" ng-init="moreThan40='YES'">
+          <div class="container-fluid margin-top" ng-hide="schoolType==='secondary' && selected|exists">
+            <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: moreThan40==='YES'}">
-                  <a ng-click="moreThan40='YES'">{{'tab.pupils.morethan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: moreThan40}">
+                  <a ng-click="moreThan40=true">{{'tab.pupils.morethan40'|translate}}</a>
                 </li>
-                <li role="presentation" ng-class="{active: moreThan40==='NO'}">
-                  <a ng-click="moreThan40='NO'">{{'tab.pupils.lessthan40'|translate}}</a>
+                <li role="presentation" ng-class="{active: !moreThan40}">
+                  <a ng-click="moreThan40=false">{{'tab.pupils.lessthan40'|translate}}</a>
                 </li>
               </ul>
             </div>
-            <div class="container-fluid">
-              <school-list title="chart.top.more-than-40-{{moreThan40}}" type="good" data="mostImprovedSchools" click="setSchool" property="PASS_RATE" max="60" min="40" sufix="%"></school-list>
+            <div class="container-fluid margin-top">
+              <ul class="nav nav-tabs" ng-init="rankBy='performance'">
+                <li role="presentation" ng-class="{active: rankBy==='performance'}">
+                  <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
+                </li>
+                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                  <a ng-click="rankBy='improvement'">{{'button.best.improved'|translate}}</a>
+                </li>
+              </ul>
+            </div>
+            <div class="container-fluid" ng-if="viewMode==='schools'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
+                  type="good"
+                  dataset="rankedBy"
+                  rankby="rankBy"
+                  click="select"
+                  hover="hover"
+                  unHover="unHover"
+                  modalLimit="100"
+                  property="PASS_RATE"
+                  sufix="%"
+                  limit="10">
+              </school-list>
             </div>
           </div>
 
-          <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regional views -->
+          <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regions views -->
             <div class="row col-xs-12">
               <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
             </div>
           </div>
 
-          <div ng-if="viewMode=='districts'">
+          <div ng-if="viewMode==='districts'">
             <div id="districtinfo" class="container-fluid">
               <div class="col-sm-12 performance-nav">
                 <ul class="nav nav-tabs">
-                  <li role="presentation" ng-class="{active: rankBest==='performance'}" ng-init="rankBest='performance'">
-                    <a ng-click="rankBest='performance'">Performance</a>
+                  <li role="presentation" ng-class="{active: rankBy==='performance'}" ng-init="rankBy='performance'">
+                    <a ng-click="rankBy='performance'">Performance</a>
                   </li>
-                  <li role="presentation" ng-class="{active: rankBest==='improvement'}">
-                    <a ng-click="rankBest='improvement'">Improvement</a>
+                  <li role="presentation" ng-class="{active: rankBy==='improvement'}">
+                    <a ng-click="rankBy='improvement'">Improvement</a>
                   </li>
                 </ul>
               </div>
-              <div ng-if="rankBest==='performance'">
-                <top-district-list class="row" title="chart.top.best-performing" emoticon="happy" data="bpdistrics" click="setMapView"></top-district-list>
-                <top-district-list class="row" title="chart.top.worst-performing" emoticon="sad" data="wpdistrics" click="setMapView"></top-district-list>
+              <div ng-if="rankBy==='performance'">
+                <top-district-list class="row" title="chart.top.best-performing" emoticon="happy" data="bpdistrics"></top-district-list>
+                <top-district-list class="row" title="chart.top.worst-performing" emoticon="sad" data="wpdistrics"></top-district-list>
               </div>
-              <div ng-if="rankBest==='improvement'">
-                <top-district-list class="row" title="chart.top.most-improved" emoticon="happy" data="midistrics" click="setMapView"></top-district-list>
-                <top-district-list class="row" title="chart.top.least-improved" emoticon="sad" data="lidistrics" click="setMapView"></top-district-list>
+              <div ng-if="rankBy==='improvement'">
+                <top-district-list class="row" title="chart.top.most-improved" emoticon="happy" data="midistrics"></top-district-list>
+                <top-district-list class="row" title="chart.top.least-improved" emoticon="sad" data="lidistrics"></top-district-list>
               </div>
             </div>
           </div>
 
-          <div ng-if="viewMode=='schools'">
-            <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
+          <div ng-if="viewMode==='schools'">
+            <div ng-if="selected|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
-                {{ selectedSchool.name }}
+                {{ selected.NAME }}
                 <span class="pull-right top-school-badge text-right">
-                  <img ng-if="selectedSchool.rank_2014 <= 100" src="images/topschoolbadge.png">
-                  <img ng-if="schoolType == 'primary' && selectedSchool.change_13_14 >= 62" src="images/mostimprovedbadgeprimary.png">
-                  <img ng-if="schoolType == 'secondary' && selectedSchool.change_13_14 >= 55" src="images/mostimprovedbadgesecondary.png">
+                  <img ng-if="selected.RANK <= 100" src="images/topschoolbadge.png">
+                  <img ng-if="schoolType === 'primary' && selected.CHANGE_PREVIOUS_YEAR >= 62" src="images/mostimprovedbadgeprimary.png">
+                  <img ng-if="schoolType === 'secondary' && selected.CHANGE_PREVIOUS_YEAR >= 55" src="images/mostimprovedbadgesecondary.png">
                 </span>
               </p>
               <p class="code">
-                {{ selectedSchool.code }}
-                <span ng-if="selectedSchool.ownership|exists" class="text-capitalize">, {{ selectedSchool.ownership }}</span>
+                {{ selected.CODE }}
+                <span ng-if="selected.OWNERSHIP|exists" class="text-capitalize">, {{ selected.OWNERSHIP }}</span>
               </p>
-              <rate-pass-chart min="40" max="60" datasource="selectedSchool" selectedyear="{{selectedYear}}"></rate-pass-chart>
-              <div class="widget col-md-4" ng-if="selectedSchool.change_13_14|exists">
-                <p class="widgettitle" translate="chart.title.change-since-2013">change since 2013</p>
+              <rate-pass-chart
+                  min="40"
+                  max="60"
+                  datasource="selected"
+                  selectedyear="{{year}}">
+              </rate-pass-chart>
+              <div class="no-padding widget col-md-4">
+                <p class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</p>
                 <p class="widgetnumber">
-                    <img ng-if="selectedSchool.change_13_14 > 0" ng-src="images/arrowgreen.png" class="arrow">
-                    <img ng-if="selectedSchool.change_13_14 < 0" ng-src="images/arrowred.png" class="arrow">
-                    <img ng-if="selectedSchool.change_13_14 == 0" ng-src="images/arrowyellow.png" class="arrow">
-                            <span ng-class="{
-                                    'text-red': selectedSchool.change_13_14 < 0,
-                                    'text-yellow': selectedSchool.change_13_14 == 0,
-                                    'text-green': selectedSchool.change_13_14 > 0}">
-                                {{ selectedSchool.change_13_14 }}%
-                            </span>
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
+                      ng-src="images/arrowgreen.png" class="arrow" />
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'POOR'"
+                      ng-src="images/arrowred.png" class="arrow" />
+                  <img ng-if="getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM'"
+                      ng-src="images/arrowyellow.png" class="arrow" />
+                  <span ng-class="{
+                      'text-red': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
+                      'text-yellow': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
+                      'text-green': getBracket(selected.change, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
+                    {{ selected.change }}
+                  </span>
+                  <p ng-if="selected.change === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </p>
               </div>
-              <div ng-class="(selectedSchool.change_13_14|exists)? 'col-md-8': 'col-md-12'">
-                <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="passratetime"></pass-rate-time>
+              <div class="col-md-8">
+                <pass-rate-time
+                    title="{{'chart.pass-rate-time'| translate}}"
+                    ranges="40,60"
+                    colors="#f05e55,#fcce39,#2d991c"
+                    datasource="selected.yearAggregates">
+                </pass-rate-time>
               </div>
               <div class="widget col-md-12">
                 <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
-                <div id="nationalRanking" class="text-muted"></div>
+                <div rank-chart class="text-muted"></div>
               </div>
               <div class="widget row widget-full-width">
-                <div class="col-lg-6"><rank datasource="regionRank" title="chart.title.rank-region"></rank></div>
-                <div class="col-lg-6"><rank datasource="districtRank" title="chart.title.rank-district"></rank></div>
+                <div class="col-lg-6">
+                  <rank
+                      datasource="selected.ranks.region"
+                      title="chart.title.rank-region"
+                      place="{{ selected.REGION }}">
+                  </rank>
+                </div>
+                <div class="col-lg-6">
+                  <rank
+                      datasource="selected.ranks.district"
+                      title="chart.title.rank-district"
+                      place="{{ selected.DISTRICT }}">
+                  </rank>
+                </div>
               </div>
-              <div class="widget" ng-if="selectedSchool.pt_ratio|exists">
-                  <pupil-teacher-ratio-chart min="25" max="40" datasource="selectedSchool"></pupil-teacher-ratio-chart>
+              <div class="widget row widget-full-width" ng-if="schoolType==='primary'">
+                <div class="col-lg-4">
+                  <p class="widgettitle" translate="chart.title.mark">average mark</p>
+                  <p class="widgetnumber">
+                    <span>{{ selected.AVG_MARK }}</span>
+                  </p>
+                  <p ng-if="selected.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
+                </div>
+                <div class="col-lg-8">
+                  <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
+                  <p class="widgetnumber">
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
+                           ng-src="images/arrowgreen.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR'"
+                           ng-src="images/arrowred.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM'"
+                           ng-src="images/arrowyellow.png" class="arrow" />
+                    <span ng-class="{
+                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
+                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
+                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
+                      {{ selected.CHANGE_PREVIOUS_YEAR }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
+                <div class="col-lg-4">
+                  <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
+                  <p class="widgetnumber">
+                    <span ng-class="{
+                      'text-red': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'POOR',
+                      'text-yellow': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'GOOD'}">{{ selected.AVG_GPA }}</span>
+                  </p>
+                  <p ng-if="selected.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
+                </div>
+                <div class="col-lg-8">
+                  <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
+                  <p class="widgetnumber">
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'"
+                      ng-src="images/arrowgreen.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR'"
+                      ng-src="images/arrowred.png" class="arrow" />
+                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM'"
+                      ng-src="images/arrowyellow.png" class="arrow" />
+                    <span ng-class="{
+                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR',
+                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'}">
+                      {{ selected.CHANGE_PREVIOUS_YEAR_GPA }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="widget">
+                <pupil-teacher-ratio-chart
+                    min="25"
+                    max="40"
+                    datasource="selected">
+                </pupil-teacher-ratio-chart>
               </div>
             </div>
           </div>

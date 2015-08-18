@@ -23,8 +23,8 @@ angular.module 'edudashAppDir'
         scope.getClass = (index, value, max, min) ->
           sex = if index % 2 == 0 then 'boy' else 'girl'
           color = switch
-            when parseInt(value) <= parseInt(min) then 'red'
-            when parseInt(value) >= parseInt(max) then 'green'
+            when value <= min then 'red'
+            when value >= max then 'green'
             else 'yellow'
           "#{sex}-pass-#{color}"
 

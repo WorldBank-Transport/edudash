@@ -2,9 +2,9 @@
   position: absolute;
   right: 0;
   top: 0;
-  bottom: $bottom-bar-height + 1px;
+  bottom: 0;
   width: $flyout-width;
-  padding: 15px 30px;
+  padding: 10px 30px;
   background: $map-overlay;
   box-shadow: $map-overlay-outline;
   overflow-y: auto;
@@ -16,11 +16,11 @@
     }
   }
   .has-filters & {
-    bottom: ($bottom-bar-height + 1px) * 2;
+    bottom: $bottom-bar-height + 1px;
   }
   header,
   .stat {
-    margin: 1em 0;
+    margin: 0.5em 0;
   }
   h2, h3, h4 {
     margin: 0;
@@ -36,17 +36,22 @@
   .number {
     margin: 0;
     font-weight: bold;
-    color: #05a2dc;
+    color: $theme-blue;
   }
   .word {
-    font-size: 1.2em;
+    font-size: 1.1em;
   }
   .number {
-    font-size: 2.8em;
-    &.good { color: $rank-good; }
-    &.medium { color: $rank-medium; }
-    &.poor { color: $rank-poor; }
-    &.unknown { color: $unknown; }
+    font-size: 2em;
+    &.GOOD { color: $rank-good; }
+    &.MEDIUM { color: $rank-medium; }
+    &.POOR { color: $rank-poor; }
+    &.UNKNOWN { color: $unknown; }
+    &.NOCOLOR { color: #000000; }
+    &.MISSING {
+      font-size: 1.25em;
+      font-style: italic;
+    }
   }
   .stat .stat .number,
   header .stat .number {

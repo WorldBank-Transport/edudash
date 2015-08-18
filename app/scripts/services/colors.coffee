@@ -7,38 +7,49 @@
  # # WorldBankApi
  # Service in the edudashApp.
 ###
-angular.module 'edudashAppSrv'
-  .service 'colorSrv', ->
+angular.module('edudashAppSrv').service 'colorSrv', ->
 
-    colors:
-      unknown: '#aaa'
-      poor: '#f56053'
-      medium: '#e9c941'
-      good: '#38a21c'
+  color: (brace) ->
+    switch brace
+      when 'GOOD' then '#38a21c'
+      when 'MEDIUM' then '#e9c941'
+      when 'POOR' then '#f56053'
+      when 'UNKNOWN' then '#aaa'
+      else throw new Error "Unknown bracket: '#{brace}'"
 
-    categorize: (val, mode) ->
-      switch
-        when mode == 'passrate' then switch
-          when val == null then 'unknown'
-          when val < 40 then 'poor'
-          when val < 60 then 'medium'
-          else 'good'
-        when mode == 'ptratio' then switch
-          when val == null then 'unknown'
-          when val < 35 then 'good'
-          when val > 50 then 'poor'
-          else 'medium'
+  pinOff: (colour) ->
+    style =
+      color: '#fff'
+      fillOpacity: 1
+      opacity: 0.75
+      weight: 3
+    if colour?
+      style.fillColor = colour
+    style
 
-    colorize: (val, mode) ->
-      this.colors[this.categorize val, mode]
+  pinOn: ->
+    color: '#05a2dc'
+    opacity: 1
+    weight: 6
 
-    pinStyle: (val, mode) ->
+  polygonOff: (colour) ->
+    style =
       color: '#fff'
       fillOpacity: 0.75
-      fillColor: this.colorize val, mode
-
-    areaStyle: (val, mode) ->
+      opacity: 0.6
       weight: 2
-      color: '#fff'
-      fillColor: this.colorize val, mode
-      fillOpacity: 0.75
+    if colour?
+      style.fillColor = colour
+    style
+
+  polygonOn: ->
+    color: '#05a2dc'
+    fillOpacity: 0.9
+    opacity: 1
+    weight: 6
+
+  polygonSelect: ->
+    color: '#000'
+    fill: false
+    opacity: 1
+    weight: 7

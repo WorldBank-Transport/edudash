@@ -303,6 +303,12 @@ module.exports = function (grunt) {
               'dist/leaflet.css'
             ]
           },
+          'bootstrap': {
+            'main': [
+              'dist/js/bootstrap.js',
+              'dist/css/bootstrap.css'
+            ]
+          },
           'highcharts': {
             'main': [
               'highcharts.js',
@@ -516,6 +522,11 @@ module.exports = function (grunt) {
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/layers',
+          src: '**/*.json',
+          dest: '<%= yeoman.dist %>/layers'
         }]
       },
     },

@@ -27,10 +27,12 @@ module.exports = (config) ->
       'bower_components/angular-ui-select/dist/*.js'
       'bower_components/angular-rangeslider/angular.rangeSlider.js'
       'bower_components/angular-translate/angular-translate.js'
-      'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files'
+      'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
       'bower_components/underscore/underscore.js'
 
       # modules (must be added manually because they must be included first)
+      'app/scripts/lib/leafletMap/leafletMap.coffee'
+      'app/scripts/directives/langSelector.coffee'
       'app/scripts/services/service.coffee'
       'app/scripts/controllers/controller.coffee'
       'app/scripts/directives/directive.coffee'

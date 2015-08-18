@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h3 class="modal-title" translate="modal.title.{{type}}">Top Schools</h3>
+</div>
+<div class="modal-body full-size-scroll">
+  <school-list
+    class="position"
+    list-title="{{'chart.top.schools.' + type| translate}}"
+    type="good"
+    dataset="items"
+    click="select"
+    hover="hover"
+    unHover="unHover"
+    property="PASS_RATE"
+    sufix="%"
+    limit="limit">
+  </school-list>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="cancel()" translate="modal.cancel">Cancel</button>
+</div>

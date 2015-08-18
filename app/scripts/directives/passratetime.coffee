@@ -19,8 +19,7 @@ angular.module 'edudashAppDir'
             type: 'line'
             height: 120
             width: element.parent().width()
-            margin: [10, 0, 0, 0]
-            spacingLeft: 1
+            margin: [15, 0, 10, 1]
           credits:
             enabled: false
           exporting:
@@ -30,17 +29,18 @@ angular.module 'edudashAppDir'
           title:
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
             useHTML: true
-            x: -100
+            align: 'left'
             style:
               color: '#05a2dc'
               fontSize: 10
           xAxis:
-            categories: _.pluck(value, 'key')
+            categories: value.years
+            lineColor: '#FFFFFF'
             labels:
               enabled: true
               style:
                 fontWeight: 'bold'
-              y: -10
+              y: 10
           yAxis:
             gridLineWidth: 0
             title:
@@ -63,17 +63,22 @@ angular.module 'edudashAppDir'
               enableMouseTracking: true
             series:
               marker:
-                radius: 8
+                radius: 6
                 symbol: 'circle'
           series: [{
             name: 'Pass Rate',
-            data: _.pluck(value, 'val')
+            data: value.data
           }]
         element.highcharts(lineOptions)
 
-      scope.$watch attrs.datasource, (newValue, oldValue) ->
-        if newValue
-          updateChart(newValue)
+      scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue
+        years = if newValue.years? then newValue.years.sort() else Object.keys(newValue).sort()
+        values = if newValue.values? then newValue.values else newValue
+        vals = years.map (y) -> [
+          y,
+          if values[''+y]? then Math.round values[''+y].PASS_RATE else 0 # explicit string-cast for key
+        ]
+        updateChart years: years, data: vals
 
       attrs.$observe 'title', (value) ->
         # TODO This way we could custom the style for swahilli
@@ -82,7 +87,7 @@ angular.module 'edudashAppDir'
           titleObj =
             text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
             useHTML: true
-            x: -80
+            align: 'left'
             style:
               color: '#05a2dc'
               fontSize: 10
