@@ -2,9 +2,9 @@
 
 ###*
  # @ngdoc directive
- # @name edudashApp.directive:schoolList
+ # @name edudashApp.directive:flyoutNumbver
  # @description
- # # schoolList
+ # # Mark up numbers for flyouts
 ###
 angular.module 'edudashApp'
   .directive 'flyoutNumber', (bracketsSrv, $log) ->
