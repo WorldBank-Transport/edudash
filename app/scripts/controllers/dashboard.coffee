@@ -136,13 +136,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     schools: allSchools
                   .then ({polys, schools}) ->
                     detailsByPoly = {}
-                    schoolsByPoly = groupBy schools, switch polyType
-                      when 'regions' then 'REGION'
-                      when 'districts' then 'DISTRICT'
-                      else (
-                        reject "cannot group polygons by unknown polyType '#{polyType}'"
-                        return
-                      )
+                    schoolsByPoly = groupBy schools, polyGroupProp polyType
                     for id, regSchools of schoolsByPoly
                       detailsByPoly[id] =
                         # TODO: should these averages be weighted by number of pupils?
@@ -629,6 +623,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
           layer.setStyle colorSrv.polygonOff $scope.getColor val
+
+        polyGroupProp = (polyType) ->
+          switch polyType
+            when 'regions' then 'REGION'
+            when 'districts' then 'DISTRICT'
+            else throw new Error "cannot group polygons by unknown polyType '#{polyType}'"
 
         groupBy = (rows, prop) ->
           grouped = {}
