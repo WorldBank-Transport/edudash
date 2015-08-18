@@ -10,13 +10,13 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
-    '$timeout', 'MetricsSrv', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
+    '$timeout', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
     'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
-    $timeout, MetricsSrv, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets, $modal) ->
+    $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
+    staticApi, watchComputeSrv, brackets) ->
 
         # other state
         layers = {}
@@ -166,13 +166,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
         watchCompute 'pupilTeacherRatio',
-          dependencies: ['year', 'schoolType']
+          dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([year, schoolType]) ->
+          computer: ([allSchools]) ->
             $q (resolve, reject) ->
-              if year?
-                MetricsSrv.getPupilTeacherRatio(level: schoolType)
-                  .then ((data) -> resolve data.rate), reject
+              if allSchools?
+                allSchools.then (data) ->
+                  total = _(data).reduce ((memo, school) ->
+                    memo + school.PUPIL_TEACHER_RATIO
+                  ), 0
+                  resolve if isNaN(total) then null else total/data.length
               else
                 resolve null
 
