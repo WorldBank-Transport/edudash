@@ -7,7 +7,7 @@
  # # Utility functions
  # All the miscellaneous pure functions you could ever want...
 ###
-angular.module('edudashAppSrv').service 'utils', ($q) ->
+angular.module('edudashAppSrv').service 'utils', ->
 
   ###*
   # Rank an object (1-indexed!!!) from a list of objects by a property
@@ -35,12 +35,13 @@ angular.module('edudashAppSrv').service 'utils', ($q) ->
     ) else list
 
     # cases where we can't determine a rank
-    if not item[rankProp]? or
-        (groupProp? and not item[groupProp]?)
-      return rank: undefined, total: filtered.length
+    if not item[rankProp]? or (groupProp? and not item[groupProp]?)
+      rank: undefined
+      total: filtered.length
 
-    ordered = list.slice().sort (a, b) -> a[rankProp] - b[rankProp]
-    if order == 'DESC' then ordered.reverse()
+    else
+      ordered = list.slice().sort (a, b) -> a[rankProp] - b[rankProp]
+      if order == 'DESC' then ordered.reverse()
 
-    rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
-    total: filtered.length
+      rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
+      total: filtered.length
