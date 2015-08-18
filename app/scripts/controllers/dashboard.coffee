@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
+    'staticApi', 'watchComputeSrv', 'bracketsSrv', 'utils'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets) ->
+    staticApi, watchComputeSrv, brackets, utils) ->
 
         # other state
         layers = {}
@@ -522,19 +522,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # get the (rank, total) of a school, filtered by its region or district or national
         rank = (school, rank_by, [ob, desc]) ->
-          if rank_by not in ['REGION', 'DISTRICT', 'NATIONAL']
-            throw new Error "invalid rank_by: '#{rank_by}'"
+          grouper = switch rank_by
+            when 'REGION', 'DISTRICT' then rank_by
+            when 'NATIONAL' then null
+            else throw new Error "invalid rank_by: '#{rank_by}'"
           $q (resolve, reject) ->
             rankSchool = (schools) ->
-              if rank_by != 'NATIONAL' and school[rank_by] == undefined
-                return resolve [undefined, undefined]
-              ranked = schools
-                .filter (s) -> rank_by == 'NATIONAL' or s[rank_by] == school[rank_by]
-                .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
-              resolve
-                rank: (ranked.indexOf school) + 1
-                total: ranked.length
-
+              try
+                resolve utils.rank school, schools, ob, grouper, if desc then 'DESC' else 'ASC'
+              catch err
+                reject err
             $scope.allSchools.then rankSchool, reject
 
         rankSchools = (schools, [orderBy, desc]) ->
