@@ -7,7 +7,7 @@
  # # schoolList
 ###
 angular.module 'edudashApp'
-  .directive 'schoolList', (loadingSrv, bracketsSrv, $modal, $log, $q) ->
+  .directive 'schoolList', (loadingSrv, bracketsSrv, $modal, $log) ->
     restrict: 'E'
     templateUrl: 'views/schoollist.html'
     scope:
