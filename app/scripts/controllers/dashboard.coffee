@@ -614,10 +614,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           detailsByPoly = {}
           schoolsByPoly = groupBy schools, polyGroupProp polyType
           for id, regSchools of schoolsByPoly
+            byOwner = groupBy regSchools, 'OWNERSHIP'
             detailsByPoly[id] =
-              # TODO: should these averages be weighted by number of pupils?
               CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
               PASS_RATE: averageProp regSchools, 'PASS_RATE'
+              GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
+              NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
+              UNKNOWN_SCHOOLS: regSchools.length - byOwner.GOVERNMENT?.length - byOwner['NON GOVERNMENT']?.length
             angular.extend detailsByPoly[id],
               if schoolType == 'primary'
                 AVG_MARK: averageProp regSchools, 'AVG_MARK'

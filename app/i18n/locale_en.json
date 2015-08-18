@@ -103,6 +103,9 @@
     "map.selected.avg-mark": "Average Mark",
     "map.selected.avg-gpa": "Average GPA",
     "map.missing-data": "missing data",
+    "map.selected.govt-schools": "Government-Owned Schools",
+    "map.selected.non-govt-schools": "Non-Government Schools",
+    "map.selected.unknown-schools": "Unknown Schools",
 
     "footer.licensenote1": "The content of this website is published under a ",
     "footer.licensenote2": ", and the ",
