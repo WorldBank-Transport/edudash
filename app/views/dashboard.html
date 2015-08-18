@@ -200,12 +200,13 @@
                   <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.NAME }}</ui-select-match>
                   <ui-select-choices
                       repeat="result in searchChoices"
-                      refresh="search($select.search)">
+                      refresh="search($select.search)"
+                      class="school-dropdown">
                     <div
                         ng-mouseenter="hover(result.CODE)"
                         ng-mouseleave="unHover()">
                       <div ng-bind-html="result.NAME | highlight: $select.search"></div>
-                      <small class="text-muted">
+                      <small class="text-school-list">
                         {{'school.center-code' | translate}}: {{result.CODE}}
                         <br>
                         {{'school.DISTRICT' | translate}}:
