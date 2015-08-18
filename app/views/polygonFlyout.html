@@ -8,44 +8,28 @@
   <h2 translate="map.selected.{{polyType}}-name">Polygon Name</h2>
   <p class="word">{{ lastHovered.properties.NAME }}</p>
 </header>
-<div class="stat">
-  <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
-  <p class="number NOCOLOR MISSING"
-      ng-hide="lastHovered.properties.PASS_RATE|exists"
-      translate="map.missing-data">Missing Data</p>
-  <p class="number
-      {{ getBracket(lastHovered.properties.PASS_RATE, 'PASS_RATE') }}"
-      ng-show="lastHovered.properties.PASS_RATE|exists">
-    {{ Math.round(lastHovered.properties.PASS_RATE) }} %
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.average-pt-ratio">Average Pupil-Teacher Ratio</h3>
-  <p class="number NOCOLOR MISSING"
-      ng-hide="lastHovered.properties.PUPIL_TEACHER_RATIO|exists"
-      translate="map.missing-data">Missing Data</p>
-  <p class="number
-      {{ getBracket(lastHovered.properties.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}"
-      ng-show="lastHovered.properties.PUPIL_TEACHER_RATIO|exists">
-    <!-- todo: colourify -->
-    {{ Math.round(lastHovered.properties.PUPIL_TEACHER_RATIO) }}
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.govt-schools">Government-Owned Schools</h3>
-  <p class="number NOCOLOR">
-    {{ lastHovered.properties.GOVT_SCHOOLS }}
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.non-govt-schools">Non-Government Schools</h3>
-  <p class="number NOCOLOR">
-    {{ lastHovered.properties.NON_GOVT_SCHOOLS }}
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.unknown-schools">Unknown Schools</h3>
-  <p class="number NOCOLOR">
-    {{ lastHovered.properties.UNKNOWN_SCHOOLS }}
-  </p>
-</div>
+<flyout-number
+  name="{{ 'map.selected.average-pass-rate' |translate }}"
+  value="lastHovered.properties.PASS_RATE"
+  present="Math.round"
+  suffix="%"
+  bracketer="PASS_RATE">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.average-pt-ratio' |translate }}"
+  value="lastHovered.properties.PT_RATIO"
+  present="Math.round"
+  bracketer="PT_RATIO">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.govt-schools' |translate }}"
+  value="lastHovered.properties.GOVT_SCHOOLS">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.non-govt-schools' |translate }}"
+  value="lastHovered.properties.NON_GOVT_SCHOOLS">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.unknown-schools' |translate }}"
+  value="lastHovered.properties.UNKNOWN_SCHOOLS">
+</flyout-number>
