@@ -143,9 +143,9 @@
               <div class="col-xs-10">
                 <ui-select ng-model="selectedSchool" class="search-schools" on-select="setSchool($item, $model)">
                   <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.name }}</ui-select-match>
-                  <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)">
+                  <ui-select-choices repeat="school in schoolsChoices" refresh="getSchoolsChoices($select.search)" class="school-dropdown">
                     <div ng-bind-html="school.NAME | highlight: $select.search"></div>
-                    <small class="text-muted">
+                    <small class="text-school-list">
                       {{'school.center-code' | translate}}: {{school.CODE}}
                       <br>
                       {{'school.district' | translate}}:

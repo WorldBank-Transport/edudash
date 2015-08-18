@@ -448,6 +448,20 @@ div.cartodb-share a{
 .ui-select-choices-row.active > a > .text-muted{
   color:#eeeeee;
 }
+.ui-select-bootstrap .ui-select-choices-row.active>a{
+  background:none;
+}
+
+.ui-select-choices-group{
+  width:85%;
+  padding:0;
+  margin:0;
+}
+
+.ui-select-choices-row-inner{
+  width:100%;
+}
+
 .form-horizontal{
   margin-bottom:20px;
   margin-top:20px;
@@ -944,7 +958,7 @@ ul.main-nav li ul li a{
 .open > .dropdown-menu{
   @include border-radius(0);
   border:none;
-  top:47px;
+  top:54px;
   width:465px;
   background-color: rgba(5, 162, 220, 0.9);
   color: #ffffff;
@@ -964,6 +978,26 @@ ul.main-nav li ul li a{
     }
   }
 }
+
+.school-dropdown{
+  &.dropdown-menu{
+    padding-left:0;
+    top:40px;
+    li {
+      padding:10px 20px;
+      a{
+        color:darken($body-text-color,45%);
+        padding:5px 0;
+        &:hover{
+          color: #ffffff;
+          background: none;
+        }
+      }
+    }
+  }
+}
+
+
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus{
