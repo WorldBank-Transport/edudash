@@ -116,5 +116,9 @@
     "modal.open.improvement": "Show Top {{modalLimit}}",
     "modal.title.performance": "Top School List",
     "modal.title.improvement": "Top School List",
+    "modal.subtitle.primary.performance": "This is the list of the top 100 best performing schools published by the National Examination Council of Tanzania",
+    "modal.subtitle.primary.improvement": "This is the list of the top 300 best improved schools published by the National Examination Council of Tanzania",
+    "modal.subtitle.secondary.performance": "This is the list of the top 100 best performing schools published by the National Examination Council of Tanzania",
+    "modal.subtitle.secondary.improvement": "This is the list of the top 100 best improved schools published by the National Examination Council of Tanzania",
     "modal.cancel": "Cancel"
 }

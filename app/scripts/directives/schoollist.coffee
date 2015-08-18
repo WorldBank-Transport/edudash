@@ -7,7 +7,7 @@
  # # schoolList
 ###
 angular.module 'edudashApp'
-  .directive 'schoolList', (loadingSrv, bracketsSrv, $modal, $log) ->
+  .directive 'schoolList', (loadingSrv, bracketsSrv, $modal, $log, $q) ->
     restrict: 'E'
     templateUrl: 'views/schoollist.html'
     scope:
@@ -20,6 +20,7 @@ angular.module 'edudashApp'
       property: '@property'
       modalLimit: '@modallimit'
       rankby: '=rankby'
+      school: '=school'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
@@ -52,8 +53,9 @@ angular.module 'edudashApp'
               schoolList: scope.allSchools
               total: scope.modalLimit
               type: scope.rankby
-
+              school: scope.school
         modalInstance.result.then (selectedItem) ->
           scope.click(selectedItem)
         , () ->
           $log.info('Modal dismissed at: ' + new Date())
+        loadingSrv.containerLoad modalInstance.opened, el.parents('.map-widget')[0]

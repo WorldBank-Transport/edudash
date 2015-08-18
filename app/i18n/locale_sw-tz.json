@@ -116,5 +116,9 @@
     "modal.open.improvement": "Onyesha {{modalLimit}} zilizoinua zaidi",
     "modal.title.performance": "Orodha ya shule zilizofuzu zaidi",
     "modal.title.improvement": "Orodha ya shule zilizoinua zaidi",
+    "modal.subtitle.primary.performance": "Hii ni orodha ya shule 100 zilizofuzu zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
+    "modal.subtitle.primary.improvement": "Hii ni orodha ya shule 300 zilizoinua matokeo zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
+    "modal.subtitle.secondary.performance": "Hii ni orodha ya shule 100 zilizofuzu zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
+    "modal.subtitle.secondary.improvement": "Hii ni orodha ya shule 100 zilizoinua matokeo zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
     "modal.cancel": "Ondoka"
 }
