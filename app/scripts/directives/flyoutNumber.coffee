@@ -16,7 +16,6 @@ angular.module 'edudashApp'
       present: '='
       suffix: '@'
       bracketer: '@'
-      missing: '@'
     link: (scope, el, attrs) ->
       el.addClass 'stat'
       scope.getBracket = bracketsSrv.getBracket
