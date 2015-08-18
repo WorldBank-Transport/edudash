@@ -166,12 +166,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # When we get per-school pupil-teacher ratio data, we can compute this client-side
         watchCompute 'pupilTeacherRatio',
-          dependencies: ['rankedBy']
+          dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([rankedBy]) ->
+          computer: ([allSchools]) ->
             $q (resolve, reject) ->
-              if rankedBy?
-                rankedBy.then (data) ->
+              if allSchools?
+                allSchools.then (data) ->
                   total = _(data).reduce ((memo, school) ->
                     memo + school.PUPIL_TEACHER_RATIO
                   ), 0
