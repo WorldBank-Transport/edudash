@@ -135,20 +135,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     polys: polygons
                     schools: allSchools
                   .then ({polys, schools}) ->
-                    detailsByRegion = {}
-                    schoolsByRegion = groupBy schools, switch polyType
+                    detailsByPoly = {}
+                    schoolsByPoly = groupBy schools, switch polyType
                       when 'regions' then 'REGION'
                       when 'districts' then 'DISTRICT'
                       else (
                         reject "cannot group polygons by unknown polyType '#{polyType}'"
                         return
                       )
-                    for id, regSchools of schoolsByRegion
-                      detailsByRegion[id] =
+                    for id, regSchools of schoolsByPoly
+                      detailsByPoly[id] =
                         # TODO: should these averages be weighted by number of pupils?
                         CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
                         PASS_RATE: averageProp regSchools, 'PASS_RATE'
-                      angular.extend detailsByRegion[id],
+                      angular.extend detailsByPoly[id],
                         if schoolType == 'primary'
                           AVG_MARK: averageProp regSchools, 'AVG_MARK'
                         else if schoolType == 'secondary'
@@ -156,11 +156,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                           CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
                         else
                           throw new Error 'Expected "primary" or "secondary" for schoolType'
-                    resolve polys.map (region) ->
+                    resolve polys.map (poly) ->
                       # TODO: warn about polys mismatch
-                      properties = angular.extend detailsByRegion[region.id] or {},
-                        NAME: region.id
-                      angular.extend region, properties: properties
+                      properties = angular.extend detailsByPoly[poly.id] or {},
+                        NAME: poly.id
+                      angular.extend poly, properties: properties
 
                   .catch reject
 
