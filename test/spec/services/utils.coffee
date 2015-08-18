@@ -17,6 +17,11 @@ describe 'utils', ->
       .toThrow new Error "param `list` must be an Array. Got 'undefined'"
     expect -> u.rank {}, []
       .toThrow new Error "param `rankProp` must be a string. Got 'undefined'"
+    o = {}
+    expect -> u.rank o, [o], 'a', null, true
+      .toThrow new Error "param `order` must be 'ASC' or 'DESC'. Got boolean 'true'"
+    expect -> u.rank o, [o], 'a', null, 'z'
+      .toThrow new Error "param `order` must be 'ASC' or 'DESC'. Got string 'z'"
 
   it 'should throw if `item` is not in `list`', ->
     o = a: 1

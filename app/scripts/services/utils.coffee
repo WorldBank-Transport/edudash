@@ -25,6 +25,8 @@ angular.module('edudashAppSrv').service 'utils', ->
       throw new Error "param `list` must be an Array. Got '#{typeof list}'"
     unless typeof rankProp == 'string'
       throw new Error "param `rankProp` must be a string. Got '#{typeof rankProp}'"
+    unless not order? or order in ['ASC', 'DESC']
+      throw new Error "param `order` must be 'ASC' or 'DESC'. Got #{typeof order} '#{order}'"
     unless (list.indexOf item) != -1
       throw new Error "`item` must be in `list`"
 
