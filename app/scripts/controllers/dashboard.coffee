@@ -124,11 +124,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 )
 
         watchCompute 'detailedPolys',
-          dependencies: ['polygons', 'polyType', 'allSchools', 'schoolType']
+          dependencies: ['polygons', 'allSchools', 'polyType', 'schoolType']
           waitForPromise: true
-          computer: ([polygons, polyType, allSchools, schoolType], [oldPolys]) ->
+          computer: ([polygons, allSchools, polyType, schoolType], [oldPolys, oldSchools]) ->
             $q (resolve, reject) ->
-              unless polygons? and allSchools? and polygons != oldPolys
+              unless polygons? and allSchools? and (polygons != oldPolys or allSchools != oldSchools)
                 resolve null
               else
                 $q.all
