@@ -12,8 +12,6 @@ angular.module 'edudashAppDir'
     template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
       updateChart = (value) ->
-        ranges = attrs.ranges.split(',')
-        colors = attrs.colors.split(',')
         lineOptions =
           chart:
             type: 'line'
@@ -53,18 +51,14 @@ angular.module 'edudashAppDir'
                 padding: 10
                 style:
                   fontSize: "14px", fontWeight: "bold"
-                formatter: (format) ->
-                  format.style.color = switch
-                    when this.y < ranges[0] then colors[0]
-                    when this.y > ranges[1] then colors[2]
-                    else colors[1]
-                  format.style.textShadow = null
+                formatter: () ->
                   return this.y + ' %'
               enableMouseTracking: true
             series:
               marker:
                 radius: 6
                 symbol: 'circle'
+                lineWidth: 0
           series: [{
             name: 'Pass Rate',
             data: value.data
@@ -74,10 +68,16 @@ angular.module 'edudashAppDir'
       scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue
         years = if newValue.years? then newValue.years.sort() else Object.keys(newValue).sort()
         values = if newValue.values? then newValue.values else newValue
-        vals = years.map (y) -> [
-          y,
-          if values[''+y]? then Math.round values[''+y].PASS_RATE else 0 # explicit string-cast for key
-        ]
+        vals = years.map (y) -> {
+          x: y,
+          y: if values[''+y]? then Math.round values[''+y].PASS_RATE else 0 # explicit string-cast for key
+          marker:
+            fillColor: values[''+y].color
+            states:
+              hover:
+                fillColor: values[''+y].color
+
+        }
         updateChart years: years, data: vals
 
       attrs.$observe 'title', (value) ->

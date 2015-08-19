@@ -188,6 +188,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
                     PASS_RATE: y.average_pass_rate
+                    color: colorSrv.color brackets.getBracket y.average_pass_rate, 'PASS_RATE'
                   agg
                 ), {}
               .catch reject
@@ -491,6 +492,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   values: _(data).reduce ((agg, year) ->
                     agg[year.YEAR_OF_RESULT] =
                       PASS_RATE: year.PASS_RATE
+                      color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
                     agg
                   ), {}
                   years: $scope.years
