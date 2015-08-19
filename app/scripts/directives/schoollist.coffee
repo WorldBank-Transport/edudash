@@ -26,7 +26,6 @@ angular.module 'edudashApp'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
-      debugger
       scope.schools = null
       scope.$watch 'dataset', (p) ->
         if p?
