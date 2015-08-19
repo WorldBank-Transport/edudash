@@ -21,12 +21,13 @@ angular.module 'edudashApp'
       modalLimit: '@modallimit'
       rankby: '=rankby'
       showHeader: '@showheader'
+      columns: '=columns'
       school: '=school'
       limit: '=limit'
       sufix: '@sufix'
     link: (scope, el, attrs) ->
+      debugger
       scope.schools = null
-      scope.columns = if attrs.columns? then attrs.columns.split(",") else []
       scope.$watch 'dataset', (p) ->
         if p?
           p.then (schools) ->
