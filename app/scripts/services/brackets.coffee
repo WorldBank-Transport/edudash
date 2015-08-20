@@ -32,6 +32,11 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
           when val == 0 then 'MEDIUM'
           when val > 0 then 'GOOD'
 
+        when 'CHANGE_PREVIOUS_YEAR_PASSRATE' then switch
+          when val < 0 then 'POOR'
+          when val == 0 then 'MEDIUM'
+          when val > 0 then 'GOOD'
+
         when 'CHANGE_PREVIOUS_YEAR_GPA' then switch
           when val < 0 then 'GOOD'
           when val == 0 then 'MEDIUM'

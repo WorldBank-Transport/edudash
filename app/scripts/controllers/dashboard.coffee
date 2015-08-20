@@ -78,6 +78,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           search: (q) -> search q
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
+          getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
 
         # view util functions
         angular.extend $scope,
@@ -485,7 +486,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     agg
                   ), {}
                   years: $scope.years
-                school.change = if school.yearAggregates.values[$scope.year-1]? then Math.round(school.yearAggregates.values[$scope.year].PASS_RATE - school.yearAggregates.values[$scope.year-1].PASS_RATE) else undefined
+                thisYear = school.yearAggregates.values[$scope.year]
+                lastYear = school.yearAggregates.values[$scope.year - 1]
+                if lastYear?
+                  school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
+                # else undefined
 
         findSchool = (code) ->
           $q (resolve, reject) ->
