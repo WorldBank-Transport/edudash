@@ -6,11 +6,18 @@ describe 'Controller: DashboardCtrl', ->
   beforeEach module 'edudashAppSrv'
   beforeEach module 'edudashAppCtrl'
 
-  # work around angular translations issue
+  # so many mocks :(
   beforeEach module 'edudashApp', ($provide, $translateProvider) ->
     $translateProvider.translations 'en', {}
     $provide.factory 'OpenDataApi', ($q) ->
       getYearAggregates: -> $q.when {}
+    $provide.factory 'staticApi', ($q) ->
+      getRegions: -> $q.when objects: tz_Regions: []
+      getDistricts: -> $q.when objects: tz_districts: []
+    $provide.factory 'topojson', ->
+      feature: -> features: []
+    $provide.factory 'loadingSrv', ->
+      containerLoad: ->
     null  # explicitly return nothing because angular is awful
 
   # inject the controller and get its scope
