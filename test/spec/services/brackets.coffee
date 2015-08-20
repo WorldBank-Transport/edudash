@@ -123,6 +123,6 @@ describe 'watchComputeSrv', ->
 
   it 'should validate getRank parameter', ->
     expect -> b.getRank 'z'
-    .toThrow new Error "Unknown school type 'z'"
+      .toThrow new Error "Unknown school type 'z'"
     expect -> b.getRank undefined
-    .toThrow new Error "Unknown school type 'undefined'"
+      .toThrow new Error "Unknown school type 'undefined'"
