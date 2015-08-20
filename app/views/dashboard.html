@@ -407,12 +407,7 @@
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
                   <p class="widgetnumber">
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'"
-                           ng-src="images/arrowgreen.png" class="arrow" />
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR'"
-                           ng-src="images/arrowred.png" class="arrow" />
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM'"
-                           ng-src="images/arrowyellow.png" class="arrow" />
+                    <img ng-src="{{ getArrow(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') }}" class="arrow" />
                     <span ng-class="{
                       'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
                       'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
@@ -436,12 +431,7 @@
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
                   <p class="widgetnumber">
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'"
-                      ng-src="images/arrowgreen.png" class="arrow" />
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR'"
-                      ng-src="images/arrowred.png" class="arrow" />
-                    <img ng-if="getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM'"
-                      ng-src="images/arrowyellow.png" class="arrow" />
+                    <img ng-src="{{ getArrow(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') }}" class="arrow" />
                     <span ng-class="{
                       'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR',
                       'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM',

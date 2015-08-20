@@ -78,6 +78,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           search: (q) -> search q
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
+          getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
 
         # view util functions
         angular.extend $scope,
