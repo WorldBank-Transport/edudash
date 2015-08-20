@@ -58,3 +58,13 @@ angular.module('edudashAppSrv').service 'utils', ->
   ###
 
   rangeFilter: (prop, min, max) ->
+    unless typeof prop == 'string'
+      throw new Error "param `prop` must be a string. Got '#{typeof prop}'"
+    unless typeof min == 'number'
+      throw new Error "param `min` must be a number. Got '#{typeof min}'"
+    unless typeof max == 'number'
+      throw new Error "param `max` must be a number. Got '#{typeof max}'"
+    unless max >= min
+      throw new Error "invalid range [#{min}, #{max}]"
+
+    (s) -> if s[prop]? then (min <= s[prop] <= max) else true

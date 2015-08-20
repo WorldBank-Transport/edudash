@@ -85,16 +85,16 @@ describe 'utils', ->
 
     it 'should validate its params', ->
       expect -> u.rangeFilter()
-        .toThrow new Error "param `props` must be a string. Got 'undefined'"
+        .toThrow new Error "param `prop` must be a string. Got 'undefined'"
       expect -> u.rangeFilter 0
-        .toThrow new Error "param `props` must be a string. Got 'number'"
+        .toThrow new Error "param `prop` must be a string. Got 'number'"
       expect -> u.rangeFilter 'prop'
         .toThrow new Error "param `min` must be a number. Got 'undefined'"
       expect -> u.rangeFilter 'prop', 'a string'
         .toThrow new Error "param `min` must be a number. Got 'string'"
       expect -> u.rangeFilter 'prop', 0
         .toThrow new Error "param `max` must be a number. Got 'undefined'"
-      expect -> u.rangeFilter 'prop', 'a string'
+      expect -> u.rangeFilter 'prop', 0, 'a string'
         .toThrow new Error "param `max` must be a number. Got 'string'"
       expect -> u.rangeFilter 'prop', 0, -1
         .toThrow new Error "invalid range [0, -1]"
