@@ -11,12 +11,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
     '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
     '$timeout', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv', '$modal'
+    'staticApi', 'watchComputeSrv', 'bracketsSrv', 'utils'
 
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets) ->
+    staticApi, watchComputeSrv, brackets, utils) ->
 
         # other state
         layers = {}
@@ -70,7 +70,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          togglePolygons: (level) -> ($scope.polyType = level) and $scope.setViewMode 'polygons'
+          togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
@@ -78,6 +78,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           search: (q) -> search q
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
+          getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
 
         # view util functions
         angular.extend $scope,
@@ -135,32 +136,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     polys: polygons
                     schools: allSchools
                   .then ({polys, schools}) ->
-                    detailsByRegion = {}
-                    schoolsByRegion = groupBy schools, switch polyType
-                      when 'regions' then 'REGION'
-                      when 'districts' then 'DISTRICT'
-                      else (
-                        reject "cannot group polygons by unknown polyType '#{polyType}'"
-                        return
-                      )
-                    for id, regSchools of schoolsByRegion
-                      detailsByRegion[id] =
-                        # TODO: should these averages be weighted by number of pupils?
-                        CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
-                        PASS_RATE: averageProp regSchools, 'PASS_RATE'
-                      angular.extend detailsByRegion[id],
-                        if schoolType == 'primary'
-                          AVG_MARK: averageProp regSchools, 'AVG_MARK'
-                        else if schoolType == 'secondary'
-                          AVG_GPA: averageProp regSchools, 'AVG_GPA'
-                          CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
-                        else
-                          throw new Error 'Expected "primary" or "secondary" for schoolType'
-                    resolve polys.map (region) ->
+                    detailsByPoly = getDetailsByPoly schools, polyType, schoolType
+                    resolve polys.map (poly) ->
                       # TODO: warn about polys mismatch
-                      properties = angular.extend detailsByRegion[region.id] or {},
-                        NAME: region.id
-                      angular.extend region, properties: properties
+                      properties = angular.extend detailsByPoly[poly.id] or {},
+                        NAME: poly.id
+                      angular.extend poly, properties: properties
 
                   .catch reject
 
@@ -418,8 +399,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
-                if $scope.selectedLayer?
+                if $scope.selectedLayer?  # never go in front of a selected layer
                   $scope.selectedLayer.then (l) -> l.bringToFront()
+                rankPoly thing
 
           if oldThing != null
             switch $scope.viewMode
@@ -469,6 +451,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   geometry: feature.geometry
               .catch reject
 
+        togglePolygons = (polyType) ->
+          unless $scope.viewMode == 'polygons' and $scope.polyType == polyType
+            $scope.polyType = polyType
+            $scope.setViewMode 'polygons'
+          else  # un-toggle
+            $scope.polyType = null
+            $scope.setViewMode 'schools'
+
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
             findSchool id
@@ -503,7 +493,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                     agg
                   ), {}
                   years: $scope.years
-                school.change = if school.yearAggregates.values[$scope.year-1]? then Math.round(school.yearAggregates.values[$scope.year].PASS_RATE - school.yearAggregates.values[$scope.year-1].PASS_RATE) else undefined
+                thisYear = school.yearAggregates.values[$scope.year]
+                lastYear = school.yearAggregates.values[$scope.year - 1]
+                if lastYear?
+                  school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
+                # else undefined
 
         findSchool = (code) ->
           $q (resolve, reject) ->
@@ -526,6 +520,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 reject "Could not find polygon by id '#{id}'"
             else
               reject 'No polygons to find from'
+
+        # side-effect: mutates poly (gross, but...)
+        rankPoly = (poly) ->
+          p = poly.properties
+          ps = $scope.detailedPolys.map (p) -> p.properties
+          poly.properties.ranks = NATIONAL: utils.rank p, ps, 'PASS_RATE'
+          if $scope.polyType == 'districts'
+            poly.properties.ranks.REGIONAL = utils.rank p, ps, 'PASS_RATE', 'REGION'
 
         getSchoolPin = (code) -> $q (resolve, reject) ->
           layer = $scope.pins.getLayer code
@@ -551,19 +553,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # get the (rank, total) of a school, filtered by its region or district or national
         rank = (school, rank_by, [ob, desc]) ->
-          if rank_by not in ['REGION', 'DISTRICT', 'NATIONAL']
-            throw new Error "invalid rank_by: '#{rank_by}'"
+          grouper = switch rank_by
+            when 'REGION', 'DISTRICT' then rank_by
+            when 'NATIONAL' then null
+            else throw new Error "invalid rank_by: '#{rank_by}'"
           $q (resolve, reject) ->
             rankSchool = (schools) ->
-              if rank_by != 'NATIONAL' and school[rank_by] == undefined
-                return resolve [undefined, undefined]
-              ranked = schools
-                .filter (s) -> rank_by == 'NATIONAL' or s[rank_by] == school[rank_by]
-                .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
-              resolve
-                rank: (ranked.indexOf school) + 1
-                total: ranked.length
-
+              try
+                resolve utils.rank school, schools, ob, grouper, if desc then 'DESC' else 'ASC'
+              catch err
+                reject err
             $scope.allSchools.then rankSchool, reject
 
         rankSchools = (schools, [orderBy, desc]) ->
@@ -638,6 +637,43 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.metric]
           layer.setStyle colorSrv.polygonOff $scope.getColor val
+
+        getDetailsByPoly = (schools, polyType, schoolType) ->
+          detailsByPoly = {}
+          schoolsByPoly = groupBy schools, polyGroupProp polyType
+          for id, regSchools of schoolsByPoly
+            byOwner = groupBy regSchools, 'OWNERSHIP'
+            detailsByPoly[id] =
+              CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
+              PASS_RATE: averageProp regSchools, 'PASS_RATE'
+              GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
+              NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
+              UNKNOWN_SCHOOLS: regSchools.length - byOwner.GOVERNMENT?.length - byOwner['NON GOVERNMENT']?.length
+
+            # get the region for any district via school data
+            if polyType == 'districts'
+              [[region, blah], extras...] = ([r, s] for r, s of groupBy schoolsByPoly[id], 'REGION')
+                .map ([region, schools]) -> [region, schools.length]
+                .sort ([ra, sa], [rb, sb]) -> sb - sa
+              if extras? > 1
+                $log.warn "District has schools with different regions: #{id}"
+              detailsByPoly[id].REGION = region
+
+            angular.extend detailsByPoly[id],
+              if schoolType == 'primary'
+                AVG_MARK: averageProp regSchools, 'AVG_MARK'
+              else if schoolType == 'secondary'
+                AVG_GPA: averageProp regSchools, 'AVG_GPA'
+                CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
+              else
+                throw new Error 'Expected "primary" or "secondary" for schoolType'
+          detailsByPoly
+
+        polyGroupProp = (polyType) ->
+          switch polyType
+            when 'regions' then 'REGION'
+            when 'districts' then 'DISTRICT'
+            else throw new Error "cannot group polygons by unknown polyType '#{polyType}'"
 
         groupBy = (rows, prop) ->
           grouped = {}

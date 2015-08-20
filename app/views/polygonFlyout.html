@@ -8,26 +8,39 @@
   <h2 translate="map.selected.{{polyType}}-name">Polygon Name</h2>
   <p class="word">{{ lastHovered.properties.NAME }}</p>
 </header>
-<div class="stat">
-  <h3 translate="map.selected.average-pass-rate">Average Pass Rate</h3>
-  <p class="number NOCOLOR MISSING"
-      ng-hide="lastHovered.properties.PASS_RATE|exists"
-      translate="map.missing-data">Missing Data</p>
-  <p class="number
-      {{ getBracket(lastHovered.properties.PASS_RATE, 'PASS_RATE') }}"
-      ng-show="lastHovered.properties.PASS_RATE|exists">
-    {{ Math.round(lastHovered.properties.PASS_RATE) }} %
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.average-pt-ratio">Average Pupil-Teacher Ratio</h3>
-  <p class="number NOCOLOR MISSING"
-      ng-hide="lastHovered.properties.PUPIL_TEACHER_RATIO|exists"
-      translate="map.missing-data">Missing Data</p>
-  <p class="number
-      {{ getBracket(lastHovered.properties.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}"
-      ng-show="lastHovered.properties.PUPIL_TEACHER_RATIO|exists">
-    <!-- todo: colourify -->
-    {{ Math.round(lastHovered.properties.PUPIL_TEACHER_RATIO) }}
-  </p>
-</div>
+<flyout-number
+  name="{{ 'map.selected.average-pass-rate' |translate }}"
+  value="lastHovered.properties.PASS_RATE"
+  present="Math.round"
+  suffix="%"
+  bracketer="PASS_RATE">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.average-pt-ratio' |translate }}"
+  value="lastHovered.properties.PT_RATIO"
+  present="Math.round"
+  bracketer="PT_RATIO">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.govt-schools' |translate }}"
+  value="lastHovered.properties.GOVT_SCHOOLS">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.non-govt-schools' |translate }}"
+  value="lastHovered.properties.NON_GOVT_SCHOOLS">
+</flyout-number>
+<flyout-number
+  name="{{ 'map.selected.unknown-schools' |translate }}"
+  value="lastHovered.properties.UNKNOWN_SCHOOLS">
+</flyout-number>
+<flyout-number
+  name="{{ 'chart.title.national-raking' |translate }}"
+  value="lastHovered.properties.ranks.NATIONAL.rank"
+  suffix="(of {{ lastHovered.properties.ranks.NATIONAL.total}})">
+</flyout-number>
+<flyout-number
+  ng-if="lastHovered.properties.ranks.REGIONAL"
+  name="{{ 'chart.title.rank-region' |translate }}"
+  value="lastHovered.properties.ranks.REGIONAL.rank"
+  suffix="(of {{ lastHovered.properties.ranks.REGIONAL.total}})">
+</flyout-number>
