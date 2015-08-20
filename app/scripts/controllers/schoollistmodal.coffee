@@ -14,7 +14,6 @@ angular.module 'edudashAppCtrl'
         $scope.limit = items.total
         $scope.type = items.type
         $scope.school = items.school
-        $scope.columns = ['REGION','DISTRICT']
         resolve items.schoolList
       else
         reject "There are no school"

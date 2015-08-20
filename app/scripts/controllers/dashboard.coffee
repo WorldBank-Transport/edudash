@@ -63,7 +63,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             },
             minValue: 0,
             maxValue: 10,
-            columns: []
 
         # state transitioners
         angular.extend $scope,
