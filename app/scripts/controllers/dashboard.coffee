@@ -326,7 +326,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
             if $scope.selected? and $scope.viewMode == 'schools'
+              $scope.selectedCodeYear =
+                code: $scope.selected.CODE
+                year: $scope.year
               $scope.select $scope.selected.CODE
+
+        $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
+          (findSchool selectedCodeYear.code).then (school)->
+            $scope.selected = school
 
         # side-effect: map spinner for polygons load
         $scope.$watch 'polygons', (polysP) -> if polysP?
