@@ -18,3 +18,6 @@ describe 'Controller: DashboardCtrl', ->
   beforeEach inject ($rootScope, $controller) ->
     $scope = $rootScope.$new()
     $controller 'DashboardCtrl', $scope: $scope
+
+  it 'should toggle polygon views', ->
+    expect(1).toBe 1

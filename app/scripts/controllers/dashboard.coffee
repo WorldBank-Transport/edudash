@@ -70,7 +70,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
-          togglePolygons: (level) -> ($scope.polyType = level) and $scope.setViewMode 'polygons'
+          togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
@@ -461,6 +461,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   id: feature.properties.name.toUpperCase()
                   geometry: feature.geometry
               .catch reject
+
+        togglePolygons = (polyType) ->
+          unless $scope.viewMode == 'polygons' and $scope.polyType == polyType
+            $scope.polyType = polyType
+            $scope.setViewMode 'polygons'
+          else  # un-toggle
+            $scope.polyType = null
+            $scope.setViewMode 'schools'
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
