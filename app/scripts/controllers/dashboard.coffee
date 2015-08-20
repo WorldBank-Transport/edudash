@@ -49,20 +49,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polygons: null
           detailedPolys: null
           polyLayer: null
-          filterPassRateP: # To be used in primary school view 
-            range: {
-              min: 0,
-              max: 100
-            },
-            minValue: 0,
-            maxValue: 100
-           filterPassRateS: # To be used in secondary school view 
-            range: {
-              min: 0,
-              max: 10
-            },
-            minValue: 0,
-            maxValue: 10
 
         # state transitioners
         angular.extend $scope,

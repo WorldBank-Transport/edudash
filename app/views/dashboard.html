@@ -44,35 +44,35 @@
         class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider ng-if="schoolType==='primary'"
-        min="filterPassRateP.range.min"
-        max="filterPassRateP.range.max"
-        model-min="filterPassRateP.minValue"
-        model-max="filterPassRateP.maxValue"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="20">
+          min="0"
+          max="100"
+          model-min="0"
+          model-max="100"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="20">
       </div>
-        <div range-slider ng-if="schoolType==='secondary'"
-        min="filterPassRateS.range.min"
-        max="filterPassRateS.range.max"
-        model-min="filterPassRateS.minValue"
-        model-max="filterPassRateS.maxValue"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="1">
+      <div range-slider ng-if="schoolType==='secondary'"
+          min="0"
+          max="100"
+          model-min="0"
+          model-max="100"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="1">
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
-        min="0"
-        max="100"
-        model-min="0"
-        model-max="100"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="5">
+          min="0"
+          max="100"
+          model-min="0"
+          model-max="100"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="5">
       </div>
     </map-bottom-toggle>
 
