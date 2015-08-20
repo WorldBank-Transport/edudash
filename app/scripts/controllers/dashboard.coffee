@@ -282,9 +282,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing], [oldThing]) -> thing or oldThing
 
         watchCompute 'selected',
-          dependencies: ['selectedCode', 'viewMode']
+          dependencies: ['selectedCode', 'viewMode', 'allSchools']
           waitForPromise: true
-          computer: ([code, viewMode]) ->
+          computer: ([code, viewMode, allSchools]) ->
             unless code?
               $q.when null
             else switch viewMode
