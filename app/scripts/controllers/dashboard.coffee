@@ -390,8 +390,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
-                if $scope.selectedLayer?
+                if $scope.selectedLayer?  # never go in front of a selected layer
                   $scope.selectedLayer.then (l) -> l.bringToFront()
+                rankPoly thing
 
           if oldThing != null
             switch $scope.viewMode
@@ -497,6 +498,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 reject "Could not find polygon by id '#{id}'"
             else
               reject 'No polygons to find from'
+
+        # side-effect: mutates poly (gross, but...)
+        rankPoly = (poly) ->
+          p = poly.properties
+          ps = $scope.detailedPolys.map (p) -> p.properties
+          poly.properties.ranks = NATIONAL: utils.rank p, ps, 'PASS_RATE'
+          if $scope.polyType == 'districts'
+            poly.properties.ranks.REGIONAL = utils.rank p, ps, 'PASS_RATE', 'REGION'
 
         getSchoolPin = (code) -> $q (resolve, reject) ->
           layer = $scope.pins.getLayer code
@@ -618,6 +627,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
               NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
               UNKNOWN_SCHOOLS: regSchools.length - byOwner.GOVERNMENT?.length - byOwner['NON GOVERNMENT']?.length
+
+            # get the region for any district via school data
+            if polyType == 'districts'
+              [[region, blah], extras...] = ([r, s] for r, s of groupBy schoolsByPoly[id], 'REGION')
+                .map ([region, schools]) -> [region, schools.length]
+                .sort ([ra, sa], [rb, sb]) -> sb - sa
+              if extras? > 1
+                $log.warn "District has schools with different regions: #{id}"
+              detailsByPoly[id].REGION = region
+
             angular.extend detailsByPoly[id],
               if schoolType == 'primary'
                 AVG_MARK: averageProp regSchools, 'AVG_MARK'
