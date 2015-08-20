@@ -17,6 +17,14 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
       when 'UNKNOWN' then '#aaa'
       else throw new Error "Unknown bracket: '#{brace}'"
 
+  arrow: (brace) ->
+    switch brace
+      when 'GOOD' then 'images/arrowgreen.png'
+      when 'MEDIUM' then 'images/arrowyellow.png'
+      when 'POOR' then 'images/arrowred.png'
+      when 'UNKNOWN' then undefined
+      else  throw new Error "Unknown bracket: '#{brace}'"
+
   pinOff: (colour) ->
     style =
       color: '#fff'
