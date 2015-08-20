@@ -79,3 +79,50 @@ describe 'utils', ->
       o = a: 1, b: 'z'
       expect u.rank o, [o, {a: 0, b: 'y'}], 'a', 'b'
         .toEqual rank: 1, total: 1
+
+
+  describe 'rangeFilter', ->
+
+    it 'should validate its params', ->
+      expect -> u.rangeFilter()
+        .toThrow new Error "param `props` must be a string. Got 'undefined'"
+      expect -> u.rangeFilter 0
+        .toThrow new Error "param `props` must be a string. Got 'number'"
+      expect -> u.rangeFilter 'prop'
+        .toThrow new Error "param `min` must be a number. Got 'undefined'"
+      expect -> u.rangeFilter 'prop', 'a string'
+        .toThrow new Error "param `min` must be a number. Got 'string'"
+      expect -> u.rangeFilter 'prop', 0
+        .toThrow new Error "param `max` must be a number. Got 'undefined'"
+      expect -> u.rangeFilter 'prop', 'a string'
+        .toThrow new Error "param `max` must be a number. Got 'string'"
+      expect -> u.rangeFilter 'prop', 0, -1
+        .toThrow new Error "invalid range [0, -1]"
+
+    it 'should return a function', ->
+      expect typeof u.rangeFilter 'a prop', 0, 1
+        .toEqual 'function'
+
+    it 'should pass an emty list throug', ->
+      expect [].filter u.rangeFilter 'a prop', 0, 1
+        .toEqual []
+
+    it 'should include an object meeting the filter criteria', ->
+      expect [{p: 0}].filter u.rangeFilter 'p', 0, 1
+        .toEqual [{p: 0}]
+      expect [{p: 0.5}].filter u.rangeFilter 'p', 0, 1
+        .toEqual [{p: 0.5}]
+      expect [{p: 1}].filter u.rangeFilter 'p', 0, 1
+        .toEqual [{p: 1}]
+      expect [{p: 0}].filter u.rangeFilter 'p', 0, 0
+        .toEqual [{p: 0}]
+
+    it 'should exclude objects with props failing the criteria', ->
+      expect [{p: 2}].filter u.rangeFilter 'p', 0, 1
+        .toEqual []
+      expect [{p: -1}].filter u.rangeFilter 'p', 0, 1
+        .toEqual []
+
+    it 'should include objects missing the prop', ->
+      expect [{z: 0}].filter u.rangeFilter 'p', 0, 1
+        .toEqual [{z: 0}]

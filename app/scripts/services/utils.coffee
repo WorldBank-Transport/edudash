@@ -47,3 +47,14 @@ angular.module('edudashAppSrv').service 'utils', ->
 
       rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
       total: ordered.length
+
+
+  ###*
+  # Get a filter function that filters objects by a numerical prop value
+  # @param {string} prop Property to check for filtering
+  # @param {number} min Inclusive lower bound of acceptable `prop` values
+  # @param {number} max Inclusive upper bound of acceptable `prop` values
+  # @returns {function} suitable for passing to Array.prototype.filter
+  ###
+
+  rangeFilter: (prop, min, max) ->
