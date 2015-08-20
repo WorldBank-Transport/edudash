@@ -49,6 +49,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polygons: null
           detailedPolys: null
           polyLayer: null
+          passrateRange: min: 0, max: 100
+          ptratioRange: min: 0, max: 100
 
         # state transitioners
         angular.extend $scope,
