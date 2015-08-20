@@ -49,8 +49,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polygons: null
           detailedPolys: null
           polyLayer: null
-          passrateRange: min: 0, max: 100
-          ptratioRange: min: 0, max: 100
+          range:
+            passrate:
+              min: 0
+              max: 100
+            ptratio:
+              min: 0
+              max: 100
 
         # state transitioners
         angular.extend $scope,
@@ -200,12 +205,19 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'filteredSchools',
-          dependencies: ['viewMode', 'allSchools']
-          computer: ([viewMode, allSchools]) ->
+          dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
+                         'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max']
+          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax]) ->
             unless viewMode == 'schools' and allSchools?
               null
             else
-              $q (res, x) -> allSchools.then res, x
+              $q (resolve, reject) -> allSchools.then ((schools) ->
+                filtered = schools
+                  .filter utils.rangeFilter 'PASS_RATE', prMin, prMax
+                  .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax
+                $log.log filtered.length
+                resolve filtered
+              ), reject
 
         watchCompute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
