@@ -91,6 +91,12 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR').toEqual 'MEDIUM'
     expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR').toEqual 'GOOD'
 
+  it 'CHANGE_PREVIOUS_YEAR_PASSRATE ranges', ->
+    # TODO: can we sanity-check some maximum changes for UNDEFINED?
+    expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_PASSRATE').toEqual 'POOR'
+    expect(b.getBracket 0, 'CHANGE_PREVIOUS_YEAR_PASSRATE').toEqual 'MEDIUM'
+    expect(b.getBracket 1, 'CHANGE_PREVIOUS_YEAR_PASSRATE').toEqual 'GOOD'
+
   it 'CHANGE_PREVIOUS_YEAR_GPA ranges', ->
     # TODO: can we sanity-check some maximum changes for UNDEFINED?
     expect(b.getBracket -1,'CHANGE_PREVIOUS_YEAR_GPA').toEqual 'GOOD'
