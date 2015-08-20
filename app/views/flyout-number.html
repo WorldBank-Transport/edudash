@@ -1,0 +1,8 @@
+<h3>{{ name }}</h3>
+<p class="number NOCOLOR MISSING" ng-hide="value|exists">
+  {{ 'map.missing-data' |translate }}
+</p>
+<p class="number {{ bracketer ? getBracket(value, bracketer) : 'NOCOLOR' }}"
+    ng-show="value|exists">
+  {{ present ? present(value) : value }} {{ suffix }}
+</p>

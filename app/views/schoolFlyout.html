@@ -20,29 +20,26 @@
   <h3 translate="map.selected.ward">Ward</h3>
   <p class="word">{{ lastHovered.WARD }}</p>
 </div>
-<div class="stat">
-  <h3 translate="map.selected.passrate">Pass Rate</h3>
-  <p class="number {{ getBracket(lastHovered.PASS_RATE, 'PASS_RATE') }}">
-    {{ lastHovered.PASS_RATE }} %
-  </p>
-</div>
-<div class="stat" ng-if="lastHovered.AVG_MARK|exists">
-  <h3 translate="map.selected.avg-mark">Average Mark</h3>
-  <p class="number NOCOLOR">
-    {{ lastHovered.AVG_MARK }}
-  </p>
-</div>
-<div class="stat" ng-if="lastHovered.AVG_GPA|exists">
-  <h3 translate="map.selected.avg-gpa">Average GPA</h3>
-  <p class="number {{ getBracket(lastHovered.AVG_GPA, 'AVG_GPA') }}">
-    {{ lastHovered.AVG_GPA }}
-  </p>
-</div>
-<div class="stat">
-  <h3 translate="map.selected.pt-ratio">Pupil-Teacher Ratio</h3>
-  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO|exists"
-      class="number {{ getBracket(lastHovered.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO') }}">
-    {{ lastHovered.PUPIL_TEACHER_RATIO }}
-  </p>
-  <p ng-if="lastHovered.PUPIL_TEACHER_RATIO === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
-</div>
+<flyout-number
+  name="{{ 'map.selected.passrate' |translate }}"
+  value="lastHovered.PASS_RATE"
+  suffix="%"
+  bracketer="PASS_RATE">
+</flyout-number>
+<flyout-number
+  ng-if="lastHovered.AVG_MARK|exists"
+  name="{{ 'map.selected.avg-mark' |translate }}"
+  value="lastHovered.AVG_MARK">
+</flyout-number>
+<flyout-number
+  ng-if="lastHovered.AVG_GPA|exists"
+  name="{{ 'map.selected.avg-gpa' |translate }}"
+  value="lastHovered.AVG_GPA"
+  bracketer="AVG_GPA">
+</flyout-number>
+<flyout-number
+  ng-if="lastHovered.PUPIL_TEACHER_RATIO|exists"
+  name="{{ 'map.selected.pt-ratio' |translate }}"
+  value="lastHovered.PUPIL_TEACHER_RATIO"
+  bracketer="PUPIL_TEACHER_RATIO">
+</flyout-number>
