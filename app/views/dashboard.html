@@ -10,7 +10,7 @@
       <p class="performance-select">
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
-        <a ng-hide="schoolType==='primary'" ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.gpa">GPA</a>
+        <a ng-show="schoolType==='secondary'" ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.gpa">GPA</a>
       </p>
       <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
