@@ -504,21 +504,6 @@ div.cartodb-share a{
     padding-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
 }
-#schoolinfo .top-school-badge{
-    position: absolute;
-    right: 0px;
-    margin-right: -16px;
-    top: 24px;
-}
-
-@media screen and (max-width: $c) {
-    #schoolinfo .top-school-badge{
-        top: 30px;
-    }
-    #schoolinfo .top-school-badge img{
-        width: 60%;
-    }
-}
 
 #schoolinfo p.schoolname {
   font-size: 16px;
