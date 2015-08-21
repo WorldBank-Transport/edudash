@@ -120,5 +120,10 @@
     "modal.subtitle.primary.improvement": "Hii ni orodha ya shule 300 zilizoinua matokeo zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
     "modal.subtitle.secondary.performance": "Hii ni orodha ya shule 100 zilizofuzu zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
     "modal.subtitle.secondary.improvement": "Hii ni orodha ya shule 100 zilizoinua matokeo zaidi kama ilivyochapishwa na Baraza la Mitihani la Tanzania. Bofya mstari kuchunguza zaidi",
-    "modal.cancel": "Ondoka"
+    "modal.cancel": "Ondoka",
+    "school.list.header.rank":"Nafasi katika orodha hii",
+    "school.list.header.name":"Shule",
+    "school.list.header.REGION":"Mkoa",
+    "school.list.header.DISTRICT":"Wilaya",
+    "school.list.header.PASS_RATE":"Kiwango cha Kufuzu"
 }

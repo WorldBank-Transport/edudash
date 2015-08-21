@@ -7,6 +7,12 @@
 </div>
 <div>
   <table class="school-performance">
+    <tr ng-if="showHeader">
+        <th translate="school.list.header.rank"></th>
+        <th translate="school.list.header.name"></th>
+        <th ng-repeat="column in columns" translate="school.list.header.{{column}}"></th>
+        <th translate="school.list.header.{{property}}"></th>
+    </tr>
     <tr ng-repeat="school in schools">
       <td class="rank">{{ $index + 1 }}.</td>
       <td class="name"
@@ -14,6 +20,9 @@
           ng-mouseenter="hover(school.CODE)"
           ng-mouseleave="unHover()">
         <strong>{{ school.NAME }}</strong>
+      </td>
+      <td ng-repeat="column in columns" class="name">
+          {{ school[column] }}
       </td>
       <td ng-class="getStyle(school[property], property)">
         {{ school[property] }}{{ sufix }}
