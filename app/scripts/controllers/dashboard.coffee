@@ -264,9 +264,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing], [oldThing]) -> thing or oldThing
 
         watchCompute 'selected',
-          dependencies: ['selectedCode', 'viewMode']
+          dependencies: ['selectedCode', 'viewMode', 'allSchools']
           waitForPromise: true
-          computer: ([code, viewMode]) ->
+          computer: ([code, viewMode, allSchools]) ->
             unless code?
               $q.when null
             else switch viewMode
@@ -308,7 +308,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
             if $scope.selected? and $scope.viewMode == 'schools'
+              $scope.selectedCodeYear =  # TODO: fix issue with 'selected' watchCompute and remove this assignment
+                code: $scope.selected.CODE
+                year: $scope.year
               $scope.select $scope.selected.CODE
+
+        # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
+        $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
+          (findSchool selectedCodeYear.code).then (school)->
+            $scope.selected = school
 
         # side-effect: map spinner for polygons load
         $scope.$watch 'polygons', (polysP) -> if polysP?
