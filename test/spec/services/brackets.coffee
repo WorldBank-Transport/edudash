@@ -134,3 +134,55 @@ describe 'watchComputeSrv', ->
       .toThrow new Error "Unknown school type 'z'"
     expect -> b.getRank undefined
       .toThrow new Error "Unknown school type 'undefined'"
+
+  it 'should validate hasBadge parameters', ->
+    expect -> b.hasBadge()
+      .toThrow new Error "Unknown schoolType 'undefined'"
+    expect -> b.hasBadge undefined, 'bad school type'
+      .toThrow new Error "Unknown schoolType 'bad school type'"
+    expect -> b.hasBadge null, 'primary'
+      .toThrow new Error "Unknown primary badge 'null'"
+    expect -> b.hasBadge null, 'secondary'
+      .toThrow new Error "Unknown secondary badge 'null'"
+    expect -> b.hasBadge 'bad badge', 'primary'
+      .toThrow new Error "Unknown primary badge 'bad badge'"
+
+  it 'top 100 primary has badge', ->
+    expect b.hasBadge 'top-100', 'primary', 0
+      .toBe null
+    expect b.hasBadge 'top-100', 'primary', 1
+      .toBe true
+    expect b.hasBadge 'top-100', 'primary', 100
+      .toBe true
+    expect b.hasBadge 'top-100', 'primary', 101
+      .toBe false
+
+  it 'top 100 secondary has badge', ->
+    expect b.hasBadge 'top-100', 'secondary', 0
+      .toBe null
+    expect b.hasBadge 'top-100', 'secondary', 1
+      .toBe true
+    expect b.hasBadge 'top-100', 'secondary', 100
+      .toBe true
+    expect b.hasBadge 'top-100', 'secondary', 101
+      .toBe false
+
+  it 'most imrpoved primary has badge', ->
+    expect b.hasBadge 'most-improved', 'primary', -1
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 0
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 61
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 62
+      .toBe true
+
+  it 'most imrpoved secondary has badge', ->
+    expect b.hasBadge 'most-improved', 'secondary', -1
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 0
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 54
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 55
+      .toBe true

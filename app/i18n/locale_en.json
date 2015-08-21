@@ -123,5 +123,11 @@
     "modal.subtitle.primary.improvement": "This is the list of the top 300 best improved schools published by the National Examination Council of Tanzania",
     "modal.subtitle.secondary.performance": "This is the list of the top 100 best performing schools published by the National Examination Council of Tanzania",
     "modal.subtitle.secondary.improvement": "This is the list of the top 100 best improved schools published by the National Examination Council of Tanzania",
-    "modal.cancel": "Cancel"
+    "modal.cancel": "Cancel",
+    "school.list.header.rank":"Position in this List",
+    "school.list.header.name":"School",
+    "school.list.header.REGION":"Region",
+    "school.list.header.DISTRICT":"District",
+    "school.list.header.PASS_RATE":"Passrate"
+
 }

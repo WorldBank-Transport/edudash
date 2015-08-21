@@ -69,6 +69,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> $scope.selectedCode = code
           search: (q) -> search q
+          hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
