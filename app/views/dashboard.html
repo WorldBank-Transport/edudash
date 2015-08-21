@@ -263,7 +263,7 @@
               </school-list>
             </div>
           </div>
-          <div class="container-fluid margin-top" ng-hide="schoolType==='secondary' && selected|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='secondary' && selected|exists">
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
@@ -274,7 +274,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid margin-top">
+            <div class="container-fluid margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs" ng-init="rankBy='performance'">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
                   <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
