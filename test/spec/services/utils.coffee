@@ -10,6 +10,11 @@ describe 'utils', ->
   beforeEach inject (_utils_) ->
     u = _utils_
 
+  # mocks
+  $timeout = null
+  beforeEach inject (_$timeout_) ->
+    $timeout = _$timeout_
+
   describe 'rank', ->
 
     it 'should validate its parameters parameters', ->
@@ -126,3 +131,49 @@ describe 'utils', ->
     it 'should include objects missing the prop', ->
       expect [{z: 0}].filter u.rangeFilter 'p', 0, 1
         .toEqual [{z: 0}]
+
+  describe 'debounce', ->
+    it 'shoud validate its params', ->
+      expect -> u.debounce()
+        .toThrow new Error "param `wait` must be a number. Got 'undefined'"
+      expect -> u.debounce 1.5, -> 0
+        .toThrow new Error "param `wait` must be an integer. Got 1.5"
+      expect -> u.debounce 100
+        .toThrow new Error "param 'fn' must be a function. Got 'undefined'"
+
+    it 'should not call the function synchronously', ->
+      called = false
+      deb = u.debounce 0, -> called = true
+      deb()
+      expect called
+        .toBe false
+
+    it 'should call the function', ->
+      called = false
+      deb = u.debounce 0, -> called = true
+      deb()
+      $timeout.flush()
+      expect called
+        .toBe true
+
+    it 'should not call the function more than once', ->
+      count = 0
+      deb = u.debounce 0, -> count += 1
+      deb()
+      deb()
+      $timeout.flush()
+      expect count
+        .toBe 1
+
+    it 'should pass the last-provided arguments to the debounced function', ->
+      result = null
+      deb = u.debounce 0, (a) -> result = a
+      deb 'one'
+      $timeout.flush()
+      expect result
+        .toEqual 'one'
+      deb 'flew'
+      deb 'over'
+      $timeout.flush()
+      expect result
+        .toEqual 'over'
