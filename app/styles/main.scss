@@ -485,7 +485,6 @@ div.cartodb-share a{
 }
 /* School info */
 #schoolinfo-plaholder{
-    display: block;
     padding: 20px 0px;
     color: #CCC;
     font-size: 18px;
@@ -775,11 +774,18 @@ table.districts p {
 }
 
 // homepage-specific container
-.homepage-content{
-  position:absolute;
-  top: $header-height/1.58;
-  bottom:0;
-  overflow:hidden;
+.homepage-content {
+  padding-bottom: 100px;
+}
+@media screen and (max-width: $xs) {
+  .splash-image {
+    height: 320px;
+    overflow: hidden;
+    img {
+      position: relative;
+      top: -50px;
+    }
+  }
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -838,13 +844,13 @@ table.districts p {
 }
 
 /*language nav*/
-.navbar-collapse.navbar-lang{
-  float:right;
+.navbar-lang {
+  float: right;
   margin-left: 20px;
   background: #f0f0f0;
-  margin-top:10px;
-  padding-top:17px;
-  padding-bottom:13px;
+  margin-top: 10px;
+  padding-top: 17px;
+  padding-bottom: 13px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -884,32 +890,21 @@ table.districts p {
 
 /*responsive behavior for language nav*/
 @media only screen and (max-width : $e) {
-  .navbar-collapse.navbar-lang{
-    width:165px;
-    background:none;
+  .navbar-lang {
     background: none;
-    padding-top:0;
-    padding-bottom:0;
-    float:right;
-
+    padding-top: 0;
+    padding-bottom: 0;
   }
-  .navbar-lang li a{
-  font-size:13px;
+  .navbar-lang li a {
+    font-size:13px;
   }
 }
 
 @media only screen and (max-width: $xs) {
-  .navbar-collapse.navbar-lang{
-    width:150px;
-    float:none;
-    position:absolute;
-    top:2px;
-    right:60px;
-}
-  .navbar-collapse.navbar-lang ul{
-    height:18px;
+  .navbar-lang ul{
+    height: 18px;
   }
-  .navbar-collapse.navbar-lang li{
+  .navbar-lang li{
     padding-bottom:10px;
     position:relative;
     float:left;
@@ -926,9 +921,11 @@ table.districts p {
 
 /* Language nav got extra small devices, phones */
 @media only screen and (max-width: $a) {
-  .navbar-collapse.navbar-lang{
-    display:none;
-    /*temporary*/
+  .navbar-lang {
+    clear: left;
+    li a {
+      color: #fff;
+    }
   }
 }
 
