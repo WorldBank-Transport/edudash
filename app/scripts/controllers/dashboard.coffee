@@ -307,11 +307,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
             if $scope.selected? and $scope.viewMode == 'schools'
-              $scope.selectedCodeYear =
+              $scope.selectedCodeYear =  # TODO: fix issue with 'selected' watchCompute and remove this assignment
                 code: $scope.selected.CODE
                 year: $scope.year
               $scope.select $scope.selected.CODE
 
+        # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
         $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
           (findSchool selectedCodeYear.code).then (school)->
             $scope.selected = school
