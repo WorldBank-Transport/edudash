@@ -88,10 +88,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute = watchComputeSrv $scope
 
         watchCompute 'metric',
-          dependencies: ['schoolType', 'rankBy']
-          computer: ([schoolType, criteria]) ->
+          dependencies: ['schoolType', 'rankBy', 'visMode']
+          computer: ([schoolType, criteria, visMode], [oldSchoolType, oldCriteria, oldVisMode]) ->
             unless schoolType? and criteria?
               null
+            else if oldVisMode? and  visMode != oldVisMode
+              switch visMode
+                when 'passrate' then 'PASS_RATE'
+                when 'ptratio' then 'PUPIL_TEACHER_RATIO'
+                when 'gpa' then 'AVG_GPA'
             else
               brackets.getMetric schoolType, criteria
 
