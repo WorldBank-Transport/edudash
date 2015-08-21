@@ -219,9 +219,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               ), reject
 
         watchCompute 'pins',
-          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40', 'range']
+          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
           waitForPromise: true
-          computer: ([schoolsP, year, schoolType, moreThan40, range], [oldSchoolsP]) ->
+          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchoolsP]) ->
             $q (resolve, reject) ->
               # Only continue when we have a new promise for the schools.
               # year, schoolType. etc. are dependencies because we need them
@@ -230,7 +230,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               unless schoolsP? and schoolsP != oldSchoolsP
                 resolve null
               else
-                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}-#{range.passrate.min}-#{range.passrate.max}-#{range.ptratio.min}-#{range.ptratio.max}"
+                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
                 schoolsP.then ((schools) ->
                   resolve layersSrv.addFastCircles layerId, mapId,
                     getData: -> $q (res, rej) ->
