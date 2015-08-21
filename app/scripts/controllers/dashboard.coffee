@@ -56,6 +56,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             ptratio:
               min: 0
               max: 100
+          ptratioComputedMax: 10
 
         # state transitioners
         angular.extend $scope,
@@ -103,6 +104,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if year? then loadSchools viewMode, year, rest...
             else
               null
+
+        watchCompute 'ptratioComputedMax',
+          dependencies: ['allSchools']
+          waitForPromise: true
+          computer: ([allSchools]) -> $q (resolve, reject) ->
+            MIN = 10
+            unless allSchools?
+              resolve MIN
+            else
+              allSchools.then ((schools) ->
+                ratios = schools
+                  .map (s) -> s.PUPIL_TEACHER_RATIO
+                  .filter (s) -> not isNaN s
+                maxRatio = Math.max MIN, ratios...
+                resolve maxRatio
+              ), reject
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
