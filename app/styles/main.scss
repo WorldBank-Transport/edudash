@@ -338,6 +338,16 @@ div.cartodb-share a{
   float: none;
   display: table-cell;
 }
+/* sidebar toggle buttons should be 1/2 width */
+.sidebar-toggle-pair .nav-tabs {
+  display: block;
+  & > li {
+    display: block;
+    float: left;
+    width: 50%;
+    margin-bottom: 1px;
+  }
+}
 
 #nav-tabs-dashboard.nav-tabs > li.small-nav-tabs {
   width: 10%;
