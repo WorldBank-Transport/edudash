@@ -127,7 +127,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: $b) {
+@media screen and (min-width: $xs) {
     /* Remove the padding we set earlier */
     .header,
     .marketing {
@@ -760,11 +760,11 @@ table.districts p {
   padding:5px 15px;
 }
 .full-screen-height {
-  height: $b;
+  height: $xs;
 }
 
 
-@media screen and (max-width: $b) {
+@media screen and (max-width: $xs) {
   #generalcontent a.boxlink {
     font-size: 13px;
   }
@@ -790,7 +790,7 @@ table.districts p {
     height: 800px;
     width: 760px
 }
-@media screen and (max-width: $b) {
+@media screen and (max-width: $xs) {
     .google-form{
         width: 100%;
     }
@@ -898,7 +898,7 @@ table.districts p {
   }
 }
 
-@media only screen and (max-width : $b) {
+@media only screen and (max-width: $xs) {
   .navbar-collapse.navbar-lang{
     width:150px;
     float:none;
