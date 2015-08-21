@@ -57,6 +57,9 @@ body {
 
 .navbar-toggle{
   background: $theme-blue;
+  position:absolute;
+  top:10px;
+  right:0;
 }
 
 .navbar-toggle:hover,
@@ -145,6 +148,7 @@ body {
 #main-nav-items{
   margin-top:26px;
 }
+
 @media only screen and (max-width: $e) {
   #main-nav-items{
     width: 70%;
