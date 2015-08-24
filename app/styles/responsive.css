@@ -8,7 +8,11 @@
   .footer {
     position: relative; }
     .footer p {
-      margin-top: 8px; } }
+      margin-top: 8px; }
+
+  .google-form {
+    width: 100%;
+    margin-top: 10px; } }
 @media only screen and (min-width: 1280px) {
   #schoolinfo-placeholder {
     padding: 12px 0; }
