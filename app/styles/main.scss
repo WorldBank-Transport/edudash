@@ -5,7 +5,7 @@
 @import "flyout";
 @import "pupilsprite";
 @import "schoollist";
-
+@import "responsive";
 
 /* Space out content a bit */
 body {
@@ -71,11 +71,7 @@ body {
   background:#fff;
 }
 
-@media (max-width: $f) {
-    .nav > li > a {
-        padding: 10px 8px;
-    }
-}
+
 
 /* Custom page header */
 .header {
@@ -130,33 +126,6 @@ body {
 }
 
 
-
-
-// navigation for devices under 480px
-@media only screen and (max-width: $a) {
-.container-fluid > .navbar-collapse{
-  @include border-radius(0px);
-  position:absolute;
-  top:51px;
-  right:30px;
-  width:28%;
-  background: $theme-blue;
-    ul{
-      margin-top:10px;
-      &.main-nav li{
-        border-right:none;
-        text-align:right;
-        a{
-          line-height:12px;
-          color: #ffffff;
-          &:hover{
-            color: #000000;
-          }
-        }
-      }
-    }
-  }
-
   .splash-image{
     margin-top:30px;
   }
@@ -166,52 +135,6 @@ body {
     font-size:25px;
     line-height:27px;
   }
-}
-
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: $xs) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
-#main-nav-items{
-  margin-top:26px;
-}
-
-@media only screen and (max-width: $e) {
-  #main-nav-items{
-    width: 70%;
-    position:absolute;
-    top:13px;
-    right:20px;
-  }
-  #main-nav-items ul{
-    float:right;
-    }
-  }
-}
-
-
-
-// navigation for devices under 850
-@media only screen and (max-width: $c){
-  .container-fluid > .navbar-collapse{
-    @include border-radius(0px);
-      ul{
-        &.main-nav li{
-        }
-      }
-    }
 }
 
 .preload {
@@ -444,20 +367,7 @@ div.cartodb-share a{
 .show-sm{
     display: none;
 }
-@media screen and (max-width: $c) {
-    .hide-sm{
-        display: none;
-    }
-    .show-sm{
-        display: block;
-    }
-}
 
-@media screen and (max-width: $a) {
-    .nav-tabs > li > a{
-        font-size: 10px;
-    }
-}
 
 .btn-default{
   border-color: #ffffff;
@@ -565,14 +475,7 @@ div.cartodb-share a{
     top: 24px;
 }
 
-@media screen and (max-width: $c) {
-    #schoolinfo .top-school-badge{
-        top: 30px;
-    }
-    #schoolinfo .top-school-badge img{
-        width: 60%;
-    }
-}
+
 
 #schoolinfo p.schoolname {
   font-size: 16px;
@@ -629,13 +532,6 @@ div.cartodb-share a{
   margin-top: -5px;
   margin-bottom: 2px;
   margin-right: 10px;
-}
-
-@media screen and (max-width: $c) {
-    #schoolinfo .widgetnumber {
-        font-size: 18px;
-        font-weight: 800;
-    }
 }
 
 #schoolinfo img.arrow {
@@ -775,10 +671,7 @@ table.districts p {
   min-height: 600px;
   background:$content-bg;
 }
-@media screen and (min-width: $c) {
-    #generalcontent {
-    }
-}
+
 #generalcontent p {
 
 }
@@ -817,13 +710,6 @@ table.districts p {
   height: $xs;
 }
 
-
-@media screen and (max-width: $xs) {
-  #generalcontent a.boxlink {
-    font-size: 13px;
-  }
-}
-
 #generalcontent a.boxlink:hover {
     background-color: #2ab4e7;
 }
@@ -831,16 +717,6 @@ table.districts p {
 // homepage-specific container
 .homepage-content {
   padding-bottom: 100px;
-}
-@media screen and (max-width: $xs) {
-  .splash-image {
-    height: 320px;
-    overflow: hidden;
-    img {
-      position: relative;
-      top: -50px;
-    }
-  }
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -850,11 +726,6 @@ table.districts p {
 .google-form{
     height: 800px;
     width: 760px
-}
-@media screen and (max-width: $xs) {
-    .google-form{
-        width: 100%;
-    }
 }
 
 .loading {
@@ -943,61 +814,9 @@ table.districts p {
   color: #1595d3;
 }
 
-/*responsive behavior for language nav*/
-@media only screen and (max-width : $e) {
-  .navbar-lang{
-    float:left;
-    margin-left:6px;
-    margin-top: -10px;
-    background:none;
-    li{
-      border-right:1px solid $grey-light;
-      a{
-        font-size:13px;
-        &:hover{color:$grey-light;}
-        }
-      }
-    }
-}
-
-@media only screen and (max-width: $xs) {
-  .navbar-lang{
-    float:right;
-    margin-right:70px;
-    margin-top:7px;
-  }
-  .navbar-lang ul{
-    height: 18px;
-  }
-  .navbar-lang li{
-    padding-bottom:10px;
-    position:relative;
-    float:left;
-    height:14px;
-  }
-  .navbar-lang li a{
-    font-size:15px;
-    line-height:10px;
-  }
-  .navbar-lang li a:hover{
-    background:none;
-  }
-}
-
-/* Language nav got extra small devices, phones */
-@media only screen and (max-width: $a) {
-  .navbar-lang {
-    clear: left;
-    float:left;
-    margin-top:-9px;;
-    li a {
-      color: #fff;
-    }
-  }
-}
-
 /*main nav*/
 ul.main-nav{
+  margin-top:25px;
 }
 ul.main-nav li{
   border-right:1px solid #5b5b5b;
