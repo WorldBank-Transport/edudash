@@ -129,6 +129,45 @@ body {
     margin-bottom: 0;
 }
 
+
+
+
+// navigation for devices under 480px
+@media only screen and (max-width: $a) {
+.container-fluid > .navbar-collapse{
+  @include border-radius(0px);
+  position:absolute;
+  top:51px;
+  right:30px;
+  width:28%;
+  background: $theme-blue;
+    ul{
+      margin-top:10px;
+      &.main-nav li{
+        border-right:none;
+        text-align:right;
+        a{
+          line-height:12px;
+          color: #ffffff;
+          &:hover{
+            color: #000000;
+          }
+        }
+      }
+    }
+  }
+
+  .splash-image{
+    margin-top:30px;
+  }
+  .page-title{
+    padding-top:0;
+    margin-top:-20px;
+    font-size:25px;
+    line-height:27px;
+  }
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: $xs) {
     /* Remove the padding we set earlier */
@@ -158,10 +197,22 @@ body {
   }
   #main-nav-items ul{
     float:right;
+    }
   }
 }
-}
 
+
+
+// navigation for devices under 850
+@media only screen and (max-width: $c){
+  .container-fluid > .navbar-collapse{
+    @include border-radius(0px);
+      ul{
+        &.main-nav li{
+        }
+      }
+    }
+}
 
 .preload {
     display:none;
@@ -894,17 +945,27 @@ table.districts p {
 
 /*responsive behavior for language nav*/
 @media only screen and (max-width : $e) {
-  .navbar-lang {
-    background: none;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  .navbar-lang li a {
-    font-size:13px;
-  }
+  .navbar-lang{
+    float:left;
+    margin-left:6px;
+    margin-top: -10px;
+    background:none;
+    li{
+      border-right:1px solid $grey-light;
+      a{
+        font-size:13px;
+        &:hover{color:$grey-light;}
+        }
+      }
+    }
 }
 
 @media only screen and (max-width: $xs) {
+  .navbar-lang{
+    float:right;
+    margin-right:70px;
+    margin-top:7px;
+  }
   .navbar-lang ul{
     height: 18px;
   }
@@ -927,6 +988,8 @@ table.districts p {
 @media only screen and (max-width: $a) {
   .navbar-lang {
     clear: left;
+    float:left;
+    margin-top:-9px;;
     li a {
       color: #fff;
     }
@@ -1292,25 +1355,15 @@ map-bottom-toggle.filters {
   .navbar-collapse{
     padding-top:$header-height/2.6;
     li{
-      border-left:1px solid #ffffff;
       height:15px;
       &:first-child{
         border-left:none;
       }
-      a{
-        color: #ffffff;
-        font-size:12px;
-        padding-top:0;
-        padding-bottom:0;
-        line-height:13px;
-        &:hover{
-          color:darken($body-text-color,15%);
-          background:none;
-        }
-      }
     }
   }
 }
+
+
 
 // vertical padding that can be applied to any container
 .vert-padding{
