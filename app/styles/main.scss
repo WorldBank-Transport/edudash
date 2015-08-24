@@ -1160,20 +1160,23 @@ map-bottom-toggle.filters {
   height: $footer-height;
   p{
     color:#ffffff;
-    margin-top:15px;
+    margin-top:5px;
     font-size:12px;
     line-height:14px;
   }
   .navbar-brand{
     height: $footer-height;
   }
+
   .navbar-collapse{
-    padding-top:$header-height/2.6;
+    @include border-radius(0);
+    padding-top:$header-height/5;
     li{
       height:15px;
       &:first-child{
         border-left:none;
       }
+      a{color: #ffffff;}
     }
   }
 }

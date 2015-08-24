@@ -60,16 +60,37 @@
   .navbar-lang{
     top:61px;
   }
-}
-
-@media only screen and (max-width : $a){
+  .navbar-toggle{
+    @include border-radius(0px);
+    padding:11px;
+  }
   .container-fluid > .navbar-collapse{
         position:absolute;
         top:51px;
-        right:30px;
+        right:31px;
         width:28%;
         background: $theme-blue;
       }
-  ul.main-nav li a {color: #ffffff;}
+  ul.main-nav{ margin-top:7px;padding-bottom:7px;}
+  ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
+  ul.main-nav li a {
+    color: #ffffff;
+    padding-right:10px;
+    &:hover{
+      color: darken($body-text-color,25%);
+    }
+  }
+  .splash-image{
+    margin-top:37px;
+  }
+}
 
+@media only screen and (max-width : $a){
+.navbar-brand{
+  padding-right:0;
+}
+.container-fluid > .navbar-collapse{
+  width:30%;
+  top:52px;
+  }
 }
