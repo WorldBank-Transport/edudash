@@ -28,30 +28,48 @@
    }
 } // end: max width 850
 
-// start: max width 480
+// start: max 768
 @media only screen
-  and (min-device-width: $a)
-  and (max-device-width: 736px){
-  .navbar-lang {
-      background:none;
-      position:absolute;
-      top:61px;
-      left:5px;
-      padding:0;
-      width:200px;
-      ul{
-        li{
-          float:left;
-          a{
-            padding:0 15px 0 0;
-            margin-left:15px;
-            color: #ffffff;
-            &:hover{
-              background:none;
-              color: darken($body-text-color,25%);
+  and (max-width: $xs){
+    .navbar-lang {
+        background:none;
+        position:absolute;
+        top:70px;
+        left:-2px;
+        padding:0;
+        ul{
+          li{
+            float:left;
+            a{
+              padding:0 15px 0 0;
+              margin-left:15px;
+              color: #ffffff;
+              &:hover{
+                background:none;
+                color: darken($body-text-color,25%);
+              }
             }
           }
         }
       }
-    }
-}// end: max width 480
+}
+// end: max 768
+
+@media only screen
+  and (max-width: 640px){
+  .navbar-lang{
+    top:61px;
+  }
+}
+
+@media only screen and (max-width : $a){
+  .container-fluid > .navbar-collapse{
+        position:absolute;
+        top:51px;
+        right:30px;
+        width:28%;
+        background: $theme-blue;
+      }
+  ul.main-nav li a {color: #ffffff;}
+
+}

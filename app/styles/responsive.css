@@ -12,14 +12,13 @@
   .page-title {
     font-size: 25px;
     line-height: 28px; } }
-@media only screen and (min-device-width: 480px) and (max-device-width: 736px) {
+@media only screen and (max-width: 768px) {
   .navbar-lang {
     background: none;
     position: absolute;
-    top: 61px;
-    left: 5px;
-    padding: 0;
-    width: 200px; }
+    top: 70px;
+    left: -2px;
+    padding: 0; }
     .navbar-lang ul li {
       float: left; }
       .navbar-lang ul li a {
@@ -29,5 +28,18 @@
         .navbar-lang ul li a:hover {
           background: none;
           color: #373737; } }
+@media only screen and (max-width: 640px) {
+  .navbar-lang {
+    top: 61px; } }
+@media only screen and (max-width: 480px) {
+  .container-fluid > .navbar-collapse {
+    position: absolute;
+    top: 51px;
+    right: 30px;
+    width: 28%;
+    background: #05a2dc; }
+
+  ul.main-nav li a {
+    color: #ffffff; } }
 
 /*# sourceMappingURL=responsive.css.map */
