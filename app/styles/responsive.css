@@ -1,38 +1,30 @@
-/*
-Error: Invalid CSS after "}": expected "}", was ""
-        on line 130 of /Users/galinakalvatcheva/Documents/edudash/app/styles/responsive.scss
+@media only screen and (max-width: 1024px) {
+  #schoolinfo-placeholder {
+    display: none; } }
+@media only screen and (max-width: 992px) {
+  #schoolinfo-placeholder {
+    display: none; } }
+@media screen and (max-width: 850px) {
+  #generalcontent a.boxlink {
+    font-size: 11px;
+    float: left; }
 
-125:               }
-126:             }
-127:           }
-128:         }
-129: }
+  .page-title {
+    font-size: 25px;
+    line-height: 28px; } }
+@media only screen and (min-device-width: 480px) and (max-device-width: 736px) {
+  .navbar-lang {
+    background: none;
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    padding: 0;
+    width: 200px; }
+    .navbar-lang ul li {
+      float: left; }
+      .navbar-lang ul li a {
+        padding: 0 15px 0 0;
+        margin-left: 15px;
+        color: #ffffff; } }
 
-Backtrace:
-/Users/galinakalvatcheva/Documents/edudash/app/styles/responsive.scss:130
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:1165:in `expected'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:1101:in `expected'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:1096:in `tok!'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:643:in `block'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:401:in `media_directive'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:219:in `special_directive'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:194:in `directive'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:660:in `block_child'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:653:in `block_contents'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:117:in `stylesheet'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:42:in `parse'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/engine.rb:393:in `_to_tree'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/engine.rb:368:in `_render_with_sourcemap'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/engine.rb:285:in `render_with_sourcemap'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/exec/sass_scss.rb:396:in `run'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/exec/sass_scss.rb:62:in `process_result'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/exec/base.rb:52:in `parse'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/exec/base.rb:19:in `parse!'
-/Applications/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/bin/sass:13:in `<top (required)>'
-/Applications/Koala.app/Contents/Resources/app.nw/bin/sass:18:in `load'
-/Applications/Koala.app/Contents/Resources/app.nw/bin/sass:18:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Invalid CSS after \"}\": expected \"}\", was \"\"\A         on line 130 of /Users/galinakalvatcheva/Documents/edudash/app/styles/responsive.scss\A \A 125:               }\A 126:             }\A 127:           }\A 128:         }\A 129: }"; }
+/*# sourceMappingURL=responsive.css.map */

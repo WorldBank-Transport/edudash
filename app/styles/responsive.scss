@@ -1,129 +1,53 @@
-// max width 1280
+@import "variables";
+@import "mixins";
+
+// start: max width 1024
+@media only screen and (max-width : $f){
+  #schoolinfo-placeholder{
+    display:none;
+    }
+} // end: max width 1024
+
+
+// start: max width 992
 @media only screen and (max-width : $e){
+#schoolinfo-placeholder{
+  display:none;
+  }
+} // end: max width 992
 
-}
-
-// max width 1024
-@media (max-width: $f) {
-    .nav > li > a {
-        padding: 10px 8px;
-    }
-}
-
-// max width 992
-@media only screen and (max-width : $e) {
-  .navbar-lang{
-    float:left;
-    margin-left:6px;
-    margin-top: -10px;
-    background:none;
-    li{
-      border-right:1px solid $grey-light;
-      a{
-        font-size:13px;
-        &:hover{color:$grey-light;}
-        }
-      }
-    }
-}
-
-// max width 850
+// start: max width 850
 @media screen and (max-width: $c) {
-    .hide-sm{
-        display: none;
-    }
-    .show-sm{
-        display: block;
-    }
-    #schoolinfo .top-school-badge{
-        top: 30px;
-    }
-    #schoolinfo .top-school-badge img{
-        width: 60%;
-    }
-}
-
-// min width 768
-@media screen and (min-width: $xs) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
-}
-
-// max width 768
-@media only screen and (max-width: $xs) {
-  #main-nav-items{
-    width: 40%;
-    margin-top:10px;
-  }
-
-  .page-title{
-    padding-top:30px;
-  }
-
   #generalcontent a.boxlink {
-    font-size: 13px;
-  }
+     font-size: 11px;
+     float:left;
+   }
+   .page-title{
+     font-size:25px;
+     line-height:28px;
+   }
+} // end: max width 850
 
-  .splash-image {
-    height: 320px;
-    overflow: hidden;
-    img {
-      position: relative;
-    }
-  }
-
-  .google-form{
-      width: 100%;
-  }
-
-}
-
-
-// max width 480
-@media screen and (max-width: $a) {
-    .nav-tabs > li > a{
-        font-size: 10px;
-    }
-    .navbar-lang {
-      float:left;
-      margin-top:-9px;
-      background:#800;
-      li a {
-        color: #fff;
-      }
-    }
-
-    .container-fluid > .navbar-collapse{
-      @include border-radius(0px);
+// start: max width 480
+@media only screen
+  and (min-device-width: $a)
+  and (max-device-width: 736px){
+  .navbar-lang {
+      background:none;
       position:absolute;
-      top:51px;
-      right:30px;
-      width:28%;
-      background: $theme-blue;
-        ul{
-          margin-top:10px;
-          &.main-nav li{
-            border-right:none;
-            text-align:right;
-            a{
-              line-height:12px;
-              color: #ffffff;
-              &:hover{
-                color: #000000;
-              }
-            }
+      top:60px;
+      left:10px;
+      padding:0;
+      width:200px;
+      ul{
+        li{
+          float:left;
+          a{
+            padding:0 15px 0 0;
+            margin-left:15px;
+            color: #ffffff;
           }
         }
-}
+      }
+    }
+}// end: max width 480
