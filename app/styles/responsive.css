@@ -1,9 +1,18 @@
 @media only screen and (max-width: 1280px) {
+  .navbar-brand {
+    padding-right: 0; }
+
+  #schoolinfo-placeholder {
+    display: none; }
+
   .footer {
-    bottom: 85px; }
+    position: relative; }
     .footer p {
       margin-top: 8px; } }
 @media only screen and (min-width: 1280px) {
+  #schoolinfo-placeholder {
+    padding: 12px 0; }
+
   .footer {
     bottom: 0; } }
 @media only screen and (max-width: 1024px) {
@@ -17,7 +26,7 @@
     display: none; }
 
   .footer {
-    bottom: 500px; } }
+    position: relative; } }
 @media screen and (max-width: 850px) {
   #generalcontent a.boxlink {
     font-size: 11px;
@@ -47,9 +56,7 @@
           color: #373737; }
 
   .footer {
-    bottom: 230px; }
-    .footer p {
-      margin-left: 17px; } }
+    position: relative; } }
 @media only screen and (max-width: 640px) {
   .navbar-lang {
     top: 61px; }
@@ -89,7 +96,7 @@
   .footer {
     bottom: 0; }
     .footer p {
-      font-size: 9px;
+      font-size: 11px;
       line-height: 12px; } }
 @media only screen and (max-width: 480px) {
   .navbar-brand {
