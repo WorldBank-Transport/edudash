@@ -35,8 +35,8 @@
   .navbar-lang {
       background:none;
       position:absolute;
-      top:60px;
-      left:10px;
+      top:61px;
+      left:5px;
       padding:0;
       width:200px;
       ul{
@@ -46,6 +46,10 @@
             padding:0 15px 0 0;
             margin-left:15px;
             color: #ffffff;
+            &:hover{
+              background:none;
+              color: darken($body-text-color,25%);
+            }
           }
         }
       }
