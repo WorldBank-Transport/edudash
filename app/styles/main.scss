@@ -5,7 +5,6 @@
 @import "flyout";
 @import "pupilsprite";
 @import "schoollist";
-@import "responsive";
 
 /* Space out content a bit */
 body {
@@ -771,15 +770,13 @@ table.districts p {
 
 /*language nav*/
 .navbar-lang {
+  @include border-radius(5px);
   float: right;
   margin-left: 20px;
   background: #f0f0f0;
   margin-top: 10px;
   padding-top: 17px;
   padding-bottom: 13px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
 
 .navbar-lang ul{
