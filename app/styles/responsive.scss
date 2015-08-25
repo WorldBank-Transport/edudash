@@ -7,8 +7,6 @@
   .navbar-brand{
     padding-right:20px;
   }
-  #schoolinfo-placeholder{
-  }
   .footer{
     position:relative;
     p{
@@ -40,9 +38,6 @@
   .footer{
     bottom:0;
     }
-  .header-announcements{
-    display:none;
-    }
 } // end: max width 1024
 
 
@@ -65,6 +60,9 @@
    .footer{
      bottom:0;
    }
+   .header-announcements{
+     display:none;
+    }
 } // end: max width 850
 
 // start: max 768
@@ -92,7 +90,8 @@
         }
       }
   .footer{
-    position:relative;
+    bottom:0;
+    position:fixed;
   }
 }
 // end: max 768
@@ -106,12 +105,18 @@
     @include border-radius(0px);
     padding:11px;
   }
+  ul.main-nav li a:hover,
+  ul.main-nav li a:focus {
+    color: #ffffff;
+    outline:none;
+  }
   .container-fluid > .navbar-collapse{
         position:absolute;
         top:51px;
         right:31px;
         width:28%;
         background: $theme-blue;
+        z-index:1;
       }
   ul.main-nav{ margin-top:7px;padding-bottom:7px;}
   ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}

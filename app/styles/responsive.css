@@ -22,10 +22,7 @@
     float: left; }
 
   .footer {
-    bottom: 0; }
-
-  .header-announcements {
-    display: none; } }
+    bottom: 0; } }
 @media only screen and (max-width: 992px) {
   #schoolinfo-placeholder {
     display: none; }
@@ -38,7 +35,10 @@
     line-height: 28px; }
 
   .footer {
-    bottom: 0; } }
+    bottom: 0; }
+
+  .header-announcements {
+    display: none; } }
 @media only screen and (max-width: 768px) {
   .navbar-lang {
     background: none;
@@ -57,7 +57,8 @@
           color: #373737; }
 
   .footer {
-    position: relative; } }
+    bottom: 0;
+    position: fixed; } }
 @media only screen and (max-width: 640px) {
   .navbar-lang {
     top: 61px; }
@@ -69,12 +70,18 @@
     /* stops bg color from leaking outside the border: */
     padding: 11px; }
 
+  ul.main-nav li a:hover,
+  ul.main-nav li a:focus {
+    color: #ffffff;
+    outline: none; }
+
   .container-fluid > .navbar-collapse {
     position: absolute;
     top: 51px;
     right: 31px;
     width: 28%;
-    background: #05a2dc; }
+    background: #05a2dc;
+    z-index: 1; }
 
   ul.main-nav {
     margin-top: 7px;
