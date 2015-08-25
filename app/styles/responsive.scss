@@ -5,10 +5,9 @@
 // start: max width 1280
 @media only screen and (max-width : $g){
   .navbar-brand{
-    padding-right:0;
+    padding-right:20px;
   }
   #schoolinfo-placeholder{
-     display:none;
   }
   .footer{
     position:relative;
@@ -19,14 +18,10 @@
   .google-form{
     width: 100%;
     margin-top:10px;
-}
+  }
 }// end: max width 1280
 
 @media only screen and (min-width : $g){
-  #schoolinfo-placeholder{
-     padding:12px 0;
-  }
-
   .footer{
     bottom:0;
   }
@@ -38,8 +33,15 @@
   #schoolinfo-placeholder{
     display:none;
     }
+  #generalcontent a.boxlink {
+    font-size: 9px;
+    float:left;
+     }
   .footer{
     bottom:0;
+    }
+  .header-announcements{
+    display:none;
     }
 } // end: max width 1024
 
@@ -56,10 +58,6 @@
 
 // start: max width 850
 @media screen and (max-width: $c) {
-  #generalcontent a.boxlink {
-     font-size: 11px;
-     float:left;
-   }
    .page-title{
      font-size:25px;
      line-height:28px;
