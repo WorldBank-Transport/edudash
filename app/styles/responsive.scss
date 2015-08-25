@@ -63,6 +63,19 @@
    .header-announcements{
      display:none;
     }
+    .hide-sm{
+       display: none;
+   }
+   .show-sm{
+       display: block;
+   }
+   #schoolinfo .top-school-badge{
+       top: 30px;
+   }
+   #schoolinfo .top-school-badge img{
+       width: 60%;
+   }
+
 } // end: max width 850
 
 // start: max 768
@@ -93,6 +106,9 @@
     bottom:0;
     position:fixed;
   }
+  .jumbotron {
+       border-bottom: 0;
+   }
 }
 // end: max 768
 
@@ -118,7 +134,7 @@
         background: $theme-blue;
         z-index:1;
       }
-  ul.main-nav{ margin-top:7px;padding-bottom:7px;}
+  ul.main-nav{ margin-top:7px;}
   ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
   ul.main-nav li a {
     color: #ffffff;
