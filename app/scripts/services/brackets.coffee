@@ -93,7 +93,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
       throw new Error "Unknown criteria '#{criteria}'"
     switch schoolType
       when 'primary' then 'PASS_RATE'
-      when 'secondary' then 'AVG_GPA'
+      when 'secondary' then 'PASS_RATE'
 
   getSortMetric: (schoolType, criteria) ->
     unless schoolType in ['primary', 'secondary']
