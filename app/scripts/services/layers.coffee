@@ -9,17 +9,16 @@
 ###
 
 
-angular.module('edudashAppSrv').factory 'layersSrv', [
-  'leafletData', 'L', '$q',
-  (leafletData, L, $q) ->
+angular.module('edudashAppSrv').factory 'layersSrv',
+  (leafletData, L, $q, utils) ->
 
     layers = {}
 
-    makeLayer = (createLayer) -> (id, mapId, layerArgs) ->
+    makeLayer = ({create, update}) -> (id, mapId, layerArgs) ->
       unless layers[id]?
         layers[id] = $q (resolve, reject) ->
           leafletData.getMap(mapId).then (map) ->
-            $q.when createLayer layerArgs
+            $q.when create layerArgs
               .then (layer) ->
                 layer.addTo map
                 resolve layer
@@ -45,21 +44,33 @@ angular.module('edudashAppSrv').factory 'layersSrv', [
                 resetChildren parent._group
             ) layer
             map.addLayer layer
+
+          # let layers update themselves, possibly with updated data
+          if update?
+            $q.when update layer, layerArgs
+              .then (newLayer) ->
+                if newLayer? and newLayer != layer
+                  layers[id] = $q.when newLayer
+                  map.removeLayer layer
+                  newLayer.addTo map
+
       layers[id]
 
-    addTileLayer: makeLayer (args) ->
-      L.tileLayer args.url, args
+    addTileLayer: makeLayer
+      create: (args) -> L.tileLayer args.url, args
 
-    addGeojsonLayer: makeLayer (args) ->
-      args.getData().then (geoData) ->
+    addGeojsonLayer: makeLayer
+      create: (args) -> args.getData().then (geoData) ->
         L.geoJson geoData, args.options or {}
 
-    addFastCircles: makeLayer (args) ->
-      args.getData().then (data) ->
+    addFastCircles: makeLayer
+      create: (args) -> args.getData().then (data) ->
         L.fastCircles data, args.options
+      update: utils.debounce 250, (layer, args) ->
+        args.getData().then (data) ->
+          L.fastCircles data, args.options
 
-    marker: makeLayer (args) ->
-      L.marker args.latlng, args.options
+    marker: makeLayer
+      create: (args) -> L.marker args.latlng, args.options
 
     awesomeIcon: (options) -> L.AwesomeMarkers.icon options
-]
