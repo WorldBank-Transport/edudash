@@ -49,20 +49,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polygons: null
           detailedPolys: null
           polyLayer: null
-          filterPassRateP: # To be used in primary school view 
-            range: {
-              min: 0,
+          range:
+            passrate:
+              min: 0
               max: 100
-            },
-            minValue: 0,
-            maxValue: 100
-           filterPassRateS: # To be used in secondary school view 
-            range: {
-              min: 0,
-              max: 10
-            },
-            minValue: 0,
-            maxValue: 10,
+            ptratio:
+              min: 0
+              max: 100
+          ptratioComputedMax: 10
 
         # state transitioners
         angular.extend $scope,
@@ -110,6 +104,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if year? then loadSchools viewMode, year, rest...
             else
               null
+
+        watchCompute 'ptratioComputedMax',
+          dependencies: ['allSchools']
+          waitForPromise: true
+          computer: ([allSchools]) -> $q (resolve, reject) ->
+            MIN = 10
+            unless allSchools?
+              resolve MIN
+            else
+              allSchools.then ((schools) ->
+                ratios = schools
+                  .map (s) -> s.PUPIL_TEACHER_RATIO
+                  .filter (s) -> not isNaN s
+                maxRatio = Math.max MIN, ratios...
+                resolve maxRatio
+              ), reject
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
@@ -213,12 +223,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'filteredSchools',
-          dependencies: ['viewMode', 'allSchools']
-          computer: ([viewMode, allSchools]) ->
+          dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
+                         'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max']
+          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax]) ->
             unless viewMode == 'schools' and allSchools?
               null
             else
-              $q (res, x) -> allSchools.then res, x
+              $q (resolve, reject) -> allSchools.then ((schools) ->
+                filtered = schools
+                  .filter utils.rangeFilter 'PASS_RATE', prMin, prMax
+                  .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax
+                resolve filtered
+              ), reject
 
         watchCompute 'pins',
           dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
