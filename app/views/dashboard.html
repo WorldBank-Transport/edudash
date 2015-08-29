@@ -8,10 +8,10 @@
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
       <p class="performance-select">
-        <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');setMetric('PASS_RATE')" translate="legend.passrate">Pass Rate (%)</a>
-        <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');setMetric('PUPIL_TEACHER_RATIO')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+        <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
+        <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
         <a ng-if="schoolType==='secondary'" 
-          ng-class="{active: visMode==='avggpa'}" ng-click="setVisMode('avggpa');setMetric('AVG_GPA')" translate="legend.avggpa">GPA </a>
+          ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.avggpa">GPA </a>
       </p>
       <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
@@ -29,7 +29,7 @@
           <li class="good">&gt;60</li>
         </ol>
       </div>
-      <div ng-if="visMode==='avggpa' && schoolType==='secondary'">
+      <div ng-if="visMode==='gpa' && schoolType==='secondary'">
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
           <li class="good">&lt; 3</li>

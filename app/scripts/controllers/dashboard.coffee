@@ -29,7 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           year: null  # set after init
           years: null
           yearAggregates: null
-          metric: null
+          visMetric: null
           sortMetric:  null
           viewMode: null  # set after init
           visMode: 'passrate'
@@ -63,7 +63,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setYear: (newYear) -> $scope.year = newYear
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
-          setMetric: (newMetric) -> $scope.metric = newMetric
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
           togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
@@ -72,7 +71,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           select: (code) -> $scope.selectedCode = code
           search: (q) -> search q
           hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
-          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
+          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
 
@@ -83,13 +82,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute = watchComputeSrv $scope
 
-        watchCompute 'metric',
-          dependencies: ['schoolType', 'rankBy']
-          computer: ([schoolType, criteria]) ->
-            unless schoolType? and criteria?
-              null
-            else
-              brackets.getMetric schoolType, criteria
+        watchCompute 'visMetric',
+          dependencies: ['visMode']
+          computer: ([visMode]) ->
+            brackets.getVisMetric visMode
 
         watchCompute 'sortMetric',
           dependencies: ['schoolType', 'rankBy']
@@ -238,15 +234,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               ), reject
 
         watchCompute 'pins',
-          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
+          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40', 'visMode']
           waitForPromise: true
-          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchoolsP]) ->
+          computer: ([schoolsP, year, schoolType, moreThan40, visMode], [oldSchoolsP]) ->
             $q (resolve, reject) ->
               # Only continue when we have a new promise for the schools.
               # year, schoolType. etc. are dependencies because we need them
               # for the layerId, but they can sometimes trigger before we have
               # an up-to-date promise for the schools themselves.
-              unless schoolsP? and schoolsP != oldSchoolsP
+              unless schoolsP?
                 resolve null
               else
                 layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
@@ -281,9 +277,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing], [oldThing]) -> thing or oldThing
 
         watchCompute 'selected',
-          dependencies: ['selectedCode', 'viewMode', 'allSchools']
+          dependencies: ['selectedCode', 'viewMode']
           waitForPromise: true
-          computer: ([code, viewMode, allSchools]) ->
+          computer: ([code, viewMode]) ->
             unless code?
               $q.when null
             else switch viewMode
@@ -623,6 +619,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           if $scope.schoolType == 'primary'
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
+          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
@@ -650,11 +647,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, layer) ->
           findSchool(code).then (school) ->
-            val = school[$scope.metric]
+            val = school[$scope.visMetric]
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->
-          val = feature.properties[$scope.metric]
+          val = feature.properties[$scope.visMetric]
           layer.setStyle colorSrv.polygonOff $scope.getColor val
 
         getDetailsByPoly = (schools, polyType, schoolType) ->
