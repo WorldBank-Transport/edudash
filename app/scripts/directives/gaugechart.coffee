@@ -120,7 +120,7 @@ angular.module 'edudashAppDir'
         else
           $translate('chart.metric.missing-data').then (na) ->
             element.html(
-                '<p class="medium-character missing-data" style="position: static">' + na + '</p>
+                '<p class="medium-character missing-data" style="position: static;text-align: center;">' + na + '</p>
                  <div class="col-md-12" style="position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 5px; left: -5px; top: 64px;">
                    <span class="chart-title ng-binding" style="font-size: 10px; font-weight: bold;">'+attrs.title+'</span>
                  </div>')
