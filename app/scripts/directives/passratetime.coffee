@@ -25,12 +25,11 @@ angular.module 'edudashAppDir'
           legend:
             enabled: false
           title:
-            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
+            text: "<div class='col-md-12 gauge-title no-margin'>
+                      <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
+                   </div>"
             useHTML: true
             align: 'left'
-            style:
-              color: '#05a2dc'
-              fontSize: 10
           xAxis:
             categories: value.years
             lineColor: '#FFFFFF'

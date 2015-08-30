@@ -34,13 +34,13 @@ angular.module 'edudashAppDir'
           credits:
             enabled: false
           title:
-            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{attrs.title}</span>"
+            text: "<div class='col-md-12 gauge-title'>
+                    <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
+                 </div>"
             useHTML: true
             y: 70
             width: width + 40
-            align: 'left'
-            style:
-              color: '#05a2dc'
+            align: 'center'
           pane:
             size: '100%'
             startAngle: -90
@@ -121,8 +121,8 @@ angular.module 'edudashAppDir'
           $translate('chart.metric.missing-data').then (na) ->
             element.html(
                 '<p class="medium-character missing-data" style="position: static">' + na + '</p>
-                 <div class="col-md-12" style="position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 5px; left: -5px; top: 64px;">
-                   <span class="chart-title ng-binding" style="font-size: 10px; font-weight: bold;">'+attrs.title+'</span>
+                 <div class="col-md-12 gauge-title withoutchart">
+                   <span class="chart-title ng-binding gauge">'+attrs.title+'</span>
                  </div>')
 
       attrs.$observe 'title', (value) ->
