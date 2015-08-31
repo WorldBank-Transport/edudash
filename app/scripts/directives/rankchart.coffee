@@ -34,7 +34,13 @@ angular.module 'edudashAppDir'
             section = lineRange/n
             renderer = chart.renderer
             group = renderer.g("highcharts-national-rank").add();
-            renderer.label('' + rank, 5, -5).attr("class", "widgetnumber")
+            padding = switch
+              when rank < 10 then 65
+              when rank < 100 then 50
+              when rank < 1000 then 35
+              when rank < 10000 then 20
+              else 5
+            renderer.label('' + rank, padding, -5).attr("class", "widgetnumber")
               .add(group)
             chartCenter = 20
             renderer.path(['M', startLine, chartCenter, 'L', startLine + section, chartCenter]).attr({
@@ -64,10 +70,10 @@ angular.module 'edudashAppDir'
             arrowLength = 10
             arrowHalf = arrowLength / 2
             start = startLine + x
-            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 2,
-                           'L', start + arrowHalf, chartCenter - arrowLength - 2,
-                           'L', start, chartCenter - 2,
-                           'L', start - arrowHalf, chartCenter - arrowLength - 2])
+            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 4,
+                           'L', start + arrowHalf, chartCenter - arrowLength - 4,
+                           'L', start, chartCenter - 4,
+                           'L', start - arrowHalf, chartCenter - arrowLength - 4])
             .attr({
                   'stroke-width': 1,
                   stroke: labelColor,
