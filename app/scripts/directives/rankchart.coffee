@@ -21,7 +21,7 @@ angular.module 'edudashAppDir'
             chart:
               plotShadow: false
               height: 50
-              width: width
+              width: width + 10
             title:
               text: ""
               margin: 0
@@ -61,16 +61,17 @@ angular.module 'edudashAppDir'
               when x  > (section * (n-1)) then '#38a21c'
               when x  < section then '#f56053'
               else '#a1a1a1'
-            arrowLength = 15
-            arrowDirection = if x  < (lineRange/2) then -1*arrowLength else arrowLength
-            start = startLine + x - arrowDirection
-            renderer.path(['M', start, 27,
-                           'L', start, 15,
-                           'L', start + arrowDirection, chartCenter,
-                           'L', start, 25])
+            arrowLength = 10
+            arrowHalf = arrowLength / 2
+            start = startLine + x
+            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 2,
+                           'L', start + arrowHalf, chartCenter - arrowLength - 2,
+                           'L', start, chartCenter - 2,
+                           'L', start - arrowHalf, chartCenter - arrowLength - 2])
             .attr({
-                  'stroke-width': 3,
-                  stroke: labelColor, fill: labelColor
+                  'stroke-width': 1,
+                  stroke: labelColor,
+                  fill: labelColor
                 })
             .add(group);
           )

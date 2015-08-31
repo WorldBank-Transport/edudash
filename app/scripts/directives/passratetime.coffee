@@ -47,9 +47,9 @@ angular.module 'edudashAppDir'
               color: 'silver'
               dataLabels:
                 enabled: true
-                padding: 10
+                padding: 8
                 style:
-                  fontSize: "14px", fontWeight: "bold"
+                  fontSize: "13px", fontWeight: "bold"
                 formatter: () ->
                   return this.y + ' %'
               enableMouseTracking: true
