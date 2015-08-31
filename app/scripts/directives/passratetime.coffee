@@ -24,6 +24,8 @@ angular.module 'edudashAppDir'
             enabled: false
           legend:
             enabled: false
+          tooltip:
+            enabled: false
           title:
             text: "<div class='col-md-12 gauge-title no-margin'>
                       <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
@@ -52,7 +54,6 @@ angular.module 'edudashAppDir'
                   fontSize: "13px", fontWeight: "bold"
                 formatter: () ->
                   return this.y + ' %'
-              enableMouseTracking: true
             series:
               marker:
                 radius: 6
