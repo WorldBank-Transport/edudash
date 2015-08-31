@@ -8,8 +8,10 @@
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
       <p class="performance-select">
-        <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate')" translate="legend.passrate">Pass Rate (%)</a>
-        <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio')" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+        <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
+        <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+        <a ng-if="schoolType==='secondary'" 
+          ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.avggpa">GPA </a>
       </p>
       <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
@@ -22,9 +24,17 @@
       <div ng-if="visMode==='passrate' && schoolType==='secondary'">
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
-          <li class="good">1&ndash;3</li>
+          <li class="poor">&lt;40</li>
+          <li class="medium">40&ndash;60</li>
+          <li class="good">&gt;60</li>
+        </ol>
+      </div>
+      <div ng-if="visMode==='gpa' && schoolType==='secondary'">
+        <ol class="passrate">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="good">&lt; 3</li>
           <li class="medium">3.1&ndash;4.2</li>
-          <li class="poor">4.3&ndash;5</li>
+          <li class="poor">&gt; 4.2</li>
         </ol>
       </div>
       <div ng-if="visMode==='ptratio'">
@@ -44,35 +54,35 @@
         class="filters">
       <h4><span translate="legend.passrate">Passrate</span> (0%&ndash;100%)</h4>
       <div range-slider ng-if="schoolType==='primary'"
-        min="filterPassRateP.range.min"
-        max="filterPassRateP.range.max"
-        model-min="filterPassRateP.minValue"
-        model-max="filterPassRateP.maxValue"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="20">
+          min="0"
+          max="100"
+          model-min="range.passrate.min"
+          model-max="range.passrate.max"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="20">
       </div>
-        <div range-slider ng-if="schoolType==='secondary'"
-        min="filterPassRateS.range.min"
-        max="filterPassRateS.range.max"
-        model-min="filterPassRateS.minValue"
-        model-max="filterPassRateS.maxValue"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="1">
+      <div range-slider ng-if="schoolType==='secondary'"
+          min="0"
+          max="100"
+          model-min="range.passrate.min"
+          model-max="range.passrate.max"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="1">
       </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
-        min="0"
-        max="100"
-        model-min="0"
-        model-max="100"
-        prevent-equal-min-max="true"
-        attach-handle-values="true"
-        show-Values="true"
-        step="5">
+          min="0"
+          max="ptratioComputedMax"
+          model-min="range.ptratio.min"
+          model-max="range.ptratio.max"
+          prevent-equal-min-max="true"
+          attach-handle-values="true"
+          show-Values="true"
+          step="1">
       </div>
     </map-bottom-toggle>
 
@@ -263,7 +273,7 @@
               </school-list>
             </div>
           </div>
-          <div class="container-fluid margin-top" ng-hide="schoolType==='secondary' && selected|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='secondary' && selected|exists">
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
@@ -274,7 +284,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid margin-top">
+            <div class="container-fluid margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs" ng-init="rankBy='performance'">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
                   <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
@@ -336,16 +346,23 @@
             <div ng-if="selected|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
                 {{ selected.NAME }}
-                <span class="pull-right top-school-badge text-right">
-                  <img ng-if="selected.RANK <= 100" src="images/topschoolbadge.png">
-                  <img ng-if="schoolType === 'primary' && selected.CHANGE_PREVIOUS_YEAR >= 62" src="images/mostimprovedbadgeprimary.png">
-                  <img ng-if="schoolType === 'secondary' && selected.CHANGE_PREVIOUS_YEAR >= 55" src="images/mostimprovedbadgesecondary.png">
-                </span>
               </p>
+              <span class="pull-right top-school-badge text-right">
+                <img
+                    ng-show="hasBadge('top-100', schoolType, selected.RANK)"
+                    src="images/topschoolbadge.png" />
+                <img
+                    ng-show="hasBadge('most-improved', schoolType, selected.CHANGE_PREVIOUS_YEAR)"
+                    src="images/mostimprovedbadgeprimary.png" />
+                <img
+                    ng-show="hasBadge('most-improved', schoolType, selected.CHANGE_PREVIOUS_YEAR)"
+                    src="images/mostimprovedbadgesecondary.png" />
+              </span>
               <p class="code">
                 {{ selected.CODE }}
                 <span ng-if="selected.OWNERSHIP|exists" class="text-capitalize">, {{ selected.OWNERSHIP }}</span>
               </p>
+              <div class="clearfix"></div>
               <rate-pass-chart
                   min="40"
                   max="60"

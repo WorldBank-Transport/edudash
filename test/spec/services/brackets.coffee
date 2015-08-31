@@ -11,24 +11,18 @@ describe 'watchComputeSrv', ->
     b = _bracketsSrv_
 
   it 'should validate getMetric parameters', ->
-    expect -> b.getMetric()
-      .toThrow new Error "Unknown school type 'undefined'"
-    expect -> b.getMetric 'bad school type'
-      .toThrow new Error "Unknown school type 'bad school type'"
-    expect -> b.getMetric 'primary'
-      .toThrow new Error "Unknown criteria 'undefined'"
-    expect -> b.getMetric 'primary', 'bad criteria'
-      .toThrow new Error "Unknown criteria 'bad criteria'"
+    expect -> b.getVisMetric()
+      .toThrow new Error "Unknown vis mode 'undefined'"
+    expect -> b.getVisMetric 'bad visMode'
+      .toThrow new Error "Unknown vis mode 'bad visMode'"
 
   it 'should provide the correct metric from getMetric', ->
     # exhaustive check because we can
-    expect b.getMetric 'primary', 'performance'
+    expect b.getVisMetric 'passrate'
       .toEqual 'PASS_RATE'
-    expect b.getMetric 'primary', 'improvement'
-      .toEqual 'PASS_RATE'
-    expect b.getMetric 'secondary', 'performance'
-      .toEqual 'AVG_GPA'
-    expect b.getMetric 'secondary', 'improvement'
+    expect b.getVisMetric 'ptratio'
+      .toEqual 'PUPIL_TEACHER_RATIO'
+    expect b.getVisMetric 'gpa'
       .toEqual 'AVG_GPA'
 
   it 'should validate getSortMetric parameters', ->
@@ -134,3 +128,55 @@ describe 'watchComputeSrv', ->
       .toThrow new Error "Unknown school type 'z'"
     expect -> b.getRank undefined
       .toThrow new Error "Unknown school type 'undefined'"
+
+  it 'should validate hasBadge parameters', ->
+    expect -> b.hasBadge()
+      .toThrow new Error "Unknown schoolType 'undefined'"
+    expect -> b.hasBadge undefined, 'bad school type'
+      .toThrow new Error "Unknown schoolType 'bad school type'"
+    expect -> b.hasBadge null, 'primary'
+      .toThrow new Error "Unknown primary badge 'null'"
+    expect -> b.hasBadge null, 'secondary'
+      .toThrow new Error "Unknown secondary badge 'null'"
+    expect -> b.hasBadge 'bad badge', 'primary'
+      .toThrow new Error "Unknown primary badge 'bad badge'"
+
+  it 'top 100 primary has badge', ->
+    expect b.hasBadge 'top-100', 'primary', 0
+      .toBe null
+    expect b.hasBadge 'top-100', 'primary', 1
+      .toBe true
+    expect b.hasBadge 'top-100', 'primary', 100
+      .toBe true
+    expect b.hasBadge 'top-100', 'primary', 101
+      .toBe false
+
+  it 'top 100 secondary has badge', ->
+    expect b.hasBadge 'top-100', 'secondary', 0
+      .toBe null
+    expect b.hasBadge 'top-100', 'secondary', 1
+      .toBe true
+    expect b.hasBadge 'top-100', 'secondary', 100
+      .toBe true
+    expect b.hasBadge 'top-100', 'secondary', 101
+      .toBe false
+
+  it 'most imrpoved primary has badge', ->
+    expect b.hasBadge 'most-improved', 'primary', -1
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 0
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 61
+      .toBe false
+    expect b.hasBadge 'most-improved', 'primary', 62
+      .toBe true
+
+  it 'most imrpoved secondary has badge', ->
+    expect b.hasBadge 'most-improved', 'secondary', -1
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 0
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 54
+      .toBe false
+    expect b.hasBadge 'most-improved', 'secondary', 55
+      .toBe true

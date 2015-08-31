@@ -29,7 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           year: null  # set after init
           years: null
           yearAggregates: null
-          metric: null
+          visMetric: null
           sortMetric:  null
           viewMode: null  # set after init
           visMode: 'passrate'
@@ -49,20 +49,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           polygons: null
           detailedPolys: null
           polyLayer: null
-          filterPassRateP: # To be used in primary school view 
-            range: {
-              min: 0,
+          range:
+            passrate:
+              min: 0
               max: 100
-            },
-            minValue: 0,
-            maxValue: 100
-           filterPassRateS: # To be used in secondary school view 
-            range: {
-              min: 0,
-              max: 10
-            },
-            minValue: 0,
-            maxValue: 10,
+            ptratio:
+              min: 0
+              max: 100
+          ptratioComputedMax: 10
 
         # state transitioners
         angular.extend $scope,
@@ -76,7 +70,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           unHover: -> $scope.hovered = null
           select: (code) -> $scope.selectedCode = code
           search: (q) -> search q
-          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.metric)
+          hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
+          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
 
@@ -87,13 +82,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute = watchComputeSrv $scope
 
-        watchCompute 'metric',
-          dependencies: ['schoolType', 'rankBy']
-          computer: ([schoolType, criteria]) ->
-            unless schoolType? and criteria?
-              null
-            else
-              brackets.getMetric schoolType, criteria
+        watchCompute 'visMetric',
+          dependencies: ['visMode']
+          computer: ([visMode]) ->
+            brackets.getVisMetric visMode
 
         watchCompute 'sortMetric',
           dependencies: ['schoolType', 'rankBy']
@@ -109,6 +101,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if year? then loadSchools viewMode, year, rest...
             else
               null
+
+        watchCompute 'ptratioComputedMax',
+          dependencies: ['allSchools']
+          waitForPromise: true
+          computer: ([allSchools]) -> $q (resolve, reject) ->
+            MIN = 10
+            unless allSchools?
+              resolve MIN
+            else
+              allSchools.then ((schools) ->
+                ratios = schools
+                  .map (s) -> s.PUPIL_TEACHER_RATIO
+                  .filter (s) -> not isNaN s
+                maxRatio = Math.max MIN, ratios...
+                resolve maxRatio
+              ), reject
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
@@ -212,23 +220,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'filteredSchools',
-          dependencies: ['viewMode', 'allSchools']
-          computer: ([viewMode, allSchools]) ->
+          dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
+                         'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max']
+          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax]) ->
             unless viewMode == 'schools' and allSchools?
               null
             else
-              $q (res, x) -> allSchools.then res, x
+              $q (resolve, reject) -> allSchools.then ((schools) ->
+                filtered = schools
+                  .filter utils.rangeFilter 'PASS_RATE', prMin, prMax
+                  .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax
+                resolve filtered
+              ), reject
 
         watchCompute 'pins',
-          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40']
+          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40', 'visMode']
           waitForPromise: true
-          computer: ([schoolsP, year, schoolType, moreThan40], [oldSchoolsP]) ->
+          computer: ([schoolsP, year, schoolType, moreThan40, visMode], [oldSchoolsP]) ->
             $q (resolve, reject) ->
               # Only continue when we have a new promise for the schools.
               # year, schoolType. etc. are dependencies because we need them
               # for the layerId, but they can sometimes trigger before we have
               # an up-to-date promise for the schools themselves.
-              unless schoolsP? and schoolsP != oldSchoolsP
+              unless schoolsP?
                 resolve null
               else
                 layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
@@ -307,7 +321,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
           schoolsP.then (schools) ->
             if $scope.selected? and $scope.viewMode == 'schools'
+              $scope.selectedCodeYear =  # TODO: fix issue with 'selected' watchCompute and remove this assignment
+                code: $scope.selected.CODE
+                year: $scope.year
               $scope.select $scope.selected.CODE
+
+        # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
+        $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
+          (findSchool selectedCodeYear.code).then (school)->
+            $scope.selected = school
 
         # side-effect: map spinner for polygons load
         $scope.$watch 'polygons', (polysP) -> if polysP?
@@ -597,6 +619,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           if $scope.schoolType == 'primary'
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
+          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
           OpenDataApi.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
@@ -624,11 +647,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         colorPin = (code, layer) ->
           findSchool(code).then (school) ->
-            val = school[$scope.metric]
+            val = school[$scope.visMetric]
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->
-          val = feature.properties[$scope.metric]
+          val = feature.properties[$scope.visMetric]
           layer.setStyle colorSrv.polygonOff $scope.getColor val
 
         getDetailsByPoly = (schools, polyType, schoolType) ->

@@ -57,15 +57,41 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
         else throw new Error "Unknown metric: '#{metric}'"
 
-
-  getMetric: (schoolType, criteria) ->
-    unless schoolType in ['primary', 'secondary']
-      throw new Error "Unknown school type '#{schoolType}'"
-    unless criteria in ['performance', 'improvement']
-      throw new Error "Unknown criteria '#{criteria}'"
+  hasBadge: (badge, schoolType, value) ->
     switch schoolType
-      when 'primary' then 'PASS_RATE'
-      when 'secondary' then 'AVG_GPA'
+      when 'primary' then switch badge
+
+        when 'top-100' then switch
+          when 1 <= value <= 100 then true
+          when value > 100 then false
+          else null  # maybe warn?
+
+        when 'most-improved' then switch
+          when value >= 62 then true
+          else false
+
+        else throw new Error "Unknown primary badge '#{badge}'"
+      when 'secondary' then switch badge
+
+        when 'top-100' then switch
+          when 1 <=  value <=  100 then true
+          when value > 100 then false
+          else null  # maye error out or warn
+
+        when 'most-improved' then switch
+          when value >= 55 then true
+          else false
+
+        else throw new Error "Unknown secondary badge '#{badge}'"
+      else throw new Error "Unknown schoolType '#{schoolType}'"
+
+
+  getVisMetric: (visMode) ->
+    switch visMode
+      when 'passrate' then 'PASS_RATE'
+      when 'ptratio' then 'PUPIL_TEACHER_RATIO'
+      when 'gpa' then 'AVG_GPA'
+      else throw new Error "Unknown vis mode '#{visMode}'"
 
   getSortMetric: (schoolType, criteria) ->
     unless schoolType in ['primary', 'secondary']
