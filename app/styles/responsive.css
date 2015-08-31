@@ -1,0 +1,136 @@
+@media only screen and (max-width: 1280px) {
+  .navbar-brand {
+    padding-right: 20px; }
+
+  .footer {
+    position: relative; }
+    .footer p {
+      margin-top: 8px; }
+
+  .google-form {
+    width: 100%;
+    margin-top: 10px; } }
+@media only screen and (min-width: 1280px) {
+  .footer {
+    bottom: 0; } }
+@media only screen and (max-width: 1024px) {
+  #schoolinfo-placeholder {
+    display: none; }
+
+  #generalcontent a.boxlink {
+    font-size: 9px;
+    float: left; }
+
+  .footer {
+    bottom: 0; } }
+@media only screen and (max-width: 992px) {
+  #schoolinfo-placeholder {
+    display: none; }
+
+  .footer {
+    position: relative; } }
+@media screen and (max-width: 850px) {
+  .page-title {
+    font-size: 25px;
+    line-height: 28px; }
+
+  .footer {
+    bottom: 0; }
+
+  .header-announcements {
+    display: none; }
+
+  .hide-sm {
+    display: none; }
+
+  .show-sm {
+    display: block; }
+
+  #schoolinfo .top-school-badge {
+    top: 30px; }
+
+  #schoolinfo .top-school-badge img {
+    width: 60%; } }
+@media only screen and (max-width: 768px) {
+  .navbar-lang {
+    background: none;
+    position: absolute;
+    top: 70px;
+    left: -2px;
+    padding: 0; }
+    .navbar-lang ul li {
+      float: left; }
+      .navbar-lang ul li a {
+        padding: 0 15px 0 0;
+        margin-left: 15px;
+        color: #ffffff; }
+        .navbar-lang ul li a:hover {
+          background: none;
+          color: #373737; }
+
+  .footer {
+    bottom: 0;
+    position: fixed; }
+
+  .jumbotron {
+    border-bottom: 0; } }
+@media only screen and (max-width: 640px) {
+  .navbar-lang {
+    top: 61px; }
+
+  .navbar-toggle {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background-clip: padding-box;
+    /* stops bg color from leaking outside the border: */
+    padding: 11px; }
+
+  ul.main-nav li a:hover,
+  ul.main-nav li a:focus {
+    color: #ffffff;
+    outline: none; }
+
+  .container-fluid > .navbar-collapse {
+    position: absolute;
+    top: 51px;
+    right: 31px;
+    width: 28%;
+    background: #05a2dc;
+    z-index: 1; }
+
+  ul.main-nav {
+    margin-top: 7px; }
+
+  ul.main-nav li {
+    border-right: none;
+    margin-bottom: 10px;
+    text-align: right; }
+
+  ul.main-nav li a {
+    color: #ffffff;
+    padding-right: 10px; }
+    ul.main-nav li a:hover {
+      color: #373737; }
+
+  .splash-image {
+    margin-top: 37px; }
+
+  .footer {
+    bottom: 0; }
+    .footer p {
+      font-size: 11px;
+      line-height: 12px; } }
+@media only screen and (max-width: 480px) {
+  .navbar-brand {
+    padding-right: 0; }
+
+  .container-fluid > .navbar-collapse {
+    width: 30%;
+    top: 52px; }
+
+  .footer {
+    bottom: 0; }
+    .footer p {
+      display: none; } }
+
+/*# sourceMappingURL=responsive.css.map */

@@ -6,7 +6,6 @@
 @import "pupilsprite";
 @import "schoollist";
 
-
 /* Space out content a bit */
 body {
   display: block;
@@ -57,6 +56,9 @@ body {
 
 .navbar-toggle{
   background: $theme-blue;
+  position:absolute;
+  top:10px;
+  right:0;
 }
 
 .navbar-toggle:hover,
@@ -68,11 +70,7 @@ body {
   background:#fff;
 }
 
-@media (max-width: $f) {
-    .nav > li > a {
-        padding: 10px 8px;
-    }
-}
+
 
 /* Custom page header */
 .header {
@@ -126,38 +124,16 @@ body {
     margin-bottom: 0;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: $b) {
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
-#main-nav-items{
-  margin-top:26px;
-}
-@media only screen and (max-width: $e) {
-  #main-nav-items{
-    width: 70%;
-    position:absolute;
-    top:13px;
-    right:20px;
-  }
-  #main-nav-items ul{
-    float:right;
-  }
-}
-}
 
+  .splash-image{
+    margin-top:30px;
+  }
+  .page-title{
+    padding-top:0;
+    margin-top:-20px;
+    font-size:25px;
+    line-height:27px;
+  }
 
 .preload {
     display:none;
@@ -178,7 +154,7 @@ h1 {
     margin-top:16px;
     font-size:18px;
     font-weight:700;
-    width:15%;
+    width:140px;
     float:left;
 }
 
@@ -399,20 +375,7 @@ div.cartodb-share a{
 .show-sm{
     display: none;
 }
-@media screen and (max-width: $c) {
-    .hide-sm{
-        display: none;
-    }
-    .show-sm{
-        display: block;
-    }
-}
 
-@media screen and (max-width: $a) {
-    .nav-tabs > li > a{
-        font-size: 10px;
-    }
-}
 
 .btn-default{
   border-color: #ffffff;
@@ -494,11 +457,10 @@ div.cartodb-share a{
   margin-top:20px;
 }
 /* School info */
-#schoolinfo-plaholder{
-    display: block;
-    padding: 20px 0px;
-    color: #CCC;
-    font-size: 18px;
+#schoolinfo-placeholder{
+    padding: 23px 0 0 0;
+    color: #ccc;
+    font-size: 16px;
     float: left;
     -webkit-transition:all linear 0.5s;
     transition:all linear 0.5s;
@@ -570,13 +532,6 @@ div.cartodb-share a{
   margin-top: -5px;
   margin-bottom: 2px;
   margin-right: 10px;
-}
-
-@media screen and (max-width: $c) {
-    #schoolinfo .widgetnumber {
-        font-size: 18px;
-        font-weight: 800;
-    }
 }
 
 #schoolinfo img.arrow {
@@ -716,10 +671,7 @@ table.districts p {
   min-height: 600px;
   background:$content-bg;
 }
-@media screen and (min-width: $c) {
-    #generalcontent {
-    }
-}
+
 #generalcontent p {
 
 }
@@ -752,17 +704,11 @@ table.districts p {
   margin: 20px auto;
   display: block;
   max-width: 220px;
-  padding:5px 15px;
+  padding:5px 10px;
+  width:90%;
 }
 .full-screen-height {
-  height: $b;
-}
-
-
-@media screen and (max-width: $b) {
-  #generalcontent a.boxlink {
-    font-size: 13px;
-  }
+  height: $xs;
 }
 
 #generalcontent a.boxlink:hover {
@@ -770,11 +716,8 @@ table.districts p {
 }
 
 // homepage-specific container
-.homepage-content{
-  position:absolute;
-  top: $header-height/1.58;
-  bottom:0;
-  overflow:hidden;
+.homepage-content {
+  padding-bottom: 100px;
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -783,12 +726,7 @@ table.districts p {
 
 .google-form{
     height: 800px;
-    width: 760px
-}
-@media screen and (max-width: $b) {
-    .google-form{
-        width: 100%;
-    }
+    width:100%;
 }
 
 .loading {
@@ -833,16 +771,14 @@ table.districts p {
 }
 
 /*language nav*/
-.navbar-collapse.navbar-lang{
-  float:right;
+.navbar-lang {
+  @include border-radius(5px);
+  float: right;
   margin-left: 20px;
   background: #f0f0f0;
-  margin-top:10px;
-  padding-top:17px;
-  padding-bottom:13px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  margin-top: 10px;
+  padding-top: 17px;
+  padding-bottom: 13px;
 }
 
 .navbar-lang ul{
@@ -877,58 +813,9 @@ table.districts p {
   color: #1595d3;
 }
 
-/*responsive behavior for language nav*/
-@media only screen and (max-width : $e) {
-  .navbar-collapse.navbar-lang{
-    width:165px;
-    background:none;
-    background: none;
-    padding-top:0;
-    padding-bottom:0;
-    float:right;
-
-  }
-  .navbar-lang li a{
-  font-size:13px;
-  }
-}
-
-@media only screen and (max-width : $b) {
-  .navbar-collapse.navbar-lang{
-    width:150px;
-    float:none;
-    position:absolute;
-    top:2px;
-    right:60px;
-}
-  .navbar-collapse.navbar-lang ul{
-    height:18px;
-  }
-  .navbar-collapse.navbar-lang li{
-    padding-bottom:10px;
-    position:relative;
-    float:left;
-    height:14px;
-  }
-  .navbar-lang li a{
-    font-size:15px;
-    line-height:10px;
-  }
-  .navbar-lang li a:hover{
-    background:none;
-  }
-}
-
-/* Language nav got extra small devices, phones */
-@media only screen and (max-width: $a) {
-  .navbar-collapse.navbar-lang{
-    display:none;
-    /*temporary*/
-  }
-}
-
 /*main nav*/
 ul.main-nav{
+  margin-top:25px;
 }
 ul.main-nav li{
   border-right:1px solid #5b5b5b;
@@ -1031,11 +918,9 @@ ul.main-nav li ul li a{
 .header-announcements {
   clear: left;
   float: right;
+  margin-right:30px;
+  margin-top:10px;
 }
-.header-announcements a {
-  padding: 10px 15px;
-}
-
 
 // Map bottom bar
 .bottom-white-bar {
@@ -1284,28 +1169,21 @@ map-bottom-toggle.filters {
   .navbar-brand{
     height: $footer-height;
   }
+
   .navbar-collapse{
-    padding-top:$header-height/2.6;
+    @include border-radius(0);
+    padding-top:$header-height/5;
     li{
-      border-left:1px solid #ffffff;
       height:15px;
       &:first-child{
         border-left:none;
       }
-      a{
-        color: #ffffff;
-        font-size:12px;
-        padding-top:0;
-        padding-bottom:0;
-        line-height:13px;
-        &:hover{
-          color:darken($body-text-color,15%);
-          background:none;
-        }
-      }
+      a{color: #ffffff;}
     }
   }
 }
+
+
 
 // vertical padding that can be applied to any container
 .vert-padding{
