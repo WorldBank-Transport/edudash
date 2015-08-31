@@ -150,15 +150,12 @@
 
       <div class="sidebar">
         <div class="map-details-container">
-          <div class="page-header">
-            <div class="text-center" ng-hide="selected|exists">
+          <div class="page-header" ng-hide="selected|exists">
+            <div class="text-center">
               <strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong>
             </div>
-            <div class="text-center" ng-show="selected|exists">
-              <strong>{{selected.NAME}} {{year}}</strong>
-            </div>
           </div>
-          <div class="container-fluid perfomance-gauges">
+          <div class="container-fluid perfomance-gauges"  ng-hide="selected|exists">
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
