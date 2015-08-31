@@ -443,7 +443,6 @@ div.cartodb-share a{
     }
     &:focus{
       outline:none;
-      background: #ffffff;
       border: 1px solid #ffffff;
     }
   .text-muted{
@@ -476,7 +475,7 @@ div.cartodb-share a{
   color:#eeeeee;
 }
 .ui-select-bootstrap .ui-select-choices-row.active>a{
-  background:none;
+  background:$theme-blue;
 }
 
 .ui-select-choices-group{
@@ -980,12 +979,10 @@ ul.main-nav li ul li a{
   border:none;
   top:43px;
   width:465px;
-  background-color: $theme-blue;
   color: #ffffff;
   padding-left:20px;
   ul{
     border-right:none;
-    background: $theme-blue;
     padding:0px;
     display:block;
   }
@@ -1011,7 +1008,7 @@ ul.main-nav li ul li a{
         padding:5px 0;
         &:hover{
           color: #ffffff;
-          background: none;
+          background: $theme-blue;
         }
       }
     }
