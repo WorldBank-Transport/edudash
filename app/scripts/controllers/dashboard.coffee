@@ -18,12 +18,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
     staticApi, watchComputeSrv, brackets, utils) ->
 
-        # other state
-        layers = {}
-        currentLayer = null
-
-        #### Template / Controller API via $scope ####
-
         # app state
         angular.extend $scope,
           year: null  # set after init
@@ -392,17 +386,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 feature = polyIdMap[layer.feature.id]
                 if feature?
                   colorPoly feature, layer
-
-        # side-effects only
-        $scope.$watch 'viewMode', (newMode, oldMode) ->
-          if newMode not in ['schools', 'polygons']
-            console.error 'changed to invalid view mode:', newMode
-            return
-          # unless newMode == oldMode  # doesnt work for initial render
-          leafletData.getMap(mapId).then (map) ->
-            unless currentLayer == null
-              map.removeLayer currentLayer
-              currentLayer = null
 
         # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
