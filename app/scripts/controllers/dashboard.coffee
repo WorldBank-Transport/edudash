@@ -344,9 +344,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 layer: newL
               .then ({map, layer}) ->
                 map.fitBounds layer.getBounds()
-            if $scope.polyType = 'regions'
+            if $scope.polyType == 'regions'
               # clicked a region -- switch to districts mode
               $scope.polyType = 'districts'
+            else if $scope.polyType == 'districts'
+              $scope.setViewMode 'schools'
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
