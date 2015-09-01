@@ -366,17 +366,15 @@ div.cartodb-share a{
 }
 .link {
   color: $theme-blue;
-  text-decoration: underline;
   cursor: pointer;
-}.white {
-  color: #d8fffd;
 }
 
+.white {
+  color: #d8fffd;
+}
 .show-sm{
     display: none;
 }
-
-
 .btn-default{
   border-color: #ffffff;
 }
@@ -686,8 +684,7 @@ table.districts p {
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,
 #generalcontent a:hover a:link {
-    color: $theme-blue;
-    font-weight: 400;
+    color: $rank-good;
     text-decoration: none;
 }
 #generalcontent .boxlink-container{
