@@ -155,6 +155,11 @@
               <strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong>
             </div>
           </div>
+          <div class="page-header" ng-show="selected|exists">
+              <div class="text-center">
+                  <a class="link" ng-click="goNationalView()" translate="link.back.national"></a>
+              </div>
+          </div>
           <div class="container-fluid perfomance-gauges"  ng-hide="selected|exists">
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
