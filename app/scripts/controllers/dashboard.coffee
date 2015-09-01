@@ -73,8 +73,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         angular.extend $scope,
           Math: Math
 
+        # controller constants
+        mapId = 'map'
 
         watchCompute = watchComputeSrv $scope
+        watchToLayer = layersSrv.scopeToLayer $scope, mapId
 
         watchCompute 'visMetric',
           dependencies: ['visMode']
@@ -228,20 +231,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               ), reject
 
         watchCompute 'pins',
-          dependencies: ['filteredSchools', 'year', 'schoolType', 'moreThan40', 'visMode']
+          dependencies: ['filteredSchools']
           waitForPromise: true
-          computer: ([schoolsP, year, schoolType, moreThan40, visMode], [oldSchoolsP]) ->
+          computer: ([schoolsP]) ->
             $q (resolve, reject) ->
-              # Only continue when we have a new promise for the schools.
-              # year, schoolType. etc. are dependencies because we need them
-              # for the layerId, but they can sometimes trigger before we have
-              # an up-to-date promise for the schools themselves.
               unless schoolsP?
                 resolve null
               else
-                layerId = "schools-#{year}-#{schoolType}-#{moreThan40}"
                 schoolsP.then ((schools) ->
-                  resolve layersSrv.addFastCircles layerId, mapId,
+                  resolve layersSrv.getFastCircles
                     getData: -> $q (res, rej) ->
                       map = (data) -> if data?
                         res data.map (s) -> [ s.LATITUDE, s.LONGITUDE, s.CODE ]
@@ -253,14 +251,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 ), reject
 
         watchCompute 'polyLayer',
-          dependencies: ['detailedPolys', 'polyType']
+          dependencies: ['detailedPolys']
           waitForPromise: true
-          computer: ([polys, polyType], [oldPolys]) -> $q (resolve, reject) ->
-            unless polys? and polys != oldPolys
+          computer: ([polys]) -> $q (resolve) ->
+            unless polys?
               resolve null
             else
-              layerId = "polygons-#{polyType}"
-              resolve layersSrv.addGeojsonLayer layerId, mapId,
+              resolve layersSrv.getGeojsonLayer
                 getData: -> $q.when
                   type: 'FeatureCollection'
                   features: polys
@@ -287,28 +284,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless code? and thing?
               null
             else switch viewMode
-              when 'schools' then (
-                latlng = [thing.LATITUDE, thing.LONGITUDE]
-                # note that layerSrv.marker is cached by the id provided ('school-marker')
-                layer = layersSrv.marker 'school-marker', mapId,
-                  latlng: latlng
-                  options: icon: layersSrv.awesomeIcon
-                    markerColor: 'blue'
-                    icon: 'map-marker'
-                # so we have to reset the latlng for subsequent times
-                layer.then (l) -> l.setLatLng latlng
-                layer
-              )
-              when 'polygons' then (
-                layerId = "poly-marker-#{thing.id}"
-                layer = layersSrv.addGeojsonLayer layerId, mapId,
-                  getData: -> $q.when thing
-                  options: onEachFeature: (feature, layer) ->
-                    colorPoly feature, layer
-                    layer.setStyle colorSrv.polygonSelect()
-                layer
-              )
+              when 'schools' then layersSrv.marker
+                latlng: [thing.LATITUDE, thing.LONGITUDE]
+                options: icon: layersSrv.awesomeIcon
+                  markerColor: 'blue'
+                  icon: 'map-marker'
+              when 'polygons' then layersSrv.getGeojsonLayer
+                getData: -> $q.when thing
+                options: onEachFeature: (feature, layer) ->
+                  colorPoly feature, layer
+                  layer.setStyle colorSrv.polygonSelect()
               else throw new Error 'blah blah blah'
+
+        # add and remove computed layers from the map
+        watchToLayer 'pins'
+        watchToLayer 'polyLayer'
+        watchToLayer 'selectedLayer'
 
         # side-effects only
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
@@ -329,14 +320,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watch 'polygons', (polysP) -> if polysP?
           loadingSrv.containerLoad polysP, document.getElementById mapId
 
-        # side-effects only
-        $scope.$watch 'pins', (blah, oldPins) -> if oldPins?
-          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPins
-
-        # side-effects only
-        $scope.$watch 'polyLayer', (newPolys, oldPolys) -> if oldPolys?
-          leafletData.getMap(mapId).then (map) -> map.removeLayer oldPolys
-
         # side-effect: ensure that a selectedLayer is always in front, if exists
         $scope.$watch 'polyLayer', -> if $scope.selectedLayer?
           $scope.selectedLayer.then (l) -> l.bringToFront()
@@ -348,13 +331,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           else
             if oldType == 'districts'
               $scope.select null
-
-        # side-effect: remove old selected layer
-        $scope.$watch 'selectedLayer', (newL, oldLayer) -> if oldLayer?
-          $q.all
-              map: leafletData.getMap(mapId)
-              layer: oldLayer
-            .then ({map, layer}) -> map.removeLayer layer
 
         # side-effect: zoom in to selected polyLayer
         $scope.$watch 'selectedLayer', (newL) -> if newL?
@@ -582,9 +558,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.searchText = "dar"
         $scope.schoolsChoices = []
 
-        # controller constants
-        mapId = 'map'
-
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
@@ -593,10 +566,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           # initialize the map view
           map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
           # add the basemap
-          layersSrv.addTileLayer 'gray', mapId,
-            url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-            id: 'worldbank-education.map-5e5fgg2o'
-            accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
+          layersSrv.getTileLayer
+              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+              id: 'worldbank-education.map-5e5fgg2o'
+              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
+            .then (layer) -> layer.addTo map
           # set up the initial view
           $scope.setViewMode 'schools'
           if $scope.schoolType == 'primary'
