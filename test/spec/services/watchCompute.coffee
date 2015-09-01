@@ -132,3 +132,23 @@ describe 'watchComputeSrv', ->
     $scope.b = 3
     $scope.$digest()
     expect($scope.aChanged).toBe false
+
+  it 'waitForPromise should only reflect the last promise', ->
+    (watchComputeSrv $scope) 'aUnwrapped',
+      dependencies: ['a']
+      waitForPromise: true
+      computer: ([a]) -> a or $q.when null
+    d1 = $q.defer()
+    d2 = $q.defer()
+    $scope.a = d1.promise
+    $scope.$digest()
+    $scope.a = d2.promise
+    $scope.$digest()
+    d2.resolve 1
+    $scope.$digest()
+    expect $scope.aUnwrapped
+      .toBe 1
+    d1.resolve 0
+    $scope.$digest()
+    expect $scope.aUnwrapped
+      .toBe 1

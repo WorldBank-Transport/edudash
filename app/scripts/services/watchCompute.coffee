@@ -51,9 +51,15 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
 
       oldVals = (null for d in opts.dependencies)
 
-      setResult = (result) -> $scope[what] = result
+      watchCount = 0  # keep track of which watch we're processing
+
+      setResult = (n) -> (result) ->
+        if n == watchCount  # this is the latest
+          $scope[what] = result
+        # else: an old promise resolved that has been superceded
 
       $scope.$watchGroup opts.dependencies, (newVals, ngOld, scope) ->
+        watchCount += 1
         # compute the new value. Discard's angular's `oldVals`; see jsDoc above
         result = opts.computer newVals, oldVals, scope
         oldVals = newVals.slice()
@@ -61,6 +67,6 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
         if opts.waitForPromise == true
           unless result? and typeof result.then == 'function'
             throw new Error 'waitForPromise requires that opts.computer returns a Promise'
-          result.then setResult, (err) -> throw err
+          result.then (setResult watchCount), (err) -> throw err
         else
-          setResult result
+          (setResult watchCount) result
