@@ -14,8 +14,8 @@ angular.module 'edudashAppSrv'
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
-          'performance': '3a77adf7-925a-4a62-8c70-5e43f022b874'
-          'improvement': 'bba2cbbb-97fb-48b1-aa51-8db69279fbc5'
+          'performance': '9ed361d5-3ea5-491d-8e86-e21048c4704b'
+          'improvement': '17560070-9194-46c9-9f4a-f882c349b7bb'
         secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
 
       converters =
