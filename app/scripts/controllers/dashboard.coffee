@@ -68,7 +68,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
-          goNationalView: ->
+          resetView: ->
             $scope.selected=undefined
             leafletData.getMap(mapId).then (map) ->
               map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
