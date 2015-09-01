@@ -51,7 +51,7 @@ body {
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: $theme-blue-nav;
+    border-color: $theme-blue;
 }
 
 .navbar-toggle{
@@ -63,7 +63,7 @@ body {
 
 .navbar-toggle:hover,
 .navbar-toggle:focus {
-  background-color: $theme-blue4;
+  background-color: $theme-blue;
 }
 
 .navbar-toggle .icon-bar{
