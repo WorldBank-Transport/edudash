@@ -85,7 +85,9 @@ angular.module 'edudashAppDir'
         chart = element.highcharts()
         if(chart?)
           titleObj =
-            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
+            text: "<div class='col-md-12 gauge-title no-margin #{if value.length > 20 then 'swahili-title' else ''}'>
+                     <span class='chart-title ng-binding gauge'>#{value}</span>
+                   </div>"
             useHTML: true
             align: 'left'
             style:

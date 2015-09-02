@@ -127,5 +127,7 @@
     "school.list.header.name":"Shule",
     "school.list.header.REGION":"Mkoa",
     "school.list.header.DISTRICT":"Wilaya",
-    "school.list.header.PASS_RATE":"Kiwango cha Kufuzu"
+    "school.list.header.PASS_RATE":"Kiwango cha Kufuzu",
+
+    "chart.dial-title.style": "swahili-title"
 }
