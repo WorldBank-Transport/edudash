@@ -130,6 +130,8 @@
     "school.list.header.name":"School",
     "school.list.header.REGION":"Region",
     "school.list.header.DISTRICT":"District",
-    "school.list.header.PASS_RATE":"Passrate"
+    "school.list.header.PASS_RATE":"Passrate",
 
+
+    "chart.dial-title.style": ""
 }

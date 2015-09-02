@@ -11,7 +11,9 @@ angular.module 'edudashAppDir'
     restrict: 'EA'
     template: '<div class="loading"></div>'
     link: (scope, element, attrs) ->
+      gaugeValue = undefined
       update = (value) ->
+        gaugeValue = value
         ranges = attrs.ranges.split(',')
         colors = attrs.colors.split(',')
         labelColor = switch
@@ -129,13 +131,22 @@ angular.module 'edudashAppDir'
         # TODO This way we could custom the style for swahilli
         chart = element.highcharts()
         width = element.parent().width()
-        if(chart?)
+        unless gaugeValue
+          $translate('chart.metric.missing-data').then (na) ->
+            element.html(
+              "<p class='medium-character missing-data' style='position: static'>#{na}</p>
+               <div class='col-md-12 gauge-title withoutchart #{if value.length > 20 then 'swahili-title' else ''}'>
+                 <span class='chart-title ng-binding gauge'>#{value}</span>
+               </div>")
+        else if(chart?)
           titleObj =
-            text: "<span style='font-size: 10px;text-transform: uppercase;'>#{value}</span>"
+            text: "<div class='col-md-12 gauge-title #{if value.length > 20 then 'swahili-title' else ''}'>
+                     <span class='chart-title ng-binding gauge'>#{value}</span>
+                   </div>"
             useHTML: true
             y: 70
             width: width + 40
-            align: 'left'
+            align: 'center'
             style:
               color: '#05a2dc'
           chart.setTitle(titleObj)
