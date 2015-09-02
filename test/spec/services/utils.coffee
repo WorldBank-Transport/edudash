@@ -182,97 +182,55 @@ describe 'utils', ->
       expect result
         .toEqual 'over'
 
-  describe 'findSchool', ->
-    it 'shoud validate its params', ->
-      expect -> u.findSchool()
-        .toThrow new Error "param `schoolsMapP` must be a Promise. Got 'undefined'"
-      expect -> u.findSchool {}
-        .toThrow new Error "param `schoolsMapP` must be a Promise. Got 'object'"
-      expect -> u.findSchool $q.when {}
+  describe 'lookup', ->
+    it 'should validate its params', ->
+      expect -> u.lookup()
+        .toThrow new Error "param `mapP` must be a Promise. Got 'undefined'"
+      expect -> u.lookup {}
+        .toThrow new Error "param `mapP` must be a Promise. Got 'object'"
+      expect -> u.lookup $q.when {}
         .toThrow new Error "param `id` must be a string. Got 'undefined'"
 
       caught = null
-      u.findSchool $q.when(undefined), 'z'
+      u.lookup $q.when(undefined), 'z'
         .catch (e) -> caught = e
       $rootScope.$apply()
       expect caught
-        .toEqual "Promise `schoolsMapP` must resolve to an object. Got 'undefined'"
+        .toEqual "Promise `mapP` must resolve to an object. Got 'undefined'"
 
     it 'should return a promise', ->
-      expect typeof (u.findSchool $q.when({}), '').then
+      expect typeof (u.lookup $q.when({}), '').then
         .toEqual 'function'
 
-    it 'should resolve null for empty school map', ->
+    it 'should resolve null for empty object map', ->
       found = 'blah'
-      u.findSchool $q.when({}), 'z'
+      u.lookup $q.when({}), 'z'
         .then (s) -> found = s
       $rootScope.$apply()
       expect found
         .toBe null
 
-    it 'should resolve null for missing school', ->
+    it 'should resolve null for missing object', ->
       found = 'blah'
-      u.findSchool $q.when(a: {id: 'a'}), 'b'
+      u.lookup $q.when(a: {id: 'a'}), 'b'
         .then (s) -> found = s
       $rootScope.$apply()
       expect found
         .toBe null
 
-    it 'should find the school by id', ->
+    it 'should find the object by id', ->
       s = id: 'a'
       found = null
-      u.findSchool $q.when(a: s), 'a'
+      u.lookup $q.when(a: s), 'a'
         .then (s) -> found = s
       $rootScope.$apply()
       expect found
         .toBe s
 
       found2 = null
-      u.findSchool $q.when(a: s, x: {id: 'x'}, y: {id: 'y'}), 'a'
+      u.lookup $q.when(a: s, x: {id: 'x'}, y: {id: 'y'}), 'a'
         .then (s) -> found2 = s
       $rootScope.$apply()
       expect found2
         .toBe s
 
-  describe 'findPoly', ->
-    it 'should validate its params', ->
-      expect -> u.findPoly()
-        .toThrow new Error "param `polyMap` must be an object. Got 'undefined'"
-      expect -> u.findPoly {}
-        .toThrow new Error "param `id` must be a string. Got 'undefined'"
-
-    it 'should return a promise', ->
-      expect typeof (u.findPoly $q.when({}), '').then
-        .toEqual 'function'
-
-    it 'should resolve null for empty poly map', ->
-      found = 'blah'
-      u.findPoly {}, 'z'
-        .then (s) -> found = s
-      $rootScope.$apply()
-      expect found
-        .toBe null
-
-    it 'should resolve null for missing poly', ->
-      found = 'blah'
-      u.findPoly {a: {id: 'a'}}, 'b'
-        .then (s) -> found = s
-      $rootScope.$apply()
-      expect found
-        .toBe null
-
-    it 'should find the poly by id', ->
-      s = id: 'a'
-      found = null
-      u.findPoly {a: s}, 'a'
-        .then (s) -> found = s
-      $rootScope.$apply()
-      expect found
-        .toBe s
-
-      found2 = null
-      u.findPoly {a: s, x: {id: 'x'}, y: {id: 'y'}}, 'a'
-        .then (s) -> found2 = s
-      $rootScope.$apply()
-      expect found2
-        .toBe s

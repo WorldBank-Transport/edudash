@@ -202,11 +202,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'polyIdMap',
           dependencies: ['detailedPolys']
-          computer: ([polygons]) ->
+          computer: ([polygons]) -> $q (resolve, reject) ->
             unless polygons?
-              null
+              resolve null
             else
-              polygons.reduce ((map, polygon) ->
+              resolve polygons.reduce ((map, polygon) ->
                 map[polygon.id] = polygon
                 map
               ), {}
@@ -280,8 +280,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless code?
               $q.when null
             else switch viewMode
-              when 'schools' then utils.findSchool schoolCodeMap, code
-              when 'polygons' then utils.findPoly polyIdMap, code
+              when 'schools' then utils.lookup schoolCodeMap, code
+              when 'polygons' then utils.lookup polyIdMap, code
               else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
 
         watchCompute 'selectedLayer',
@@ -319,7 +319,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
         $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
-          (utils.findSchool $scope.schoolCodeMap, selectedCodeYear.code).then (school)->
+          (utils.lookup $scope.schoolCodeMap, selectedCodeYear.code).then (school)->
             $scope.selected = school
 
         # side-effect: map spinner for polygons load
@@ -414,7 +414,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           ([polyLayer, polyIdMap]) ->
             if polyLayer? and polyIdMap?
               polyLayer.eachLayer (layer) ->
-                utils.findPoly(polyIdMap, layer.feature.id).then (feature) ->
+                utils.lookup(polyIdMap, layer.feature.id).then (feature) ->
                   if feature?
                     colorPoly feature, layer
 
@@ -507,11 +507,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
-            utils.findSchool $scope.schoolCodeMap, id
+            utils.lookup $scope.schoolCodeMap, id
               .then (s) -> $scope.hovered = s
               .catch $log.error
           else if $scope.viewMode == 'polygons'
-            utils.findPoly $scope.polyIdMap, id
+            utils.lookup $scope.polyIdMap, id
               .then (r) -> $scope.hovered = r
               .catch $log.error
 
@@ -594,7 +594,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 
         colorPin = (code, layer) ->
-          utils.findSchool($scope.schoolCodeMap, code).then (school) ->
+          utils.lookup($scope.schoolCodeMap, code).then (school) ->
             val = school[$scope.visMetric]
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
@@ -654,7 +654,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         search = (query) ->
           if query?
             OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
-              .then (data) -> $q.all _(data).map (s) -> utils.findSchool $scope.schoolCodeMap, s.CODE
+              .then (data) -> $q.all _(data).map (s) -> utils.lookup $scope.schoolCodeMap, s.CODE
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools

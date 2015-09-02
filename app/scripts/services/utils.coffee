@@ -91,34 +91,19 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
 
 
   ###*
-  # Find a school by id for a promise of schools to come
-  # @param {Promise<object>} schoolsMapP promise of the map of schools to find from
-  # @param {string} id of the school to find
-  # @returns {Promise<object|null>} that will be the found school object
+  # Async look up a mapping by ID, for finding schools or polygons
+  # @param {Promise<object>} mapP promise of the map to find from
+  # @param {string} id of the object to find
+  # @returns {Promise<object|null>} that will be the found object
   ###
-  findSchool: (schoolsMapP, id) ->
-    unless schoolsMapP? and typeof schoolsMapP.then == 'function'
-      throw new Error "param `schoolsMapP` must be a Promise. Got '#{typeof schoolsMapP}'"
+  lookup: (mapP, id) ->
+    unless mapP? and typeof mapP.then == 'function'
+      throw new Error "param `mapP` must be a Promise. Got '#{typeof mapP}'"
     unless typeof id == 'string'
       throw new Error "param `id` must be a string. Got '#{typeof id}'"
 
-    schoolsMapP.then (sMap) -> $q (resolve, reject) ->
-      unless typeof sMap == 'object'
-        reject "Promise `schoolsMapP` must resolve to an object. Got '#{typeof sMap}'"
+    mapP.then (mapObj) -> $q (resolve, reject) ->
+      unless typeof mapObj == 'object'
+        reject "Promise `mapP` must resolve to an object. Got '#{typeof mapObj}'"
       else
-        resolve sMap[id] or null
-
-
-  ###*
-  # Find a polygon by id for a map of polygon IDs
-  # @param {object} polyMap map of schools to find from
-  # @param {string} id of the school to find
-  # @returns {Promise<object|null>} that will be the found school object
-  ###
-  findPoly: (polyMap, id) ->
-    unless typeof polyMap == 'object'
-      throw new Error "param `polyMap` must be an object. Got '#{typeof polyMap}'"
-    unless typeof id == 'string'
-      throw new Error "param `id` must be a string. Got '#{typeof id}'"
-
-    $q.when polyMap[id] or null
+        resolve mapObj[id] or null
