@@ -13,7 +13,8 @@
     overflow-x: no-scroll; } }
 @media only screen and (min-width: 1280px) {
   .footer {
-    bottom: 0; } }
+    bottom: 0;
+    position: absolute; } }
 @media only screen and (max-width: 1024px) {
   #schoolinfo-placeholder {
     display: none; }

@@ -48,6 +48,7 @@ body {
 .navbar-default .navbar-nav > .open > a:focus {
     color: #FFFFFF;
     background-color: $theme-blue;
+    outline:none;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -810,6 +811,10 @@ table.districts p {
 }
 
 /*main nav*/
+
+.nav li a:focus{
+  outline:none;
+}
 ul.main-nav{
   margin-top:25px;
 }
