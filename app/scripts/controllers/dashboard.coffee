@@ -18,6 +18,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
     staticApi, watchComputeSrv, brackets, utils) ->
 
+        if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
+          $timeout -> $location.path '/'
+
         # app state
         angular.extend $scope,
           year: null  # set after init
@@ -336,29 +339,36 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if oldType == 'districts'
               $scope.select null
 
-        # side-effect: zoom in to selected polyLayer
+        # side-effects: Set view to selection
         $scope.$watch 'selectedLayer', (newL) -> if newL?
-          if $scope.viewMode == 'polygons'
+          $log.log 'new selectedLayer', newL
+
+          if $scope.viewMode == 'polygons'  # when viewing Regions or Districts
+
+            # Zoom into the selected layer
             $q.all
                 map: leafletData.getMap(mapId)
                 layer: newL
               .then ({map, layer}) ->
                 map.fitBounds layer.getBounds()
+
+            # If we were viewing Regions, switch to Districts mode
             if $scope.polyType == 'regions'
-              # clicked a region -- switch to districts mode
-              $scope.polyType = 'districts'
+              $scope.togglePolygons 'districts'
+
+            # Or, if we were viewing Districts, switch to Schools mode
             else if $scope.polyType == 'districts'
               $scope.setViewMode 'schools'
-
-        # side-effects only
-        $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
-          pins.eachVisibleLayer colorPin
 
         # side-effects: zoom to bounds if nothing selected
         $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
           unless $scope.selectedLayer?
             leafletData.getMap mapId
               .then (map) -> map.fitBounds polyLayer.getBounds()
+
+        # side-effects only
+        $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
+          pins.eachVisibleLayer colorPin
 
         # side-effects only
         $scope.$watchGroup ['polyLayer', 'polyIdMap'],
@@ -401,6 +411,32 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
+
+        # widget local state (maybe should move to other directives)
+        $scope.searchText = "dar"
+        $scope.schoolsChoices = []
+
+        # INIT
+        leafletData.getMap(mapId).then (map) ->
+          # initialize the map view
+          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
+          # add the basemap
+          layersSrv.getTileLayer
+              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+              id: 'worldbank-education.map-5e5fgg2o'
+              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
+            .then (layer) -> layer.addTo map
+          # set up the initial view
+          $scope.setViewMode 'schools'
+          if $scope.schoolType == 'primary'
+            $scope.rankBy = 'performance'
+          $scope.setYear 2014  # hard-coded default to speed up page-load
+          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
+          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
+            .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
+          # fix the map's container awareness (it gets it wrong)
+          $timeout (-> map.invalidateSize()), 1
+
 
         loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
           OpenDataApi.getSchools
@@ -558,35 +594,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             .filter (s) -> s[ob]?
               .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
           )
-
-
-        # widget local state (maybe should move to other directives)
-        $scope.searchText = "dar"
-        $scope.schoolsChoices = []
-
-        if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
-          $timeout -> $location.path '/'
-
-        # INIT
-        leafletData.getMap(mapId).then (map) ->
-          # initialize the map view
-          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
-          # add the basemap
-          layersSrv.getTileLayer
-              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-              id: 'worldbank-education.map-5e5fgg2o'
-              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
-            .then (layer) -> layer.addTo map
-          # set up the initial view
-          $scope.setViewMode 'schools'
-          if $scope.schoolType == 'primary'
-            $scope.rankBy = 'performance'
-          $scope.setYear 2014  # hard-coded default to speed up page-load
-          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
-          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
-            .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
-          # fix the map's container awareness (it gets it wrong)
-          $timeout (-> map.invalidateSize()), 1
 
 
         processPin = (code, layer) ->
