@@ -674,13 +674,4 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
 
-        # todo: figure out if these are needed
-        $scope.getTimes = (n) ->
-            new Array(n)
-
-        $scope.anchorScroll = () ->
-            $anchorScroll()
-
-
-
 ]
