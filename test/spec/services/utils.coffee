@@ -11,9 +11,13 @@ describe 'utils', ->
     u = _utils_
 
   # mocks
+  $q = null
   $timeout = null
-  beforeEach inject (_$timeout_) ->
+  $rootScope = null
+  beforeEach inject (_$q_, _$timeout_, _$rootScope_) ->
+    $q = _$q_
     $timeout = _$timeout_
+    $rootScope = _$rootScope_
 
   describe 'rank', ->
 
@@ -177,3 +181,55 @@ describe 'utils', ->
       $timeout.flush()
       expect result
         .toEqual 'over'
+
+  describe 'findSchool', ->
+    it 'shoud validate its params', ->
+      expect -> u.findSchool()
+        .toThrow new Error "param `schoolsMapP` must be a Promise. Got 'undefined'"
+      expect -> u.findSchool {}
+        .toThrow new Error "param `schoolsMapP` must be a Promise. Got 'object'"
+      expect -> u.findSchool $q.when {}
+        .toThrow new Error "param `id` must be a string. Got 'undefined'"
+
+      caught = null
+      u.findSchool $q.when(undefined), 'z'
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "Promise `schoolsMapP` must resolve to an object. Got 'undefined'"
+
+    it 'should return a promise', ->
+      expect typeof (u.findSchool $q.when({}), '').then
+        .toEqual 'function'
+
+    it 'should resolve null for empty school map', ->
+      found = 'blah'
+      u.findSchool $q.when({}), 'z'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should resolve null for missing school', ->
+      found = 'blah'
+      u.findSchool $q.when(a: {id: 'a'}), 'b'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should find the school by id', ->
+      s = id: 'a'
+      found = null
+      u.findSchool $q.when(a: s), 'a'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe s
+
+      found2 = null
+      u.findSchool $q.when(a: s, x: {id: 'x'}, y: {id: 'y'}), 'a'
+        .then (s) -> found2 = s
+      $rootScope.$apply()
+      expect found2
+        .toBe s

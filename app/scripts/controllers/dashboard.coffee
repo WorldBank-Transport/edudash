@@ -188,7 +188,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'schoolCodeMap',
           dependencies: ['viewMode', 'allSchools']
-          waitForPromise: true  # unwraps the promise
           computer: ([viewMode, allSchools]) -> $q (resolve, reject) ->
             unless viewMode == 'schools' and allSchools?
               resolve null
@@ -275,13 +274,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing], [oldThing]) -> thing or oldThing
 
         watchCompute 'selected',
-          dependencies: ['selectedCode', 'viewMode']
+          dependencies: ['schoolCodeMap', 'selectedCode', 'viewMode']
           waitForPromise: true
-          computer: ([code, viewMode]) ->
+          computer: ([schoolCodeMap, code, viewMode]) ->
             unless code?
               $q.when null
             else switch viewMode
-              when 'schools' then findSchool code
+              when 'schools' then utils.findSchool schoolCodeMap, code
               when 'polygons' then findPoly code
               else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
 
@@ -320,7 +319,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
         $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
-          (findSchool selectedCodeYear.code).then (school)->
+          (utils.findSchool $scope.schoolCodeMap, selectedCodeYear.code).then (school)->
             $scope.selected = school
 
         # side-effect: map spinner for polygons load
@@ -508,25 +507,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
-            findSchool id
+            utils.findSchool $scope.schoolCodeMap, id
               .then (s) -> $scope.hovered = s
               .catch $log.error
           else if $scope.viewMode == 'polygons'
             findPoly id
               .then (r) -> $scope.hovered = r
               .catch $log.error
-
-        findSchool = (code) ->
-          $q (resolve, reject) ->
-            if $scope.allSchools? and $scope.schoolCodeMap?
-              findIt = (schools) ->
-                if $scope.schoolCodeMap[code]?
-                  resolve $scope.schoolCodeMap[code]
-                else
-                  reject "Could not find school by code '#{code}'"
-              $scope.allSchools.then findIt, reject
-            else
-              reject 'No schools to find from'
 
         findPoly = (id) ->
           $q (resolve, reject) ->
@@ -617,7 +604,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
 
         colorPin = (code, layer) ->
-          findSchool(code).then (school) ->
+          utils.findSchool($scope.schoolCodeMap, code).then (school) ->
             val = school[$scope.visMetric]
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
@@ -677,7 +664,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         search = (query) ->
           if query?
             OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
-              .then (data) -> $q.all _(data).map (s) -> findSchool s.CODE
+              .then (data) -> $q.all _(data).map (s) -> utils.findSchool $scope.schoolCodeMap, s.CODE
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools

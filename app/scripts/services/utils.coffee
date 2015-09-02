@@ -7,7 +7,7 @@
  # # Utility functions
  # All the miscellaneous pure functions you could ever want...
 ###
-angular.module('edudashAppSrv').service 'utils', ($timeout) ->
+angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
 
   ###*
   # Rank an object (1-indexed!!!) from a list of objects by a property
@@ -88,3 +88,22 @@ angular.module('edudashAppSrv').service 'utils', ($timeout) ->
     (args...) ->
       $timeout.cancel timer
       timer = $timeout (-> fn args...), wait
+
+
+  ###*
+  # Find a school by id for a promise of schools to come
+  # @param {Promise<Array<object>>} schoolsMapP promise of the map of schools to find from
+  # @param {string} id of the school to find
+  # @returns {Promise<object|null>} that will be the found school object
+  ###
+  findSchool: (schoolsMapP, id) ->
+    unless schoolsMapP? and typeof schoolsMapP.then == 'function'
+      throw new Error "param `schoolsMapP` must be a Promise. Got '#{typeof schoolsMapP}'"
+    unless typeof id == 'string'
+      throw new Error "param `id` must be a string. Got '#{typeof id}'"
+
+    schoolsMapP.then (sMap) -> $q (resolve, reject) ->
+      unless typeof sMap == 'object'
+        reject "Promise `schoolsMapP` must resolve to an object. Got '#{typeof sMap}'"
+      else
+        resolve sMap[id] or null
