@@ -7,16 +7,11 @@
  # # DashboardsCtrl
  # Controller of the edudashApp
 ###
-angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
-    '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
-    '$timeout', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv', 'utils'
-
+angular.module('edudashAppCtrl').controller 'DashboardCtrl',
     ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
     _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets, utils) ->
+    staticApi, watchComputeSrv, bracketsSrv, utils) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
@@ -71,8 +66,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           selectSchool: (code) -> $scope.selectedSchoolCode = code
           selectPoly: (id) -> $scope.selectedPolyId = id
           search: (q) -> search q
-          hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
-          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
+          hasBadge: (b, st, v) -> bracketsSrv.hasBadge b, st, v
+          getBracket: (v, m) -> bracketsSrv.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
           goNationalView: ->
@@ -93,7 +88,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'visMetric',
           dependencies: ['visMode']
           computer: ([visMode]) ->
-            brackets.getVisMetric visMode
+            bracketsSrv.getVisMetric visMode
 
         watchCompute 'sortMetric',
           dependencies: ['schoolType', 'rankBy']
@@ -101,7 +96,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless schoolType? and criteria?
               null
             else
-              brackets.getSortMetric schoolType, criteria
+              bracketsSrv.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
@@ -185,7 +180,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
                     PASS_RATE: y.average_pass_rate
-                    color: colorSrv.color brackets.getBracket y.average_pass_rate, 'PASS_RATE'
+                    color: colorSrv.color bracketsSrv.getBracket y.average_pass_rate, 'PASS_RATE'
                   agg
                 ), {}
               .catch reject
@@ -673,5 +668,3 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
-
-]
