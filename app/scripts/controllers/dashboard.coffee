@@ -327,6 +327,35 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watch 'polygons', (polysP) -> if polysP?
           loadingSrv.containerLoad polysP, document.getElementById mapId
 
+        # side-effect: load full school data when the school is selected
+        $scope.$watch 'selected', (school) -> if school? and $scope.viewMode == 'schools'
+
+          # Add rankings to the school object
+          [ob, desc] = brackets.getRank $scope.schoolType
+          $q.all
+              national: (rank school, 'NATIONAL', [ob, desc])
+              region: (rank school, 'REGION', [ob, desc])
+              district: (rank school, 'DISTRICT', [ob, desc])
+            .then (ranks) ->
+              school.ranks = ranks
+
+          # Add passrate over time data to the school object
+          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
+            .then (data) ->
+              school.yearAggregates =
+                values: _(data).reduce ((agg, year) ->
+                  agg[year.YEAR_OF_RESULT] =
+                    PASS_RATE: year.PASS_RATE
+                    color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
+                  agg
+                ), {}
+                years: $scope.years
+              thisYear = school.yearAggregates.values[$scope.year]
+              lastYear = school.yearAggregates.values[$scope.year - 1]
+              if lastYear?
+                school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
+              # else undefined
+
         # side-effect: ensure that a selectedLayer is always in front, if exists
         $scope.$watch 'polyLayer', -> if $scope.selectedLayer?
           $scope.selectedLayer.then (l) -> l.bringToFront()
@@ -339,11 +368,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             if oldType == 'districts'
               $scope.select null
 
-        # side-effects: Set view to selection
+        # side-effects: Update stuff when something is selected
         $scope.$watch 'selectedLayer', (newL) -> if newL?
-          $log.log 'new selectedLayer', newL
 
-          if $scope.viewMode == 'polygons'  # when viewing Regions or Districts
+          # CLICKED AN ADM POLYGON
+          if $scope.viewMode == 'polygons'
 
             # Zoom into the selected layer
             $q.all
@@ -359,6 +388,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             # Or, if we were viewing Districts, switch to Schools mode
             else if $scope.polyType == 'districts'
               $scope.setViewMode 'schools'
+
+          # CLICKED A SCHOOL CIRCLE MARKER
+          else if $scope.viewMode == 'schools'
+
+            # zoom and pan to the marker
+            $q.all
+                map: leafletData.getMap mapId
+                layer: newL
+              .then ({map, layer}) ->
+                map.setView layer.getLatLng(), (Math.max 9, map.getZoom())
+
 
         # side-effects: zoom to bounds if nothing selected
         $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
@@ -399,15 +439,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                 pin.setStyle colorSrv.pinOff()
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
-
-        # side-effects only
-        $scope.$watch 'selected', (thing) -> if thing?
-          if $scope.viewMode == 'schools'
-            setSchool thing
-          else if $scope.viewMode == 'polygons'
-            # pass
-          else
-            $log.warn "Unknown viewMode to update selected: '#{$scope.viewMode}'"
 
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
@@ -484,36 +515,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             findPoly id
               .then (r) -> $scope.hovered = r
               .catch $log.error
-
-        setSchool = (school) ->
-          latlng = [school.LATITUDE, school.LONGITUDE]
-          leafletData.getMap(mapId).then (map) ->
-            map.setView latlng, (Math.max 9, map.getZoom())
-          [ob, desc] = brackets.getRank $scope.schoolType
-          unless school.ranks?
-            $q.all
-                national: (rank school, 'NATIONAL', [ob, desc])
-                region: (rank school, 'REGION', [ob, desc])
-                district: (rank school, 'DISTRICT', [ob, desc])
-              .then (ranks) ->
-                school.ranks = ranks
-
-          unless school.yearAggregates?
-            OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
-              .then (data) ->
-                school.yearAggregates =
-                  values: _(data).reduce ((agg, year) ->
-                    agg[year.YEAR_OF_RESULT] =
-                      PASS_RATE: year.PASS_RATE
-                      color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
-                    agg
-                  ), {}
-                  years: $scope.years
-                thisYear = school.yearAggregates.values[$scope.year]
-                lastYear = school.yearAggregates.values[$scope.year - 1]
-                if lastYear?
-                  school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
-                # else undefined
 
         findSchool = (code) ->
           $q (resolve, reject) ->
