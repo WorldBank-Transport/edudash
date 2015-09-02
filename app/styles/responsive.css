@@ -8,8 +8,9 @@
       margin-top: 8px; }
 
   .google-form {
-    width: 100%;
-    margin-top: 10px; } }
+    width: 95%;
+    margin-top: 10px;
+    overflow-x: no-scroll; } }
 @media only screen and (min-width: 1280px) {
   .footer {
     bottom: 0; } }
