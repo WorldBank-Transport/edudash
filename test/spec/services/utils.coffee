@@ -233,3 +233,46 @@ describe 'utils', ->
       $rootScope.$apply()
       expect found2
         .toBe s
+
+  describe 'findPoly', ->
+    it 'should validate its params', ->
+      expect -> u.findPoly()
+        .toThrow new Error "param `polyMap` must be an object. Got 'undefined'"
+      expect -> u.findPoly {}
+        .toThrow new Error "param `id` must be a string. Got 'undefined'"
+
+    it 'should return a promise', ->
+      expect typeof (u.findPoly $q.when({}), '').then
+        .toEqual 'function'
+
+    it 'should resolve null for empty poly map', ->
+      found = 'blah'
+      u.findPoly {}, 'z'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should resolve null for missing poly', ->
+      found = 'blah'
+      u.findPoly {a: {id: 'a'}}, 'b'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should find the poly by id', ->
+      s = id: 'a'
+      found = null
+      u.findPoly {a: s}, 'a'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe s
+
+      found2 = null
+      u.findPoly {a: s, x: {id: 'x'}, y: {id: 'y'}}, 'a'
+        .then (s) -> found2 = s
+      $rootScope.$apply()
+      expect found2
+        .toBe s

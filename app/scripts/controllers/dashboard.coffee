@@ -274,14 +274,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([thing], [oldThing]) -> thing or oldThing
 
         watchCompute 'selected',
-          dependencies: ['schoolCodeMap', 'selectedCode', 'viewMode']
+          dependencies: ['schoolCodeMap', 'polyIdMap', 'selectedCode', 'viewMode']
           waitForPromise: true
-          computer: ([schoolCodeMap, code, viewMode]) ->
+          computer: ([schoolCodeMap, polyIdMap, code, viewMode]) ->
             unless code?
               $q.when null
             else switch viewMode
               when 'schools' then utils.findSchool schoolCodeMap, code
-              when 'polygons' then findPoly code
+              when 'polygons' then utils.findPoly polyIdMap, code
               else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
 
         watchCompute 'selectedLayer',
@@ -511,19 +511,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               .then (s) -> $scope.hovered = s
               .catch $log.error
           else if $scope.viewMode == 'polygons'
-            findPoly id
+            utils.findPoly $scope.polyIdMap, id
               .then (r) -> $scope.hovered = r
               .catch $log.error
-
-        findPoly = (id) ->
-          $q (resolve, reject) ->
-            if $scope.polyIdMap?
-              if $scope.polyIdMap[id]?
-                resolve $scope.polyIdMap[id]
-              else
-                reject "Could not find polygon by id '#{id}'"
-            else
-              reject 'No polygons to find from'
 
         # side-effect: mutates poly (gross, but...)
         rankPoly = (poly) ->

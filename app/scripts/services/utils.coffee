@@ -92,7 +92,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
 
   ###*
   # Find a school by id for a promise of schools to come
-  # @param {Promise<Array<object>>} schoolsMapP promise of the map of schools to find from
+  # @param {Promise<object>} schoolsMapP promise of the map of schools to find from
   # @param {string} id of the school to find
   # @returns {Promise<object|null>} that will be the found school object
   ###
@@ -107,3 +107,18 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
         reject "Promise `schoolsMapP` must resolve to an object. Got '#{typeof sMap}'"
       else
         resolve sMap[id] or null
+
+
+  ###*
+  # Find a polygon by id for a map of polygon IDs
+  # @param {object} polyMap map of schools to find from
+  # @param {string} id of the school to find
+  # @returns {Promise<object|null>} that will be the found school object
+  ###
+  findPoly: (polyMap, id) ->
+    unless typeof polyMap == 'object'
+      throw new Error "param `polyMap` must be an object. Got '#{typeof polyMap}'"
+    unless typeof id == 'string'
+      throw new Error "param `id` must be a string. Got '#{typeof id}'"
+
+    $q.when polyMap[id] or null
