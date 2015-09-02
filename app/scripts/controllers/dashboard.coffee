@@ -414,9 +414,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           ([polyLayer, polyIdMap]) ->
             if polyLayer? and polyIdMap?
               polyLayer.eachLayer (layer) ->
-                feature = polyIdMap[layer.feature.id]
-                if feature?
-                  colorPoly feature, layer
+                utils.findPoly(polyIdMap, layer.feature.id).then (feature) ->
+                  if feature?
+                    colorPoly feature, layer
 
         # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
