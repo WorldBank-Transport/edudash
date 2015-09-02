@@ -229,8 +229,8 @@
             </div>
           </form>
 
-          <div class="container-fluid margin-top" ng-hide="schoolType==='primary' && selected|exists">
-            <div class="col-sm-12 performance-nav">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='primary' && selected|exists">
+            <div class="col-sm-12 performance-nav margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
                   <a ng-click="rankBy='performance'">{{'button.best.performing'|translate}}</a>
@@ -239,6 +239,8 @@
                   <a ng-click="rankBy='improvement'">{{'button.best.improved'|translate}}</a>
                 </li>
               </ul>
+            </div>
+            <div class="container-fluid margin-top sidebar-toggle-pair">
             </div>
             <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
               <school-list
