@@ -51,7 +51,7 @@ body {
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: $theme-blue-nav;
+    border-color: $theme-blue;
 }
 
 .navbar-toggle{
@@ -63,7 +63,7 @@ body {
 
 .navbar-toggle:hover,
 .navbar-toggle:focus {
-  background-color: $theme-blue4;
+  background-color: $theme-blue;
 }
 
 .navbar-toggle .icon-bar{
@@ -366,17 +366,15 @@ div.cartodb-share a{
 }
 .link {
   color: $theme-blue;
-  text-decoration: underline;
   cursor: pointer;
-}.white {
-  color: #d8fffd;
 }
 
+.white {
+  color: #d8fffd;
+}
 .show-sm{
     display: none;
 }
-
-
 .btn-default{
   border-color: #ffffff;
 }
@@ -686,8 +684,7 @@ table.districts p {
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,
 #generalcontent a:hover a:link {
-    color: $theme-blue;
-    font-weight: 400;
+    color: $rank-good;
     text-decoration: none;
 }
 #generalcontent .boxlink-container{
@@ -868,6 +865,7 @@ ul.main-nav li ul li a{
   width:465px;
   color: #ffffff;
   padding-left:20px;
+  background: $theme-blue;
   ul{
     border-right:none;
     padding:0px;
