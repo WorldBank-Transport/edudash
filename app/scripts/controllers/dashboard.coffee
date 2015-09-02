@@ -7,11 +7,10 @@
  # # DashboardsCtrl
  # Controller of the edudashApp
 ###
-angular.module('edudashAppCtrl').controller 'DashboardCtrl',
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
-    _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
-    $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, bracketsSrv, utils) ->
+angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
+  $location, $log, $q, $routeParams, $scope, $timeout,
+  _, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv, OpenDataApi,
+  staticApi, topojson, utils, watchComputeSrv ) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
