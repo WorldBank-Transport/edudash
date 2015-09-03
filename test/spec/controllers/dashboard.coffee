@@ -11,13 +11,22 @@ describe 'Controller: DashboardCtrl', ->
     $translateProvider.translations 'en', {}
     $provide.factory 'OpenDataApi', ($q) ->
       getYearAggregates: -> $q.when {}
+      getYears: -> $q.when {}
+      getSchools: -> $q.when []
     $provide.factory 'staticApi', ($q) ->
       getRegions: -> $q.when objects: tz_Regions: []
       getDistricts: -> $q.when objects: tz_districts: []
     $provide.factory 'topojson', ->
-      feature: -> features: []
+      feature: -> features: [{id: 'z', properties: {name: 'z'}}]
     $provide.factory 'loadingSrv', ->
       containerLoad: ->
+    $provide.factory 'L', ->
+      tileLayer: -> addTo: ->
+      geoJson: ->
+      fastCircles: ->
+    $provide.factory 'leafletData', ($q) ->
+      getMap: -> $q.when
+        fitBounds: ->
     null  # explicitly return nothing because angular is awful
 
   # inject the controller and get its scope
@@ -98,6 +107,7 @@ describe 'Controller: DashboardCtrl', ->
       expect($scope.selectedSchoolCode).toBe null
 
     it 'should clear a selected polygon when toggling off', ->
+      $scope.$apply()
       $scope.togglePolygons 'regions'
       $scope.$apply()
       $scope.selectedPolyId = 'z'

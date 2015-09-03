@@ -27,7 +27,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           years: null
           yearAggregates: null
           visMetric: null
-          sortMetric:  null
+          sortMetric: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -223,7 +223,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, $scope.sortMetric
+                  unless $scope.sortMetric?
+                    reject 'SortMetric is not available yet'
+                  else
+                    resolve rankSchools schools, $scope.sortMetric
                 ), reject
 
         watchCompute 'filteredSchools',
