@@ -48,6 +48,7 @@ body {
 .navbar-default .navbar-nav > .open > a:focus {
     color: #FFFFFF;
     background-color: $theme-blue;
+    outline:none;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -154,7 +155,7 @@ h1 {
     margin-top:16px;
     font-size:18px;
     font-weight:700;
-    width:140px;
+    width:120px;
     float:left;
 }
 
@@ -410,6 +411,9 @@ div.cartodb-share a{
     color: #d4d4d4;
     }
   }
+}
+.text-school-list {
+  text-transform: capitalize;
 }
 .ui-select-toggle{
   outline:none;
@@ -722,7 +726,7 @@ table.districts p {
 
 .google-form{
     height: 800px;
-    width:100%;
+    width:60%;
 }
 
 .loading {
@@ -810,6 +814,10 @@ table.districts p {
 }
 
 /*main nav*/
+
+.nav li a:focus{
+  outline:none;
+}
 ul.main-nav{
   margin-top:25px;
 }
@@ -865,7 +873,6 @@ ul.main-nav li ul li a{
   width:465px;
   color: #ffffff;
   padding-left:20px;
-  background: $theme-blue;
   ul{
     border-right:none;
     padding:0px;
@@ -884,13 +891,14 @@ ul.main-nav li ul li a{
 
 .school-dropdown{
   &.dropdown-menu{
-    padding-left:0;
     top:40px;
+    background: $content-bg;
     li {
-      padding:10px 20px;
+      padding:10px 5px;
+      margin-left:-25px;
       a{
         color:darken($body-text-color,45%);
-        padding:5px 0;
+        padding:5px 15px;
         &:hover{
           color: #ffffff;
           background: $theme-blue;
@@ -1118,9 +1126,16 @@ map-bottom-toggle.filters {
   }
 }
 .gauge-title {
-  position: absolute; white-space: nowrap; margin-left: 0px; margin-top: 4px; left: 3px; top: 0px;
+  position: absolute;
+  white-space: nowrap;
+  margin-left: 0px;
+  margin-top: 4px;
+  left: 3px;
+  top: 0px;
 &.withoutchart {
-  margin-top: 5px; left: -5px; top: 64px;
+  margin-top: 5px;
+  left: -5px;
+  top: 64px;
   }
 &.no-margin {
   margin-top: 0px;
@@ -1201,4 +1216,20 @@ map-bottom-toggle.filters {
 .full-size-scroll {
   height: 450px;
   overflow-y: auto;
+}
+
+// gauge chart title in kiswahili
+.swahili-title{
+  line-height:12px;
+  width:120px;
+  text-align:center;
+  padding:0;
+  .chart-title{
+    white-space:normal;
+    line-height:12px;
+  }
+}
+.gauge-title.withoutchart.swahili-title{
+  left:10px;
+  padding:0;
 }
