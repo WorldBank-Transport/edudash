@@ -96,3 +96,11 @@ describe 'Controller: DashboardCtrl', ->
       $scope.togglePolygons 'districts'
       $scope.$apply()
       expect($scope.selectedSchoolCode).toBe null
+
+    it 'should clear a selected polygon when toggling off', ->
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      $scope.selectedPolyId = 'z'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.selectedPolyId).toBe null

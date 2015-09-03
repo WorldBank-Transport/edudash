@@ -368,14 +368,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         $scope.$watch 'polyLayer', -> if $scope.selectedPolyLayer?
           $scope.selectedPolyLayer.then (l) -> l.bringToFront()
 
-        # side-effect: clear selectedLayer sometimes
-        $scope.$watch 'polyType', (newType, oldType) ->
-          unless newType?
-            $scope.selectPoly null
-          else
-            if oldType == 'districts'
-              $scope.selectPoly null
-
         # side-effect: Zoom to selected pin
         $scope.$watch 'selectedSchoolLayer', (newL) -> if newL?
           $q.all
@@ -503,6 +495,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.polyType = polyType
             $scope.setViewMode 'polygons'
           else  # un-toggle
+            $scope.selectPoly null
             $scope.polyType = null
             $scope.setViewMode 'schools'
 
