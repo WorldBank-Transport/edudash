@@ -48,6 +48,7 @@ body {
 .navbar-default .navbar-nav > .open > a:focus {
     color: #FFFFFF;
     background-color: $theme-blue;
+    outline:none;
 }
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -154,7 +155,7 @@ h1 {
     margin-top:16px;
     font-size:18px;
     font-weight:700;
-    width:140px;
+    width:120px;
     float:left;
 }
 
@@ -722,7 +723,7 @@ table.districts p {
 
 .google-form{
     height: 800px;
-    width:100%;
+    width:60%;
 }
 
 .loading {
@@ -810,6 +811,10 @@ table.districts p {
 }
 
 /*main nav*/
+
+.nav li a:focus{
+  outline:none;
+}
 ul.main-nav{
   margin-top:25px;
 }
