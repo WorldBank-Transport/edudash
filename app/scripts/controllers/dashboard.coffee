@@ -499,6 +499,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         togglePolygons = (polyType) ->
           unless $scope.viewMode == 'polygons' and $scope.polyType == polyType
+            $scope.selectSchool null
             $scope.polyType = polyType
             $scope.setViewMode 'polygons'
           else  # un-toggle

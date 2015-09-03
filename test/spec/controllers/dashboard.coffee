@@ -26,61 +26,73 @@ describe 'Controller: DashboardCtrl', ->
     $scope = $rootScope.$new()
     $controller 'DashboardCtrl', $scope: $scope
 
-  it 'poly toggle should switch from schools to regions', ->
-    $scope.setViewMode 'schools'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
-    $scope.togglePolygons 'regions'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'regions'
+  describe 'polyToggle', ->
+    it 'should switch from schools to regions', ->
+      $scope.setViewMode 'schools'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'regions'
 
-  it 'poly toggle should switch from schools to regions', ->
-    $scope.setViewMode 'schools'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
-    $scope.togglePolygons 'districts'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'districts'
+    it 'should switch from schools to districts', ->
+      $scope.setViewMode 'schools'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'districts'
 
-  it 'poly toggle should switch regions/districts', ->
-    $scope.setViewMode 'schools'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
-    $scope.togglePolygons 'regions'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'regions'
-    $scope.togglePolygons 'districts'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'districts'
-    $scope.togglePolygons 'regions'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'regions'
+    it 'should switch regions/districts', ->
+      $scope.setViewMode 'schools'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'regions'
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'districts'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'regions'
 
-  it 'poly toggle should toggle off regions to schools', ->
-    $scope.setViewMode 'schools'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
-    $scope.togglePolygons 'regions'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'regions'
-    $scope.togglePolygons 'regions'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
+    it 'should toggle off regions to schools', ->
+      $scope.setViewMode 'schools'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'regions'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
 
-  it 'poly toggle should toggle off districts to schools', ->
-    $scope.setViewMode 'schools'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
-    $scope.togglePolygons 'districts'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'polygons'
-    expect($scope.polyType).toEqual 'districts'
-    $scope.togglePolygons 'districts'
-    $scope.$apply()
-    expect($scope.viewMode).toEqual 'schools'
+    it 'should toggle off districts to schools', ->
+      $scope.setViewMode 'schools'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'districts'
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'schools'
+
+    it 'should deselect a selected school when switching to a polygon view', ->
+      $scope.selectedSchoolCode = 'z'
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      expect($scope.selectedSchoolCode).toBe null
+
+      $scope.selectedSchoolCode = 'z'
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.selectedSchoolCode).toBe null
