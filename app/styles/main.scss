@@ -891,13 +891,14 @@ ul.main-nav li ul li a{
 
 .school-dropdown{
   &.dropdown-menu{
-    padding-left:0;
     top:40px;
+    background: $content-bg;
     li {
-      padding:10px 20px;
+      padding:10px 5px;
+      margin-left:-25px;
       a{
         color:darken($body-text-color,45%);
-        padding:5px 0;
+        padding:5px 15px;
         &:hover{
           color: #ffffff;
           background: $theme-blue;
