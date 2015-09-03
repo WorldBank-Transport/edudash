@@ -48,6 +48,8 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
       if opts.waitForPromise?
         unless typeof opts.waitForPromise == 'boolean'
           throw new Error 'opts.waitForPromise must be a boolean'
+      if what in opts.dependencies
+        throw new Error 'Name to compute cannot be a dependency'
 
       oldVals = (null for d in opts.dependencies)
 
