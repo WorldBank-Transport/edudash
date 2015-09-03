@@ -35,6 +35,8 @@ angular.module 'edudashAppDir'
             spacingLeft: 1
           credits:
             enabled: false
+          tooltip:
+            enabled: false
           title:
             text: "<div class='col-md-12 gauge-title'>
                     <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
