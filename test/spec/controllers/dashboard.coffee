@@ -17,16 +17,21 @@ describe 'Controller: DashboardCtrl', ->
       getRegions: -> $q.when objects: tz_Regions: []
       getDistricts: -> $q.when objects: tz_districts: []
     $provide.factory 'topojson', ->
-      feature: -> features: [{id: 'z', properties: {name: 'z'}}]
+      feature: -> features: [{id: 'Z', properties: {name: 'Z'}}]
     $provide.factory 'loadingSrv', ->
       containerLoad: ->
     $provide.factory 'L', ->
       tileLayer: -> addTo: ->
       geoJson: ->
+        bringToFront: ->
+        eachLayer: ->
+        getBounds: ->
       fastCircles: ->
     $provide.factory 'leafletData', ($q) ->
       getMap: -> $q.when
+        addLayer: ->
         fitBounds: ->
+        removeLayer: ->
     null  # explicitly return nothing because angular is awful
 
   # inject the controller and get its scope
@@ -96,12 +101,12 @@ describe 'Controller: DashboardCtrl', ->
       expect($scope.viewMode).toEqual 'schools'
 
     it 'should deselect a selected school when switching to a polygon view', ->
-      $scope.selectedSchoolCode = 'z'
+      $scope.selectedSchoolCode = 'Z'
       $scope.togglePolygons 'regions'
       $scope.$apply()
       expect($scope.selectedSchoolCode).toBe null
 
-      $scope.selectedSchoolCode = 'z'
+      $scope.selectedSchoolCode = 'Z'
       $scope.togglePolygons 'districts'
       $scope.$apply()
       expect($scope.selectedSchoolCode).toBe null
@@ -110,7 +115,32 @@ describe 'Controller: DashboardCtrl', ->
       $scope.$apply()
       $scope.togglePolygons 'regions'
       $scope.$apply()
-      $scope.selectedPolyId = 'z'
+      $scope.selectedPolyId = 'Z'
       $scope.togglePolygons 'regions'
       $scope.$apply()
       expect($scope.selectedPolyId).toBe null
+
+  describe 'selectPoly', ->
+    it 'should transition region polyType to district', ->
+      $scope.$apply()
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      $scope.selectPoly 'Z'
+      $scope.$apply()
+      expect($scope.polyType).toEqual 'districts'
+
+    it 'should transition district polyType to schools', ->
+      $scope.$apply()
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      $scope.selectPoly 'Z'
+      $scope.$apply()
+      expect($scope.viewMode).toBe 'schools'
+
+    it 'should maintain the selected district poly when it is selected', ->
+      $scope.$apply()
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      $scope.selectPoly 'Z'
+      $scope.$apply()
+      expect($scope.selectedPolyId).toEqual 'Z'

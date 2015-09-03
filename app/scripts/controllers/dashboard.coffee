@@ -108,7 +108,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([viewMode, year, rest...]) ->
             if year? then loadSchools viewMode, year, rest...
             else
-              null
+              []
 
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
@@ -208,7 +208,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           dependencies: ['detailedPolys']
           computer: ([polygons]) -> $q (resolve, reject) ->
             unless polygons?
-              resolve null
+              resolve {}
             else
               resolve polygons.reduce ((map, polygon) ->
                 map[polygon.id] = polygon
