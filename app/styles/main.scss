@@ -412,6 +412,9 @@ div.cartodb-share a{
     }
   }
 }
+.text-school-list {
+  text-transform: capitalize;
+}
 .ui-select-toggle{
   outline:none;
   -webkit-border-radius: 0;
@@ -870,7 +873,6 @@ ul.main-nav li ul li a{
   width:465px;
   color: #ffffff;
   padding-left:20px;
-  background: $theme-blue;
   ul{
     border-right:none;
     padding:0px;
