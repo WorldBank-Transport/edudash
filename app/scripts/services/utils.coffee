@@ -105,5 +105,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
     mapP.then (mapObj) -> $q (resolve, reject) ->
       unless typeof mapObj == 'object'
         reject "Promise `mapP` must resolve to an object. Got '#{typeof mapObj}'"
+      else if mapObj == null
+        reject "Promise `mapP` must resolve to an object. Got 'null'"
       else
         resolve mapObj[id] or null

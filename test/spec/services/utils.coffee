@@ -234,3 +234,10 @@ describe 'utils', ->
       expect found2
         .toBe s
 
+    it 'should validate that the map is not null (regression)', ->
+      caught = null
+      u.lookup $q.when(null), 'z'
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "Promise `mapP` must resolve to an object. Got 'null'"
