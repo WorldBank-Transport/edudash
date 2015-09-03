@@ -442,6 +442,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
+        # hack to adjust flyout bottom spacing to not overlap filters when present
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
 
