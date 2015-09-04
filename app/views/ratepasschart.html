@@ -10,9 +10,9 @@
           ng-repeat="i in getTimes(selectedSchool.PASS_RATE/10) track by $index"></div>
       <div
           class="pass-rate"
-          ng-class="{'girl-pass-grey': (selectedSchool.PASS_RATE/10 + $index) % 2 !== 0,
-                     'boy-pass-grey': (selectedSchool.PASS_RATE/10 + $index) % 2 === 0}"
-          ng-repeat="i in getTimes(10-(selectedSchool.PASS_RATE/10)) track by $index"></div>
+          ng-class="{'girl-pass-grey': (parseInt(selectedSchool.PASS_RATE/10) + $index) % 2 != 0,
+                     'boy-pass-grey': (parseInt(selectedSchool.PASS_RATE/10) + $index) % 2 == 0}"
+          ng-repeat="i in getTimes(10-selectedSchool.PASS_RATE/10) track by $index"></div>
     </div>
   </div>
   <div class="row" ng-if="selectedSchool.PASS_RATE === 0">
