@@ -7,7 +7,7 @@
  # # passRateChange
 ###
 angular.module 'edudashAppDir'
-  .directive 'passRateChange', ['bracketsSrv', (bracketsSrv)->
+  .directive 'passRateChange', (bracketsSrv)->
     restrict: 'EA'
     templateUrl: 'views/ratepasschange.html'
     scope:
@@ -30,4 +30,3 @@ angular.module 'edudashAppDir'
           when data > 0 then '+ '
           when data == 0 then '= '
           else ''
-  ]

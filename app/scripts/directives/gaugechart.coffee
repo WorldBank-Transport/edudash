@@ -7,18 +7,15 @@
  # # gaugeChart
 ###
 angular.module 'edudashAppDir'
-  .directive 'gaugeChart', [
-    '$translate', 'colorSrv', 'bracketsSrv'
-
-    ($translate, colorSrv, brackets) ->
+  .directive 'gaugeChart', ($translate, colorSrv, bracketsSrv) ->
       restrict: 'EA'
       template: '<div class="loading"></div>'
       link: (scope, element, attrs) ->
         gaugeValue = undefined
         update = (value) ->
           gaugeValue = value
-          ranges = brackets.getBrackets(attrs.property)
-          labelColor = colorSrv.color brackets.getBracket value, attrs.property
+          ranges = bracketsSrv.getBrackets(attrs.property)
+          labelColor = colorSrv.color bracketsSrv.getBracket value, attrs.property
 
           width = element.parent().width()
           gaugeOptions =
@@ -94,19 +91,19 @@ angular.module 'edudashAppDir'
                 {
                   from: ranges[0]
                   to: ranges[1]
-                  color: colorSrv.color brackets.getBracket ranges[0]+1, attrs.property
+                  color: colorSrv.color bracketsSrv.getBracket ranges[0]+1, attrs.property
                   thickness: '25%'
                 }
                 {
                   from: ranges[1]
                   to: ranges[2]
-                  color: colorSrv.color brackets.getBracket ranges[1]+1, attrs.property
+                  color: colorSrv.color bracketsSrv.getBracket ranges[1]+1, attrs.property
                   thickness: '25%'
                 }
                 {
                   from: ranges[2]
                   to: ranges[3]
-                  color: colorSrv.color brackets.getBracket ranges[2]+1, attrs.property
+                  color: colorSrv.color bracketsSrv.getBracket ranges[2]+1, attrs.property
                   thickness: '25%'
                 }
               ]
@@ -151,4 +148,3 @@ angular.module 'edudashAppDir'
               style:
                 color: '#05a2dc'
             chart.setTitle(titleObj)
-  ]

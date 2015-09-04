@@ -7,9 +7,7 @@
  # # ratePassChart
 ###
 angular.module 'edudashAppDir'
-.directive 'pupilTeacherRatioChart', [
-    '$log', 'bracketsSrv'
-    ($log, bracketsSrv) ->
+.directive 'pupilTeacherRatioChart', ($log, bracketsSrv) ->
       restrict: 'E'
       templateUrl: 'views/pupilteacherratiochart.html'
       scope: {
@@ -25,5 +23,3 @@ angular.module 'edudashAppDir'
             when bracketsSrv.getBracket(value, 'PUPIL_TEACHER_RATIO') == 'MEDIUM' then 'yellow'
             when bracketsSrv.getBracket(value, 'PUPIL_TEACHER_RATIO') == 'GOOD' then 'green'
           "#{sex}-#{color}"
-
-  ]
