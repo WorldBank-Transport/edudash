@@ -36,11 +36,14 @@
 <flyout-number
   name="{{ 'chart.title.national-raking' |translate }}"
   value="lastHovered.properties.ranks.NATIONAL.rank"
-  suffix="(of {{ lastHovered.properties.ranks.NATIONAL.total}})">
+  suffix="(of {{ lastHovered.properties.ranks.NATIONAL.total}})"
+  suffixclass="small-rank">
 </flyout-number>
 <flyout-number
   ng-if="lastHovered.properties.ranks.REGIONAL"
   name="{{ 'chart.title.rank-region' |translate }}"
   value="lastHovered.properties.ranks.REGIONAL.rank"
-  suffix="(of {{ lastHovered.properties.ranks.REGIONAL.total}})">
+  suffix="(of {{ lastHovered.properties.ranks.REGIONAL.total}})"
+  suffixclass="small-rank">
+
 </flyout-number>

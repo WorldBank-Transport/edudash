@@ -102,6 +102,9 @@
     "map.selected.avg-mark": "Alama wastani",
     "map.selected.avg-gpa": "Kiwango wastani cha GPA",
     "map.missing-data": "Takwimu Kukosa",
+    "map.selected.govt-schools": "shule za serikali",
+    "map.selected.non-govt-schools": "Shule za Binafsi",
+    "map.selected.unknown-schools": "Umiliki Haujulikani",
 
     "sidepanel.title.primary": "Dashibodi ya shule za Msingi",
     "sidepanel.title.secondary": "Dashibodi ya Shule za Upili",
