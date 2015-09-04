@@ -61,9 +61,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # state transitioners
         angular.extend $scope,
           setYear: (newYear) -> $scope.year = newYear
-          setViewMode: (newMode) ->
-            $scope.viewMode = newMode
-            $scope.polyType = null # This is needed to avoid select polyType
+          setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setPolyType: (polyType) -> $scope.polyType = polyType
           togglePolygons: (polyType) -> togglePolygons polyType
