@@ -4,5 +4,5 @@
 </p>
 <p class="number {{ bracketer ? getBracket(value, bracketer) : 'NOCOLOR' }}"
     ng-show="value|exists">
-  {{ present ? present(value) : value }} {{ suffix }}
+  {{ present ? present(value) : value }} <span class="{{ suffixclass }}">{{ suffix }}</span>
 </p>

@@ -152,3 +152,10 @@ describe 'watchComputeSrv', ->
     $scope.$digest()
     expect $scope.aUnwrapped
       .toBe 1
+
+  it 'should ensure it is not computing one of its dependencies', ->
+    expect(->
+      (watchComputeSrv $scope) 'z',
+        dependencies: ['z']
+        computer: ->
+    ).toThrow new Error 'Name to compute cannot be a dependency'

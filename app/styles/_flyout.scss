@@ -27,6 +27,7 @@
     font-size: 1em;
     font-weight: normal;
     color: #444;
+    text-transform: capitalize;
   }
   h4 {
     font-style: italic;
@@ -57,5 +58,8 @@
   header .stat .number {
     font-size: 2em;
     color: #666;
+  }
+  .small-rank {
+    font-size: 0.8em;
   }
 }

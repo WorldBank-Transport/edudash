@@ -18,25 +18,31 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
     $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
     staticApi, watchComputeSrv, brackets, utils) ->
 
+        if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
+          $timeout -> $location.path '/'
+
         # app state
         angular.extend $scope,
           year: null  # set after init
           years: null
           yearAggregates: null
           visMetric: null
-          sortMetric:  null
+          sortMetric: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
           polyType: null
           hovered: null
           lastHovered: null
-          selectedCode: null
-          selected: null
-          selectedLayer: null
           allSchools: null
           filteredSchools: null
           pins: null
+          selectedSchoolCode: null
+          selectedSchool: null
+          selectedSchoolLayer: null
+          selectedPolyId: null
+          selectedPoly: null
+          selectedPolyLayer: null
           rankBy: null  # performance or improvement for primary
           rankedBy: null
           moreThan40: null  # students, for secondary schools
@@ -58,18 +64,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
+          setPolyType: (polyType) -> $scope.polyType = polyType
           togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
           unHover: -> $scope.hovered = null
-          select: (code) -> $scope.selectedCode = code
+          selectSchool: (code) -> $scope.selectedSchoolCode = code
+          selectPoly: (id) -> $scope.selectedPolyId = id
           search: (q) -> search q
           hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
           getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
           goNationalView: ->
-            $scope.selected=undefined
+            $scope.selectedSchool = null
             leafletData.getMap(mapId).then (map) ->
               map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
 
@@ -101,7 +109,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           computer: ([viewMode, year, rest...]) ->
             if year? then loadSchools viewMode, year, rest...
             else
-              null
+              []
 
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
@@ -185,7 +193,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'schoolCodeMap',
           dependencies: ['viewMode', 'allSchools']
-          waitForPromise: true  # unwraps the promise
           computer: ([viewMode, allSchools]) -> $q (resolve, reject) ->
             unless viewMode == 'schools' and allSchools?
               resolve null
@@ -200,11 +207,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         watchCompute 'polyIdMap',
           dependencies: ['detailedPolys']
-          computer: ([polygons]) ->
+          computer: ([polygons]) -> $q (resolve, reject) ->
             unless polygons?
-              null
+              resolve {}
             else
-              polygons.reduce ((map, polygon) ->
+              resolve polygons.reduce ((map, polygon) ->
                 map[polygon.id] = polygon
                 map
               ), {}
@@ -217,7 +224,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             else
               $q (resolve, reject) ->
                 allSchools.then ((schools) ->
-                  resolve rankSchools schools, $scope.sortMetric
+                  unless $scope.sortMetric?
+                    reject 'SortMetric is not available yet'
+                  else
+                    resolve rankSchools schools, $scope.sortMetric
                 ), reject
 
         watchCompute 'filteredSchools',
@@ -271,101 +281,152 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           dependencies: ['hovered']
           computer: ([thing], [oldThing]) -> thing or oldThing
 
-        watchCompute 'selected',
-          dependencies: ['selectedCode', 'viewMode']
+        watchCompute 'selectedSchool',
+          dependencies: ['schoolCodeMap', 'selectedSchoolCode']
           waitForPromise: true
-          computer: ([code, viewMode]) ->
-            unless code?
-              $q.when null
-            else switch viewMode
-              when 'schools' then findSchool code
-              when 'polygons' then findPoly code
-              else $q (resolve, reject) -> reject "Unknown viewMode: '#{viewMode}'"
+          computer: ([map, code]) ->
+            $q.when if code? then (utils.lookup map, code) else null
 
-        watchCompute 'selectedLayer',
-          dependencies: ['selectedCode', 'selected', 'viewMode']
-          computer: ([code, thing, viewMode]) ->
-            unless code? and thing?
-              null
-            else switch viewMode
-              when 'schools' then layersSrv.marker
-                latlng: [thing.LATITUDE, thing.LONGITUDE]
-                options: icon: layersSrv.awesomeIcon
-                  markerColor: 'blue'
-                  icon: 'map-marker'
-              when 'polygons' then layersSrv.getGeojsonLayer
-                getData: -> $q.when thing
-                options: onEachFeature: (feature, layer) ->
-                  colorPoly feature, layer
-                  layer.setStyle colorSrv.polygonSelect()
-              else throw new Error 'blah blah blah'
+        watchCompute 'selectedPoly',
+          dependencies: ['polyIdMap', 'selectedPolyId']
+          waitForPromise: true
+          computer: ([map, id], [..., oldId]) ->
+            if id?  # something is selected, get it
+              if id != oldId  # A new polygon is selected
+                utils.lookup map, id
+              else
+                # So, we're only here because polyIdMap updated,
+                # which happens when we switch regions -> districts
+                # or districts -> schools.
+                # But the id hasn't changed, so we don't want to
+                # make a new selection.
+                # ... we want to keep the old polygon selected
+                $q.when $scope.selectedPoly
+            else
+              # nothing is selected, so really reset now
+              $q.when null
+
+        watchCompute 'selectedSchoolLayer',
+          dependencies: ['selectedSchool']
+          computer: ([school]) -> if school?
+            layersSrv.marker
+              latlng: [school.LATITUDE, school.LONGITUDE]
+              options: icon: layersSrv.awesomeIcon
+                markerColor: 'blue'
+                icon: 'map-marker'
+
+        watchCompute 'selectedPolyLayer',
+          dependencies: ['selectedPoly']
+          computer: ([poly]) -> if poly?
+            layersSrv.getGeojsonLayer
+              getData: -> $q.when poly
+              options: onEachFeature: (feature, layer) ->
+                colorPoly feature, layer
+                layer.setStyle colorSrv.polygonSelect()
 
         # add and remove computed layers from the map
         watchToLayer 'pins'
         watchToLayer 'polyLayer'
-        watchToLayer 'selectedLayer'
+        watchToLayer 'selectedSchoolLayer'
+        watchToLayer 'selectedPolyLayer'
 
-        # side-effects only
+        # side-effect: show spinner on the map when schools are loading
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
           loadingSrv.containerLoad schoolsP, document.getElementById mapId
+
+        # side-effect: re-select a school after the year changes
+        $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
           schoolsP.then (schools) ->
-            if $scope.selected? and $scope.viewMode == 'schools'
-              $scope.selectedCodeYear =  # TODO: fix issue with 'selected' watchCompute and remove this assignment
-                code: $scope.selected.CODE
+            if $scope.selectedSchool? and $scope.viewMode == 'schools'
+              $scope.selectedCodeYear =  # TODO: fix issue with 'selectedSchool' watchCompute and remove this assignment
+                code: $scope.selectedSchool.CODE
                 year: $scope.year
-              $scope.select $scope.selected.CODE
+              $scope.selectSchool $scope.selectedSchool.CODE
 
         # TODO: fix issue with 'selected' watchCompute and remove this entire $watch
         $scope.$watch 'selectedCodeYear', (selectedCodeYear) -> if selectedCodeYear?
-          (findSchool selectedCodeYear.code).then (school)->
-            $scope.selected = school
+          (utils.lookup $scope.schoolCodeMap, selectedCodeYear.code).then (school) ->
+            $scope.selectedSchool = school
 
-        # side-effect: map spinner for polygons load
+        # side-effect: show spinner on the map for polygons load
         $scope.$watch 'polygons', (polysP) -> if polysP?
           loadingSrv.containerLoad polysP, document.getElementById mapId
 
-        # side-effect: ensure that a selectedLayer is always in front, if exists
-        $scope.$watch 'polyLayer', -> if $scope.selectedLayer?
-          $scope.selectedLayer.then (l) -> l.bringToFront()
+        # side-effect: load full school data when the school is selected
+        $scope.$watch 'selectedSchool', (school) -> if school? and $scope.viewMode == 'schools'
 
-        # side-effect: clear selectedLayer sometimes
-        $scope.$watch 'polyType', (newType, oldType) ->
-          unless newType?
-            $scope.select null
-          else
-            if oldType == 'districts'
-              $scope.select null
+          # Add rankings to the school object
+          [ob, desc] = brackets.getRank $scope.schoolType
+          $q.all
+              national: (rank school, 'NATIONAL', [ob, desc])
+              region: (rank school, 'REGION', [ob, desc])
+              district: (rank school, 'DISTRICT', [ob, desc])
+            .then (ranks) ->
+              school.ranks = ranks
 
-        # side-effect: zoom in to selected polyLayer
-        $scope.$watch 'selectedLayer', (newL) -> if newL?
-          if $scope.viewMode == 'polygons'
-            $q.all
-                map: leafletData.getMap(mapId)
-                layer: newL
-              .then ({map, layer}) ->
-                map.fitBounds layer.getBounds()
-            if $scope.polyType = 'regions'
-              # clicked a region -- switch to districts mode
-              $scope.polyType = 'districts'
+          # Add passrate over time data to the school object
+          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
+            .then (data) ->
+              school.yearAggregates =
+                values: _(data).reduce ((agg, year) ->
+                  agg[year.YEAR_OF_RESULT] =
+                    PASS_RATE: year.PASS_RATE
+                    color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
+                  agg
+                ), {}
+                years: $scope.years
+              thisYear = school.yearAggregates.values[$scope.year]
+              lastYear = school.yearAggregates.values[$scope.year - 1]
+              if lastYear?
+                school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
+              # else undefined
+
+        # side-effect: ensure that a selectedPolyLayer is always in front, if exists
+        $scope.$watch 'polyLayer', -> if $scope.selectedPolyLayer?
+          $scope.selectedPolyLayer.then (l) -> l.bringToFront()
+
+        # side-effect: Zoom to selected pin
+        $scope.$watch 'selectedSchoolLayer', (newL) -> if newL?
+          $q.all
+              map: leafletData.getMap mapId
+              layer: newL
+            .then ({map, layer}) ->
+              map.setView layer.getLatLng(), (Math.max 9, map.getZoom())
+
+        # side-effect: Zoom to selected polygon
+        $scope.$watch 'selectedPolyLayer', (newL) -> if newL?
+          $q.all
+              map: leafletData.getMap mapId
+              layer: newL
+            .then ({map, layer}) ->
+              map.fitBounds layer.getBounds()
+
+        # side-effect: Transition view mode when polygon is selected
+        $scope.$watch 'selectedPolyLayer', (newL) -> if newL?
+          if $scope.polyType == 'regions'
+            $scope.setPolyType 'districts'
+          else if $scope.polyType == 'districts'
+            $scope.setViewMode 'schools'
+            $scope.setPolyType null
+
+        # side-effect: zoom to bounds if nothing selected
+        $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
+          unless $scope.selectedPolyId?
+            leafletData.getMap mapId
+              .then (map) -> map.fitBounds polyLayer.getBounds()
 
         # side-effects only
         $scope.$watchGroup ['pins', 'visMode'], ([pins]) -> if pins?
           pins.eachVisibleLayer colorPin
-
-        # side-effects: zoom to bounds if nothing selected
-        $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
-          unless $scope.selectedLayer?
-            leafletData.getMap mapId
-              .then (map) -> map.fitBounds polyLayer.getBounds()
 
         # side-effects only
         $scope.$watchGroup ['polyLayer', 'polyIdMap'],
           ([polyLayer, polyIdMap]) ->
             if polyLayer? and polyIdMap?
               polyLayer.eachLayer (layer) ->
-                feature = polyIdMap[layer.feature.id]
-                if feature?
-                  colorPoly feature, layer
+                utils.lookup(polyIdMap, layer.feature.id).then (feature) ->
+                  if feature?
+                    colorPoly feature, layer
 
         # side-effects only
         $scope.$watch 'hovered', (thing, oldThing) ->
@@ -377,8 +438,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
-                if $scope.selectedLayer?  # never go in front of a selected layer
-                  $scope.selectedLayer.then (l) -> l.bringToFront()
+                if $scope.selectedPolyLayer?  # never go in front of a selected layer
+                  $scope.selectedPolyLayer.then (l) -> l.bringToFront()
                 rankPoly thing
 
           if oldThing != null
@@ -388,17 +449,34 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
-        # side-effects only
-        $scope.$watch 'selected', (thing) -> if thing?
-          if $scope.viewMode == 'schools'
-            setSchool thing
-          else if $scope.viewMode == 'polygons'
-            # pass
-          else
-            $log.warn "Unknown viewMode to update selected: '#{$scope.viewMode}'"
-
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
+
+        # widget local state (maybe should move to other directives)
+        $scope.searchText = "dar"
+        $scope.schoolsChoices = []
+
+        # INIT
+        leafletData.getMap(mapId).then (map) ->
+          # initialize the map view
+          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
+          # add the basemap
+          layersSrv.getTileLayer
+              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+              id: 'worldbank-education.map-5e5fgg2o'
+              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
+            .then (layer) -> layer.addTo map
+          # set up the initial view
+          $scope.setViewMode 'schools'
+          if $scope.schoolType == 'primary'
+            $scope.rankBy = 'performance'
+          $scope.setYear 2014  # hard-coded default to speed up page-load
+          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
+          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
+            .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
+          # fix the map's container awareness (it gets it wrong)
+          $timeout (-> map.invalidateSize()), 1
+
 
         loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
           OpenDataApi.getSchools
@@ -429,75 +507,29 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   geometry: feature.geometry
               .catch reject
 
+        # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
-          unless $scope.viewMode == 'polygons' and $scope.polyType == polyType
-            $scope.polyType = polyType
-            $scope.setViewMode 'polygons'
-          else  # un-toggle
-            $scope.polyType = null
+          # in every case, deselect any schools and polygons
+          $scope.selectSchool null
+          $scope.selectPoly null
+          if polyType == $scope.polyType  # un-toggle
+            $scope.setPolyType null
             $scope.setViewMode 'schools'
+          else if $scope.viewMode == 'schools'  # clicked one of the tabs
+            $scope.setViewMode 'polygons'
+            $scope.setPolyType polyType
+          else  # poly -> poly by clicking tab, eg., districts to regions
+            $scope.setPolyType polyType
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
-            findSchool id
+            utils.lookup $scope.schoolCodeMap, id
               .then (s) -> $scope.hovered = s
               .catch $log.error
           else if $scope.viewMode == 'polygons'
-            findPoly id
+            utils.lookup $scope.polyIdMap, id
               .then (r) -> $scope.hovered = r
               .catch $log.error
-
-        setSchool = (school) ->
-          latlng = [school.LATITUDE, school.LONGITUDE]
-          leafletData.getMap(mapId).then (map) ->
-            map.setView latlng, (Math.max 9, map.getZoom())
-          [ob, desc] = brackets.getRank $scope.schoolType
-          unless school.ranks?
-            $q.all
-                national: (rank school, 'NATIONAL', [ob, desc])
-                region: (rank school, 'REGION', [ob, desc])
-                district: (rank school, 'DISTRICT', [ob, desc])
-              .then (ranks) ->
-                school.ranks = ranks
-
-          unless school.yearAggregates?
-            OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
-              .then (data) ->
-                school.yearAggregates =
-                  values: _(data).reduce ((agg, year) ->
-                    agg[year.YEAR_OF_RESULT] =
-                      PASS_RATE: year.PASS_RATE
-                      color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
-                    agg
-                  ), {}
-                  years: $scope.years
-                thisYear = school.yearAggregates.values[$scope.year]
-                lastYear = school.yearAggregates.values[$scope.year - 1]
-                if lastYear?
-                  school.CHANGE_PREVIOUS_YEAR_PASSRATE = thisYear.PASS_RATE - lastYear.PASS_RATE
-                # else undefined
-
-        findSchool = (code) ->
-          $q (resolve, reject) ->
-            if $scope.allSchools? and $scope.schoolCodeMap?
-              findIt = (schools) ->
-                if $scope.schoolCodeMap[code]?
-                  resolve $scope.schoolCodeMap[code]
-                else
-                  reject "Could not find school by code '#{code}'"
-              $scope.allSchools.then findIt, reject
-            else
-              reject 'No schools to find from'
-
-        findPoly = (id) ->
-          $q (resolve, reject) ->
-            if $scope.polyIdMap?
-              if $scope.polyIdMap[id]?
-                resolve $scope.polyIdMap[id]
-              else
-                reject "Could not find polygon by id '#{id}'"
-            else
-              reject 'No polygons to find from'
 
         # side-effect: mutates poly (gross, but...)
         rankPoly = (poly) ->
@@ -558,35 +590,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           )
 
 
-        # widget local state (maybe should move to other directives)
-        $scope.searchText = "dar"
-        $scope.schoolsChoices = []
-
-        if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
-          $timeout -> $location.path '/'
-
-        # INIT
-        leafletData.getMap(mapId).then (map) ->
-          # initialize the map view
-          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
-          # add the basemap
-          layersSrv.getTileLayer
-              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-              id: 'worldbank-education.map-5e5fgg2o'
-              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
-            .then (layer) -> layer.addTo map
-          # set up the initial view
-          $scope.setViewMode 'schools'
-          if $scope.schoolType == 'primary'
-            $scope.rankBy = 'performance'
-          $scope.setYear 2014  # hard-coded default to speed up page-load
-          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
-          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
-            .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
-          # fix the map's container awareness (it gets it wrong)
-          $timeout (-> map.invalidateSize()), 1
-
-
         processPin = (code, layer) ->
           colorPin code, layer
           layer.on 'mouseover', -> $scope.$apply ->
@@ -594,7 +597,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           layer.on 'mouseout', -> $scope.$apply ->
             $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $scope.select code
+            $scope.selectSchool code
 
         processPoly = (feature, layer) ->
           colorPoly feature, layer
@@ -603,11 +606,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           layer.on 'mouseout', -> $scope.$apply ->
             $scope.unHover()
           layer.on 'click', -> $scope.$apply ->
-            $scope.select feature.id
+            $scope.selectPoly feature.id
 
 
         colorPin = (code, layer) ->
-          findSchool(code).then (school) ->
+          utils.lookup($scope.schoolCodeMap, code).then (school) ->
             val = school[$scope.visMetric]
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
@@ -667,7 +670,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         search = (query) ->
           if query?
             OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
-              .then (data) -> $q.all _(data).map (s) -> findSchool s.CODE
+              .then (data) -> $q.all _(data).map (s) -> utils.lookup $scope.schoolCodeMap, s.CODE
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools

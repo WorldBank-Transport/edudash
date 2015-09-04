@@ -15,6 +15,7 @@ angular.module 'edudashApp'
       value: '='
       present: '='
       suffix: '@'
+      suffixclass: '@'
       bracketer: '@'
     link: (scope, el, attrs) ->
       el.addClass 'stat'

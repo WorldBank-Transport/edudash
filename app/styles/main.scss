@@ -729,30 +729,19 @@ table.districts p {
     width:60%;
 }
 
+
 .loading {
-  background-image: url(images/loading-icon.gif);
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 100px;
-  height: 80px;
-}
-
-.loading.ajax-loader {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:1000;
-  background-color:grey;
-  opacity: .8;
-}
-
-.ajax-loader {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  display: block;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(127, 127, 127, 0.8) url(images/loading-icon.gif) 50% 50% no-repeat;
+
+  &.ajax-failed {
+    background-image: url(images/loading-failed.png);
+  }
 }
 
 /*header*/
@@ -880,7 +869,6 @@ ul.main-nav li ul li a{
   }
   li{
     float:left;
-    color: #ffffff;
     padding:8px 20px;
   &:hover{
     font-weight:bold;
