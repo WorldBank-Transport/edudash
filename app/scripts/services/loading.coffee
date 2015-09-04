@@ -15,4 +15,5 @@ angular.module('edudashAppSrv').factory 'loadingSrv', ($log) ->
       .then -> container.removeChild loader
       .catch (err) ->
         loader.remove()
+        container.appendChild ($ '<div class="loading ajax-failed"></div>')[0]
         $log.error err
