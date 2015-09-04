@@ -139,6 +139,14 @@ describe 'Controller: DashboardCtrl', ->
       $scope.$apply()
       expect($scope.viewMode).toBe 'schools'
 
+    it 'should maintain the selected region poly when it is selected', ->
+      $scope.$apply()
+      $scope.togglePolygons 'regions'
+      $scope.$apply()
+      $scope.selectPoly 'A'
+      $scope.$apply()
+      expect($scope.selectedPolyId).toEqual 'A'
+
     it 'should maintain the selected district poly when it is selected', ->
       $scope.$apply()
       $scope.togglePolygons 'districts'

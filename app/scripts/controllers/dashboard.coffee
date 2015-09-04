@@ -64,6 +64,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
           setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
+          setPolyType: (polyType) -> $scope.polyType = polyType
           togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
           keepHovered: -> $scope.hovered = $scope.lastHovered
@@ -390,10 +391,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         # side-effect: Transition view mode when polygon is selected
         $scope.$watch 'selectedPolyLayer', (newL) -> if newL?
           if $scope.polyType == 'regions'
-            $scope.togglePolygons 'districts'
+            $scope.setPolyType 'districts'
           else if $scope.polyType == 'districts'
             $scope.setViewMode 'schools'
-            $scope.polyType = null
+            $scope.setPolyType null
 
         # side-effect: zoom to bounds if nothing selected
         $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
@@ -499,13 +500,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           $scope.selectSchool null
           $scope.selectPoly null
           if polyType == $scope.polyType  # un-toggle
-            $scope.polyType = null
+            $scope.setPolyType null
             $scope.setViewMode 'schools'
           else if $scope.viewMode == 'schools'  # clicked one of the tabs
             $scope.setViewMode 'polygons'
-            $scope.polyType = polyType
+            $scope.setPolyType polyType
           else  # poly -> poly by clicking tab, eg., districts to regions
-            $scope.polyType = polyType
+            $scope.setPolyType polyType
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
