@@ -70,7 +70,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
         when 'PUPIL_TEACHER_RATIO' then switch
           when this.PUPIL_TEACHER_RATIO_MIN < val < this.PUPIL_TEACHER_RATIO_MID1 then 'GOOD'
           when this.PUPIL_TEACHER_RATIO_MID1 <= val <= this.PUPIL_TEACHER_RATIO_MID2 then 'MEDIUM'
-          when val > this.PUPIL_TEACHER_RATIO_MAX then 'POOR'
+          when val > this.PUPIL_TEACHER_RATIO_MID2 then 'POOR'
           else 'UNKNOWN'
 
         else throw new Error "Unknown metric: '#{metric}'"
