@@ -862,6 +862,7 @@ ul.main-nav li ul li a{
   width:465px;
   color: #ffffff;
   padding-left:20px;
+  background: $theme-blue;
   ul{
     border-right:none;
     padding:0px;
@@ -870,6 +871,7 @@ ul.main-nav li ul li a{
   li{
     float:left;
     padding:8px 20px;
+    color: $content-bg;
   &:hover{
     font-weight:bold;
     cursor: pointer;
