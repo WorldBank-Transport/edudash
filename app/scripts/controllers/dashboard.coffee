@@ -9,8 +9,8 @@
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
   $location, $log, $q, $routeParams, $scope, $timeout,
-  _, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv, OpenDataApi,
-  staticApi, utils, watchComputeSrv ) ->
+  _, api, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv,
+  utils, watchComputeSrv ) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
@@ -100,7 +100,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
           computer: ([viewMode, year, rest...]) ->
-            if year? then OpenDataApi.getSchools year, rest...
+            if year? then api.getSchools year, rest...
             else
               $q.when []
 
@@ -127,8 +127,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               null
             else
               switch polyType
-                when 'regions' then staticApi.getRegions()
-                when 'districts' then staticApi.getDistricts()
+                when 'regions' then api.getRegions()
+                when 'districts' then api.getDistricts()
                 else (
                   $log.warn "unknown polyType '#{polyType}'"
                   null
@@ -174,7 +174,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           dependencies: ['schoolType', 'rankBy', 'moreThan40'],
           waitForPromise: true,
           computer: ([schoolType, rankBy, moreThan40]) -> $q (resolve, reject) ->
-            OpenDataApi.getYearAggregates schoolType, rankBy, moreThan40
+            api.getYearAggregates schoolType, rankBy, moreThan40
               .then (years) ->
                 resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
@@ -358,7 +358,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               school.ranks = ranks
 
           # Add passrate over time data to the school object
-          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
+          api.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
             .then (data) ->
               school.yearAggregates =
                 values: _(data).reduce ((agg, year) ->
@@ -466,7 +466,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
           $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
-          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
+          api.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
           $timeout (-> map.invalidateSize()), 1
@@ -633,7 +633,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         search = (query) ->
           if query?
-            OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
+            api.search $scope.schoolType, $scope.rankBy, query, $scope.year
               .then (data) -> $q.all _(data).map (s) -> utils.lookup $scope.schoolCodeMap, s.CODE
                 .then (schools) ->
                   $scope.searchText = query
