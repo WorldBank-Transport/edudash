@@ -69,10 +69,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           getBracket: (v, m) -> bracketsSrv.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
-          goNationalView: ->
-            $scope.selectSchool null
-            leafletData.getMap(mapId).then (map) ->
-              map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
+          resetView: -> resetView()
 
         # view util functions
         angular.extend $scope,
@@ -452,14 +449,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         # INIT
         leafletData.getMap(mapId).then (map) ->
-          # initialize the map view
-          map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
           # add the basemap
           layersSrv.getTileLayer
               url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
               id: 'worldbank-education.map-5e5fgg2o'
               accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
             .then (layer) -> layer.addTo map
+          resetView()
           # set up the initial view
           $scope.setViewMode 'schools'
           if $scope.schoolType == 'primary'
@@ -470,6 +466,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
           $timeout (-> map.invalidateSize()), 1
+
+        # side-effects: de-select any selected school, zoom out to see everything
+        resetView = ->
+          $scope.selectSchool null
+          leafletData.getMap(mapId).then (map) ->
+            map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
 
         # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
