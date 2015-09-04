@@ -11,9 +11,13 @@ describe 'utils', ->
     u = _utils_
 
   # mocks
+  $q = null
   $timeout = null
-  beforeEach inject (_$timeout_) ->
+  $rootScope = null
+  beforeEach inject (_$q_, _$timeout_, _$rootScope_) ->
+    $q = _$q_
     $timeout = _$timeout_
+    $rootScope = _$rootScope_
 
   describe 'rank', ->
 
@@ -177,3 +181,63 @@ describe 'utils', ->
       $timeout.flush()
       expect result
         .toEqual 'over'
+
+  describe 'lookup', ->
+    it 'should validate its params', ->
+      expect -> u.lookup()
+        .toThrow new Error "param `mapP` must be a Promise. Got 'undefined'"
+      expect -> u.lookup {}
+        .toThrow new Error "param `mapP` must be a Promise. Got 'object'"
+      expect -> u.lookup $q.when {}
+        .toThrow new Error "param `id` must be a string. Got 'undefined'"
+
+      caught = null
+      u.lookup $q.when(undefined), 'z'
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "Promise `mapP` must resolve to an object. Got 'undefined'"
+
+    it 'should return a promise', ->
+      expect typeof (u.lookup $q.when({}), '').then
+        .toEqual 'function'
+
+    it 'should resolve null for empty object map', ->
+      found = 'blah'
+      u.lookup $q.when({}), 'z'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should resolve null for missing object', ->
+      found = 'blah'
+      u.lookup $q.when(a: {id: 'a'}), 'b'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe null
+
+    it 'should find the object by id', ->
+      s = id: 'a'
+      found = null
+      u.lookup $q.when(a: s), 'a'
+        .then (s) -> found = s
+      $rootScope.$apply()
+      expect found
+        .toBe s
+
+      found2 = null
+      u.lookup $q.when(a: s, x: {id: 'x'}, y: {id: 'y'}), 'a'
+        .then (s) -> found2 = s
+      $rootScope.$apply()
+      expect found2
+        .toBe s
+
+    it 'should validate that the map is not null (regression)', ->
+      caught = null
+      u.lookup $q.when(null), 'z'
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "Promise `mapP` must resolve to an object. Got 'null'"

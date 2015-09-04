@@ -150,17 +150,17 @@
 
       <div class="sidebar">
         <div class="map-details-container">
-          <div class="page-header" ng-hide="selected|exists">
+          <div class="page-header" ng-hide="selectedSchoolCode|exists">
             <div class="text-center">
               <strong>{{ ('sidepanel.title.' + schoolType) | translate }} {{year}}</strong>
             </div>
           </div>
-          <div class="page-header" ng-show="selected|exists">
+          <div class="page-header" ng-show="selectedSchoolCode|exists">
               <div class="text-center">
                   <a class="link" ng-click="goNationalView()" translate="link.back.national"></a>
               </div>
           </div>
-          <div class="container-fluid perfomance-gauges"  ng-hide="selected|exists">
+          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchoolCode|exists">
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
@@ -192,7 +192,7 @@
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="selected|exists">
+          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchool|exists">
             <div class="row col-xs-12">
               <pass-rate-time
                   title="{{'chart.pass-rate-time'| translate}}"
@@ -206,8 +206,8 @@
                 <img src="images/searchicon.png" class="pull-right">
               </div>
               <div class="col-xs-10">
-                <ui-select ng-model="selected" class="search-schools" on-select="select($item.CODE)">
-                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selected.NAME }}</ui-select-match>
+                <ui-select ng-model="selectedSchool" class="search-schools" on-select="selectSchool($item.CODE)">
+                  <ui-select-match placeholder="{{'school.selector-tooltip' | translate}}">{{ $select.selectedSchool.NAME }}</ui-select-match>
                   <ui-select-choices
                       repeat="result in searchChoices"
                       refresh="search($select.search)"
@@ -229,7 +229,7 @@
             </div>
           </form>
 
-          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='primary' && selected|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='primary' && selectedSchoolCode|exists">
             <div class="col-sm-12 performance-nav margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
@@ -277,7 +277,7 @@
               </school-list>
             </div>
           </div>
-          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='secondary' && selected|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='secondary' && selectedSchoolCode|exists">
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
@@ -347,46 +347,46 @@
           </div>
 
           <div ng-if="viewMode==='schools'">
-            <div ng-if="selected|exists" id="schoolinfo" class="container-fluid">
+            <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
-                {{ selected.NAME }}
+                {{ selectedSchool.NAME }}
               </p>
               <span class="pull-right top-school-badge text-right">
                 <img
-                    ng-show="hasBadge('top-100', schoolType, selected.RANK)"
+                    ng-show="hasBadge('top-100', schoolType, selectedSchool.RANK)"
                     src="images/topschoolbadge.png" />
                 <img
-                    ng-show="hasBadge('most-improved', schoolType, selected.CHANGE_PREVIOUS_YEAR)"
+                    ng-show="hasBadge('most-improved', schoolType, selectedSchool.CHANGE_PREVIOUS_YEAR)"
                     src="images/mostimprovedbadgeprimary.png" />
                 <img
-                    ng-show="hasBadge('most-improved', schoolType, selected.CHANGE_PREVIOUS_YEAR)"
+                    ng-show="hasBadge('most-improved', schoolType, selectedSchool.CHANGE_PREVIOUS_YEAR)"
                     src="images/mostimprovedbadgesecondary.png" />
               </span>
               <p class="code">
-                {{ selected.CODE }}
-                <span ng-if="selected.OWNERSHIP|exists" class="text-capitalize">, {{ selected.OWNERSHIP }}</span>
+                {{ selectedSchool.CODE }}
+                <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
               </p>
               <div class="clearfix"></div>
               <rate-pass-chart
                   min="40"
                   max="60"
-                  datasource="selected"
-                  selectedyear="{{year}}">
+                  datasource="selectedSchool"
+                  selectedSchoolyear="{{year}}">
               </rate-pass-chart>
               <div class="no-padding widget col-md-4">
                 <p class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</p>
                 <p class="widgetnumber">
-                  <span ng-show="selected.CHANGE_PREVIOUS_YEAR_PASSRATE|exists">
-                    <img ng-src="{{ getArrow(selected.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') }}" class="arrow" />
+                  <span ng-show="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists">
+                    <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') }}" class="arrow" />
                     <span ng-class="{
-                        'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'POOR',
-                        'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'MEDIUM',
-                        'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'GOOD'}">
-                      {{ Math.round(selected.CHANGE_PREVIOUS_YEAR_PASSRATE) }}
+                        'text-red': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'POOR',
+                        'text-yellow': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'MEDIUM',
+                        'text-green': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') === 'GOOD'}">
+                      {{ Math.round(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE) }}
                     </span>
                   </span>
                   <p
-                      ng-hide="selected.CHANGE_PREVIOUS_YEAR_PASSRATE|exists"
+                      ng-hide="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists"
                       class="medium-character missing-data"
                       style="position: static"
                       translate="chart.metric.missing-data">
@@ -397,7 +397,7 @@
               <div class="col-md-8">
                 <pass-rate-time
                     title="{{'chart.pass-rate-time'| translate}}"
-                    datasource="selected.yearAggregates">
+                    datasource="selectedSchool.yearAggregates">
                 </pass-rate-time>
               </div>
               <div class="widget col-md-12">
@@ -407,16 +407,16 @@
               <div class="widget row widget-full-width">
                 <div class="col-lg-6">
                   <rank
-                      datasource="selected.ranks.region"
+                      datasource="selectedSchool.ranks.region"
                       title="chart.title.rank-region"
-                      place="{{ selected.REGION }}">
+                      place="{{ selectedSchool.REGION }}">
                   </rank>
                 </div>
                 <div class="col-lg-6">
                   <rank
-                      datasource="selected.ranks.district"
+                      datasource="selectedSchool.ranks.district"
                       title="chart.title.rank-district"
-                      place="{{ selected.DISTRICT }}">
+                      place="{{ selectedSchool.DISTRICT }}">
                   </rank>
                 </div>
               </div>
@@ -424,19 +424,19 @@
                 <div class="col-lg-4">
                   <p class="widgettitle" translate="chart.title.mark">average mark</p>
                   <p class="widgetnumber">
-                    <span>{{ selected.AVG_MARK }}</span>
+                    <span>{{ selectedSchool.AVG_MARK }}</span>
                   </p>
-                  <p ng-if="selected.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
+                  <p ng-if="selectedSchool.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
                   <p class="widgetnumber">
-                    <img ng-src="{{ getArrow(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') }}" class="arrow" />
+                    <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') }}" class="arrow" />
                     <span ng-class="{
-                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
-                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
-                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
-                      {{ selected.CHANGE_PREVIOUS_YEAR }}
+                      'text-red': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
+                      'text-yellow': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'MEDIUM',
+                      'text-green': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
+                      {{ selectedSchool.CHANGE_PREVIOUS_YEAR }}
                     </span>
                   </p>
                 </div>
@@ -446,21 +446,21 @@
                   <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
                   <p class="widgetnumber">
                     <span ng-class="{
-                      'text-red': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'POOR',
-                      'text-yellow': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'MEDIUM',
-                      'text-green': getBracket(selected.AVG_GPA, 'AVG_GPA') === 'GOOD'}">{{ selected.AVG_GPA }}</span>
+                      'text-red': getBracket(selectedSchool.AVG_GPA, 'AVG_GPA') === 'POOR',
+                      'text-yellow': getBracket(selectedSchool.AVG_GPA, 'AVG_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selectedSchool.AVG_GPA, 'AVG_GPA') === 'GOOD'}">{{ selectedSchool.AVG_GPA }}</span>
                   </p>
-                  <p ng-if="selected.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
+                  <p ng-if="selectedSchool.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8">
                   <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
                   <p class="widgetnumber">
-                    <img ng-src="{{ getArrow(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') }}" class="arrow" />
+                    <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') }}" class="arrow" />
                     <span ng-class="{
-                      'text-red': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR',
-                      'text-yellow': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM',
-                      'text-green': getBracket(selected.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'}">
-                      {{ selected.CHANGE_PREVIOUS_YEAR_GPA }}
+                      'text-red': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'POOR',
+                      'text-yellow': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'MEDIUM',
+                      'text-green': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') === 'GOOD'}">
+                      {{ selectedSchool.CHANGE_PREVIOUS_YEAR_GPA }}
                     </span>
                   </p>
                 </div>
@@ -469,7 +469,7 @@
                 <pupil-teacher-ratio-chart
                     min="25"
                     max="40"
-                    datasource="selected">
+                    datasource="selectedSchool">
                 </pupil-teacher-ratio-chart>
               </div>
             </div>
