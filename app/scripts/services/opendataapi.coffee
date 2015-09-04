@@ -68,7 +68,7 @@ angular.module 'edudashAppSrv'
         req = $resource ckanQueryURL
         req.get($params).$promise
 
-      getSchools: ({year, schoolType, moreThan40, subtype}) ->
+      getSchools: (year, schoolType, moreThan40, subtype) ->
         extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT

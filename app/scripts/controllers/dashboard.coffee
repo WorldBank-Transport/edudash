@@ -98,11 +98,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               bracketsSrv.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
-          dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
+          dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
           computer: ([viewMode, year, rest...]) ->
-            if year? then loadSchools viewMode, year, rest...
+            if year? then OpenDataApi.getSchools year, rest...
             else
-              []
+              $q.when []
 
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
@@ -470,14 +470,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
           $timeout (-> map.invalidateSize()), 1
-
-
-        loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
-          OpenDataApi.getSchools
-            year: year
-            schoolType: schoolType
-            subtype: rankBy
-            moreThan40: moreThan40
 
         loadRegions = ->
           $q (resolve, reject) ->
