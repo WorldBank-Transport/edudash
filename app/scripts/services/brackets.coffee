@@ -9,6 +9,13 @@
 ###
 angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
+  getBrackets: (metric) ->
+    switch metric
+      when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
+      when 'AVG_GPA' then [3, 4.2]
+      when 'PASS_RATE' then [0, 40, 60, 100]
+      when 'PUPIL_TEACHER_RATIO' then [0, 35, 50, 100]
+
   getBracket: (val, metric) ->
     unless typeof val in ['number', 'undefined', 'string']
       throw new Error "val must be a number. Got: '#{val}' which is '#{typeof val}'"

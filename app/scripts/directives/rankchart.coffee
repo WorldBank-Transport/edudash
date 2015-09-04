@@ -59,22 +59,22 @@ angular.module 'edudashAppDir'
             renderer.path(['M', startLine + section*(n-1), chartCenter, 'L', startLine + lineRange, chartCenter])
             .attr({
                   'stroke-width': 4,
-                  stroke: '#38a21c',
+                  stroke: '#80c671',
                   dashstyle: 'Solid'
                 })
             .add(group);
             x = lineRange - (rank * lineRange / worstRank)
             labelColor = switch
-              when x  > (section * (n-1)) then '#38a21c'
+              when x  > (section * (n-1)) then '#80c671'
               when x  < section then '#f56053'
               else '#a1a1a1'
             arrowLength = 10
             arrowHalf = arrowLength / 2
-            start = startLine + x
-            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 4,
-                           'L', start + arrowHalf, chartCenter - arrowLength - 4,
-                           'L', start, chartCenter - 4,
-                           'L', start - arrowHalf, chartCenter - arrowLength - 4])
+            start = startLine + x - 1
+            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 2,
+                           'L', start + arrowHalf, chartCenter - arrowLength - 2,
+                           'L', start, chartCenter - 2,
+                           'L', start - arrowHalf, chartCenter - arrowLength - 2])
             .attr({
                   'stroke-width': 1,
                   stroke: labelColor,

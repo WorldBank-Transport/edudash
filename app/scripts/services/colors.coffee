@@ -11,7 +11,7 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
 
   color: (brace) ->
     switch brace
-      when 'GOOD' then '#38a21c'
+      when 'GOOD' then '#80c671'
       when 'MEDIUM' then '#e9c941'
       when 'POOR' then '#f56053'
       when 'UNKNOWN' then '#aaa'

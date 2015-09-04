@@ -164,8 +164,6 @@
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
-                    min="-5"
-                    max="5"
                     datasource="Math.round(yearAggregates[year].PASS_RATE - yearAggregates[year-1].PASS_RATE)"
                     since="year">
                 </pass-rate-change>
@@ -174,8 +172,7 @@
                 <gauge-chart
                     title="{{'chart.pupil-teacher-ration'| translate}}"
                     tooltip="ratio"
-                    ranges="35,50"
-                    colors="#fcce39,#2d991c,#f05e55"
+                    property="PUPIL_TEACHER_RATIO"
                     format="{y}"
                     datasource="pupilTeacherRatio">
                 </gauge-chart>
@@ -184,8 +181,7 @@
                 <gauge-chart
                     title="{{'chart.average-pass-rate'| translate}}"
                     tooltip="passrate"
-                    ranges="40,60"
-                    colors="#f05e55,#fcce39,#2d991c"
+                    property="PASS_RATE"
                     format="{y} %"
                     datasource="yearAggregates[year].PASS_RATE">
                 </gauge-chart>

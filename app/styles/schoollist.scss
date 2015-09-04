@@ -14,10 +14,10 @@
   color:#ffffff;
   margin-top:10px;
   &.best-perform{
-    background:$best-perform;
+    background:$rank-good;
   }
   &.poor-perform{
-    background:$poor-perform;
+    background:$rank-poor;
   }
 
   .glyphicon-star::before{
@@ -44,11 +44,11 @@
     padding-left:10px;
 
   &.passrategreen{
-    color: $best-perform;
+    color: $rank-good;
     font-weight:bold;
     }
   &.passratered{
-    color: $poor-perform;
+    color: $rank-poor;
     font-weight:bold;
     }
   &.passrateyellow{

@@ -6,7 +6,7 @@
     </div>
     <div ng-class="{'col-xs-9': selectedSchool.PASS_RATE === 100, 'col-xs-10': selectedSchool.PASS_RATE !== 100}">
       <div class="pass-rate"
-          ng-class="getClass($index, selectedSchool.PASS_RATE, max, min)"
+          ng-class="getClass($index, selectedSchool.PASS_RATE)"
           ng-repeat="i in getTimes(selectedSchool.PASS_RATE/10) track by $index"></div>
       <div
           class="pass-rate"
