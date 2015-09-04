@@ -14,10 +14,12 @@ describe 'Controller: DashboardCtrl', ->
       getYears: -> $q.when {}
       getSchools: -> $q.when []
     $provide.factory 'staticApi', ($q) ->
-      getRegions: -> $q.when objects: tz_Regions: []
-      getDistricts: -> $q.when objects: tz_districts: []
+      getRegions: -> $q.when objects: tz_Regions:
+        [{id: 'A', properties: {name: 'A'}}]
+      getDistricts: -> $q.when objects: tz_districts:
+        [{id: 'Z', properties: {name: 'Z'}}]
     $provide.factory 'topojson', ->
-      feature: -> features: [{id: 'Z', properties: {name: 'Z'}}]
+      feature: (blah, d) -> features: d
     $provide.factory 'loadingSrv', ->
       containerLoad: ->
     $provide.factory 'L', ->
@@ -115,7 +117,7 @@ describe 'Controller: DashboardCtrl', ->
       $scope.$apply()
       $scope.togglePolygons 'regions'
       $scope.$apply()
-      $scope.selectedPolyId = 'Z'
+      $scope.selectedPolyId = 'A'
       $scope.togglePolygons 'regions'
       $scope.$apply()
       expect($scope.selectedPolyId).toBe null
@@ -125,7 +127,7 @@ describe 'Controller: DashboardCtrl', ->
       $scope.$apply()
       $scope.togglePolygons 'regions'
       $scope.$apply()
-      $scope.selectPoly 'Z'
+      $scope.selectPoly 'A'
       $scope.$apply()
       expect($scope.polyType).toEqual 'districts'
 
@@ -144,3 +146,22 @@ describe 'Controller: DashboardCtrl', ->
       $scope.selectPoly 'Z'
       $scope.$apply()
       expect($scope.selectedPolyId).toEqual 'Z'
+
+    it 'should reset polyType when selecting a district to transition to schools', ->
+      $scope.$apply()
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      $scope.selectPoly 'Z'
+      $scope.$apply()
+      expect($scope.polyType).toBe null
+
+    it 'should clear the selected district from schools view when selecting districts again', ->
+      $scope.$apply()
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      $scope.selectPoly 'Z'
+      $scope.$apply()
+      $scope.togglePolygons 'districts'
+      $scope.$apply()
+      expect($scope.viewMode).toEqual 'polygons'
+      expect($scope.polyType).toEqual 'districts'

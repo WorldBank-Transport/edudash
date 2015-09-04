@@ -393,6 +393,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.togglePolygons 'districts'
           else if $scope.polyType == 'districts'
             $scope.setViewMode 'schools'
+            $scope.polyType = null
 
         # side-effect: zoom to bounds if nothing selected
         $scope.$watch 'polyLayer', (polyLayer) -> if polyLayer?
@@ -492,15 +493,19 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
                   geometry: feature.geometry
               .catch reject
 
+        # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
-          unless $scope.viewMode == 'polygons' and $scope.polyType == polyType
-            $scope.selectSchool null
-            $scope.polyType = polyType
-            $scope.setViewMode 'polygons'
-          else  # un-toggle
-            $scope.selectPoly null
+          # in every case, deselect any schools and polygons
+          $scope.selectSchool null
+          $scope.selectPoly null
+          if polyType == $scope.polyType  # un-toggle
             $scope.polyType = null
             $scope.setViewMode 'schools'
+          else if $scope.viewMode == 'schools'  # clicked one of the tabs
+            $scope.setViewMode 'polygons'
+            $scope.polyType = polyType
+          else  # poly -> poly by clicking tab, eg., districts to regions
+            $scope.polyType = polyType
 
         hoverThing = (id) ->
           if $scope.viewMode == 'schools'
