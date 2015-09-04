@@ -63,7 +63,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           setYear: (newYear) -> $scope.year = newYear
           setViewMode: (newMode) -> $scope.viewMode = newMode
           setVisMode: (newMode) -> $scope.visMode = newMode
-          setSchoolType: (newType) -> $location.path "/dashboard/#{newType}/"
           setPolyType: (polyType) -> $scope.polyType = polyType
           togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
