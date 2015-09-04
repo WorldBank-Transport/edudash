@@ -10,7 +10,7 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
   $location, $log, $q, $routeParams, $scope, $timeout,
   _, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv, OpenDataApi,
-  staticApi, topojson, utils, watchComputeSrv ) ->
+  staticApi, utils, watchComputeSrv ) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
@@ -127,8 +127,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               null
             else
               switch polyType
-                when 'regions' then loadRegions()
-                when 'districts' then loadDistricts()
+                when 'regions' then staticApi.getRegions()
+                when 'districts' then staticApi.getDistricts()
                 else (
                   $log.warn "unknown polyType '#{polyType}'"
                   null
@@ -470,28 +470,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
           $timeout (-> map.invalidateSize()), 1
-
-        loadRegions = ->
-          $q (resolve, reject) ->
-            staticApi.getRegions()
-              .then (topo) ->
-                {features} = topojson.feature topo, topo.objects.tz_Regions
-                resolve features.map (feature) ->
-                  type: feature.type
-                  id: feature.properties.name.toUpperCase()
-                  geometry: feature.geometry
-              .catch reject
-
-        loadDistricts = ->
-          $q (resolve, reject) ->
-            staticApi.getDistricts()
-              .then (topo) ->
-                {features} = topojson.feature topo, topo.objects.tz_districts
-                resolve features.map (feature) ->
-                  type: feature.type
-                  id: feature.properties.name.toUpperCase()
-                  geometry: feature.geometry
-              .catch reject
 
         # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
