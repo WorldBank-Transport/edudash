@@ -7,16 +7,10 @@
  # # DashboardsCtrl
  # Controller of the edudashApp
 ###
-angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
-    '$scope', '$window', '$routeParams', '$anchorScroll', '$http', 'leafletData',
-    '_', '$q', 'WorldBankApi', 'layersSrv', '$log','$location','$translate',
-    '$timeout', 'colorSrv', 'OpenDataApi', 'loadingSrv', 'topojson',
-    'staticApi', 'watchComputeSrv', 'bracketsSrv', 'utils'
-
-    ($scope, $window, $routeParams, $anchorScroll, $http, leafletData,
-    _, $q, WorldBankApi, layersSrv, $log, $location, $translate,
-    $timeout, colorSrv, OpenDataApi, loadingSrv, topojson,
-    staticApi, watchComputeSrv, brackets, utils) ->
+angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
+  $location, $log, $q, $routeParams, $scope, $timeout,
+  _, api, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv,
+  utils, watchComputeSrv ) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
@@ -71,8 +65,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           selectSchool: (code) -> $scope.selectedSchoolCode = code
           selectPoly: (id) -> $scope.selectedPolyId = id
           search: (q) -> search q
-          hasBadge: (b, st, v) -> brackets.hasBadge b, st, v
-          getBracket: (v, m) -> brackets.getBracket v, (m or $scope.visMetric)
+          hasBadge: (b, st, v) -> bracketsSrv.hasBadge b, st, v
+          getBracket: (v, m) -> bracketsSrv.getBracket v, (m or $scope.visMetric)
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
           goNationalView: ->
@@ -93,7 +87,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'visMetric',
           dependencies: ['visMode']
           computer: ([visMode]) ->
-            brackets.getVisMetric visMode
+            bracketsSrv.getVisMetric visMode
 
         watchCompute 'sortMetric',
           dependencies: ['schoolType', 'rankBy']
@@ -101,14 +95,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             unless schoolType? and criteria?
               null
             else
-              brackets.getSortMetric schoolType, criteria
+              bracketsSrv.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
-          dependencies: ['viewMode', 'year', 'schoolType', 'rankBy', 'moreThan40']
+          dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
           computer: ([viewMode, year, rest...]) ->
-            if year? then loadSchools viewMode, year, rest...
+            if year? then api.getSchools year, rest...
             else
-              []
+              $q.when []
 
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
@@ -133,8 +127,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               null
             else
               switch polyType
-                when 'regions' then loadRegions()
-                when 'districts' then loadDistricts()
+                when 'regions' then api.getRegions()
+                when 'districts' then api.getDistricts()
                 else (
                   $log.warn "unknown polyType '#{polyType}'"
                   null
@@ -180,12 +174,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
           dependencies: ['schoolType', 'rankBy', 'moreThan40'],
           waitForPromise: true,
           computer: ([schoolType, rankBy, moreThan40]) -> $q (resolve, reject) ->
-            OpenDataApi.getYearAggregates schoolType, rankBy, moreThan40
+            api.getYearAggregates schoolType, rankBy, moreThan40
               .then (years) ->
                 resolve _(years).reduce ((agg, y) ->
                   agg[y.YEAR_OF_RESULT] =
                     PASS_RATE: y.average_pass_rate
-                    color: colorSrv.color brackets.getBracket y.average_pass_rate, 'PASS_RATE'
+                    color: colorSrv.color bracketsSrv.getBracket y.average_pass_rate, 'PASS_RATE'
                   agg
                 ), {}
               .catch reject
@@ -364,7 +358,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               school.ranks = ranks
 
           # Add passrate over time data to the school object
-          OpenDataApi.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
+          api.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
             .then (data) ->
               school.yearAggregates =
                 values: _(data).reduce ((agg, year) ->
@@ -448,6 +442,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
+        # hack to adjust flyout bottom spacing to not overlap filters when present
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
 
@@ -471,40 +466,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
           $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
-          OpenDataApi.getYears $scope.schoolType, $scope.rankBy
+          api.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
           $timeout (-> map.invalidateSize()), 1
-
-
-        loadSchools = (viewMode, year, schoolType, rankBy, moreThan40) ->
-          OpenDataApi.getSchools
-            year: year
-            schoolType: schoolType
-            subtype: rankBy
-            moreThan40: moreThan40
-
-        loadRegions = ->
-          $q (resolve, reject) ->
-            staticApi.getRegions()
-              .then (topo) ->
-                {features} = topojson.feature topo, topo.objects.tz_Regions
-                resolve features.map (feature) ->
-                  type: feature.type
-                  id: feature.properties.name.toUpperCase()
-                  geometry: feature.geometry
-              .catch reject
-
-        loadDistricts = ->
-          $q (resolve, reject) ->
-            staticApi.getDistricts()
-              .then (topo) ->
-                {features} = topojson.feature topo, topo.objects.tz_districts
-                resolve features.map (feature) ->
-                  type: feature.type
-                  id: feature.properties.name.toUpperCase()
-                  geometry: feature.geometry
-              .catch reject
 
         # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
@@ -668,19 +633,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
 
         search = (query) ->
           if query?
-            OpenDataApi.search $scope.schoolType, $scope.rankBy, query, $scope.year
+            api.search $scope.schoolType, $scope.rankBy, query, $scope.year
               .then (data) -> $q.all _(data).map (s) -> utils.lookup $scope.schoolCodeMap, s.CODE
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
-
-        # todo: figure out if these are needed
-        $scope.getTimes = (n) ->
-            new Array(n)
-
-        $scope.anchorScroll = () ->
-            $anchorScroll()
-
-
-
-]

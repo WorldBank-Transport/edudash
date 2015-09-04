@@ -9,17 +9,12 @@ describe 'Controller: DashboardCtrl', ->
   # so many mocks :(
   beforeEach module 'edudashApp', ($provide, $translateProvider) ->
     $translateProvider.translations 'en', {}
-    $provide.factory 'OpenDataApi', ($q) ->
+    $provide.factory 'api', ($q) ->
       getYearAggregates: -> $q.when {}
       getYears: -> $q.when {}
       getSchools: -> $q.when []
-    $provide.factory 'staticApi', ($q) ->
-      getRegions: -> $q.when objects: tz_Regions:
-        [{id: 'A', properties: {name: 'A'}}]
-      getDistricts: -> $q.when objects: tz_districts:
-        [{id: 'Z', properties: {name: 'Z'}}]
-    $provide.factory 'topojson', ->
-      feature: (blah, d) -> features: d
+      getRegions: -> $q.when [{id: 'A', properties: {name: 'A'}}]
+      getDistricts: -> $q.when [{id: 'Z', properties: {name: 'Z'}}]
     $provide.factory 'loadingSrv', ->
       containerLoad: ->
     $provide.factory 'L', ->

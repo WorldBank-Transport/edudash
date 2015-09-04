@@ -2,15 +2,15 @@
 
 ###*
  # @ngdoc service
- # @name edudashApp.OpenDataApi
+ # @name edudashApp.api
  # @description
- # # OpenDataApi
+ # # api
  # Service in the edudashApp.
 ###
 angular.module 'edudashAppSrv'
-.service 'OpenDataApi', [
-    '$http', '$resource', '$log', 'CsvParser', '$location', '$q'
-    ($http, $resource, $log, CsvParser, $location, $q) ->
+.service 'api', [
+    '$http', '$resource', '$log', 'CsvParser', '$location', '$q', 'topojson',
+    ($http, $resource, $log, CsvParser, $location, $q, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
@@ -62,13 +62,16 @@ angular.module 'edudashAppSrv'
           condition.push '"YEAR_OF_RESULT" = ' + year
         if condition.length > 0 then "WHERE #{condition.join ' AND '}" else ""
 
+      getStaticData = (url) ->
+        $q (resolve, reject) -> ($http.get url).then ((resp) -> resolve resp.data), reject
+
       datasetByQuery: (query) ->
         $params =
           sql: query
         req = $resource ckanQueryURL
         req.get($params).$promise
 
-      getSchools: ({year, schoolType, moreThan40, subtype}) ->
+      getSchools: (year, schoolType, moreThan40, subtype) ->
         extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
         ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
@@ -124,4 +127,23 @@ angular.module 'edudashAppSrv'
           FROM \"#{getTable(educationLevel, subtype)}\"
           WHERE \"CODE\" = '#{code}'
           ORDER BY \"YEAR_OF_RESULT\" ASC"
+
+      getRegions: ->
+        getStaticData '/layers/tz_regions.json'
+          .then (topo) ->
+            {features} = topojson.feature topo, topo.objects.tz_Regions
+            $q.when features.map (feature) ->
+              type: feature.type
+              id: feature.properties.name.toUpperCase()
+              geometry: feature.geometry
+
+      getDistricts: ->
+        getStaticData '/layers/tz_districts.json'
+          .then (topo) ->
+            {features} = topojson.feature topo, topo.objects.tz_districts
+            $q.when features.map (feature) ->
+              type: feature.type
+              id: feature.properties.name.toUpperCase()
+              geometry: feature.geometry
+
   ]
