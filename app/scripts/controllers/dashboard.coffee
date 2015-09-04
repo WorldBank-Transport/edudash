@@ -290,8 +290,21 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', [
         watchCompute 'selectedPoly',
           dependencies: ['polyIdMap', 'selectedPolyId']
           waitForPromise: true
-          computer: ([map, id]) ->
-            $q.when if id? then (utils.lookup map, id) else null
+          computer: ([map, id], [..., oldId]) ->
+            if id?  # something is selected, get it
+              if id != oldId  # A new polygon is selected
+                utils.lookup map, id
+              else
+                # So, we're only here because polyIdMap updated,
+                # which happens when we switch regions -> districts
+                # or districts -> schools.
+                # But the id hasn't changed, so we don't want to
+                # make a new selection.
+                # ... we want to keep the old polygon selected
+                $q.when $scope.selectedPoly
+            else
+              # nothing is selected, so really reset now
+              $q.when null
 
         watchCompute 'selectedSchoolLayer',
           dependencies: ['selectedSchool']

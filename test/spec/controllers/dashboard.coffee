@@ -146,6 +146,7 @@ describe 'Controller: DashboardCtrl', ->
       $scope.selectPoly 'A'
       $scope.$apply()
       expect($scope.selectedPolyId).toEqual 'A'
+      expect($scope.selectedPoly).not.toBe null
 
     it 'should maintain the selected district poly when it is selected', ->
       $scope.$apply()
@@ -154,6 +155,7 @@ describe 'Controller: DashboardCtrl', ->
       $scope.selectPoly 'Z'
       $scope.$apply()
       expect($scope.selectedPolyId).toEqual 'Z'
+      expect($scope.selectedPoly).not.toBe null
 
     it 'should reset polyType when selecting a district to transition to schools', ->
       $scope.$apply()
