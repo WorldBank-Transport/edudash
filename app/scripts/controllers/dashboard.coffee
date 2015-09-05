@@ -349,7 +349,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         $scope.$watch 'selectedSchool', (school) -> if school? and $scope.viewMode == 'schools'
 
           # Add rankings to the school object
-          [ob, desc] = brackets.getRank $scope.schoolType
+          [ob, desc] = bracketsSrv.getRank $scope.schoolType
           $q.all
               national: (rank school, 'NATIONAL', [ob, desc])
               region: (rank school, 'REGION', [ob, desc])
@@ -364,7 +364,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 values: _(data).reduce ((agg, year) ->
                   agg[year.YEAR_OF_RESULT] =
                     PASS_RATE: year.PASS_RATE
-                    color: colorSrv.color brackets.getBracket year.PASS_RATE, 'PASS_RATE'
+                    color: colorSrv.color bracketsSrv.getBracket year.PASS_RATE, 'PASS_RATE'
                   agg
                 ), {}
                 years: $scope.years
