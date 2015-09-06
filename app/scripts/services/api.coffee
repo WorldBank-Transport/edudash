@@ -9,8 +9,8 @@
 ###
 angular.module 'edudashAppSrv'
 .service 'api', [
-    '$http', '$resource', '$log', 'CsvParser', '$location', '$q', 'topojson',
-    ($http, $resource, $log, CsvParser, $location, $q, topojson) ->
+    '$http', '$resource', '$log', '$location', '$q', 'topojson',
+    ($http, $resource, $log, $location, $q, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
