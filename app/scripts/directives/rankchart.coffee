@@ -41,8 +41,9 @@ angular.module 'edudashAppDir'
               when rank < 1000 then 35
               when rank < 10000 then 20
               else 5
-            renderer.label('' + rank, padding, -5).attr("class", "widgetnumber")
-              .add(group)
+            renderer.label('' + rank, padding, -5).attr("class", "widgetnumber").css({
+              fontSize: '1.15em'
+              }).add(group)
             chartCenter = 20
             renderer.path(['M', startLine, chartCenter, 'L', startLine + section, chartCenter]).attr({
               'stroke-width': 4,

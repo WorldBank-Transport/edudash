@@ -530,8 +530,8 @@ div.cartodb-share a{
 }
 
 #schoolinfo .widgetnumber {
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 2em;
+  font-weight: bold;
   color: #3a3a3a;
   margin-top: -5px;
   margin-bottom: 2px;
@@ -1097,15 +1097,12 @@ map-bottom-toggle.filters {
 
 .text-red {
   color: $rank-poor;
-  font-size: 24px;
 }
 .text-yellow {
   color: $rank-medium;
-  font-size: 24px;
 }
 .text-green {
   color: $rank-good;
-  font-size: 24px;
 }
 
 .big-character {
@@ -1137,16 +1134,15 @@ map-bottom-toggle.filters {
   color: $unknown;
 }
 .medium-small-character {
-  color: $unknown;
   position: absolute;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 0.8em;
+  font-weight: bold;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 10px;
   margin-left: 10px;
   white-space: nowrap;
-  top: 4px;
+  top: 0px;
 }
 
 .chart-title {
@@ -1187,8 +1183,7 @@ map-bottom-toggle.filters {
   width:100%;
 }
 .rank-value{
-  height: 45px;
-  margin-top: 10px;
+  padding-left: 0px;
 }
 
 #nationalRanking{
