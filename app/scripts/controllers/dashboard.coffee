@@ -410,7 +410,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           pins.eachVisibleLayer colorPin
 
         # side-effects only
-        $scope.$watchGroup ['polyLayer', 'polyIdMap'],
+        $scope.$watchGroup ['polyLayer', 'polyIdMap', 'visMode'],
           ([polyLayer, polyIdMap]) ->
             if polyLayer? and polyIdMap?
               polyLayer.eachLayer (layer) ->
