@@ -7,7 +7,7 @@
  # # rankChart
 ###
 angular.module 'edudashAppDir'
-.directive 'rankChart', ->
+.directive 'rankChart', (colorSrv) ->
     restrict: 'EA'
     template: '<div class="loading"></div>'
     # TODO: pass selectedSchool by props instead of using the parent scope
@@ -46,7 +46,7 @@ angular.module 'edudashAppDir'
             chartCenter = 20
             renderer.path(['M', startLine, chartCenter, 'L', startLine + section, chartCenter]).attr({
               'stroke-width': 4,
-              stroke: '#f56053',
+              stroke: colorSrv.color('POOR'),
               dashstyle: 'Solid'
             }).add(group);
             renderer.path(['M', startLine + section, chartCenter, 'L', startLine + section*(n-1), chartCenter])
@@ -59,22 +59,23 @@ angular.module 'edudashAppDir'
             renderer.path(['M', startLine + section*(n-1), chartCenter, 'L', startLine + lineRange, chartCenter])
             .attr({
                   'stroke-width': 4,
-                  stroke: '#38a21c',
+                  stroke: colorSrv.color('GOOD'),
                   dashstyle: 'Solid'
                 })
             .add(group);
             x = lineRange - (rank * lineRange / worstRank)
             labelColor = switch
-              when x  > (section * (n-1)) then '#38a21c'
-              when x  < section then '#f56053'
+              when x  > (section * (n-1)) then colorSrv.color('GOOD')
+              when x  < section then colorSrv.color('POOR')
               else '#a1a1a1'
             arrowLength = 10
             arrowHalf = arrowLength / 2
-            start = startLine + x
-            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - 4,
-                           'L', start + arrowHalf, chartCenter - arrowLength - 4,
-                           'L', start, chartCenter - 4,
-                           'L', start - arrowHalf, chartCenter - arrowLength - 4])
+            margin = 2
+            start = startLine + x - margin
+            renderer.path(['M', start - arrowHalf, chartCenter - arrowLength - margin,
+                           'L', start + arrowHalf, chartCenter - arrowLength - margin,
+                           'L', start, chartCenter - margin,
+                           'L', start - arrowHalf, chartCenter - arrowLength - margin])
             .attr({
                   'stroke-width': 1,
                   stroke: labelColor,

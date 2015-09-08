@@ -7,25 +7,19 @@
  # # ratePassChart
 ###
 angular.module 'edudashAppDir'
-.directive 'ratePassChart', [
-    '$log'
-    ($log) ->
+.directive 'ratePassChart', ($log, bracketsSrv) ->
       restrict: 'E'
       templateUrl: 'views/ratepasschart.html'
       scope:
-        max: '@max'
-        min: '@min'
         selectedSchool: '=datasource'
         selectedYear: '@selectedyear'
       link: (scope, element, attrs) ->
         scope.getTimes = (n) ->
           if n? then new Array(parseInt(n)) else Array(0)
-        scope.getClass = (index, value, max, min) ->
+        scope.getClass = (index, value) ->
           sex = if index % 2 == 0 then 'boy' else 'girl'
           color = switch
-            when value <= min then 'red'
-            when value >= max then 'green'
-            else 'yellow'
+            when bracketsSrv.getBracket(value, 'PASS_RATE') == 'POOR' then 'red'
+            when bracketsSrv.getBracket(value, 'PASS_RATE') == 'MEDIUM' then 'yellow'
+            when bracketsSrv.getBracket(value, 'PASS_RATE') == 'GOOD' then 'green'
           "#{sex}-pass-#{color}"
-
-  ]
