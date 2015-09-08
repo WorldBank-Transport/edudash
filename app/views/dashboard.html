@@ -150,9 +150,9 @@
             </div>
           </div>
           <div class="page-header" ng-show="selectedSchoolCode|exists">
-              <div class="text-center">
-                  <a class="link" ng-click="goNationalView()" translate="link.back.national"></a>
-              </div>
+            <div class="text-center">
+              <a class="link" ng-click="resetView()" translate="link.back.national"></a>
+            </div>
           </div>
           <div class="container-fluid perfomance-gauges" ng-hide="selectedSchoolCode|exists">
             <div class="row col-xs-12">
@@ -239,7 +239,7 @@
                   type="good"
                   dataset="rankedBy"
                   rankBy="rankBy"
-                  click="select"
+                  click="selectSchool"
                   hover="hover"
                   unHover="unHover"
                   property="PASS_RATE"
@@ -256,7 +256,7 @@
                   type="good"
                   dataset="rankedBy"
                   rankBy="rankBy"
-                  click="select"
+                  click="selectSchool"
                   hover="hover"
                   unHover="unHover"
                   property="PASS_RATE"
@@ -295,7 +295,7 @@
                   type="good"
                   dataset="rankedBy"
                   rankby="rankBy"
-                  click="select"
+                  click="selectSchool"
                   hover="hover"
                   unHover="unHover"
                   modalLimit="100"

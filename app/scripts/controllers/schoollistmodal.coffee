@@ -21,7 +21,7 @@ angular.module 'edudashAppCtrl'
     $scope.cancel = () ->
       $modalInstance.dismiss('cancel');
 
-    $scope.select = (code) ->
+    $scope.selectSchool = (code) ->
       $modalInstance.close(code);
 
 
