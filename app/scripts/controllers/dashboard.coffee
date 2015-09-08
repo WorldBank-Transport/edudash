@@ -461,7 +461,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           if $scope.schoolType == 'primary'
             $scope.rankBy = 'performance'
           $scope.setYear 2014  # hard-coded default to speed up page-load
-          $scope.visMode = if $scope.schoolType == 'primary' then 'passrate' else 'gpa' # this shall be the default visMode
           api.getYears $scope.schoolType, $scope.rankBy
             .then (years) -> $scope.years = _(years).map (y) -> y.YEAR_OF_RESULT
           # fix the map's container awareness (it gets it wrong)
