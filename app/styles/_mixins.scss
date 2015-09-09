@@ -15,6 +15,27 @@
   background-clip: padding-box;  /* stops bg color from leaking outside the border: */
 }
 
+@mixin border-radius-left($radius) {
+  -webkit-border-top-left-radius: $radius;
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-radius-topleft: $radius;
+  -moz-border-radius-bottomleft: $radius;
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+@mixin border-radius-right($radius) {
+  -webkit-border-top-right-radius: $radius;
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-radius-topright: $radius;
+  -moz-border-radius-bottomright: $radius;
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+
 @mixin content-border{
   border-top: $content-border-height solid $theme-blue;
 }
@@ -22,4 +43,11 @@
 @mixin buffer-top-bottom($vbuffer) {
   padding-top: $vbuffer;
   padding-bottom: $vbuffer;
+}
+// transition for all
+@mixin transitionAll {
+  -webkit-transition: all 100ms ease;
+  -moz-transition: all 100ms ease;
+  -o-transition: all 100ms ease;
+  transition: all 100ms ease;
 }

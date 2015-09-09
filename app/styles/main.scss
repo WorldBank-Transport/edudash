@@ -786,7 +786,6 @@ table.districts p {
 .navbar-lang li:last-child{
   border-right:none;
 }
-
 .navbar-lang li a{
   color: #aaaaaa;
   padding-top:0;
@@ -799,59 +798,52 @@ table.districts p {
   transition: color 300ms ease-in;
   cursor:pointer;
 }
-
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
   color: #1595d3;
 }
-
 /*education nav*/
 .navbar-education {
-  @include border-radius(5px);
   float: left;
   margin-left: 20px;
-  background: #f0f0f0;
-  margin-top: 10px;
-  padding-top: 17px;
-  padding-bottom: 13px;
+  margin-top:15px;
+  ul{
+    display:block;
+    li{
+      a{
+        @include border-radius-left(3px);
+        @include transitionAll;
+        background: $menu-tab-grey;
+        color:$body-text-color;
+        border-right: 1px solid #eeeeee;
+        font-size:16px;
+        outline:none;
+        cursor:pointer;
+        padding: 10px 25px;
+        text-align:center;
+        width:100%;
+      }
+      &:hover a{
+        background: $theme-blue;
+        color:$content-bg;
+      }
+      &:last-child {
+        a{
+          border-right: none;
+          @include border-radius-right(3px);
+          @include border-radius-left(0);
+        }
+      }
+      &.active a{
+        background: $theme-blue;
+        color:$content-bg;
+      }
+    }
+  }
 }
 
-.navbar-education ul{
-  height:20px;
-  display:block;
-}
 
-.navbar-education li{
-  border-right: 1px solid #1595d3;
-  display:inline;
-}
 
-.navbar-education li:last-child{
-  border-right: none;
-}
-
-.navbar-education li a{
-  color: #aaaaaa;
-  padding-top:0;
-  padding-bottom:0;
-  line-height:14px;
-  outline:none;
-  -webkit-transition: color 300ms ease-in;
-  -moz-transition: color 300ms ease-in;
-  -o-transition: color 300ms ease-in;
-  transition: color 300ms ease-in;
-  cursor:pointer;
-}
-
-.navbar-education li a:hover {
-  color: #f0f0f0;
-}
-.navbar-education li.active a{
-  color: #f0f0f0;
-}
-.navbar-education li.active {
-  background: $theme-blue
-}
 
 /*main nav*/
 
