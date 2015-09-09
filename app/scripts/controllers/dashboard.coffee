@@ -108,34 +108,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> $q (resolve, reject) ->
-            MIN = 10
-            unless allSchools?
-              resolve MIN
-            else
-              allSchools.then ((schools) ->
-                ratios = schools
-                  .map (s) -> s.PUPIL_TEACHER_RATIO
-                  .filter (s) -> not isNaN s
-                maxRatio = Math.max MIN, ratios...
-                resolve maxRatio
-              ), reject
+          computer: ([allSchools]) -> utils.max allSchools, 'PUPIL_TEACHER_RATIO', 10
 
         watchCompute 'gpaComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> $q (resolve, reject) ->
-            MIN = 5
-            unless allSchools?
-              resolve MIN
-            else
-              allSchools.then ((schools) ->
-                ratios = schools
-                  .map (s) -> s.AVG_GPA
-                  .filter (s) -> not isNaN s
-                maxRatio = Math.max MIN, ratios...
-                resolve maxRatio
-              ), reject
+          computer: ([allSchools]) -> utils.max allSchools, 'AVG_GPA', 5
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']

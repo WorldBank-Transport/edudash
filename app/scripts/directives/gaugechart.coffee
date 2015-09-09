@@ -38,7 +38,7 @@ angular.module 'edudashAppDir'
                       <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
                    </div>"
               useHTML: true
-              y: 70
+              y: 60
               width: width + 40
               align: 'center'
             pane:
