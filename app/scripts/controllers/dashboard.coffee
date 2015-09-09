@@ -451,9 +451,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         leafletData.getMap(mapId).then (map) ->
           # add the basemap
           layersSrv.getTileLayer
-              url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-              id: 'worldbank-education.map-5e5fgg2o'
-              accessToken: 'pk.eyJ1Ijoid29ybGRiYW5rLWVkdWNhdGlvbiIsImEiOiJIZ2VvODFjIn0.TDw5VdwGavwEsch53sAVxA'
+              url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
             .then (layer) -> layer.addTo map
           resetView()
           # set up the initial view
