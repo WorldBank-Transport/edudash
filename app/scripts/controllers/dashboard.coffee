@@ -50,7 +50,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             ptratio:
               min: 0
               max: 100
+            gpa:
+              min: 0
+              max: 5
           ptratioComputedMax: 10
+          gpaComputedMax: 5
 
         # state transitioners
         angular.extend $scope,
@@ -104,18 +108,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> $q (resolve, reject) ->
-            MIN = 10
-            unless allSchools?
-              resolve MIN
-            else
-              allSchools.then ((schools) ->
-                ratios = schools
-                  .map (s) -> s.PUPIL_TEACHER_RATIO
-                  .filter (s) -> not isNaN s
-                maxRatio = Math.max MIN, ratios...
-                resolve maxRatio
-              ), reject
+          computer: ([allSchools]) -> utils.max allSchools, 'PUPIL_TEACHER_RATIO', 10
+
+        watchCompute 'gpaComputedMax',
+          dependencies: ['allSchools']
+          waitForPromise: true
+          computer: ([allSchools]) -> utils.max allSchools, 'AVG_GPA', 5
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
@@ -222,8 +220,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         watchCompute 'filteredSchools',
           dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
-                         'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max']
-          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax]) ->
+                         'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max', 'range.gpa.min', 'range.gpa.max']
+          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax, gpaMin, gpaMax]) ->
             unless viewMode == 'schools' and allSchools?
               null
             else
@@ -231,6 +229,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 filtered = schools
                   .filter utils.rangeFilter 'PASS_RATE', prMin, prMax
                   .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax
+                if $scope.schoolType is 'secondary'
+                  filtered = filtered.filter utils.rangeFilter 'AVG_GPA', gpaMin, gpaMax
                 resolve filtered
               ), reject
 

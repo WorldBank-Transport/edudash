@@ -109,3 +109,20 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
         reject "Promise `mapP` must resolve to an object. Got 'null'"
       else
         resolve mapObj[id] or null
+
+  max: (allSchoolsPromise, prop, defaultMax) ->
+    unless typeof prop == 'string'
+      throw new Error "param `prop` must be a string. Got '#{typeof prop}'"
+    unless typeof defaultMax == 'number'
+      throw new Error "param `defaultMax` must be a number. Got '#{typeof defaultMax}'"
+    $q (resolve, reject) ->
+      unless allSchoolsPromise?
+        resolve defaultMax
+      else
+        allSchoolsPromise.then ((schools) ->
+          ratios = schools
+            .map (s) -> s[prop]
+            .filter (s) -> not isNaN s
+          maxRatio = Math.max defaultMax, ratios...
+          resolve maxRatio
+        ), reject

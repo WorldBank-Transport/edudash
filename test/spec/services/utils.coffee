@@ -241,3 +241,15 @@ describe 'utils', ->
       $rootScope.$apply()
       expect caught
         .toEqual "Promise `mapP` must resolve to an object. Got 'null'"
+
+  describe 'max', ->
+    it 'should validate its params', ->
+      expect -> u.max $q.when {}
+        .toThrow new Error "param `prop` must be a string. Got 'undefined'"
+      expect -> u.max(($q.when {}), 1)
+        .toThrow new Error "param `prop` must be a string. Got 'number'"
+      expect -> u.max(($q.when {}), 'PASS_RATE')
+        .toThrow new Error "param `defaultMax` must be a number. Got 'undefined'"
+      expect -> u.max(($q.when {}), 'PASS_RATE', '0')
+        .toThrow new Error "param `defaultMax` must be a number. Got 'string'"
+

@@ -73,6 +73,19 @@
           show-Values="true"
           step="1">
       </div>
+      <div ng-if="schoolType==='secondary'">
+          <h4 translate="legend.avggpa">GPA</h4>
+          <div range-slider
+               min="0"
+               max="gpaComputedMax"
+               model-min="range.gpa.min"
+               model-max="range.gpa.max"
+               prevent-equal-min-max="true"
+               attach-handle-values="true"
+               show-Values="true"
+               step="0.5">
+          </div>
+      </div>
       <h4 translate="legend.ptratio">Pupil-Teacher Ratio</h4>
       <div range-slider
           min="0"
