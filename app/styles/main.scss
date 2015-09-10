@@ -332,8 +332,11 @@ div.cartodb-share a{
 
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
-  background:$body-text-color;
+  background: #cccccc;
   color:#ffffff;
+  &:hover{
+    background: $theme-blue;
+  }
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
@@ -947,7 +950,7 @@ ul.main-nav li ul li a{
 .nav .open > a:focus{
   background: $theme-blue;
   color:#ffffff;
-  border:1px solid $theme-blue;
+  border:1px solid transparent;
 }
 
 /* header - announcement */
