@@ -167,7 +167,8 @@
               <a class="link" ng-click="resetView()" translate="link.back.national"></a>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchoolCode|exists">
+          <div id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="selectedPolyId|exists"></div>
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
             <div class="row col-xs-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
@@ -195,7 +196,7 @@
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="selectedSchool|exists">
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
             <div class="row col-xs-12">
               <pass-rate-time
                   title="{{'chart.pass-rate-time'| translate}}"
@@ -231,8 +232,7 @@
               </div>
             </div>
           </form>
-
-          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='primary' && selectedSchoolCode|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="(schoolType==='primary' && selectedSchoolCode|exists) || selectedPolyId|exists">
             <div class="col-sm-12 performance-nav margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
@@ -280,7 +280,7 @@
               </school-list>
             </div>
           </div>
-          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="schoolType==='secondary' && selectedSchoolCode|exists">
+          <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="(schoolType==='secondary' && selectedSchoolCode|exists) || selectedPolyId|exists">
             <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
               <ul class="nav nav-tabs">
                 <li role="presentation" ng-class="{active: moreThan40}">
