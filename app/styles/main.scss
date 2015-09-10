@@ -46,7 +46,7 @@ body {
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
 .navbar-default .navbar-nav > .open > a:focus {
-    color: #FFFFFF;
+    color: $content-bg;
     background-color: $theme-blue;
     outline:none;
 }
@@ -68,7 +68,7 @@ body {
 }
 
 .navbar-toggle .icon-bar{
-  background:#fff;
+  background:$content-bg;
 }
 
 
@@ -111,7 +111,7 @@ body {
   width: 100%;
   height: 70px;
   font-family: 'Open Sans', sans-serif;
-  background: #fff;
+  background: $content-bg;
 }
 
 .map-container{
@@ -333,7 +333,7 @@ div.cartodb-share a{
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
   background: #cccccc;
-  color:#ffffff;
+  color:$content-bg;
   &:hover{
     background: $theme-blue;
   }
@@ -341,14 +341,14 @@ div.cartodb-share a{
 .nav-tabs > li > a {
   box-sizing: border-box;
   height: $nav-height - $content-border-height;
-  background: #f6f6f6;
+  background:$menu-tab-grey;
   margin-right: 0px;
   border-left: 1px solid #DDDDDD;
   border-right: 1px solid #DDDDDD;
   border-radius: 0;
   cursor: pointer;
   outline:none;
-  color:#aaaaaa;
+  color:$unknown;
   margin-left:-1px;
   font-size:13px;
   text-align:center;
@@ -362,7 +362,7 @@ div.cartodb-share a{
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus{
   background:#1aa4db;
-  color:#ffffff;
+  color:$content-bg;
   border:1px solid #1aa4db;
   -webkit-transition: all 250ms ease-in;
   -moz-transition: all 250ms ease-in;
@@ -383,21 +383,21 @@ div.cartodb-share a{
     display: none;
 }
 .btn-default{
-  border-color: #ffffff;
+  border-color: $content-bg;
 }
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
-  border: 1px solid #ffffff;
+  border: 1px solid $content-bg;
   outline:none;
-  border-color: #ffffff;
+  border-color: $content-bg;
 }
 .search-schools{
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-  border-left: 1px solid #ffffff;
-  border-right: 1px solid #ffffff;
+  border-left: 1px solid $content-bg;
+  border-right: 1px solid $content-bg;
   border-top:1px solid #e1e1e1;
   border-bottom:1px solid #e1e1e1;
   .form-control{
@@ -406,12 +406,12 @@ div.cartodb-share a{
     color:#d4d4d4;
     font-weight:bold;
     &:hover{
-      background: #ffffff;
-      border: 1px solid #ffffff;
+      background: $content-bg;
+      border: 1px solid $content-bg;
     }
     &:focus{
       outline:none;
-      border: 1px solid #ffffff;
+      border: 1px solid $content-bg;
     }
   .text-muted{
     color: #d4d4d4;
@@ -703,7 +703,7 @@ table.districts p {
 #generalcontent a.boxlink {
   @include border-radius(5px);
   background-color: $theme-blue;
-  color: #FFFFFF;
+  color: $content-bg;
   font-weight: 300;
   font-size: 12px;
   text-transform:uppercase;
@@ -879,11 +879,11 @@ ul.main-nav li a:focus{
 }
 ul.main-nav li a.dropdown-toggle,
 ul.main-nav li.dropdown a.dropdown-toggle{
-  background-color: #ffffff;
+  background-color: $content-bg;
 }
 
 ul.main-nav li.dropdown.open{
-background-color:#ffffff;
+background-color:$content-bg;
 }
 
 ul.main-nav li ul{
@@ -907,7 +907,7 @@ ul.main-nav li ul li a{
   border:none;
   top:43px;
   width:465px;
-  color: #ffffff;
+  color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
   ul{
@@ -937,7 +937,7 @@ ul.main-nav li ul li a{
         color:darken($body-text-color,45%);
         padding:5px 15px;
         &:hover{
-          color: #ffffff;
+          color: $content-bg;
           background: $theme-blue;
         }
       }
@@ -950,7 +950,7 @@ ul.main-nav li ul li a{
 .nav .open > a:hover,
 .nav .open > a:focus{
   background: $theme-blue;
-  color:#ffffff;
+  color:$content-bg;
   border:1px solid transparent;
 }
 
@@ -1084,7 +1084,7 @@ map-bottom-toggle.filters {
 /* Sidebar */
 .sidebar {
   padding-top: 10px;
-  background: #fff;
+  background: $content-bg;
 }
 .sidebar .contained {  /* hack for search for now */
   margin: 0;
@@ -1200,7 +1200,7 @@ map-bottom-toggle.filters {
 // selectable div to replace checkbox in year selection
 .selectable {
   @include border-radius(50%);
-  border:2px solid #ffffff;
+  border:2px solid $content-bg;
   display:block;
   float:left;
   width:15px;
@@ -1219,7 +1219,7 @@ map-bottom-toggle.filters {
   bottom:0;
   height: $footer-height;
   p{
-    color:#ffffff;
+    color:$content-bg;
     margin-top:15px;
     font-size:12px;
     line-height:14px;
@@ -1236,7 +1236,7 @@ map-bottom-toggle.filters {
       &:first-child{
         border-left:none;
       }
-      a{color: #ffffff;}
+      a{color: $content-bg;}
     }
   }
 }
