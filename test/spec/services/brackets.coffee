@@ -143,41 +143,41 @@ describe 'watchComputeSrv', ->
         .toThrow new Error "Unknown primary badge 'bad badge'"
 
     it 'should apply to top 100 primary', ->
-      expect b.hasBadge 'top-100', 'primary', 0
-        .toBe null
-      expect b.hasBadge 'top-100', 'primary', 1
+      expect b.hasBadge 'top-100', 'primary', RANK: 0
+        .toBe null  # invalid rank value
+      expect b.hasBadge 'top-100', 'primary', RANK: 1
         .toBe true
-      expect b.hasBadge 'top-100', 'primary', 100
+      expect b.hasBadge 'top-100', 'primary', RANK: 100
         .toBe true
-      expect b.hasBadge 'top-100', 'primary', 101
+      expect b.hasBadge 'top-100', 'primary', RANK: 101
         .toBe false
 
     it 'should apply to top 100 secondary', ->
-      expect b.hasBadge 'top-100', 'secondary', 0
-        .toBe null
-      expect b.hasBadge 'top-100', 'secondary', 1
+      expect b.hasBadge 'top-100', 'secondary', RANK: 0
+        .toBe null  # invalid rank value
+      expect b.hasBadge 'top-100', 'secondary', RANK: 1
         .toBe true
-      expect b.hasBadge 'top-100', 'secondary', 100
+      expect b.hasBadge 'top-100', 'secondary', RANK: 100
         .toBe true
-      expect b.hasBadge 'top-100', 'secondary', 101
+      expect b.hasBadge 'top-100', 'secondary', RANK: 101
         .toBe false
 
     it 'should apply to most improved primary', ->
-      expect b.hasBadge 'most-improved', 'primary', -1
+      expect b.hasBadge 'most-improved', 'primary', CHANGE_PREVIOUS_YEAR: -1
         .toBe false
-      expect b.hasBadge 'most-improved', 'primary', 0
+      expect b.hasBadge 'most-improved', 'primary', CHANGE_PREVIOUS_YEAR: 0
         .toBe false
-      expect b.hasBadge 'most-improved', 'primary', 61
+      expect b.hasBadge 'most-improved', 'primary', CHANGE_PREVIOUS_YEAR: 61
         .toBe false
-      expect b.hasBadge 'most-improved', 'primary', 62
+      expect b.hasBadge 'most-improved', 'primary', CHANGE_PREVIOUS_YEAR: 62
         .toBe true
 
     it 'should apply to most imrpoved secondary', ->
-      expect b.hasBadge 'most-improved', 'secondary', -1
+      expect b.hasBadge 'most-improved', 'secondary', CHANGE_PREVIOUS_YEAR: -1
         .toBe false
-      expect b.hasBadge 'most-improved', 'secondary', 0
+      expect b.hasBadge 'most-improved', 'secondary', CHANGE_PREVIOUS_YEAR: 0
         .toBe false
-      expect b.hasBadge 'most-improved', 'secondary', 54
+      expect b.hasBadge 'most-improved', 'secondary', CHANGE_PREVIOUS_YEAR: 54
         .toBe false
-      expect b.hasBadge 'most-improved', 'secondary', 55
+      expect b.hasBadge 'most-improved', 'secondary', CHANGE_PREVIOUS_YEAR: 55
         .toBe true
