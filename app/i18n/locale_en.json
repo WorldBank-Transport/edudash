@@ -135,5 +135,13 @@
     "school.list.header.PASS_RATE":"Passrate",
 
 
-    "chart.dial-title.style": ""
+    "chart.dial-title.style": "",
+
+    "polygon.panel.pupil-teacher-ratio": "average pupil teacher ratio",
+    "polygon.panel.gov-own-schools": "government-owned schools",
+    "polygon.panel.non-gov-schools": "non-government schools",
+    "polygon.panel.unknown": "unknown schools",
+    "polygon.panel.rank": "national ranking",
+    "polygon.panel.regions": "regional ranking",
+    "polygon.panel.districts": "district ranking"
 }

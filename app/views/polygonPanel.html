@@ -1,0 +1,51 @@
+<!--
+  Note that lastHovered is used in several places.
+  This is OK because:
+   1. lastHovered is always equal to hovered when hovered is not null
+   2. lastHovered keeps its value for the flyout fade when the mouse leaves
+-->
+<div class="page-header">
+  <div class="text-center">
+    <a class="link" ng-click="resetView()" translate="link.back.national"></a>
+  </div>
+</div>
+<header>
+  <h2>{{ selectedPoly.properties.NAME }}</h2>
+</header>
+<div>
+  <div class="row">
+    <div class="col-xs-11">
+      <gauge-chart
+        title="{{'chart.average-pass-rate'| translate}}"
+        property="PASS_RATE"
+        format="{y} %"
+        datasource="selectedPoly.properties.PASS_RATE">
+      </gauge-chart>
+    </div>
+  </div>
+</div>
+<poligon-number
+    name="{{'polygon.panel.pupil-teacher-ratio' | translate}}"
+    value="selectedPoly.properties.PT_RATIO"
+    image="pupil.png">
+</poligon-number>
+<poligon-number
+    name="{{'polygon.panel.gov-own-schools' | translate}}"
+    value="selectedPoly.properties.GOVT_SCHOOLS"
+    image="gov.png">
+</poligon-number>
+<poligon-number
+    name="{{'polygon.panel.non-gov-schools' | translate}}"
+    value="selectedPoly.properties.NON_GOVT_SCHOOLS"
+    image="non_gov.png">
+</poligon-number>
+<poligon-number
+    name="{{'polygon.panel.unknown' | translate}}"
+    value="selectedPoly.properties.UNKNOWN_SCHOOLS"
+    image="unknown.png">
+</poligon-number>
+<poligon-number
+    name="{{'polygon.panel.rank' | translate}}"
+    value="selectedPoly.properties.ranks.NATIONAL.rank"
+    image="ranking.png">
+</poligon-number>
