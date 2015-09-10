@@ -818,7 +818,7 @@ table.districts p {
         @include transitionAll;
         background: $menu-tab-grey;
         color:$body-text-color;
-        border-right: 1px solid #eeeeee;
+        border-right: 1px solid $content-bg;
         font-size:16px;
         outline:none;
         cursor:pointer;

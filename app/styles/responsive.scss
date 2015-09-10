@@ -49,7 +49,7 @@
   display:none;
   }
   .footer{
-    position:relative;
+    position:fixed;
   }
 } // end: max width 992
 
@@ -84,18 +84,17 @@
 @media only screen
   and (max-width: $xs){
     .navbar-lang {
-        background:none;
         position:absolute;
-        top:70px;
-        left:-2px;
+        top:0;
+        right:26px;
         padding:0;
+        background: none;
         ul{
           li{
             float:left;
             a{
-              padding:0 15px 0 0;
-              margin-left:15px;
-              color: #ffffff;
+              padding:0 21px 0 0;
+              margin-left:21px;
               &:hover{
                 background:none;
                 color: darken($body-text-color,25%);
@@ -105,25 +104,30 @@
           }
         }
       }
+
+  ul.main-nav{
+    z-index:5;
+    margin-top:-20px;
+    li{
+      a{color: $theme-blue;}
+    }
+  }
   .footer{
     bottom:0;
     position:fixed;
   }
   .jumbotron {
-       border-bottom: 0;
+    border-bottom: 0;
    }
 }
 // end: max 768
 
 @media only screen
   and (max-width: 640px){
-  .navbar-lang{
-    top:61px;
-    right:0;
-  }
   .navbar-toggle{
     @include border-radius(0px);
     padding:11px;
+    top:17px;
   }
   ul.main-nav li a:hover,
   ul.main-nav li a:focus {
@@ -138,7 +142,7 @@
         background: $theme-blue;
         z-index:2;
       }
-  ul.main-nav{ margin-top:7px;}
+  ul.main-nav{ margin-top:17px;}
   ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
   ul.main-nav li a {
     color: #ffffff;
@@ -152,27 +156,27 @@
   }
 
   .navbar-education{
-      margin-top:9px;
+      margin-top:17px;
       float:right;
       margin-right:76px;
     ul{
       li{float:left;}
     }
-
   }
-
-  .footer{
-    bottom:0;
-    p{
-      font-size:11px;
-      line-height:12px;
-    }
+  .navbar-lang{
+    top:-13px;
+    right:15px;
   }
+  .footer{display:none;}
+
 }
 
 @media only screen and (max-width : $a){
 .navbar-brand{
   padding-right:0;
+}
+.navbar-toggle{
+  top:5px;
 }
 .container-fluid > .navbar-collapse{
   width:30%;
@@ -223,12 +227,15 @@
 }
 .navbar-lang{
   @include border-radius(0);
-  margin:6px 0 0 0;
+  margin:45px 0 0 0;
   padding:1px 0 0 0;
   cursor:pointer;
   z-index:1;
   background:$menu-tab-grey;
   border-bottom:1px solid $content-bg;
+  width:100%;
+  right:0;
+  top:19px;
   ul{
     display:block;
     li{
