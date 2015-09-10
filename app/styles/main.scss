@@ -1132,7 +1132,9 @@ map-bottom-toggle.filters {
    font-size: 14px;
    font-weight: 800;
    text-transform: capitalize;
- }
+}&.polygon {
+   position: relative;
+}
 .text-grey {
   color: $unknown;
 }
