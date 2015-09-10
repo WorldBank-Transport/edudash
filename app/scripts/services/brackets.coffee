@@ -118,15 +118,15 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
       throw new Error "Unknown criteria '#{criteria}'"
     switch schoolType
       when 'primary' then switch criteria
-        when 'performance' then ['AVG_MARK', true]
-        when 'improvement' then ['CHANGE_PREVIOUS_YEAR', true]
+        when 'performance' then ['AVG_MARK', 'DESC']
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR', 'DESC']
       when 'secondary' then switch criteria
-        when 'performance' then ['AVG_GPA', false]
-        when 'improvement' then ['CHANGE_PREVIOUS_YEAR_GPA', false]
+        when 'performance' then ['AVG_GPA', 'ASC']
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR_GPA', 'ASC']
 
   getRank: (schoolType) ->
     unless schoolType in ['primary', 'secondary']
       throw new Error "Unknown school type '#{schoolType}'"
     switch schoolType
-      when 'primary' then ['AVG_MARK', true] # AVG_MARK is sum of 5 exam from 0-50, greater the better, order desc
-      when 'secondary' then ['AVG_GPA', false] # AVG_GPA lower the better. order asc
+      when 'primary' then ['AVG_MARK', 'DESC'] # AVG_MARK is sum of 5 exam from 0-50, greater the better, order desc
+      when 'secondary' then ['AVG_GPA', 'ASC'] # AVG_GPA lower the better. order asc

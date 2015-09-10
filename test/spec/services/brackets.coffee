@@ -38,13 +38,13 @@ describe 'watchComputeSrv', ->
   it 'should provide the correct metric from getSortMetric', ->
     # exhaustive check because we can
     expect b.getSortMetric 'primary', 'performance'
-      .toEqual ['AVG_MARK', true]
+      .toEqual ['AVG_MARK', 'DESC']
     expect b.getSortMetric 'primary', 'improvement'
-      .toEqual ['CHANGE_PREVIOUS_YEAR', true]
+      .toEqual ['CHANGE_PREVIOUS_YEAR', 'DESC']
     expect b.getSortMetric 'secondary', 'performance'
-      .toEqual ['AVG_GPA', false]
+      .toEqual ['AVG_GPA', 'ASC']
     expect b.getSortMetric 'secondary', 'improvement'
-      .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', false]
+      .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', 'ASC']
 
   it 'should validate getBracket parameters', ->
     expect(b.getBracket 'x', 'AVG_MARK').toEqual 'UNKNOWN'
@@ -120,8 +120,8 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'
 
   it 'getRank by school', ->
-    expect(b.getRank 'primary').toEqual ['AVG_MARK', true]
-    expect(b.getRank 'secondary').toEqual ['AVG_GPA', false]
+    expect(b.getRank 'primary').toEqual ['AVG_MARK', 'DESC']
+    expect(b.getRank 'secondary').toEqual ['AVG_GPA', 'ASC']
 
   it 'should validate getRank parameter', ->
     expect -> b.getRank 'z'

@@ -21,7 +21,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           years: null
           yearAggregates: null
           visMetric: null
-          sortMetric: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -38,7 +37,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           selectedPoly: null
           selectedPolyLayer: null
           rankBy: null  # performance or improvement for primary
-          rankedBy: null
           moreThan40: null  # students, for secondary schools
           polygons: null
           detailedPolys: null
@@ -89,14 +87,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           dependencies: ['visMode']
           computer: ([visMode]) ->
             bracketsSrv.getVisMetric visMode
-
-        watchCompute 'sortMetric',
-          dependencies: ['schoolType', 'rankBy']
-          computer: ([schoolType, criteria]) ->
-            unless schoolType? and criteria?
-              null
-            else
-              bracketsSrv.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
@@ -204,19 +194,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 map
               ), {}
 
-        watchCompute 'rankedBy',
-          dependencies: ['viewMode', 'allSchools', 'rankBy', 'sortMetric']
-          computer: ([viewMode, allSchools, rankBy, sortMetric]) ->
-            unless viewMode == 'schools' and allSchools?
+        watchCompute 'rankedSchools',
+          dependencies: ['viewMode', 'schoolType', 'allSchools']
+          computer: ([viewMode, schoolType, allSchools]) ->
+            # check viewMode to ensure we don't sort schools for polygon views
+            unless viewMode == 'schools' and allSchools? and schoolType?
               null
             else
-              $q (resolve, reject) ->
-                allSchools.then ((schools) ->
-                  unless $scope.sortMetric?
-                    reject 'SortMetric is not available yet'
-                  else
-                    resolve rankSchools schools, sortMetric
-                ), reject
+              performing: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'performance'
+              improvement: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'improvement'
 
         watchCompute 'filteredSchools',
           dependencies: ['viewMode', 'allSchools', 'range.passrate.min',

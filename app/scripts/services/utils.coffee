@@ -48,6 +48,32 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
       rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
       total: ordered.length
 
+  ###*
+  # Sort a list of schools promise by a [prop, desc] metric
+  # @param {Promise<Array>} listP The array of schools
+  # @param {Array} metric The criteria for ranking
+  # @param {string} metric[0] The property we should use to rank
+  # @param {string} metric[1] Sort 'ASC' or 'DESC'
+  # @returns {Promise<Array>} The schools, sorted
+  ###
+  rankAll: (listP, [prop, order]) ->
+    unless listP? and typeof listP.then == 'function'
+      throw new Error "param `listP` must be a Promise. Got '#{typeof listP}'"
+    unless typeof prop == 'string'
+      throw new Error "param `metric[0]` must a string. Got '#{typeof prop}'"
+    unless order in ['ASC', 'DESC']
+      throw new Error "param `metric[1]` must be a 'ASC' or 'DESC'. Got '#{order}'"
+
+    listP.then (list) -> $q (resolve, reject) ->
+      unless list instanceof Array
+        reject "listP promise must resolve to an Array. Got '#{typeof list}'"
+      else
+        sorted = list
+          .filter (o) -> o[prop]?
+          .sort (a, b) -> a[prop] - b[prop]
+        if order == 'DESC'
+          sorted.reverse()
+        resolve sorted
 
   ###*
   # Get a filter function that filters objects by a numerical prop value
