@@ -813,6 +813,7 @@ table.districts p {
   ul{
     display:block;
     li{
+      width:50%;
       a{
         @include border-radius-left(3px);
         @include transitionAll;

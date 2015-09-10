@@ -8,7 +8,6 @@
     padding-right:20px;
   }
   .footer{
-    position:relative;
     p{
       margin-top:8px;
     }
@@ -136,7 +135,7 @@
   }
   .container-fluid > .navbar-collapse{
         position:absolute;
-        top:51px;
+        top:59px;
         right:31px;
         width:28%;
         background: $theme-blue;
@@ -168,6 +167,9 @@
     right:15px;
   }
   .footer{display:none;}
+  .map-widget {
+    bottom:0;
+  }
 
 }
 
@@ -180,7 +182,7 @@
 }
 .container-fluid > .navbar-collapse{
   width:30%;
-  top:52px;
+  top:47px;
   }
 .footer{
   bottom:0;
@@ -188,14 +190,12 @@
     display:none;
     }
   }
-
   .navbar-education{
     width:100%;
     position:absolute;
     left:0;
     top:97px;
     border-top:1px solid $content-bg;
-    // border-bottom:1px solid $content-bg;
     z-index:2;
     padding:0;
     margin:0;
@@ -251,6 +251,10 @@
     }
   }
 }
-.sidebar{top:112px;}
-.footer{display:none;}
+.map-position-wrap{
+  top:120px;
+}
+.sidebar{
+  top:120px;
+  }
 }
