@@ -101,6 +101,7 @@
                 color: darken($body-text-color,25%);
               }
             }
+            &.active a{ color:$body-text-color;}
           }
         }
       }
@@ -118,6 +119,7 @@
   and (max-width: 640px){
   .navbar-lang{
     top:61px;
+    right:0;
   }
   .navbar-toggle{
     @include border-radius(0px);
@@ -134,7 +136,7 @@
         right:31px;
         width:28%;
         background: $theme-blue;
-        z-index:1;
+        z-index:2;
       }
   ul.main-nav{ margin-top:7px;}
   ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
@@ -148,6 +150,17 @@
   .splash-image{
     margin-top:37px;
   }
+
+  .navbar-education{
+      margin-top:9px;
+      float:right;
+      margin-right:76px;
+    ul{
+      li{float:left;}
+    }
+
+  }
+
   .footer{
     bottom:0;
     p{
@@ -171,4 +184,66 @@
     display:none;
     }
   }
+
+  .navbar-education{
+    width:100%;
+    position:absolute;
+    left:0;
+    top:97px;
+    border-top:1px solid $content-bg;
+    // border-bottom:1px solid $content-bg;
+    z-index:2;
+    padding:0;
+    margin:0;
+    ul{
+      padding:0;
+      margin:0;
+      width:100%;
+      li{
+        width:50%;
+        float:left;
+      }
+    }
+  }
+
+.map-container{
+  margin-top:63px;
+  .nav-tabs{
+    li{
+      width:25%;
+      a{
+        border-left:1px solid transparent;
+        color: $body-text-color;
+      }
+    &.active a{
+        color: $content-bg;
+      }
+    }
+  }
+}
+.navbar-lang{
+  @include border-radius(0);
+  margin:6px 0 0 0;
+  padding:1px 0 0 0;
+  cursor:pointer;
+  z-index:1;
+  background:$menu-tab-grey;
+  border-bottom:1px solid $content-bg;
+  ul{
+    display:block;
+    li{
+      width:50%;
+      text-align:center;
+      a{
+        font-size:11px;
+        color:$body-text-color;
+      }
+    &.active a{
+      color:$theme-blue;
+    }
+    }
+  }
+}
+.sidebar{top:112px;}
+.footer{display:none;}
 }

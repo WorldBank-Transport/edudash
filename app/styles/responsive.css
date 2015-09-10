@@ -69,6 +69,8 @@
         .navbar-lang ul li a:hover {
           background: none;
           color: #373737; }
+      .navbar-lang ul li.active a {
+        color: #777777; }
 
   .footer {
     bottom: 0;
@@ -78,7 +80,8 @@
     border-bottom: 0; } }
 @media only screen and (max-width: 640px) {
   .navbar-lang {
-    top: 61px; }
+    top: 61px;
+    right: 0; }
 
   .navbar-toggle {
     -webkit-border-radius: 0px;
@@ -98,7 +101,7 @@
     right: 31px;
     width: 28%;
     background: #05a2dc;
-    z-index: 1; }
+    z-index: 2; }
 
   ul.main-nav {
     margin-top: 7px; }
@@ -117,6 +120,13 @@
   .splash-image {
     margin-top: 37px; }
 
+  .navbar-education {
+    margin-top: 9px;
+    float: right;
+    margin-right: 76px; }
+    .navbar-education ul li {
+      float: left; }
+
   .footer {
     bottom: 0; }
     .footer p {
@@ -133,6 +143,61 @@
   .footer {
     bottom: 0; }
     .footer p {
-      display: none; } }
+      display: none; }
+
+  .navbar-education {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 97px;
+    border-top: 1px solid #ffffff;
+    z-index: 2;
+    padding: 0;
+    margin: 0; }
+    .navbar-education ul {
+      padding: 0;
+      margin: 0;
+      width: 100%; }
+      .navbar-education ul li {
+        width: 50%;
+        float: left; }
+
+  .map-container {
+    margin-top: 63px; }
+    .map-container .nav-tabs li {
+      width: 25%; }
+      .map-container .nav-tabs li a {
+        border-left: 1px solid transparent;
+        color: #777777; }
+      .map-container .nav-tabs li.active a {
+        color: #ffffff; }
+
+  .navbar-lang {
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    background-clip: padding-box;
+    /* stops bg color from leaking outside the border: */
+    margin: 6px 0 0 0;
+    padding: 1px 0 0 0;
+    cursor: pointer;
+    z-index: 1;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ffffff; }
+    .navbar-lang ul {
+      display: block; }
+      .navbar-lang ul li {
+        width: 50%;
+        text-align: center; }
+        .navbar-lang ul li a {
+          font-size: 11px;
+          color: #777777; }
+        .navbar-lang ul li.active a {
+          color: #05a2dc; }
+
+  .sidebar {
+    top: 112px; }
+
+  .footer {
+    display: none; } }
 
 /*# sourceMappingURL=responsive.css.map */
