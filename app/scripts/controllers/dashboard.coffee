@@ -205,9 +205,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               ), {}
 
         watchCompute 'rankedBy',
-          dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap', 'sortMetric']
-          computer: ([viewMode, allSchools, rankBy, map, sortMetric]) ->
-            unless viewMode == 'schools' and allSchools? and map?
+          dependencies: ['viewMode', 'allSchools', 'rankBy', 'sortMetric']
+          computer: ([viewMode, allSchools, rankBy, sortMetric]) ->
+            unless viewMode == 'schools' and allSchools?
               null
             else
               $q (resolve, reject) ->
