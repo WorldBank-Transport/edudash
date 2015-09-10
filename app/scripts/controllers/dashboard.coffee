@@ -201,7 +201,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             unless viewMode == 'schools' and allSchools? and schoolType?
               null
             else
-              performing: utils.rankAll allSchools,
+              performance: utils.rankAll allSchools,
                 bracketsSrv.getSortMetric schoolType, 'performance'
               improvement: utils.rankAll allSchools,
                 bracketsSrv.getSortMetric schoolType, 'improvement'
