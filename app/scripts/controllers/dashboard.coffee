@@ -205,8 +205,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               ), {}
 
         watchCompute 'rankedBy',
-          dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap']
-          computer: ([viewMode, allSchools, rankBy, map]) ->
+          dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap', 'sortMetric']
+          computer: ([viewMode, allSchools, rankBy, map, sortMetric]) ->
             unless viewMode == 'schools' and allSchools? and map?
               null
             else
@@ -215,7 +215,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                   unless $scope.sortMetric?
                     reject 'SortMetric is not available yet'
                   else
-                    resolve rankSchools schools, $scope.sortMetric
+                    resolve rankSchools schools, sortMetric
                 ), reject
 
         watchCompute 'filteredSchools',
