@@ -467,6 +467,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         # side-effects: de-select any selected school, zoom out to see everything
         resetView = ->
           $scope.selectSchool null
+          $scope.setPolyType null
+          $scope.selectPoly null
+          $scope.setViewMode 'schools'
           leafletData.getMap(mapId).then (map) ->
             map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
 
