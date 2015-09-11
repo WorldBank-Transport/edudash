@@ -29,6 +29,9 @@
 
 // start: max width 1024
 @media only screen and (max-width : $f){
+  .navbar-education ul li a{
+    font-size:13px;
+  }
   #schoolinfo-placeholder{
     display:none;
     }
@@ -99,14 +102,14 @@
                 color: darken($body-text-color,25%);
               }
             }
-            &.active a{ color:$body-text-color;}
+            &.active a{ color: darken:($body-text-color, 10%);}
           }
         }
       }
 
   ul.main-nav{
     z-index:5;
-    margin-top:-20px;
+    margin-top:38px;
     li{
       a{color: $theme-blue;}
     }
@@ -137,7 +140,7 @@
         position:absolute;
         top:59px;
         right:31px;
-        width:28%;
+        width:22%;
         background: $theme-blue;
         z-index:2;
       }
