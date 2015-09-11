@@ -1176,13 +1176,28 @@ map-bottom-toggle.filters {
   top: 0px;
 &.withoutchart {
   margin-top: 5px;
-  left: -5px;
-  top: 64px;
+  left: -6px;
+  top: 53px;
   }
 &.no-margin {
   margin-top: 0px;
   left: 0px;
 }
+}
+.gauge-na {
+  position: static;
+  margin-top: 20px;
+}
+.passrate-change-title {
+  position: absolute;
+  white-space: nowrap;
+  margin-left: 0px;
+  margin-top: 5px;
+  left: -5px;
+  top: 54px;
+}
+.passrate-time-chart {
+  margin-top: -15px;
 }
 .passrate-time-title {
   position: absolute;
