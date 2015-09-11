@@ -102,7 +102,10 @@
                 color: darken($body-text-color,25%);
               }
             }
-            &.active a{ color: darken:($body-text-color, 10%);}
+            &.active a{
+              background:none;
+              color: darken($body-text-color,25%);
+            }
           }
         }
       }
