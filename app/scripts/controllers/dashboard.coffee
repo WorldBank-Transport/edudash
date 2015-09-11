@@ -334,13 +334,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         $scope.$watch 'selectedSchool', (school) -> if school? and $scope.viewMode == 'schools'
 
           # Add rankings to the school object
-          [ob, desc] = bracketsSrv.getRank $scope.schoolType
+          criteria = bracketsSrv.getRank $scope.schoolType
           $q.all
-              national: (rank school, 'NATIONAL', [ob, desc])
-              region: (rank school, 'REGION', [ob, desc])
-              district: (rank school, 'DISTRICT', [ob, desc])
+              national: (rank school, 'NATIONAL', criteria)
+              region: (rank school, 'REGION', criteria)
+              district: (rank school, 'DISTRICT', criteria)
             .then (ranks) ->
               school.ranks = ranks
+
+          # Add any badges
+          $q.all
+              top100: bracketsSrv.hasBadge 'top-100', $scope.schoolType, school, $scope.allSchools
+              mostImproved: bracketsSrv.hasBadge 'most-improved', $scope.schoolType, school, $scope.allSchools
+            .then (badges) ->
+              school.badges = badges
 
           # Add passrate over time data to the school object
           api.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE

@@ -7,7 +7,7 @@
  # # WorldBankApi
  # Service in the edudashApp.
 ###
-angular.module('edudashAppSrv').service 'bracketsSrv', ->
+angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
 
   AVG_GPA_MIN: 3
   AVG_GPA_MAX: 4.2
@@ -75,34 +75,29 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ->
 
         else throw new Error "Unknown metric: '#{metric}'"
 
-  hasBadge: (badge, schoolType, school) ->
-    switch schoolType
-      when 'primary' then switch badge
-
-        when 'top-100' then switch
-          when 1 <= school.RANK <= 100 then true
-          when school.RANK > 100 then false
+  hasBadge: (badge, schoolType, school, allSchools) ->
+    unless allSchools? and typeof allSchools.then == 'function'
+      throw new Error "param `rankedSchools` must be a Promise. Got '#{typeof allSchools}'"
+    qualify = (prop, order, limit) ->
+      allSchools.then (schools) ->
+        unless schools instanceof Array
+          return $q (_, reject) -> reject "`rankedSchools` promise must resolve to an Array. Got '#{typeof schools}'"
+        rank = utils.rank(school, schools, prop, null, order).rank
+        $q.when switch
+          when 1 <= rank <= limit then true
+          when rank > limit then false
           else null  # maybe warn?
 
-        when 'most-improved' then switch
-          when school.CHANGE_PREVIOUS_YEAR >= 62 then true
-          else false
-
+    switch schoolType
+      when 'primary' then switch badge
+        when 'top-100' then qualify 'AVG_MARK', 'DESC', 100
+        when 'most-improved' then qualify 'CHANGE_PREVIOUS_YEAR', 'DESC', 300
         else throw new Error "Unknown primary badge '#{badge}'"
       when 'secondary' then switch badge
-
-        when 'top-100' then switch
-          when 1 <=  school.RANK <=  100 then true
-          when school.RANK > 100 then false
-          else null  # maye error out or warn
-
-        when 'most-improved' then switch
-          when school.CHANGE_PREVIOUS_YEAR >= 55 then true
-          else false
-
+        when 'top-100' then qualify 'AVG_GPA', 'ASC', 100
+        when 'most-improved' then qualify 'CHANGE_PREVIOUS_YEAR_GPA', 'ASC', 100
         else throw new Error "Unknown secondary badge '#{badge}'"
       else throw new Error "Unknown schoolType '#{schoolType}'"
-
 
   getVisMetric: (visMode) ->
     switch visMode

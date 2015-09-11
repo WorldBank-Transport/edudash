@@ -9,6 +9,14 @@
 ###
 angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
 
+  schoolSort = (objs, prop, order) ->
+    sorted = objs
+      .filter (o) -> o[prop]?
+      .sort (a, b) -> a[prop] - b[prop]
+    if order == 'DESC'
+      sorted.reverse()
+    sorted
+
   ###*
   # Rank an object (1-indexed!!!) from a list of objects by a property
   # @param {object} item The object whose rank we want to know
@@ -42,9 +50,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
       total: filtered.length
 
     else
-      ordered = filtered.slice().sort (a, b) -> a[rankProp] - b[rankProp]
-      if order == 'DESC' then ordered.reverse()
-
+      ordered = schoolSort filtered, rankProp, order
       rank: (ordered.indexOf item) + 1  # +1 because it's 1-indexed
       total: ordered.length
 
@@ -68,12 +74,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
       unless list instanceof Array
         reject "listP promise must resolve to an Array. Got '#{typeof list}'"
       else
-        sorted = list
-          .filter (o) -> o[prop]?
-          .sort (a, b) -> a[prop] - b[prop]
-        if order == 'DESC'
-          sorted.reverse()
-        resolve sorted
+        resolve schoolSort list, prop, order
 
   ###*
   # Get a filter function that filters objects by a numerical prop value
