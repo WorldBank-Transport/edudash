@@ -9,13 +9,23 @@
 ###
 angular.module 'edudashAppSrv'
   .service 'api',
-    ($http, $log, $location, $q, topojson) ->
+    ($http, $log, $location, $q, $window, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
           'performance': '9ed361d5-3ea5-491d-8e86-e21048c4704b'
           'improvement': '17560070-9194-46c9-9f4a-f882c349b7bb'
         secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
+
+      xget = switch
+        when $window.OLDIE? then (url, opts, otherArgs...) ->
+          unless opts.params?
+            opts.params = {}
+          if opts.params.callback?
+            $log.warn "Overriding request `callback` param (#{opts.params.callback}) for JSONP for #{url}"
+          opts.params.callback = 'JSON_CALLBACK'
+          $http.jsonp url, opts, otherArgs...
+        else $http.get
 
       converters =
         text: (t) -> t
@@ -66,7 +76,7 @@ angular.module 'edudashAppSrv'
 
       getSchools: (year, schoolType, moreThan40, subtype) ->
         extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
-        dataP = ckanResp $http.get ckanQueryURL, params: sql: "
+        dataP = ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             \"CHANGE_PREVIOUS_YEAR\",
             \"CODE\",
@@ -93,7 +103,7 @@ angular.module 'edudashAppSrv'
         condition = switch educationLevel
           when 'secondary' then "WHERE \"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
           else ''
-        ckanResp $http.get ckanQueryURL, params: sql: "
+        ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             AVG(\"PASS_RATE\") as average_pass_rate,
             \"YEAR_OF_RESULT\"
@@ -103,7 +113,7 @@ angular.module 'edudashAppSrv'
           ORDER BY \"YEAR_OF_RESULT\""
 
       search: (educationLevel, subtype, query, year) ->
-        ckanResp $http.get ckanQueryURL, params: sql: "
+        ckanResp xget ckanQueryURL, params: sql: "
           SELECT \"CODE\"
           FROM \"#{getTable(educationLevel, subtype)}\"
           WHERE
@@ -113,13 +123,13 @@ angular.module 'edudashAppSrv'
           LIMIT 10"
 
       getYears: (educationLevel, subtype) ->
-        ckanResp $http.get ckanQueryURL, params: sql: "
+        ckanResp xget ckanQueryURL, params: sql: "
           SELECT DISTINCT \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
           ORDER BY \"YEAR_OF_RESULT\""
 
       getSchoolAggregates: (educationLevel, subtype, code) ->
-        ckanResp $http.get ckanQueryURL, params: sql: "
+        ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             \"PASS_RATE\",
             \"YEAR_OF_RESULT\"
