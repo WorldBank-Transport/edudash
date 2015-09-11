@@ -17,7 +17,7 @@ angular.module 'edudashAppDir'
             type: 'line'
             height: 120
             width: element.parent().width()
-            margin: [15, 0, 10, 1]
+            marginLeft: 1
           credits:
             enabled: false
           exporting:
@@ -27,7 +27,7 @@ angular.module 'edudashAppDir'
           tooltip:
             enabled: false
           title:
-            text: "<div class='col-md-12 gauge-title no-margin'>
+            text: "<div class='col-md-12 passrate-time-title'>
                       <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
                    </div>"
             useHTML: true
@@ -85,7 +85,7 @@ angular.module 'edudashAppDir'
         chart = element.highcharts()
         if(chart?)
           titleObj =
-            text: "<div class='col-md-12 gauge-title no-margin #{if value.length > 20 then 'swahili-title' else ''}'>
+            text: "<div class='col-md-12 passrate-time-title #{if value.length > 20 then 'swahili-title' else ''}'>
                      <span class='chart-title ng-binding gauge'>#{value}</span>
                    </div>"
             useHTML: true
