@@ -17,6 +17,8 @@ angular.module('edudashAppFil')
                 for prop, value of input
                     return true;
                 return false
+            if typeof input == 'number' && input == NaN
+                return false
             if input? and input != ''
                 return true
             return false
