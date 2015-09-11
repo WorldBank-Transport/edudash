@@ -90,6 +90,70 @@ describe 'utils', ->
         .toEqual rank: 1, total: 1
 
 
+  describe 'rankAll', ->
+    it 'should validate its params', ->
+      # Since we're using array deconstruction in the param list,
+      # coffeescript will error for us unless we have at least
+      # rankAll(something, [])
+      expect -> u.rankAll()
+        .toThrow new TypeError "'undefined' is not an object (evaluating '_arg[0]')"
+      expect -> u.rankAll $q.when([])
+        .toThrow new TypeError "'undefined' is not an object (evaluating '_arg[0]')"
+      expect -> u.rankAll $q.when([]), []
+        .toThrow new Error "param `metric[0]` must a string. Got 'undefined'"
+      expect -> u.rankAll $q.when([]), ['z']
+        .toThrow new Error "param `metric[1]` must be a 'ASC' or 'DESC'. Got 'undefined'"
+
+      caught = null
+      u.rankAll $q.when(undefined), ['z', 'ASC']
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "listP promise must resolve to an Array. Got 'undefined'"
+
+    it 'should handle an empty list', ->
+      res = null
+      u.rankAll $q.when([]), ['z', 'ASC']
+        .then (r) -> res = r
+      $rootScope.$apply()
+      expect res
+        .toEqual []
+
+    it 'should prune schools missing the rank prop', ->
+      res = null
+      u.rankAll $q.when([{}]), ['z', 'ASC']
+        .then (r) -> res = r
+      $rootScope.$apply()
+      expect res
+        .toEqual []
+
+    it 'should pass-through a single school', ->
+      res = null
+      s = z: 1
+      u.rankAll $q.when([s]), ['z', 'ASC']
+        .then (r) -> res = r
+      $rootScope.$apply()
+      expect res
+        .toEqual [s]
+
+    it 'should sort schools', ->
+      res = null
+      s1 = z: 1
+      s2 = z: 2
+      u.rankAll $q.when([s1, s2]), ['z', 'ASC']
+        .then (r) -> res = r
+      $rootScope.$apply()
+      expect res
+        .toEqual [s1, s2]
+
+      res = null
+      u.rankAll $q.when([s1, s2]), ['z', 'DESC']
+        .then (r) -> res = r
+      $rootScope.$apply()
+      expect res
+        .toEqual [s2, s1]
+
+
   describe 'rangeFilter', ->
 
     it 'should validate its params', ->

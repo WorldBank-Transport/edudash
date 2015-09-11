@@ -73,7 +73,7 @@ angular.module 'edudashAppSrv'
 
       getSchools: (year, schoolType, moreThan40, subtype) ->
         extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
-        ckanResp $http.get ckanQueryURL, params: sql: "
+        dataP = ckanResp $http.get ckanQueryURL, params: sql: "
           SELECT
             \"CHANGE_PREVIOUS_YEAR\",
             \"CODE\",
@@ -89,6 +89,12 @@ angular.module 'edudashAppSrv'
             #{extraFields}
             FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
+        if schoolType == 'secondary'
+          # Fix wrong datatype "text" for numeric CHANGE_PREVIOUS_YEAR_GPA in CKAN
+          dataP.then (data) -> $q.when data.map (d) ->
+            d.CHANGE_PREVIOUS_YEAR_GPA = parseFloat d.CHANGE_PREVIOUS_YEAR_GPA
+            d
+        dataP
 
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->
         condition = switch educationLevel

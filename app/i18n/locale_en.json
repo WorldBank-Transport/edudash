@@ -2,6 +2,9 @@
     "dashboard.title": "Education Dashboard",
     "sidepanel.title.primary": "Primary School Dashboard",
     "sidepanel.title.secondary": "Secondary School Dashboard",
+    "sidepanel.badge.top100": "Top 100 School",
+    "sidepanel.badge.improved.primary": "Top 300 most improved school",
+    "sidepanel.badge.improved.secondary": "Top 100 most improved school",
 
     "menu.home": "Home",
     "menu.dashboard": "Dashboards",

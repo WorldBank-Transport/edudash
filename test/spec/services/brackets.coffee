@@ -10,6 +10,13 @@ describe 'watchComputeSrv', ->
   beforeEach inject (_bracketsSrv_) ->
     b = _bracketsSrv_
 
+  # test helper services
+  $q = null
+  $rootScope = null
+  beforeEach inject (_$q_, _$rootScope_) ->
+    $q = _$q_
+    $rootScope = _$rootScope_
+
   it 'should validate getMetric parameters', ->
     expect -> b.getVisMetric()
       .toThrow new Error "Unknown vis mode 'undefined'"
@@ -38,13 +45,13 @@ describe 'watchComputeSrv', ->
   it 'should provide the correct metric from getSortMetric', ->
     # exhaustive check because we can
     expect b.getSortMetric 'primary', 'performance'
-      .toEqual ['AVG_MARK', true]
+      .toEqual ['AVG_MARK', 'DESC']
     expect b.getSortMetric 'primary', 'improvement'
-      .toEqual ['CHANGE_PREVIOUS_YEAR', true]
+      .toEqual ['CHANGE_PREVIOUS_YEAR', 'DESC']
     expect b.getSortMetric 'secondary', 'performance'
-      .toEqual ['AVG_GPA', false]
+      .toEqual ['AVG_GPA', 'ASC']
     expect b.getSortMetric 'secondary', 'improvement'
-      .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', false]
+      .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', 'ASC']
 
   it 'should validate getBracket parameters', ->
     expect(b.getBracket 'x', 'AVG_MARK').toEqual 'UNKNOWN'
@@ -120,8 +127,8 @@ describe 'watchComputeSrv', ->
     expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'
 
   it 'getRank by school', ->
-    expect(b.getRank 'primary').toEqual ['AVG_MARK', true]
-    expect(b.getRank 'secondary').toEqual ['AVG_GPA', false]
+    expect(b.getRank 'primary').toEqual ['AVG_MARK', 'DESC']
+    expect(b.getRank 'secondary').toEqual ['AVG_GPA', 'ASC']
 
   it 'should validate getRank parameter', ->
     expect -> b.getRank 'z'
@@ -129,54 +136,90 @@ describe 'watchComputeSrv', ->
     expect -> b.getRank undefined
       .toThrow new Error "Unknown school type 'undefined'"
 
-  it 'should validate hasBadge parameters', ->
-    expect -> b.hasBadge()
-      .toThrow new Error "Unknown schoolType 'undefined'"
-    expect -> b.hasBadge undefined, 'bad school type'
-      .toThrow new Error "Unknown schoolType 'bad school type'"
-    expect -> b.hasBadge null, 'primary'
-      .toThrow new Error "Unknown primary badge 'null'"
-    expect -> b.hasBadge null, 'secondary'
-      .toThrow new Error "Unknown secondary badge 'null'"
-    expect -> b.hasBadge 'bad badge', 'primary'
-      .toThrow new Error "Unknown primary badge 'bad badge'"
+  describe 'hasBadge', ->
+    # async helper...
+    expectThen = (promise) ->
+      toBecome: (what) ->
+        got = null
+        promise.then (result) -> got = result
+        $rootScope.$apply()
+        expect got
+          .toBe what
 
-  it 'top 100 primary has badge', ->
-    expect b.hasBadge 'top-100', 'primary', 0
-      .toBe null
-    expect b.hasBadge 'top-100', 'primary', 1
-      .toBe true
-    expect b.hasBadge 'top-100', 'primary', 100
-      .toBe true
-    expect b.hasBadge 'top-100', 'primary', 101
-      .toBe false
+    it 'should validate parameters', ->
+      expect -> b.hasBadge()
+        .toThrow new Error "param `rankedSchools` must be a Promise. Got 'undefined'"
+      expect -> b.hasBadge undefined, 'bad school type', {}, $q.when undefined
+        .toThrow new Error "Unknown schoolType 'bad school type'"
+      expect -> b.hasBadge null, 'primary', {}, $q.when undefined
+        .toThrow new Error "Unknown primary badge 'null'"
+      expect -> b.hasBadge null, 'secondary', {}, $q.when undefined
+        .toThrow new Error "Unknown secondary badge 'null'"
+      expect -> b.hasBadge 'bad badge', 'primary', {}, $q.when undefined
+        .toThrow new Error "Unknown primary badge 'bad badge'"
+      expect -> b.hasBadge 'top-100', 'primary', {}, undefined
+        .toThrow new Error "param `rankedSchools` must be a Promise. Got 'undefined'"
 
-  it 'top 100 secondary has badge', ->
-    expect b.hasBadge 'top-100', 'secondary', 0
-      .toBe null
-    expect b.hasBadge 'top-100', 'secondary', 1
-      .toBe true
-    expect b.hasBadge 'top-100', 'secondary', 100
-      .toBe true
-    expect b.hasBadge 'top-100', 'secondary', 101
-      .toBe false
+      caught = null
+      b.hasBadge 'top-100', 'primary', {}, $q.when undefined
+        .catch (e) -> caught = e
+      $rootScope.$apply()
+      expect caught
+        .toEqual "`rankedSchools` promise must resolve to an Array. Got 'undefined'"
 
-  it 'most imrpoved primary has badge', ->
-    expect b.hasBadge 'most-improved', 'primary', -1
-      .toBe false
-    expect b.hasBadge 'most-improved', 'primary', 0
-      .toBe false
-    expect b.hasBadge 'most-improved', 'primary', 61
-      .toBe false
-    expect b.hasBadge 'most-improved', 'primary', 62
-      .toBe true
+    it 'should apply to top 100 primary', ->
+      schools = (AVG_MARK: n for n in [101..1])  # descending
+      idxOffset = 1
+      s1 = schools[1 - idxOffset]
+      s100 = schools[100 - idxOffset]
+      s101 = schools[101 - idxOffset]
+      expectThen b.hasBadge 'top-100', 'primary', s1, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'top-100', 'primary', s1, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'top-100', 'primary', s100, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'top-100', 'primary', s101, $q.when schools
+        .toBecome false
 
-  it 'most imrpoved secondary has badge', ->
-    expect b.hasBadge 'most-improved', 'secondary', -1
-      .toBe false
-    expect b.hasBadge 'most-improved', 'secondary', 0
-      .toBe false
-    expect b.hasBadge 'most-improved', 'secondary', 54
-      .toBe false
-    expect b.hasBadge 'most-improved', 'secondary', 55
-      .toBe true
+    it 'should apply to top 100 secondary', ->
+      schools = (AVG_GPA: n for n in [1..101])
+      idxOffset = 1
+      s1 = schools[1 - idxOffset]
+      s100 = schools[100 - idxOffset]
+      s101 = schools[101 - idxOffset]
+      expectThen b.hasBadge 'top-100', 'secondary', s1, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'top-100', 'secondary', s100, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'top-100', 'secondary', s101, $q.when schools
+        .toBecome false
+
+    it 'should apply to most improved primary', ->
+      schools = (CHANGE_PREVIOUS_YEAR: n for n in [301..1])  # descending...
+      idxOffset = 1
+      s1 = schools[1 - idxOffset]
+      s100 = schools[100 - idxOffset]
+      s300 = schools[100 - idxOffset]
+      s301 = schools[301 - idxOffset]
+      expectThen b.hasBadge 'most-improved', 'primary', s1, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'most-improved', 'primary', s100, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'most-improved', 'primary', s300, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'most-improved', 'primary', s301, $q.when schools
+        .toBecome false
+
+    it 'should apply to most improved secondary', ->
+      schools = (CHANGE_PREVIOUS_YEAR_GPA: n for n in [1..101])
+      idxOffset = 1
+      s1 = schools[1 - idxOffset]
+      s100 = schools[100 - idxOffset]
+      s101 = schools[101 - idxOffset]
+      expectThen b.hasBadge 'most-improved', 'secondary', s1, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'most-improved', 'secondary', s100, $q.when schools
+        .toBecome true
+      expectThen b.hasBadge 'most-improved', 'secondary', s101, $q.when schools
+        .toBecome false
