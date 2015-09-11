@@ -356,9 +356,11 @@
               </p>
               <span class="pull-right top-school-badge text-right">
                 <img
+                    alt="{{ 'sidepanel.badge.top100' | translate }}"
                     ng-show="selectedSchool.badges.top100"
                     src="images/topschoolbadge.png" />
                 <img
+                    alt="{{ 'sidepanel.badge.improved.' + schoolType | translate }}"
                     ng-show="selectedSchool.badges.mostImproved"
                     ng-src="images/mostimprovedbadge{{ schoolType }}.png" />
               </span>
