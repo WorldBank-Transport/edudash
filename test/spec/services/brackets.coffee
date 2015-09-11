@@ -168,7 +168,7 @@ describe 'watchComputeSrv', ->
         .toEqual "`rankedSchools` promise must resolve to an Array. Got 'undefined'"
 
     it 'should apply to top 100 primary', ->
-      schools = (RANK: n for n in [1..101])
+      schools = (AVG_MARK: n for n in [101..1])  # descending
       idxOffset = 1
       s1 = schools[1 - idxOffset]
       s100 = schools[100 - idxOffset]
@@ -183,7 +183,7 @@ describe 'watchComputeSrv', ->
         .toBecome false
 
     it 'should apply to top 100 secondary', ->
-      schools = (RANK: n for n in [1..101])
+      schools = (AVG_GPA: n for n in [1..101])
       idxOffset = 1
       s1 = schools[1 - idxOffset]
       s100 = schools[100 - idxOffset]
@@ -212,7 +212,7 @@ describe 'watchComputeSrv', ->
         .toBecome false
 
     it 'should apply to most improved secondary', ->
-      schools = (CHANGE_PREVIOUS_YEAR_GPA: n for n in [101..1])  # descending...
+      schools = (CHANGE_PREVIOUS_YEAR_GPA: n for n in [1..101])
       idxOffset = 1
       s1 = schools[1 - idxOffset]
       s100 = schools[100 - idxOffset]
