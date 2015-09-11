@@ -526,21 +526,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 reject err
             $scope.allSchools.then rankSchool, reject
 
-        rankSchools = (schools, [orderBy, desc]) ->
-          ob = orderBy
-          if ob not in ['CHANGE_PREVIOUS_YEAR',
-                        'RANK',
-                        'PASS_RATE',
-                        'AVG_GPA',
-                        'CHANGE_PREVIOUS_YEAR_GPA',
-                        'AVG_MARK' ]
-            throw new Error "invalid orderBy: '#{ob}'"
-          _.unique(schools
-            .filter (s) -> s[ob]?
-              .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
-          )
-
-
         processPin = (code, layer) ->
           colorPin code, layer
           layer.on 'mouseover', -> $scope.$apply ->
