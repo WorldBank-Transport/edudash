@@ -8,9 +8,8 @@
  # Service in the edudashApp.
 ###
 angular.module 'edudashAppSrv'
-.service 'api', [
-    '$http', '$resource', '$log', '$location', '$q', 'topojson',
-    ($http, $resource, $log, $location, $q, topojson) ->
+  .service 'api',
+    ($http, $log, $location, $q, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
@@ -64,12 +63,6 @@ angular.module 'edudashAppSrv'
 
       getStaticData = (url) ->
         $q (resolve, reject) -> ($http.get url).then ((resp) -> resolve resp.data), reject
-
-      datasetByQuery: (query) ->
-        $params =
-          sql: query
-        req = $resource ckanQueryURL
-        req.get($params).$promise
 
       getSchools: (year, schoolType, moreThan40, subtype) ->
         extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
@@ -151,5 +144,3 @@ angular.module 'edudashAppSrv'
               type: feature.type
               id: feature.properties.name.toUpperCase()
               geometry: feature.geometry
-
-  ]
