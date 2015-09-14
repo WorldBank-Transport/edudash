@@ -172,3 +172,17 @@
     }
   }
 }
+
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-resolution: 240dpi) {
+.pass-rate {
+  background-image: url(../images/sprite-school-icons@x2.png);
+  width:19px;
+  height:39px;
+  background-repeat: no-repeat;
+  float:left;
+}
+
+		}
