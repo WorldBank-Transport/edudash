@@ -134,5 +134,13 @@
     "school.list.header.DISTRICT":"Wilaya",
     "school.list.header.PASS_RATE":"Kiwango cha Kufuzu",
 
-    "chart.dial-title.style": "swahili-title"
+    "chart.dial-title.style": "swahili-title",
+
+    "polygon.panel.pupil-teacher-ratio": "Kiwango wastani cha uwiano wa wanafunzi na walimu",
+    "polygon.panel.gov-own-schools": "Shule za Serikali",
+    "polygon.panel.non-gov-schools": "Shule za Binafsi",
+    "polygon.panel.unknown": "Umiliki Haujulikani",
+    "polygon.panel.rank": "Cheo katika orodha la taifa",
+    "polygon.panel.regions": "Cheo katika Mkoa",
+    "polygon.panel.districts": "Cheo katika Wilaya"
 }
