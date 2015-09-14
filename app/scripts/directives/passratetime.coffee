@@ -18,6 +18,7 @@ angular.module 'edudashAppDir'
             height: 120
             width: element.parent().width()
             marginLeft: 1
+            marginTop:30
           credits:
             enabled: false
           exporting:
