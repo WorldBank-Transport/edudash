@@ -323,6 +323,9 @@ div.cartodb-share a{
     float: left;
     width: 50%;
     margin-bottom: 1px;
+    a{
+      font-size:15px;
+    }
   }
 }
 
@@ -340,17 +343,18 @@ div.cartodb-share a{
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
-  height: $nav-height - $content-border-height;
+  height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
+  padding: 8px 15px;
   background: #f6f6f6;
   margin-right: 0px;
-  border-left: 1px solid #DDDDDD;
   border-right: 1px solid #DDDDDD;
   border-radius: 0;
   cursor: pointer;
   outline:none;
   color:#aaaaaa;
   margin-left:-1px;
-  font-size:13px;
+  font-size:17px;
+  line-height:20px;
   text-align:center;
   vertical-align: middle;
   display: table-cell;
@@ -363,7 +367,7 @@ div.cartodb-share a{
 .nav-tabs > li.active > a:focus{
   background:#1aa4db;
   color:#ffffff;
-  border:1px solid #1aa4db;
+  border:1px solid transparent;
   -webkit-transition: all 250ms ease-in;
   -moz-transition: all 250ms ease-in;
   -o-transition: all 250ms ease-in;
