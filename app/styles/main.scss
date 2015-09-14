@@ -340,7 +340,7 @@ div.cartodb-share a{
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
-  height: $nav-height;
+  height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
   padding: 8px 15px;
   background: #f6f6f6;
   margin-right: 0px;

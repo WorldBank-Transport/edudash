@@ -14,7 +14,7 @@ body {
 
 .map-position-wrap {
   position: absolute;
-  top:56px;
+  top: $nav-height;
   left: 0;
   right: $sidebar-width;
   bottom: 0;
@@ -38,7 +38,7 @@ map-bottom-toggle {
 
 .sidebar {
   position: absolute;
-  top: 56px;
+  top: $nav-height;
   right: 0;
   bottom: 0;
   width: $sidebar-width;
