@@ -8,7 +8,5 @@
  # the title and navigation links at the top
 ###
 angular.module('edudashAppDir').directive 'eduHeader', ->
-  restrict: 'E',
-  templateUrl: 'views/eduHeader.html',
-  link: (scope, element, attrs) ->
-
+  restrict: 'E'
+  templateUrl: 'views/eduHeader.html'
