@@ -172,3 +172,30 @@
     }
   }
 }
+
+
+// retina display sprites
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-resolution: 240dpi) {
+.pass-rate {
+  background-image: url(../images/sprite-school-icons@x2.png);
+  background-repeat: no-repeat;
+  float:left;
+  &.boy-pass-yellow{
+      background-position: -60px -40px;
+    }
+  &.girl-pass-grey{
+      background-position: 1px 1px;
+    }
+  &.girl-pass-red{
+      background-position: -41px 1px;
+    }
+  &.girl-pass-green{
+      background-position: -19px 1px;
+    }
+  &.girl-pass-yellow{
+      background-position: -60px 1px;
+    }
+  }
+}
