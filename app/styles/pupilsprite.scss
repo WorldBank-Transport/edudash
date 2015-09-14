@@ -1,36 +1,37 @@
 // pass rate icons - bigger
 .pass-rate{
-  width:18px;
-  height:37px;
+  width:20px;
+  height:42px;
   background-image: url(../images/sprite-school-icons.png);
   background-repeat: no-repeat;
   float:left;
+  background-size: 140px 79px;
 
 //  girl pass rate icons
 &.girl-pass-green{
-  background-position: -21px 2px;
+  background-position: -19px 3px;
   }
 &.girl-pass-red{
     background-position: -41px 2px;
   }
 &.girl-pass-grey{
-    background-position: 0 2px;
+    background-position: 2px 2px;
   }
 &.girl-pass-yellow{
-      background-position: -59px 2px;
+      background-position: -60px 2px;
   }
 // boy pass rate icons
 &.boy-pass-green{
-    background-position: -21px -37px;
+    background-position: -19px -40px;
     }
 &.boy-pass-red{
-      background-position: -41px -37px;
-    }
+      background-position: -40px -40px;
+  }
 &.boy-pass-grey{
-      background-position: 0 -37px;
+      background-position: 2px -40px;
     }
 &.boy-pass-yellow{
-      background-position: -57px -37px;
+      background-position: -60px -40px;
     }
 }
 
