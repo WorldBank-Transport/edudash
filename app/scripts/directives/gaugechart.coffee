@@ -120,7 +120,7 @@ angular.module 'edudashAppDir'
           else
             $translate('chart.metric.missing-data').then (na) ->
               element.html(
-                  '<p class="medium-character missing-data" style="position: static">' + na + '</p>
+                  '<p class="medium-character missing-data gauge-na">' + na + '</p>
                    <div class="col-md-12 gauge-title withoutchart">
                      <span class="chart-title ng-binding gauge">'+attrs.title+'</span>
                    </div>')
@@ -132,7 +132,7 @@ angular.module 'edudashAppDir'
           unless gaugeValue
             $translate('chart.metric.missing-data').then (na) ->
               element.html(
-                "<p class='medium-character missing-data' style='position: static'>#{na}</p>
+                "<p class='medium-character missing-data gauge-na'>#{na}</p>
                  <div class='col-md-12 gauge-title withoutchart #{if value.length > 20 then 'swahili-title' else ''}'>
                    <span class='chart-title ng-binding gauge'>#{value}</span>
                  </div>")
@@ -142,7 +142,7 @@ angular.module 'edudashAppDir'
                        <span class='chart-title ng-binding gauge'>#{value}</span>
                      </div>"
               useHTML: true
-              y: 70
+              y: 60
               width: width + 40
               align: 'center'
               style:

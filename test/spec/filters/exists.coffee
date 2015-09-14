@@ -17,3 +17,7 @@ describe 'Filter: exists', ->
   it 'should be false for an undefined variable', ->
     nothing = undefined
     expect(exists nothing).toBe false
+
+  it 'should be false for an NaN variable', ->
+    notANumber = NaN
+    expect(exists notANumber).toBe false

@@ -197,7 +197,7 @@
             </div>
           </div>
           <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
-            <div class="row col-xs-12">
+            <div class="row col-xs-12 passrate-time-chart">
               <pass-rate-time
                   title="{{'chart.pass-rate-time'| translate}}"
                   datasource="yearAggregates">
@@ -250,7 +250,7 @@
                   class="position"
                   list-title="{{'chart.top.schools.improvement' | translate}}"
                   type="good"
-                  dataset="rankedBy"
+                  dataset="rankedSchools.improvement"
                   rankBy="rankBy"
                   click="selectSchool"
                   hover="hover"
@@ -267,7 +267,7 @@
                   class="position"
                   list-title="{{'chart.top.schools.performance' | translate}}"
                   type="good"
-                  dataset="rankedBy"
+                  dataset="rankedSchools.performance"
                   rankBy="rankBy"
                   click="selectSchool"
                   hover="hover"
@@ -306,7 +306,7 @@
                   class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
                   type="good"
-                  dataset="rankedBy"
+                  dataset="rankedSchools[rankBy]"
                   rankby="rankBy"
                   click="selectSchool"
                   hover="hover"
@@ -356,14 +356,13 @@
               </p>
               <span class="pull-right top-school-badge text-right">
                 <img
-                    ng-show="hasBadge('top-100', schoolType, selectedSchool.RANK)"
+                    alt="{{ 'sidepanel.badge.top100' | translate }}"
+                    ng-show="selectedSchool.badges.top100"
                     src="images/topschoolbadge.png" />
                 <img
-                    ng-show="hasBadge('most-improved', schoolType, selectedSchool.CHANGE_PREVIOUS_YEAR)"
-                    src="images/mostimprovedbadgeprimary.png" />
-                <img
-                    ng-show="hasBadge('most-improved', schoolType, selectedSchool.CHANGE_PREVIOUS_YEAR)"
-                    src="images/mostimprovedbadgesecondary.png" />
+                    alt="{{ 'sidepanel.badge.improved.' + schoolType | translate }}"
+                    ng-show="selectedSchool.badges.mostImproved"
+                    ng-src="images/mostimprovedbadge{{ schoolType }}.png" />
               </span>
               <p class="code">
                 {{ selectedSchool.CODE }}

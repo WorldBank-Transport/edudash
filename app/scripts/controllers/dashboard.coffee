@@ -21,7 +21,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           years: null
           yearAggregates: null
           visMetric: null
-          sortMetric: null
           viewMode: null  # set after init
           visMode: 'passrate'
           schoolType: $routeParams.type
@@ -38,7 +37,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           selectedPoly: null
           selectedPolyLayer: null
           rankBy: null  # performance or improvement for primary
-          rankedBy: null
           moreThan40: null  # students, for secondary schools
           polygons: null
           detailedPolys: null
@@ -89,14 +87,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           dependencies: ['visMode']
           computer: ([visMode]) ->
             bracketsSrv.getVisMetric visMode
-
-        watchCompute 'sortMetric',
-          dependencies: ['schoolType', 'rankBy']
-          computer: ([schoolType, criteria]) ->
-            unless schoolType? and criteria?
-              null
-            else
-              bracketsSrv.getSortMetric schoolType, criteria
 
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
@@ -204,19 +194,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 map
               ), {}
 
-        watchCompute 'rankedBy',
-          dependencies: ['viewMode', 'allSchools', 'rankBy', 'schoolCodeMap']
-          computer: ([viewMode, allSchools, rankBy, map]) ->
-            unless viewMode == 'schools' and allSchools? and map?
+        watchCompute 'rankedSchools',
+          dependencies: ['viewMode', 'schoolType', 'allSchools']
+          computer: ([viewMode, schoolType, allSchools]) ->
+            # check viewMode to ensure we don't sort schools for polygon views
+            unless viewMode == 'schools' and allSchools? and schoolType?
               null
             else
-              $q (resolve, reject) ->
-                allSchools.then ((schools) ->
-                  unless $scope.sortMetric?
-                    reject 'SortMetric is not available yet'
-                  else
-                    resolve rankSchools schools, $scope.sortMetric
-                ), reject
+              performance: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'performance'
+              improvement: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'improvement'
 
         watchCompute 'filteredSchools',
           dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
@@ -346,13 +334,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         $scope.$watch 'selectedSchool', (school) -> if school? and $scope.viewMode == 'schools'
 
           # Add rankings to the school object
-          [ob, desc] = bracketsSrv.getRank $scope.schoolType
+          criteria = bracketsSrv.getRank $scope.schoolType
           $q.all
-              national: (rank school, 'NATIONAL', [ob, desc])
-              region: (rank school, 'REGION', [ob, desc])
-              district: (rank school, 'DISTRICT', [ob, desc])
+              national: (rank school, 'NATIONAL', criteria)
+              region: (rank school, 'REGION', criteria)
+              district: (rank school, 'DISTRICT', criteria)
             .then (ranks) ->
               school.ranks = ranks
+
+          # Add any badges
+          $q.all
+              top100: bracketsSrv.hasBadge 'top-100', $scope.schoolType, school, $scope.allSchools
+              mostImproved: bracketsSrv.hasBadge 'most-improved', $scope.schoolType, school, $scope.allSchools
+            .then (badges) ->
+              school.badges = badges
 
           # Add passrate over time data to the school object
           api.getSchoolAggregates $scope.schoolType, $scope.rankBy, school.CODE
@@ -540,21 +535,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               catch err
                 reject err
             $scope.allSchools.then rankSchool, reject
-
-        rankSchools = (schools, [orderBy, desc]) ->
-          ob = orderBy
-          if ob not in ['CHANGE_PREVIOUS_YEAR',
-                        'RANK',
-                        'PASS_RATE',
-                        'AVG_GPA',
-                        'CHANGE_PREVIOUS_YEAR_GPA',
-                        'AVG_MARK' ]
-            throw new Error "invalid orderBy: '#{ob}'"
-          _.unique(schools
-            .filter (s) -> s[ob]?
-              .sort (a, b) -> if desc then b[ob] - a[ob] else a[ob] - b[ob]
-          )
-
 
         processPin = (code, layer) ->
           colorPin code, layer
