@@ -10,6 +10,12 @@
   }
 }
 
+.map-widget {
+  @media only screen and (max-width: $xxs) {
+    bottom: 0;  // footer is hidden
+  }
+}
+
 .map-position-wrap {
   @media only screen and (max-width: $xs-ish) {
     right: 0;  // the sidebar is hidden
@@ -22,9 +28,23 @@
   }
 }
 
+map-bottom-toggle.legend {
+  @media only screen and (max-width: $xxs) {
+    width: 100%;  // filters are hidden
+  }
+}
+map-bottom-toggle.filters {
+  @media only screen and (max-width: $xxs) {
+    display: none;
+  }
+}
+
 .footer {
   bottom: 0;
   display: fixed;
+  @media only screen and (max-width: $xxs) {
+    display: none;
+  }
   p {
     @media only screen and (max-width: $lg-ish) {
       margin-top: 8px;
@@ -32,9 +52,6 @@
     @media only screen and (max-width: $xs-ish) {
       font-size: 11px;
       line-height: 12px;
-    }
-    @media only screen and (max-width: $xxs) {
-      display: none;
     }
   }
 }
