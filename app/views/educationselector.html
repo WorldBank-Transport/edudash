@@ -1,4 +1,4 @@
-<div class="navbar-education">
+<div class="navbar-education" ng-show="$routeParams.type|exists">
     <ul class="nav navbar-nav">
       <li ng-class="{active: $routeParams.type==='primary'}"><a ng-click="setSchoolType('primary')" translate="tab.primary"></a></li>
       <li ng-class="{active: $routeParams.type==='secondary'}"><a ng-click="setSchoolType('secondary')" translate="tab.secondary"></a></li>
