@@ -8,7 +8,6 @@
     padding-right:20px;
   }
   .footer{
-    position:relative;
     p{
       margin-top:8px;
     }
@@ -30,6 +29,9 @@
 
 // start: max width 1024
 @media only screen and (max-width : $f){
+  .navbar-education ul li a{
+    font-size:13px;
+  }
   #schoolinfo-placeholder{
     display:none;
     }
@@ -49,7 +51,7 @@
   display:none;
   }
   .footer{
-    position:relative;
+    position:fixed;
   }
 } // end: max width 992
 
@@ -84,44 +86,53 @@
 @media only screen
   and (max-width: $xs){
     .navbar-lang {
-        background:none;
         position:absolute;
-        top:70px;
-        left:-2px;
+        top:0;
+        right:26px;
         padding:0;
+        background: none;
         ul{
           li{
             float:left;
             a{
-              padding:0 15px 0 0;
-              margin-left:15px;
-              color: #ffffff;
+              padding:0 21px 0 0;
+              margin-left:21px;
               &:hover{
                 background:none;
                 color: darken($body-text-color,25%);
               }
             }
+            &.active a{
+              background:none;
+              color: darken($body-text-color,25%);
+            }
           }
         }
       }
+
+  ul.main-nav{
+    z-index:5;
+    margin-top:38px;
+    li{
+      a{color: $theme-blue;}
+    }
+  }
   .footer{
     bottom:0;
     position:fixed;
   }
   .jumbotron {
-       border-bottom: 0;
+    border-bottom: 0;
    }
 }
 // end: max 768
 
 @media only screen
   and (max-width: 640px){
-  .navbar-lang{
-    top:61px;
-  }
   .navbar-toggle{
     @include border-radius(0px);
     padding:11px;
+    top:17px;
   }
   ul.main-nav li a:hover,
   ul.main-nav li a:focus {
@@ -130,13 +141,13 @@
   }
   .container-fluid > .navbar-collapse{
         position:absolute;
-        top:51px;
+        top:59px;
         right:31px;
-        width:28%;
+        width:22%;
         background: $theme-blue;
-        z-index:1;
+        z-index:2;
       }
-  ul.main-nav{ margin-top:7px;}
+  ul.main-nav{ margin-top:17px;}
   ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
   ul.main-nav li a {
     color: #ffffff;
@@ -148,28 +159,109 @@
   .splash-image{
     margin-top:37px;
   }
-  .footer{
-    bottom:0;
-    p{
-      font-size:11px;
-      line-height:12px;
+
+  .navbar-education{
+      margin-top:17px;
+      float:right;
+      margin-right:76px;
+    ul{
+      li{float:left;}
     }
   }
+  .navbar-lang{
+    top:-13px;
+    right:15px;
+  }
+  .footer{display:none;}
+  .map-widget {
+    bottom:0;
+  }
+
 }
 
 @media only screen and (max-width : $a){
 .navbar-brand{
   padding-right:0;
 }
+.navbar-toggle{
+  top:5px;
+}
 .container-fluid > .navbar-collapse{
   width:30%;
-  top:52px;
+  top:47px;
   }
 .footer{
   bottom:0;
   p{
     display:none;
     }
+  }
+  .navbar-education{
+    width:100%;
+    position:absolute;
+    left:0;
+    top:97px;
+    border-top:1px solid $content-bg;
+    z-index:2;
+    padding:0;
+    margin:0;
+    ul{
+      padding:0;
+      margin:0;
+      width:100%;
+      li{
+        width:50%;
+        float:left;
+      }
+    }
+  }
+
+.map-container{
+  margin-top:63px;
+  .nav-tabs{
+    li{
+      width:25%;
+      a{
+        border-left:1px solid transparent;
+        color: $body-text-color;
+      }
+    &.active a{
+        color: $content-bg;
+      }
+    }
+  }
+}
+.navbar-lang{
+  @include border-radius(0);
+  margin:45px 0 0 0;
+  padding:1px 0 0 0;
+  cursor:pointer;
+  z-index:1;
+  background:$menu-tab-grey;
+  border-bottom:1px solid $content-bg;
+  width:100%;
+  right:0;
+  top:19px;
+  ul{
+    display:block;
+    li{
+      width:50%;
+      text-align:center;
+      a{
+        font-size:11px;
+        color:$body-text-color;
+      }
+    &.active a{
+      color:$theme-blue;
+    }
+    }
+  }
+}
+.map-position-wrap{
+  top:120px;
+}
+.sidebar{
+  top:120px;
   }
 }
 

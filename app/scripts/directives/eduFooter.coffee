@@ -8,5 +8,5 @@
  # Footer information
 ###
 angular.module('edudashAppDir').directive 'eduFooter', ->
-  restrict: 'E',
-  templateUrl: 'views/eduFooter.html',
+  restrict: 'E'
+  templateUrl: 'views/eduFooter.html'
