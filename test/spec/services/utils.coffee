@@ -317,3 +317,33 @@ describe 'utils', ->
       expect -> u.max(($q.when {}), 'PASS_RATE', '0')
         .toThrow new Error "param `defaultMax` must be a number. Got 'string'"
 
+    it 'should return the default if no values', ->
+      max = null
+      u.max ($q.when []), 'z', 1
+        .then (m) -> max = m
+      $rootScope.$apply()
+      expect max
+        .toEqual 1
+
+    it 'should return the default if no values are higher', ->
+      max = null
+      u.max ($q.when [{z: 1}]), 'z', 2
+        .then (m) -> max = m
+      $rootScope.$apply()
+      expect max
+        .toEqual 2
+
+    it 'should return the highest value higher than default', ->
+      max = null
+      u.max ($q.when [{z: 2}]), 'z', 1
+        .then (m) -> max = m
+      $rootScope.$apply()
+      expect max
+        .toEqual 2
+
+      max2 = null
+      u.max ($q.when [{z: 2}, {z: 3}]), 'z', 1
+        .then (m) -> max2 = m
+      $rootScope.$apply()
+      expect max2
+        .toEqual 3

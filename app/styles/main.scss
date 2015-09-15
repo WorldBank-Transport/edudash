@@ -71,7 +71,12 @@ body {
   background:$content-bg;
 }
 
-
+.browsehappy {
+  margin: 1em 0;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  background: white;
+}
 
 /* Custom page header */
 .header {
@@ -323,6 +328,9 @@ div.cartodb-share a{
     float: left;
     width: 50%;
     margin-bottom: 1px;
+    a{
+      font-size:15px;
+    }
   }
 }
 
@@ -340,17 +348,18 @@ div.cartodb-share a{
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
-  height: $nav-height - $content-border-height;
+  height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
   background:$menu-tab-grey;
+  padding: 8px 15px;
   margin-right: 0px;
-  border-left: 1px solid #DDDDDD;
   border-right: 1px solid #DDDDDD;
   border-radius: 0;
   cursor: pointer;
   outline:none;
   color:$unknown;
   margin-left:-1px;
-  font-size:13px;
+  font-size:17px;
+  line-height:20px;
   text-align:center;
   vertical-align: middle;
   display: table-cell;
@@ -363,7 +372,7 @@ div.cartodb-share a{
 .nav-tabs > li.active > a:focus{
   background:#1aa4db;
   color:$content-bg;
-  border:1px solid #1aa4db;
+  border:1px solid transparent;
   -webkit-transition: all 250ms ease-in;
   -moz-transition: all 250ms ease-in;
   -o-transition: all 250ms ease-in;
@@ -1196,8 +1205,8 @@ map-bottom-toggle.filters {
 .passrate-time-title {
   position: absolute;
   white-space: nowrap;
-  margin-left: 0px;
-  margin-top: -10px;
+  margin-left: 0;
+  margin-top: -5px;
   padding: 0;
   left: 0px;
   top: 0px;
@@ -1281,17 +1290,20 @@ map-bottom-toggle.filters {
 // gauge chart title in kiswahili
 .swahili-title{
   line-height:12px;
-  width:120px;
+  width:130px;
   text-align:center;
   padding:0;
   .chart-title{
     white-space:normal;
     line-height:12px;
+    margin-left:12px;
   }
 }
 .gauge-title.withoutchart.swahili-title{
-  left:10px;
+  left:15px;
   padding:0;
+  margin-left:-8px;
+
 }
 .poligonimage {
   margin-top: -10px;
