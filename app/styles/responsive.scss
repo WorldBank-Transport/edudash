@@ -11,34 +11,17 @@
 }
 
 .footer {
-  @media only screen and (max-width: $g) {
-    p {
+  bottom: 0;
+  display: fixed;
+  p {
+    @media only screen and (max-width: $g) {
       margin-top: 8px;
     }
-  }
-  @media only screen and (min-width: $g) {
-    bottom: 0;
-    position: fixed;
-  }
-  @media only screen and (max-width: $f) {
-    bottom: 0;
-  }
-  @media only screen and (max-width: $e) {
-    position: fixed;
-  }
-  @media screen and (max-width: $c) {
-    bottom: 0;
-  }
-  @media only screen and (max-width: $xs) {
-    bottom: 0;
-    position: fixed;
-  }
-  @media only screen and (max-width: 640px) {
-    display: none;
-  }
-  @media only screen and (max-width: $a) {
-    bottom: 0;
-    p {
+    @media only screen and (max-width: 640px) {
+      font-size: 11px;
+      line-height: 12px;
+    }
+    @media only screen and (max-width: $a) {
       display: none;
     }
   }
@@ -49,12 +32,6 @@
     width: 95%;
     margin-top: 10px;
     overflow-x: no-scroll;
-  }
-}
-
-.navbar-education ul li a {
-  @media only screen and (max-width: $f) {
-    font-size: 13px;
   }
 }
 
@@ -99,18 +76,16 @@
   }
 }
 
-#schoolinfo .top-school-badge {
+#schoolinfo {
   @media screen and (max-width: $c) {
-    top: 30px;
+    .top-school-badge {
+      top: 30px;
+      img {
+        width: 60%;
+      }
+    }
   }
 }
-
-#schoolinfo .top-school-badge img {
-  @media screen and (max-width: $c) {
-    width: 60%;
-  }
-}
-
 
 .navbar-lang {
   @media only screen and (max-width: $xs) {
@@ -182,6 +157,20 @@ ul.main-nav {
   }
   @media only screen and (max-width: 640px) {
     margin-top: 17px;
+    li {
+      border-right: none;
+      margin-bottom: 10px;
+      text-align: right;
+      a {
+        color: #ffffff;
+        padding-right: 10px;
+      }
+      a:hover,
+      a:focus {
+        color: #ffffff;
+        outline: none;
+      }
+    }
   }
 }
 
@@ -202,14 +191,6 @@ ul.main-nav {
   }
 }
 
-ul.main-nav li a:hover,
-ul.main-nav li a:focus {
-  @media only screen and (max-width: 640px) {
-    color: #ffffff;
-    outline: none;
-  }
-}
-
 .container-fluid > .navbar-collapse {
   @media only screen and (max-width: 640px) {
     position: absolute;
@@ -225,32 +206,18 @@ ul.main-nav li a:focus {
   }
 }
 
-ul.main-nav li {
-  @media only screen and (max-width: 640px) {
-    border-right: none;
-    margin-bottom: 10px;
-    text-align: right;
-  }
-}
-
-ul.main-nav li a {
-  @media only screen and (max-width: 640px) {
-    color: #ffffff;
-    padding-right: 10px;
-    &:hover {
-      color: darken($body-text-color, 25%);
-    }
-  }
-}
-
 .splash-image {
   @media only screen and (max-width: 640px) {
     margin-top: 37px;
   }
 }
 
-
 .navbar-education {
+  ul li a {
+    @media only screen and (max-width: $f) {
+      font-size: 13px;
+    }
+  }
   @media only screen and (max-width: 640px) {
     margin-top: 17px;
     float: right;
