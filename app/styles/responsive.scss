@@ -2,10 +2,10 @@
 @import "mixins";
 
 .navbar-brand {
-  @media only screen and (max-width: $g) {
+  @media only screen and (max-width: $lg-ish) {
     padding-right: 20px;
   }
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     padding-right: 0;
   }
 }
@@ -14,21 +14,21 @@
   bottom: 0;
   display: fixed;
   p {
-    @media only screen and (max-width: $g) {
+    @media only screen and (max-width: $lg-ish) {
       margin-top: 8px;
     }
-    @media only screen and (max-width: 640px) {
+    @media only screen and (max-width: $xs-ish) {
       font-size: 11px;
       line-height: 12px;
     }
-    @media only screen and (max-width: $a) {
+    @media only screen and (max-width: $xxs) {
       display: none;
     }
   }
 }
 
 .google-form {
-  @media only screen and (max-width: $g) {
+  @media only screen and (max-width: $lg-ish) {
     width: 95%;
     margin-top: 10px;
     overflow-x: no-scroll;
@@ -36,53 +36,51 @@
 }
 
 #schoolinfo-placeholder {
-  @media only screen and (max-width: $f) {
+  @media only screen and (max-width: $md-ish) {
     display: none;
   }
-  @media only screen and (max-width: $e) {
+  @media only screen and (max-width: $sm) {
     display: none;
   }
 }
 
 #generalcontent a.boxlink {
-  @media only screen and (max-width: $f) {
+  @media only screen and (max-width: $md-ish) {
     font-size: 9px;
     float: left;
   }
 }
 
 .page-title {
-  @media screen and (max-width: $c) {
+  @media screen and (max-width: $sm-ish) {
     font-size: 25px;
     line-height: 28px;
   }
 }
 
 .header-announcements {
-  @media screen and (max-width: $c) {
+  @media screen and (max-width: $sm-ish) {
     display: none;
   }
 }
 
 .hide-sm {
-  @media screen and (max-width: $c) {
+  @media screen and (max-width: $sm-ish) {
     display: none;
   }
 }
 
 .show-sm {
-  @media screen and (max-width: $c) {
+  @media screen and (max-width: $sm-ish) {
     display: block;
   }
 }
 
-#schoolinfo {
-  @media screen and (max-width: $c) {
-    .top-school-badge {
-      top: 30px;
-      img {
-        width: 60%;
-      }
+#schoolinfo .top-school-badge {
+  @media screen and (max-width: $sm-ish) {
+    top: 30px;
+    img {
+      width: 60%;
     }
   }
 }
@@ -112,11 +110,11 @@
       }
     }
   }
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     top: -13px;
     right: 15px;
   }
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     @include border-radius(0);
     margin: 45px 0 0 0;
     padding: 1px 0 0 0;
@@ -155,7 +153,7 @@ ul.main-nav {
       }
     }
   }
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     margin-top: 17px;
     li {
       border-right: none;
@@ -181,18 +179,18 @@ ul.main-nav {
 }
 
 .navbar-toggle {
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     @include border-radius(0px);
     padding: 11px;
     top: 17px;
   }
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     top: 5px;
   }
 }
 
 .container-fluid > .navbar-collapse {
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     position: absolute;
     top: 59px;
     right: 31px;
@@ -200,25 +198,25 @@ ul.main-nav {
     background: $theme-blue;
     z-index: 2;
   }
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     width: 30%;
     top: 47px;
   }
 }
 
 .splash-image {
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     margin-top: 37px;
   }
 }
 
 .navbar-education {
   ul li a {
-    @media only screen and (max-width: $f) {
+    @media only screen and (max-width: $md-ish) {
       font-size: 13px;
     }
   }
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: $xs-ish) {
     margin-top: 17px;
     float: right;
     margin-right: 76px;
@@ -228,7 +226,7 @@ ul.main-nav {
       }
     }
   }
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     width: 100%;
     position: absolute;
     left: 0;
@@ -256,7 +254,7 @@ ul.main-nav {
 }
 
 .map-container {
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     margin-top: 63px;
     .nav-tabs {
       li {
@@ -274,13 +272,13 @@ ul.main-nav {
 }
 
 .map-position-wrap {
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     top: 120px;
   }
 }
 
 .sidebar {
-  @media only screen and (max-width: $a) {
+  @media only screen and (max-width: $xxs) {
     top: 120px;
   }
 }
