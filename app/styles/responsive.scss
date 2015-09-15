@@ -3,290 +3,299 @@
 
 
 // start: max width 1280
-@media only screen and (max-width : $g){
-  .navbar-brand{
-    padding-right:20px;
+@media only screen and (max-width: $g) {
+  .navbar-brand {
+    padding-right: 20px;
   }
-  .footer{
-    p{
-      margin-top:8px;
+  .footer {
+    p {
+      margin-top: 8px;
     }
   }
-  .google-form{
+  .google-form {
     width: 95%;
-    margin-top:10px;
+    margin-top: 10px;
     overflow-x: no-scroll;
   }
 }// end: max width 1280
 
-@media only screen and (min-width : $g){
-  .footer{
-    bottom:0;
-    position:fixed;
+@media only screen and (min-width: $g) {
+  .footer {
+    bottom: 0;
+    position: fixed;
   }
 }
 
 
 // start: max width 1024
-@media only screen and (max-width : $f){
-  .navbar-education ul li a{
-    font-size:13px;
+@media only screen and (max-width: $f) {
+  .navbar-education ul li a {
+    font-size: 13px;
   }
-  #schoolinfo-placeholder{
-    display:none;
-    }
+  #schoolinfo-placeholder {
+    display: none;
+  }
   #generalcontent a.boxlink {
     font-size: 9px;
-    float:left;
-     }
-  .footer{
-    bottom:0;
-    }
+    float: left;
+  }
+  .footer {
+    bottom: 0;
+  }
 } // end: max width 1024
 
 
 // start: max width 992
-@media only screen and (max-width : $e){
-#schoolinfo-placeholder{
-  display:none;
+@media only screen and (max-width: $e) {
+  #schoolinfo-placeholder {
+    display: none;
   }
-  .footer{
-    position:fixed;
+  .footer {
+    position: fixed;
   }
 } // end: max width 992
 
 // start: max width 850
 @media screen and (max-width: $c) {
-   .page-title{
-     font-size:25px;
-     line-height:28px;
-   }
-   .footer{
-     bottom:0;
-   }
-   .header-announcements{
-     display:none;
-    }
-    .hide-sm{
-       display: none;
-   }
-   .show-sm{
-       display: block;
-   }
-   #schoolinfo .top-school-badge{
-       top: 30px;
-   }
-   #schoolinfo .top-school-badge img{
-       width: 60%;
-   }
-
+  .page-title {
+    font-size: 25px;
+    line-height: 28px;
+  }
+  .footer {
+    bottom: 0;
+  }
+  .header-announcements {
+    display: none;
+  }
+  .hide-sm {
+    display: none;
+  }
+  .show-sm {
+    display: block;
+  }
+  #schoolinfo .top-school-badge {
+    top: 30px;
+  }
+  #schoolinfo .top-school-badge img {
+    width: 60%;
+  }
 } // end: max width 850
 
 // start: max 768
-@media only screen
-  and (max-width: $xs){
-    .navbar-lang {
-        position:absolute;
-        top:0;
-        right:26px;
-        padding:0;
-        background: none;
-        ul{
-          li{
-            float:left;
-            a{
-              padding:0 21px 0 0;
-              margin-left:21px;
-              &:hover{
-                background:none;
-                color: darken($body-text-color,25%);
-              }
-            }
-            &.active a{
-              background:none;
-              color: darken($body-text-color,25%);
-            }
+@media only screen and (max-width: $xs) {
+  .navbar-lang {
+    position: absolute;
+    top: 0;
+    right: 26px;
+    padding: 0;
+    background: none;
+    ul {
+      li {
+        float: left;
+        a {
+          padding: 0 21px 0 0;
+          margin-left: 21px;
+          &:hover {
+            background: none;
+            color: darken($body-text-color, 25%);
           }
         }
+        &.active a {
+          background: none;
+          color: darken($body-text-color, 25%);
+        }
       }
-
-  ul.main-nav{
-    z-index:5;
-    margin-top:38px;
-    li{
-      a{color: $theme-blue;}
     }
   }
-  .footer{
-    bottom:0;
-    position:fixed;
+
+  ul.main-nav {
+    z-index: 5;
+    margin-top: 38px;
+    li {
+      a {
+        color: $theme-blue;
+      }
+    }
+  }
+  .footer {
+    bottom: 0;
+    position: fixed;
   }
   .jumbotron {
     border-bottom: 0;
-   }
+  }
 }
 // end: max 768
 
-@media only screen
-  and (max-width: 640px){
-  .navbar-toggle{
+@media only screen and (max-width: 640px) {
+  .navbar-toggle {
     @include border-radius(0px);
-    padding:11px;
-    top:17px;
+    padding: 11px;
+    top: 17px;
   }
   ul.main-nav li a:hover,
   ul.main-nav li a:focus {
     color: #ffffff;
-    outline:none;
+    outline: none;
   }
-  .container-fluid > .navbar-collapse{
-        position:absolute;
-        top:59px;
-        right:31px;
-        width:22%;
-        background: $theme-blue;
-        z-index:2;
-      }
-  ul.main-nav{ margin-top:17px;}
-  ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
+  .container-fluid > .navbar-collapse {
+    position: absolute;
+    top: 59px;
+    right: 31px;
+    width: 22%;
+    background: $theme-blue;
+    z-index: 2;
+  }
+  ul.main-nav {
+    margin-top: 17px;
+  }
+  ul.main-nav li {
+    border-right: none;
+    margin-bottom: 10px;
+    text-align: right;
+  }
   ul.main-nav li a {
     color: #ffffff;
-    padding-right:10px;
-    &:hover{
-      color: darken($body-text-color,25%);
+    padding-right: 10px;
+    &:hover {
+      color: darken($body-text-color, 25%);
     }
   }
-  .splash-image{
-    margin-top:37px;
+  .splash-image {
+    margin-top: 37px;
   }
 
-  .navbar-education{
-      margin-top:17px;
-      float:right;
-      margin-right:76px;
-    ul{
-      li{float:left;}
+  .navbar-education {
+    margin-top: 17px;
+    float: right;
+    margin-right: 76px;
+    ul {
+      li {
+        float: left;
+      }
     }
   }
-  .navbar-lang{
-    top:-13px;
-    right:15px;
+  .navbar-lang {
+    top: -13px;
+    right: 15px;
   }
-  .footer{display:none;}
+  .footer {
+    display: none;
+  }
   .map-widget {
-    bottom:0;
+    bottom: 0;
   }
 
 }
 
-@media only screen and (max-width : $a){
-.navbar-brand{
-  padding-right:0;
-}
-.navbar-toggle{
-  top:5px;
-}
-.container-fluid > .navbar-collapse{
-  width:30%;
-  top:47px;
+@media only screen and (max-width: $a) {
+  .navbar-brand {
+    padding-right: 0;
   }
-.footer{
-  bottom:0;
-  p{
-    display:none;
+  .navbar-toggle {
+    top: 5px;
+  }
+  .container-fluid > .navbar-collapse {
+    width: 30%;
+    top: 47px;
+  }
+  .footer {
+    bottom: 0;
+    p {
+      display: none;
     }
   }
-  .navbar-education{
-    width:100%;
-    position:absolute;
-    left:0;
-    top:97px;
-    border-top:1px solid $content-bg;
-    z-index:2;
-    padding:0;
-    margin:0;
-    ul{
-      padding:0;
-      margin:0;
-      width:100%;
-      li{
-        width:50%;
-        float:left;
+  .navbar-education {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 97px;
+    border-top: 1px solid $content-bg;
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+    ul {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      li {
+        width: 50%;
+        float: left;
       }
     }
   }
 
-.map-container{
-  margin-top:63px;
-  .nav-tabs{
-    li{
-      width:25%;
-      a{
-        border-left:1px solid transparent;
-        color: $body-text-color;
-      }
-    &.active a{
-        color: $content-bg;
+  .map-container {
+    margin-top: 63px;
+    .nav-tabs {
+      li {
+        width: 25%;
+        a {
+          border-left: 1px solid transparent;
+          color: $body-text-color;
+        }
+        &.active a {
+          color: $content-bg;
+        }
       }
     }
   }
-}
-.navbar-lang{
-  @include border-radius(0);
-  margin:45px 0 0 0;
-  padding:1px 0 0 0;
-  cursor:pointer;
-  z-index:1;
-  background:$menu-tab-grey;
-  border-bottom:1px solid $content-bg;
-  width:100%;
-  right:0;
-  top:19px;
-  ul{
-    display:block;
-    li{
-      width:50%;
-      text-align:center;
-      a{
-        font-size:11px;
-        color:$body-text-color;
+  .navbar-lang {
+    @include border-radius(0);
+    margin: 45px 0 0 0;
+    padding: 1px 0 0 0;
+    cursor: pointer;
+    z-index: 1;
+    background: $menu-tab-grey;
+    border-bottom: 1px solid $content-bg;
+    width: 100%;
+    right: 0;
+    top: 19px;
+    ul {
+      display: block;
+      li {
+        width: 50%;
+        text-align: center;
+        a {
+          font-size: 11px;
+          color: $body-text-color;
+        }
+        &.active a {
+          color: $theme-blue;
+        }
       }
-    &.active a{
-      color:$theme-blue;
-    }
     }
   }
-}
-.map-position-wrap{
-  top:120px;
-}
-.sidebar{
-  top:120px;
+  .map-position-wrap {
+    top: 120px;
+  }
+  .sidebar {
+    top: 120px;
   }
 }
 
 
 // retina display sprites
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (min-resolution: 240dpi) {
-.pass-rate {
-  background-image: url(../images/sprite-school-icons@x2.png);
-  background-repeat: no-repeat;
-  float:left;
-  &.boy-pass-yellow{
+    only screen and (min--moz-device-pixel-ratio: 1.5),
+    only screen and (min-resolution: 240dpi) {
+  .pass-rate {
+    background-image: url(../images/sprite-school-icons@x2.png);
+    background-repeat: no-repeat;
+    float: left;
+    &.boy-pass-yellow {
       background-position: -60px -40px;
     }
-  &.girl-pass-grey{
+    &.girl-pass-grey {
       background-position: 1px 1px;
     }
-  &.girl-pass-red{
+    &.girl-pass-red {
       background-position: -41px 1px;
     }
-  &.girl-pass-green{
+    &.girl-pass-green {
       background-position: -19px 1px;
     }
-  &.girl-pass-yellow{
+    &.girl-pass-yellow {
       background-position: -60px 1px;
     }
   }
