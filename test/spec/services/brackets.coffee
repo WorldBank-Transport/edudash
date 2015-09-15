@@ -131,6 +131,10 @@ describe 'watchComputeSrv', ->
       expect(b.getBracket 51, 'PUPIL_TEACHER_RATIO').toEqual 'POOR'
       expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'
 
+    it 'Should not depend on `this` context (regression)', ->
+      alias = b.getBracket
+      expect(alias 1, 'PASS_RATE').toEqual 'POOR'
+
 
   describe 'getRank', ->
     it 'should rank by school', ->

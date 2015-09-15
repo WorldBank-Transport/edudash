@@ -9,23 +9,23 @@
 ###
 angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
 
-  AVG_GPA_MIN: 3
-  AVG_GPA_MAX: 4.2
-  PASS_RATE_MIN: 0
-  PASS_RATE_MID1: 40
-  PASS_RATE_MID2: 60
-  PASS_RATE_MAX: 100
-  PUPIL_TEACHER_RATIO_MIN: 0
-  PUPIL_TEACHER_RATIO_MID1: 35
-  PUPIL_TEACHER_RATIO_MID2: 50
-  PUPIL_TEACHER_RATIO_MAX: 100
+  AVG_GPA_MIN = 3
+  AVG_GPA_MAX = 4.2
+  PASS_RATE_MIN = 0
+  PASS_RATE_MID1 = 40
+  PASS_RATE_MID2 = 60
+  PASS_RATE_MAX = 100
+  PUPIL_TEACHER_RATIO_MIN = 0
+  PUPIL_TEACHER_RATIO_MID1 = 35
+  PUPIL_TEACHER_RATIO_MID2 = 50
+  PUPIL_TEACHER_RATIO_MAX = 100
 
   getBrackets: (metric) ->
     switch metric
       when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
-      when 'AVG_GPA' then [this.AVG_GPA_MIN, this.AVG_GPA_MAX]
-      when 'PASS_RATE' then [this.PASS_RATE_MIN, this.PASS_RATE_MID1, this.PASS_RATE_MID2, this.PASS_RATE_MAX]
-      when 'PUPIL_TEACHER_RATIO' then [this.PUPIL_TEACHER_RATIO_MIN, this.PUPIL_TEACHER_RATIO_MID1, this.PUPIL_TEACHER_RATIO_MID2, this.PUPIL_TEACHER_RATIO_MAX]
+      when 'AVG_GPA' then [AVG_GPA_MIN, AVG_GPA_MAX]
+      when 'PASS_RATE' then [PASS_RATE_MIN, PASS_RATE_MID1, PASS_RATE_MID2, PASS_RATE_MAX]
+      when 'PUPIL_TEACHER_RATIO' then [PUPIL_TEACHER_RATIO_MIN, PUPIL_TEACHER_RATIO_MID1, PUPIL_TEACHER_RATIO_MID2, PUPIL_TEACHER_RATIO_MAX]
 
   getBracket: (val, metric) ->
     unless typeof val in ['number', 'undefined', 'string']
@@ -41,9 +41,9 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
 
         # According to Mark we don't have to validate GPA ranges
         when 'AVG_GPA' then switch
-          when val <= this.AVG_GPA_MIN then 'GOOD'
-          when this.AVG_GPA_MIN < val <= this.AVG_GPA_MAX then 'MEDIUM'
-          when val > this.AVG_GPA_MAX then 'POOR'  # what's the upper limit?
+          when val <= AVG_GPA_MIN then 'GOOD'
+          when AVG_GPA_MIN < val <= AVG_GPA_MAX then 'MEDIUM'
+          when val > AVG_GPA_MAX then 'POOR'  # what's the upper limit?
 
         when 'CHANGE_PREVIOUS_YEAR' then switch
           when val < 0 then 'POOR'
@@ -62,15 +62,15 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
           # `when`s are exhaustive: tested typeof === number and !isNaN
 
         when 'PASS_RATE' then switch
-          when this.PASS_RATE_MIN <= val < this.PASS_RATE_MID1 then 'POOR'
-          when this.PASS_RATE_MID1 <= val <= this.PASS_RATE_MID2 then 'MEDIUM'
-          when this.PASS_RATE_MID2 < val <= this.PASS_RATE_MAX then 'GOOD'
+          when PASS_RATE_MIN <= val < PASS_RATE_MID1 then 'POOR'
+          when PASS_RATE_MID1 <= val <= PASS_RATE_MID2 then 'MEDIUM'
+          when PASS_RATE_MID2 < val <= PASS_RATE_MAX then 'GOOD'
           else 'UNKNOWN'
 
         when 'PUPIL_TEACHER_RATIO' then switch
-          when this.PUPIL_TEACHER_RATIO_MIN < val < this.PUPIL_TEACHER_RATIO_MID1 then 'GOOD'
-          when this.PUPIL_TEACHER_RATIO_MID1 <= val <= this.PUPIL_TEACHER_RATIO_MID2 then 'MEDIUM'
-          when val > this.PUPIL_TEACHER_RATIO_MID2 then 'POOR'
+          when PUPIL_TEACHER_RATIO_MIN < val < PUPIL_TEACHER_RATIO_MID1 then 'GOOD'
+          when PUPIL_TEACHER_RATIO_MID1 <= val <= PUPIL_TEACHER_RATIO_MID2 then 'MEDIUM'
+          when val > PUPIL_TEACHER_RATIO_MID2 then 'POOR'
           else 'UNKNOWN'
 
         else throw new Error "Unknown metric: '#{metric}'"
