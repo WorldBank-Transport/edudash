@@ -15,7 +15,7 @@ angular.module 'edudashAppSrv'
         primary:
           'performance': '9ed361d5-3ea5-491d-8e86-e21048c4704b'
           'improvement': '17560070-9194-46c9-9f4a-f882c349b7bb'
-        secondary: '743e5062-54ae-4c96-a826-16151b6f636b'
+        secondary: 'f83d6ec7-626e-48d0-a8ad-57f41a280e1f'
 
       xget = switch
         when $window.OLDIE? then (url, opts, otherArgs...) ->
@@ -75,7 +75,7 @@ angular.module 'edudashAppSrv'
         $q (resolve, reject) -> ($http.get url).then ((resp) -> resolve resp.data), reject
 
       getSchools: (year, schoolType, moreThan40, subtype) ->
-        extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
+        extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\", \"PUPIL_TEACHER_RATIO\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
         dataP = ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             \"CHANGE_PREVIOUS_YEAR\",
@@ -96,6 +96,7 @@ angular.module 'edudashAppSrv'
           # Fix wrong datatype "text" for numeric CHANGE_PREVIOUS_YEAR_GPA in CKAN
           dataP.then (data) -> $q.when data.map (d) ->
             d.CHANGE_PREVIOUS_YEAR_GPA = parseFloat d.CHANGE_PREVIOUS_YEAR_GPA
+            d.PUPIL_TEACHER_RATIO = parseFloat d.PUPIL_TEACHER_RATIO
             d
         dataP
 
