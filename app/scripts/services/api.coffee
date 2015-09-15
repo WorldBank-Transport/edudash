@@ -120,6 +120,12 @@ angular.module 'edudashAppSrv'
               (\"NAME\" ILIKE '%#{query}%'
                 OR \"CODE\" ILIKE '%#{query}%')
             AND \"YEAR_OF_RESULT\" = #{year}
+          ORDER BY
+            CASE
+              WHEN \"NAME\" ILIKE '#{query}%' THEN 1
+              WHEN \"CODE\" ILIKE '#{query}%' THEN 2
+              ELSE 3
+            END
           LIMIT 10"
 
       getYears: (educationLevel, subtype) ->
