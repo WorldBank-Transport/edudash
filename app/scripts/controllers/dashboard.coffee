@@ -51,7 +51,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             gpa:
               min: 0
               max: 5
-          ptratioComputedMax: 10
+          ptratioComputedMax: 100
           gpaComputedMax: 5
 
         # state transitioners
