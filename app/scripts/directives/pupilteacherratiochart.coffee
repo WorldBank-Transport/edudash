@@ -11,11 +11,11 @@ angular.module 'edudashAppDir'
       restrict: 'E'
       templateUrl: 'views/pupilteacherratiochart.html'
       scope: {
-        selectedSchool: '=datasource'
+        selected: '=datasource'
       }
       link: (scope, element, attrs) ->
         scope.getTimes = (n) ->
-          if scope.selectedSchool? and scope.selectedSchool['PUPIL_TEACHER_RATIO']? then new Array(parseInt(n)) else 0
+          if scope.selected? and scope.selected['PUPIL_TEACHER_RATIO']? then new Array(n)
         scope.getClass = (index, value) ->
           sex = if index % 2 == 0 then 'boy' else 'girl'
           color = switch

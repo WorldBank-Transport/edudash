@@ -93,10 +93,10 @@ angular.module 'edudashAppSrv'
             FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
         if schoolType == 'secondary'
-          # Fix wrong datatype "text" for numeric CHANGE_PREVIOUS_YEAR_GPA in CKAN
+          # Fix wrong datatype "text" for numeric CHANGE_PREVIOUS_YEAR_GPA and PUPIL_TEACHER_RATIO in CKAN
           dataP.then (data) -> $q.when data.map (d) ->
             d.CHANGE_PREVIOUS_YEAR_GPA = parseFloat d.CHANGE_PREVIOUS_YEAR_GPA
-            d.PUPIL_TEACHER_RATIO = parseFloat d.PUPIL_TEACHER_RATIO
+            d.PUPIL_TEACHER_RATIO = if d.PUPIL_TEACHER_RATIO? && d.PUPIL_TEACHER_RATIO.length > 0 then parseFloat d.PUPIL_TEACHER_RATIO else 0
             d
         dataP
 
