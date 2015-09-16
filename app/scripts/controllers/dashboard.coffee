@@ -98,12 +98,25 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> utils.max allSchools, 'PUPIL_TEACHER_RATIO', 10
+          computer: ([allSchools]) ->
+            max = utils.max allSchools, 'PUPIL_TEACHER_RATIO', 100
+            if max?
+              max.then (value) -> if value != $scope.range.ptratio.max
+                $scope.range.ptratio.max = value
+              max
+            else
+              null
 
         watchCompute 'gpaComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> utils.max allSchools, 'AVG_GPA', 5
+          computer: ([allSchools]) -> 
+            maxP = utils.max allSchools, 'AVG_GPA', 4
+            if maxP?
+              maxP.then (value) ->
+                if value != $scope.range.gpa.max
+                  $scope.range.gpa.max = value
+              maxP
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
