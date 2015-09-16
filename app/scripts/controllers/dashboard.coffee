@@ -148,10 +148,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             $q (resolve, reject) ->
               if allSchools?
                 allSchools.then (data) ->
+                  numberOfValues = 0
                   total = _(data).reduce ((memo, school) ->
-                    memo + school.PUPIL_TEACHER_RATIO
+                    unless isNaN(school.PUPIL_TEACHER_RATIO)
+                      numberOfValues++
+                      memo = memo + school.PUPIL_TEACHER_RATIO
+                    memo
                   ), 0
-                  resolve if isNaN(total) then null else total/data.length
+                  resolve if isNaN(total) then null else total/numberOfValues
               else
                 resolve null
 
