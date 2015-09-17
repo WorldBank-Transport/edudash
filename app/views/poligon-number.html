@@ -4,8 +4,8 @@
 <p class="widgetnumber">
   <span>
     <img class="poligonimage" ng-src="images/{{image}}">
-    <span ng-show="(value|exists) && value !== NaN">{{ value }}</span>
-    <span ng-hide="(value|exists) && value !== NaN" class="medium-character missing-data polygon" translate="chart.metric.missing-data">NA</span >
+    <span ng-show="value|exists">{{ present? present(value): value}}</span>
+    <span ng-hide="value|exists" class="medium-character missing-data polygon" translate="chart.metric.missing-data">NA</span >
   </span>
 </p>
 
