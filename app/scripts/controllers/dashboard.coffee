@@ -98,25 +98,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'ptratioComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) ->
-            max = utils.max allSchools, 'PUPIL_TEACHER_RATIO', 100
-            if max?
-              max.then (value) -> if value != $scope.range.ptratio.max
-                $scope.range.ptratio.max = value
-              max
-            else
-              null
+          computer: ([allSchools]) -> utils.max allSchools, 'PUPIL_TEACHER_RATIO', 100
 
         watchCompute 'gpaComputedMax',
           dependencies: ['allSchools']
           waitForPromise: true
-          computer: ([allSchools]) -> 
-            maxP = utils.max allSchools, 'AVG_GPA', 4
-            if maxP?
-              maxP.then (value) ->
-                if value != $scope.range.gpa.max
-                  $scope.range.gpa.max = value
-              maxP
+          computer: ([allSchools]) -> utils.max allSchools, 'AVG_GPA', 4
+
+        $scope.$watch 'ptratioComputedMax', (ptratioComputedMax, ptratioComputedMaxOld) -> if ptratioComputedMax? and ptratioComputedMax != ptratioComputedMaxOld
+          if ptratioComputedMax? and ptratioComputedMax != $scope.range.ptratio.max
+            $scope.range.ptratio.max = ptratioComputedMax
+
+        $scope.$watch 'gpaComputedMax', (gpaComputedMax, gpaComputedMaxOld) -> if gpaComputedMax? and gpaComputedMax != gpaComputedMaxOld
+          if gpaComputedMax? and gpaComputedMax != $scope.range.gpa.max
+            $scope.range.gpa.max = gpaComputedMax
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
