@@ -145,6 +145,7 @@
     "polygon.panel.non-gov-schools": "non-government schools",
     "polygon.panel.unknown": "unknown schools",
     "polygon.panel.rank": "national ranking",
-    "polygon.panel.regions": "regional ranking",
-    "polygon.panel.districts": "district ranking"
+    "polygon.panel.regions": "Region",
+    "polygon.panel.districts": "District",
+    "polygon.panel.regions.rank": "regional ranking"
 }
