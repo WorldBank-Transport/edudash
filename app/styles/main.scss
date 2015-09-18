@@ -414,6 +414,7 @@ div.cartodb-share a{
     text-transform:uppercase;
     color:$grey-light;
     font-weight:bold;
+    outline:none;
     &:hover{
       background: $content-bg;
       border: 1px solid $content-bg;
@@ -471,11 +472,19 @@ div.cartodb-share a{
 .form-horizontal{
   margin-bottom:20px;
   margin-top:20px;
+  .glyphicon{
+    color:$grey-light;
+    font-size:20px;
+    position:absolute;
+    left:33px;
+    top:7px;
+    z-index:2;
+  }
 }
 /* School info */
 #schoolinfo-placeholder{
     padding: 23px 0 0 0;
-    color: #ccc;
+    color: $grey-light;
     font-size: 16px;
     float: left;
     -webkit-transition:all linear 0.5s;
