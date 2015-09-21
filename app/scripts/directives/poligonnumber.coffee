@@ -14,5 +14,6 @@ angular.module 'edudashApp'
       name: '@'
       value: '='
       image: '@'
+      present: '='
     link: (scope, element, attrs) ->
 

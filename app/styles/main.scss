@@ -686,17 +686,18 @@ table.districts p {
   margin-top: 25px;
   min-height: 600px;
   background:$content-bg;
+  h2{
+    font-size:32px;
+    margin-bottom:20px;
+    font-weight:100;
+  }
 }
 
 #generalcontent p {
-
-}
-
-#generalcontent p.text {
     color: $body-text-color;
     font-weight: 300;
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 17px;
+    line-height: 21px;
     text-align: left;
 }
 
