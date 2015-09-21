@@ -68,7 +68,7 @@ angular.module('edudashAppSrv').service 'watchComputeSrv', ->
 
         if opts.waitForPromise == true
           unless result? and typeof result.then == 'function'
-            throw new Error 'waitForPromise requires that opts.computer returns a Promise'
+            throw new Error "watchCompute #{what}: waitForPromise requires that opts.computer returns a Promise"
           result.then (setResult watchCount), (err) -> throw err
         else
           (setResult watchCount) result
