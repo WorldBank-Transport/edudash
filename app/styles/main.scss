@@ -409,6 +409,7 @@ div.cartodb-share a{
   border-right: 1px solid $content-bg;
   border-top:1px solid $menu-tab-grey;
   border-bottom:1px solid $menu-tab-grey;
+  padding-left:20px;
   .form-control{
     box-shadow: none;
     text-transform:uppercase;
@@ -476,7 +477,7 @@ div.cartodb-share a{
     color:$grey-light;
     font-size:20px;
     position:absolute;
-    left:33px;
+    left:30px;
     top:7px;
     z-index:2;
   }
@@ -947,13 +948,16 @@ ul.main-nav li ul li a{
 .school-dropdown{
   &.dropdown-menu{
     top:40px;
+    left:-25px;
     background: $content-bg;
+    width:392px;
+    padding-top:0;
     li {
       padding:10px 5px;
       margin-left:-25px;
+      width:110%;
       a{
         color:darken($body-text-color,45%);
-        padding:5px 15px;
         &:hover{
           color: $content-bg;
           background: $theme-blue;
@@ -1316,4 +1320,12 @@ map-bottom-toggle.filters {
 .poligonimage {
   margin-top: -10px;
   height: 45px;
+}
+
+.ui-select-match-text{
+  outline:none;
+}
+
+span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
+  outline:none;
 }
