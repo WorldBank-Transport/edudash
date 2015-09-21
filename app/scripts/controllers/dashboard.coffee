@@ -156,14 +156,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             $q (resolve, reject) ->
               if allSchools?
                 allSchools.then (data) ->
-                  numberOfValues = 0
-                  total = _(data).reduce ((memo, school) ->
-                    unless isNaN(school.PUPIL_TEACHER_RATIO)
-                      numberOfValues++
-                      memo = memo + school.PUPIL_TEACHER_RATIO
-                    memo
+                  filtered = _(data).filter (s) -> not isNaN s.PUPIL_TEACHER_RATIO
+                  total = _(filtered).reduce ((memo, school) ->
+                    memo + school.PUPIL_TEACHER_RATIO
                   ), 0
-                  resolve if isNaN(total) then null else total/numberOfValues
+                  resolve if isNaN(total) or filtered.length == 0 then null else total/filtered.length
               else
                 resolve null
 
@@ -587,6 +584,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
               NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
               UNKNOWN_SCHOOLS: regSchools.length - byOwner.GOVERNMENT?.length - byOwner['NON GOVERNMENT']?.length
+              PT_RATIO: averageProp regSchools, 'PUPIL_TEACHER_RATIO', true
 
             # get the region for any district via school data
             if polyType == 'districts'
@@ -621,9 +619,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             grouped[row[prop]].push row
           grouped
 
-        average = (nums) -> (nums.reduce (a, b) -> a + b) / nums.length
+        average = (nums) -> (nums.reduce ((a, b) -> a + b), 0) / nums.length
 
-        averageProp = (rows, prop) -> average _(rows).map (r) -> r[prop]
+        averageProp = (rows, prop, filterNaN) ->
+          values = if filterNaN then _(rows).filter((r) -> not isNaN r[prop]).map (r) -> r[prop] else _(rows).map (r) -> r[prop]
+          average values
 
         search = (query) ->
           if query?
