@@ -32,12 +32,12 @@ body {
 .page-header{
     margin: 10px 0 15px;
     font-weight: 800;
-    color: #777;
+    color: $body-text-color;
     font-size: 15px;
     padding-bottom: 15px
 }
 .navbar-default .navbar-nav > li > a{
-    color: #F0F0F0;
+    color:$menu-tab-grey;
     cursor: pointer;
 }
 
@@ -78,10 +78,6 @@ body {
   background: white;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -90,11 +86,10 @@ body {
   padding-bottom: 19px;
 }
 
-
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $grey-lightest;
 }
 .jumbotron .btn {
   font-size: 21px;
@@ -123,7 +118,7 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: visible;
-    background:#f6f6f6;
+    background:$menu-tab-grey;
     @include content-border;
 }
 .navbar{
@@ -154,7 +149,7 @@ html, body {
 
 h1 {
     font-family: 'Open Sans', sans-serif;
-    color: #1595d3;
+    color: $theme-blue;
     text-transform:uppercase;
     display:inline-block;
     margin-top:16px;
@@ -173,7 +168,7 @@ h1 {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 246px;
-    border: 1px solid #e3e3e3;
+    border: 1px solid $grey-lightest;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -199,17 +194,17 @@ table.schools a:link, a:visited, a:hover {
 }
 
 table.schools tr:hover {
-    background-color: #b9e5f5;
+    background-color: $theme-blue-lightest;
 }
 
 table.schools td {
-    border-bottom: 1px dotted #e3e3e3;
+    border-bottom: 1px dotted $grey-lightest;
     height: 35px;
     white-space: nowrap;
 }
 
 table.schools td.rank {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
     font-size: 14px;
     width: 20px;
@@ -217,7 +212,7 @@ table.schools td.rank {
 }
 
 table.schools td.name {
-    color: #6b6b6b;
+    color:$body-text-color;
     font-weight: 400;
     font-size: 14px;
     text-align:left;
@@ -249,7 +244,7 @@ table.schools td.passratered {
 }
 
 table.schools td.passrateunknow {
-  color: #aaa;
+  color: $unknown;
   font-weight: 400;
   font-size: 16px;
   width: 55px;
@@ -340,7 +335,7 @@ div.cartodb-share a{
 
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
-  background: #cccccc;
+  background: $grey-light;
   color:$content-bg;
   &:hover{
     background: $theme-blue;
@@ -370,7 +365,7 @@ div.cartodb-share a{
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus{
-  background:#1aa4db;
+  background: $theme-blue;
   color:$content-bg;
   border:1px solid transparent;
   -webkit-transition: all 250ms ease-in;
@@ -379,14 +374,9 @@ div.cartodb-share a{
   transition: all 250ms ease-in;
   cursor: pointer;
 }
-
 .link {
   color: $theme-blue;
   cursor: pointer;
-}
-
-.white {
-  color: #d8fffd;
 }
 .show-sm{
     display: none;
@@ -451,7 +441,7 @@ div.cartodb-share a{
   margin-top: 15px;
 }
 .select2-highlighted .text-muted{
-    color: #EEEEF5
+    color: $menu-tab-grey;
 }
 .ui-select-choices-row.active > a > .text-muted{
   color:#eeeeee;
@@ -560,7 +550,7 @@ div.cartodb-share a{
 }
 
 #schoolinfo img.arrow {
-    margin-right: 0px;
+    margin-top: -4px;
 }
 
 #schoolinfo img.teacher {
@@ -610,7 +600,7 @@ table.districts td {
 }
 
 table.districts td.rank {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
     font-size: 13px;
     width: 20px;
@@ -618,7 +608,7 @@ table.districts td.rank {
 }
 
 table.districts td.name {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
     font-size: 13px;
     width: 125px;
@@ -659,7 +649,7 @@ table.districts p {
 
 #passOverTime .line {
   fill: none;
-  stroke: #E6E9EA;
+  stroke: $menu-tab-grey;
   stroke-width: 4px;
 }
 
@@ -737,7 +727,7 @@ table.districts p {
 }
 
 #generalcontent a.boxlink:hover {
-    background-color: #2ab4e7;
+    background-color: $theme-blue;
 }
 
 // homepage-specific container
@@ -789,7 +779,7 @@ table.districts p {
   @include border-radius(5px);
   float: right;
   margin-left: 20px;
-  background: #f0f0f0;
+  background: $menu-tab-grey;
   margin-top: 10px;
   padding-top: 17px;
   padding-bottom: 13px;
@@ -801,7 +791,7 @@ table.districts p {
 }
 
 .navbar-lang li{
-  border-right:1px solid #1595d3;
+  border-right:1px solid $theme-blue;
   display:inline;
 }
 
@@ -809,20 +799,17 @@ table.districts p {
   border-right:none;
 }
 .navbar-lang li a{
-  color: #aaaaaa;
+  @include transtitionAll;
+  color: $unknown;
   padding-top:0;
   padding-bottom:0;
   line-height:14px;
   outline:none;
-  -webkit-transition: color 300ms ease-in;
-  -moz-transition: color 300ms ease-in;
-  -o-transition: color 300ms ease-in;
-  transition: color 300ms ease-in;
   cursor:pointer;
 }
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
-  color: #1595d3;
+  color: $theme-blue;
 }
 /*education nav*/
 .navbar-education {
@@ -878,7 +865,7 @@ ul.main-nav{
   margin-top:25px;
 }
 ul.main-nav li{
-  border-right:1px solid #5b5b5b;
+  border-right:1px solid $body-text-color;
   display:inline;
   height:15px;
 }
@@ -890,11 +877,11 @@ ul.main-nav li:last-child{
 ul.main-nav li a{
   line-height:16px;
   padding-top:0;
-  color:#5b5b5b;
+  color:$body-text-color;
 }
 ul.main-nav li a:hover,
 ul.main-nav li a:focus{
-  color: #1595d3;
+  color: $theme-blue;
   background:none;
 }
 ul.main-nav li a.dropdown-toggle,
@@ -1039,7 +1026,7 @@ map-bottom-toggle.legend {
     display: inline-block;
     margin: 0 0.4em;
     font-weight: bold;
-    color: #777;
+    color: $body-text-color;
     &:before {
       content: "";
       display: inline-block;
@@ -1171,7 +1158,7 @@ map-bottom-toggle.filters {
   color: $theme-blue;
   font-size: 10px;
   margin-bottom: 2;
-  fill: #05a2dc;
+  fill: $theme-blue;
   width: 100%;
   text-transform:uppercase;
 &.rank-label{
@@ -1190,10 +1177,12 @@ map-bottom-toggle.filters {
   margin-left: 4px;
   margin-top: 4px;
   top: 0px;
-
+  &.swahili-title{
+    top:3px;
+  }
   &.withoutchart {
     left: -6px;
-    top:$nav-height+1;
+    top:$nav-height;
   }
   &.no-margin {
     margin-top: 0px;
@@ -1217,7 +1206,7 @@ map-bottom-toggle.filters {
   position: absolute;
   white-space: nowrap;
   margin-left: 0;
-  margin-top: -5px;
+  margin-top: -3px;
   padding: 0;
   left: 0px;
   top: 0px;
@@ -1253,7 +1242,7 @@ map-bottom-toggle.filters {
   height:15px;
   margin: 2px 5px 0 0;
   &.selected {
-    background:#c0edff;
+    background:$theme-blue-lightest;
   }
 }
 
@@ -1264,6 +1253,12 @@ map-bottom-toggle.filters {
   width: 100%;
   bottom:0;
   height: $footer-height;
+  a{
+    color:$theme-blue-light;
+    &:hover{
+      color: $content-bg;
+    }
+  }
   p{
     color:$content-bg;
     margin-top:15px;
