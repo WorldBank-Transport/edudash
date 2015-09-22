@@ -11,7 +11,7 @@
   font-weight:bold;
   padding:5px 10px;
   line-height:20px;
-  color:#ffffff;
+  color:$content-bg;
   margin-top:10px;
   &.best-perform{
     background:$rank-good;
@@ -58,10 +58,10 @@
   }
   tr{
   &:hover{
-    background:#f6f6f6;
+    background:$menu-tab-grey;
     }
   }
   tr:nth-child(even) {
-    background: #ebebeb
+    background:$menu-tab-grey;
   }
 }

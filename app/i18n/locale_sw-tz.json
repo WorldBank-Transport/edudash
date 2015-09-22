@@ -9,8 +9,8 @@
     "menu.showdata": "Onyesha Takwimu",
     "tab.national": "Taifa",
     "tab.national-view": "Mtazamo wa Kitaifa",
-    "tab.school-view": "Schools",
-    "tab.school": "Schools",
+    "tab.school-view": "Shule",
+    "tab.school": "Shule",
     "tab.regional": "Mkoa",
     "tab.regional-view": "Mtazamo wa Mkoa",
     "tab.district": "Wilaya",
@@ -141,6 +141,7 @@
     "polygon.panel.non-gov-schools": "Shule za Binafsi",
     "polygon.panel.unknown": "Umiliki Haujulikani",
     "polygon.panel.rank": "Cheo katika orodha la taifa",
-    "polygon.panel.regions": "Cheo katika Mkoa",
-    "polygon.panel.districts": "Cheo katika Wilaya"
+    "polygon.panel.regions": "Mkoa",
+    "polygon.panel.districts": "Wilaya",
+    "polygon.panel.regions.rank": "Cheo katika Mkoa"
 }

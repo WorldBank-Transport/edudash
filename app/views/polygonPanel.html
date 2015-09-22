@@ -10,7 +10,7 @@
   </div>
 </div>
 <header>
-  <h2>{{ selectedPoly.properties.NAME }}</h2>
+  <h2>{{'polygon.panel.' + selectedPoly.properties.type | translate}}: {{ selectedPoly.properties.NAME }}</h2>
 </header>
 <div>
   <div class="row">
@@ -27,6 +27,7 @@
 <poligon-number
     name="{{'polygon.panel.pupil-teacher-ratio' | translate}}"
     value="selectedPoly.properties.PT_RATIO"
+    present="Math.round"
     image="pupil.png">
 </poligon-number>
 <poligon-number
@@ -48,4 +49,9 @@
     name="{{'polygon.panel.rank' | translate}}"
     value="selectedPoly.properties.ranks.NATIONAL.rank"
     image="ranking.png">
+</poligon-number>
+<poligon-number ng-if="selectedPoly.properties.type == 'districts'"
+        name="{{'polygon.panel.regions.rank' | translate}}"
+        value="selectedPoly.properties.ranks.REGIONAL.rank"
+        image="ranking.png">
 </poligon-number>
