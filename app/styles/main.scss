@@ -1132,12 +1132,22 @@ map-bottom-toggle.filters {
   white-space: nowrap;
   left: 0;
   &.missing-data {
+<<<<<<< HEAD
      font-size: 14px;
      text-transform: capitalize;
   }
 }
 &.polygon {
    position: relative;
+=======
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: capitalize;
+  }
+  &.polygon {
+    position: relative;
+  }
+>>>>>>> edudash-2.0
 }
 .text-grey {
   color: $unknown;
@@ -1285,8 +1295,8 @@ map-bottom-toggle.filters {
 
 
 // vertical padding that can be applied to any container
-.vert-padding{
-    @include buffer-top-bottom(30px);
+.vert-padding {
+  @include buffer-top-bottom(30px);
 }
 .full-size-scroll {
   height: 450px;
@@ -1294,7 +1304,7 @@ map-bottom-toggle.filters {
 }
 
 // gauge chart title in kiswahili
-.swahili-title{
+.swahili-title {
   line-height:12px;
   width:130px;
   text-align:center;
@@ -1305,11 +1315,10 @@ map-bottom-toggle.filters {
     margin-left:3px;
   }
 }
-.gauge-title.withoutchart.swahili-title{
+.gauge-title.withoutchart.swahili-title {
   left:15px;
   padding:0;
   margin-left:-8px;
-
 }
 .poligonimage {
   margin-top: -10px;
