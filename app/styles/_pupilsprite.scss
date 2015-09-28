@@ -36,35 +36,36 @@
 }
 
 .pt-ratio{
-  width:13px;
-  height:27px;
+  width:15px;
+  height:30px;
   background-image: url(../images/sprite-school-icons.png);
   background-repeat: no-repeat;
   float:left;
+  border:1px dotted #f00;
 
 &.girl-green{
-  background-position: -92px 0;
+  background-position: -95px 0;
   }
 &.girl-red{
-    background-position: -105px 0;
+    background-position: -109px 0;
   }
 &.girl-grey{
-    background-position: -78px 0;
+    background-position: -81px 0;
   }
 &.girl-yellow{
-    background-position: -118px 0;
+    background-position: -124px 0;
   }
 
 &.boy-green{
-    background-position: -92px -38px;
+    background-position: -95px -41px;
   }
 &.boy-red{
-    background-position: -105px -38px;
+    background-position: -109px -41px;
   }
 &.boy-grey{
-    background-position: -78px -38px;
+    background-position: -80px -41px;
   }
 &.boy-yellow{
-    background-position: -118px -38px;
+    background-position: -124px -41px;
   }
 }
