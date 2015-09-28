@@ -40,6 +40,7 @@
   height:30px;
   background-image: url(../images/sprite-school-icons.png);
   background-repeat: no-repeat;
+  background-size: 140px 79px;
   float:left;
 
 &.girl-green{
@@ -54,7 +55,6 @@
 &.girl-yellow{
     background-position: -124px 0;
   }
-
 &.boy-green{
     background-position: -95px -41px;
   }
