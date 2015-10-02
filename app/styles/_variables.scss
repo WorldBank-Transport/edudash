@@ -1,7 +1,10 @@
 // Colours
-$theme-blue:     #05a2dc;
+$theme-blue: #05a2dc;
 $theme-blue-light: #8cd1ed;
-$grey-light:     #c0c0c0;
+$theme-blue-lightest: #b9e5f5;
+$grey-dark: #3a3a3a;
+$grey-light: #c0c0c0;
+$grey-lightest: #e3e3e3;
 
 $rank-good: #80c671;
 $rank-medium: #e9c941;
@@ -13,12 +16,21 @@ $poor-perform: #f05e55;
 $body-text-color: #777777;
 $content-bg: #ffffff;
 
-$unknown: #aaa;
+$unknown: #aaaaaa;
 $menu-tab-grey:#f0f0f0;
 
 $map-overlay: hsla(0, 0%, 100%, 0.9);
 $map-overlay-edge: hsla(0, 0%, 0%, 0.1);
 $map-overlay-outline: -1px -1px 0 $map-overlay-edge;
+
+// Typography
+$label-weight: 800;
+$school-list-weight:700;
+$content-weight: 300;
+$district-text:11px;
+$table-text: 13px;
+$panel-text: 14px;
+$school-info-text:16px;
 
 // Layout
 
@@ -45,3 +57,6 @@ $c: 850px;
 $e: 992px;
 $f: 1024px;
 $g: 1280px;
+
+// translation related
+$swahili-title-width: 110px;

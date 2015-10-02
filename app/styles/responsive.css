@@ -214,10 +214,11 @@
   .sidebar {
     top: 120px; } }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) {
+  .pt-ratio {
+    background-image: url(../images/sprite-school-icons@x2.png); }
+
   .pass-rate {
-    background-image: url(../images/sprite-school-icons@x2.png);
-    background-repeat: no-repeat;
-    float: left; }
+    background-image: url(../images/sprite-school-icons@x2.png); }
     .pass-rate.boy-pass-yellow {
       background-position: -60px -40px; }
     .pass-rate.girl-pass-grey {

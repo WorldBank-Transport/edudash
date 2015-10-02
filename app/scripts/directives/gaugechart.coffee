@@ -25,7 +25,7 @@ angular.module 'edudashAppDir'
               plotBackgroundImage: null
               plotBorderWidth: 0
               plotShadow: false
-              height: 110
+              height: 100
               width: width + 20
               margin: [0, 0, 0, 0]
               spacingLeft: 1
@@ -35,7 +35,7 @@ angular.module 'edudashAppDir'
               enabled: false
             title:
               text: "<div class='col-md-12 gauge-title'>
-                      <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
+                      <span class='chart-title ng-binding'>#{attrs.title}</span>
                    </div>"
               useHTML: true
               y: 60

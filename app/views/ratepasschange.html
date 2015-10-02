@@ -1,11 +1,11 @@
 <div>
-    <div class="col-md-12" style="height: 64px" ng-if="data !== 0">
+    <div class="col-md-12" ng-if="data !== 0">
         <p ng-class="getStyle(data)" class="big-character">{{sign}}{{ data }}%</p>
     </div>
-    <div class="col-md-12" style="height: 64px" ng-if="data === 0">
+    <div class="col-md-12" ng-if="data === 0">
         <div><p class="medium-character missing-data" style="position: static;" translate="chart.metric.missing-data">NA</p></div>
     </div>
     <div class="col-md-12 {{'chart.dial-title.style'| translate}} passrate-change-title">
-        <span class="chart-title" style="font-size: 10px; font-weight: bold;">{{'chart.dial-title'| translate}} {{ since-1 }}</span>
+        <span class="chart-title">{{'chart.dial-title'| translate}} {{ since-1 }}</span>
     </div>
 </div>
