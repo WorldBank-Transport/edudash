@@ -1176,10 +1176,11 @@ map-bottom-toggle.filters {
   fill: $theme-blue;
   text-transform:uppercase;
   font-weight:$school-list-weight;
-  font-size:10px;
+  font-size: 0.7em;
   text-align:center;
   position:absolute;
   top:0;
+  font-family: 'Open Sans',sans-serif;
 
 &.rank-label{
   position: absolute;
