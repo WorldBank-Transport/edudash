@@ -1,267 +1,285 @@
 @import "variables";
 @import "mixins";
 
-
-// start: max width 1280
-@media only screen and (max-width : $g){
-  .navbar-brand{
-    padding-right:20px;
+.navbar-brand {
+  @media only screen and (max-width: $lg-ish) {
+    padding-right: 20px;
   }
-  .footer{
-    p{
-      margin-top:8px;
+  @media only screen and (max-width: $xxs) {
+    padding-right: 0;
+  }
+}
+
+.footer {
+  bottom: 0;
+  display: fixed;
+  p {
+    @media only screen and (max-width: $lg-ish) {
+      margin-top: 8px;
+    }
+    @media only screen and (max-width: $xs-ish) {
+      font-size: 11px;
+      line-height: 12px;
+    }
+    @media only screen and (max-width: $xxs) {
+      display: none;
     }
   }
-  .google-form{
+}
+
+.google-form {
+  @media only screen and (max-width: $lg-ish) {
     width: 95%;
-    margin-top:10px;
+    margin-top: 10px;
     overflow-x: no-scroll;
   }
-}// end: max width 1280
+}
 
-@media only screen and (min-width : $g){
-  .footer{
-    bottom:0;
-    position:fixed;
+#schoolinfo-placeholder {
+  @media only screen and (max-width: $md-ish) {
+    display: none;
+  }
+  @media only screen and (max-width: $sm) {
+    display: none;
   }
 }
 
-
-// start: max width 1024
-@media only screen and (max-width : $f){
-  .navbar-education ul li a{
-    font-size:13px;
-  }
-  #schoolinfo-placeholder{
-    display:none;
-    }
-  #generalcontent a.boxlink {
+#generalcontent a.boxlink {
+  @media only screen and (max-width: $md-ish) {
     font-size: 9px;
-    float:left;
-     }
-  .footer{
-    bottom:0;
-    }
-} // end: max width 1024
-
-
-// start: max width 992
-@media only screen and (max-width : $e){
-#schoolinfo-placeholder{
-  display:none;
+    float: left;
   }
-  .footer{
-    position:fixed;
+}
+
+.page-title {
+  @media screen and (max-width: $sm-ish) {
+    font-size: 25px;
+    line-height: 28px;
   }
-} // end: max width 992
+}
 
-// start: max width 850
-@media screen and (max-width: $c) {
-   .page-title{
-     font-size:25px;
-     line-height:28px;
-   }
-   .footer{
-     bottom:0;
-   }
-   .header-announcements{
-     display:none;
+.header-announcements {
+  @media screen and (max-width: $sm-ish) {
+    display: none;
+  }
+}
+
+.hide-sm {
+  @media screen and (max-width: $sm-ish) {
+    display: none;
+  }
+}
+
+.show-sm {
+  @media screen and (max-width: $sm-ish) {
+    display: block;
+  }
+}
+
+#schoolinfo .top-school-badge {
+  @media screen and (max-width: $sm-ish) {
+    top: 30px;
+    img {
+      width: 60%;
     }
-    .hide-sm{
-       display: none;
-   }
-   .show-sm{
-       display: block;
-   }
-   #schoolinfo .top-school-badge{
-       top: 30px;
-   }
-   #schoolinfo .top-school-badge img{
-       width: 60%;
-   }
+  }
+}
 
-} // end: max width 850
-
-// start: max 768
-@media only screen
-  and (max-width: $xs){
-    .navbar-lang {
-        position:absolute;
-        top:0;
-        right:26px;
-        padding:0;
-        background: none;
-        ul{
-          li{
-            float:left;
-            a{
-              padding:0 21px 0 0;
-              margin-left:21px;
-              &:hover{
-                background:none;
-                color: darken($body-text-color,25%);
-              }
-            }
-            &.active a{
-              background:none;
-              color: darken($body-text-color,25%);
-            }
+.navbar-lang {
+  @media only screen and (max-width: $xs) {
+    position: absolute;
+    top: 0;
+    right: 26px;
+    padding: 0;
+    background: none;
+    ul {
+      li {
+        float: left;
+        a {
+          padding: 0 21px 0 0;
+          margin-left: 21px;
+          &:hover {
+            background: none;
+            color: darken($body-text-color, 25%);
           }
         }
+        &.active a {
+          background: none;
+          color: darken($body-text-color, 25%);
+        }
       }
-
-  ul.main-nav{
-    z-index:5;
-    margin-top:38px;
-    li{
-      a{color: $theme-blue;}
     }
   }
-  .footer{
-    bottom:0;
-    position:fixed;
+  @media only screen and (max-width: $xs-ish) {
+    top: -13px;
+    right: 15px;
   }
-  .jumbotron {
+  @media only screen and (max-width: $xxs) {
+    @include border-radius(0);
+    margin: 45px 0 0 0;
+    padding: 1px 0 0 0;
+    cursor: pointer;
+    z-index: 1;
+    background: $menu-tab-grey;
+    border-bottom: 1px solid $content-bg;
+    width: 100%;
+    right: 0;
+    top: 19px;
+    ul {
+      display: block;
+      li {
+        width: 50%;
+        text-align: center;
+        a {
+          font-size: 11px;
+          color: $body-text-color;
+        }
+        &.active a {
+          color: $theme-blue;
+        }
+      }
+    }
+  }
+}
+
+
+ul.main-nav {
+  @media only screen and (max-width: $xs) {
+    z-index: 5;
+    margin-top: 38px;
+    li {
+      a {
+        color: $theme-blue;
+      }
+    }
+  }
+  @media only screen and (max-width: $xs-ish) {
+    margin-top: 17px;
+    li {
+      border-right: none;
+      margin-bottom: 10px;
+      text-align: right;
+      a {
+        color: #ffffff;
+        padding-right: 10px;
+      }
+      a:hover,
+      a:focus {
+        color: #ffffff;
+        outline: none;
+      }
+    }
+  }
+}
+
+.jumbotron {
+  @media only screen and (max-width: $xs) {
     border-bottom: 0;
-   }
+  }
 }
-// end: max 768
 
-@media only screen
-  and (max-width: 640px){
-  .navbar-toggle{
+.navbar-toggle {
+  @media only screen and (max-width: $xs-ish) {
     @include border-radius(0px);
-    padding:11px;
-    top:17px;
+    padding: 11px;
+    top: 17px;
   }
-  ul.main-nav li a:hover,
-  ul.main-nav li a:focus {
-    color: #ffffff;
-    outline:none;
+  @media only screen and (max-width: $xxs) {
+    top: 5px;
   }
-  .container-fluid > .navbar-collapse{
-        position:absolute;
-        top:59px;
-        right:31px;
-        width:22%;
-        background: $theme-blue;
-        z-index:2;
-      }
-  ul.main-nav{ margin-top:17px;}
-  ul.main-nav li{ border-right:none;margin-bottom:10px; text-align:right;}
-  ul.main-nav li a {
-    color: #ffffff;
-    padding-right:10px;
-    &:hover{
-      color: darken($body-text-color,25%);
-    }
-  }
-  .splash-image{
-    margin-top:37px;
-  }
-
-  .navbar-education{
-      margin-top:17px;
-      float:right;
-      margin-right:76px;
-    ul{
-      li{float:left;}
-    }
-  }
-  .navbar-lang{
-    top:-13px;
-    right:15px;
-  }
-  .footer{display:none;}
-  .map-widget {
-    bottom:0;
-  }
-
 }
 
-@media only screen and (max-width : $a){
-.navbar-brand{
-  padding-right:0;
+.container-fluid > .navbar-collapse {
+  @media only screen and (max-width: $xs-ish) {
+    position: absolute;
+    top: 59px;
+    right: 31px;
+    width: 22%;
+    background: $theme-blue;
+    z-index: 2;
+  }
+  @media only screen and (max-width: $xxs) {
+    width: 30%;
+    top: 47px;
+  }
 }
-.navbar-toggle{
-  top:5px;
-}
-.container-fluid > .navbar-collapse{
-  width:30%;
-  top:47px;
-  }
-.footer{
-  bottom:0;
-  p{
-    display:none;
-    }
-  }
-  .navbar-education{
-    width:100%;
-    position:absolute;
-    left:0;
-    top:97px;
-    border-top:1px solid $content-bg;
-    z-index:2;
-    padding:0;
-    margin:0;
-    ul{
-      padding:0;
-      margin:0;
-      width:100%;
-      li{
-        width:50%;
-        float:left;
-      }
-    }
-  }
 
-.map-container{
-  margin-top:63px;
-  .nav-tabs{
-    li{
-      width:25%;
-      a{
-        border-left:1px solid transparent;
-        color: $body-text-color;
+.splash-image {
+  @media only screen and (max-width: $xs-ish) {
+    margin-top: 37px;
+  }
+}
+
+.navbar-education {
+  ul li a {
+    @media only screen and (max-width: $md-ish) {
+      font-size: 13px;
+    }
+  }
+  @media only screen and (max-width: $xs-ish) {
+    margin-top: 17px;
+    float: right;
+    margin-right: 76px;
+    ul {
+      li {
+        float: left;
       }
-    &.active a{
-        color: $content-bg;
+    }
+  }
+  @media only screen and (max-width: $xxs) {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 97px;
+    border-top: 1px solid $content-bg;
+    z-index: 2;
+    padding: 0;
+    margin: 0;
+    ul {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      li {
+        width: 50%;
+        float: left;
       }
     }
   }
 }
-.navbar-lang{
-  @include border-radius(0);
-  margin:45px 0 0 0;
-  padding:1px 0 0 0;
-  cursor:pointer;
-  z-index:1;
-  background:$menu-tab-grey;
-  border-bottom:1px solid $content-bg;
-  width:100%;
-  right:0;
-  top:19px;
-  ul{
-    display:block;
-    li{
-      width:50%;
-      text-align:center;
-      a{
-        font-size:11px;
-        color:$body-text-color;
+
+.map-widget {
+  @media only screen and (max-width: 640px) {
+    bottom: 0;
+  }
+}
+
+.map-container {
+  @media only screen and (max-width: $xxs) {
+    margin-top: 63px;
+    .nav-tabs {
+      li {
+        width: 25%;
+        a {
+          border-left: 1px solid transparent;
+          color: $body-text-color;
+        }
+        &.active a {
+          color: $content-bg;
+        }
       }
-    &.active a{
-      color:$theme-blue;
-    }
     }
   }
 }
-.map-position-wrap{
-  top:120px;
+
+.map-position-wrap {
+  @media only screen and (max-width: $xxs) {
+    top: 120px;
+  }
 }
-.sidebar{
-  top:120px;
+
+.sidebar {
+  @media only screen and (max-width: $xxs) {
+    top: 120px;
   }
 }
 
@@ -275,20 +293,26 @@ only screen and (min-resolution: 240dpi) {
 }
 
 .pass-rate {
-  background-image: url(../images/sprite-school-icons@x2.png);
-  &.boy-pass-yellow{
+  // retina display sprites
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+      only screen and (min--moz-device-pixel-ratio: 1.5),
+      only screen and (min-resolution: 240dpi) {
+    background-image: url(../images/sprite-school-icons@x2.png);
+    background-repeat: no-repeat;
+    float: left;
+    &.boy-pass-yellow {
       background-position: -60px -40px;
     }
-  &.girl-pass-grey{
+    &.girl-pass-grey {
       background-position: 1px 2px;
     }
-  &.girl-pass-red{
+    &.girl-pass-red {
       background-position: -41px 1px;
     }
-  &.girl-pass-green{
+    &.girl-pass-green {
       background-position: -19px 1px;
     }
-  &.girl-pass-yellow{
+    &.girl-pass-yellow {
       background-position: -60px 1px;
     }
   }
