@@ -16,7 +16,6 @@ angular.module 'edudashAppDir'
           gaugeValue = value
           ranges = bracketsSrv.getBrackets(attrs.property)
           labelColor = colorSrv.color bracketsSrv.getBracket value, attrs.property
-
           width = element.parent().width()
           gaugeOptions =
             chart:
@@ -34,9 +33,9 @@ angular.module 'edudashAppDir'
             tooltip:
               enabled: false
             title:
-              text: "<div class='col-md-12 gauge-title'>
-                      <span class='chart-title ng-binding'>#{attrs.title}</span>
-                   </div>"
+              text: "<div class='col-md-12 gauge-title #{if attrs.title.length > 20 then 'swahili-title' else ''}'>
+                       <span class='chart-title ng-binding'>#{attrs.title}</span>
+                     </div>"
               useHTML: true
               y: 60
               width: width + 40

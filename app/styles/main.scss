@@ -1180,6 +1180,7 @@ map-bottom-toggle.filters {
   text-align:center;
   position:absolute;
   top:0;
+  font-family: 'Open Sans',sans-serif;
 
 &.rank-label{
   position: absolute;
@@ -1367,4 +1368,11 @@ map-bottom-toggle.filters {
 
 span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   outline:none;
+}
+
+.rank-widgetnumber {
+  font-size: 2.3em;
+  font-weight: 900;
+  font-family: 'Open Sans', sans-serif;
+  color: $grey-dark;
 }
