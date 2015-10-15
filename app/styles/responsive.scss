@@ -315,17 +315,22 @@ ul.main-nav {
 
 // retina display sprites
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-only screen and (min--moz-device-pixel-ratio: 1.5),
-only screen and (min-resolution: 240dpi) {
-.pt-ratio{
-  background-image: url(../images/sprite-school-icons@x2.png);
+       only screen and (   min--moz-device-pixel-ratio: 1.5),
+       only screen and (        min-device-pixel-ratio: 1.5),
+       only screen and (                min-resolution: 192dpi),
+       only screen and (                min-resolution: 1.5dppx) {
+  .pt-ratio {
+    background-image: url(../images/sprite-school-icons@x2.png);
+  }
 }
 
 .pass-rate {
   // retina display sprites
   @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-      only screen and (min--moz-device-pixel-ratio: 1.5),
-      only screen and (min-resolution: 240dpi) {
+         only screen and (   min--moz-device-pixel-ratio: 1.5),
+         only screen and (        min-device-pixel-ratio: 1.5),
+         only screen and (                min-resolution: 192dpi),
+         only screen and (                min-resolution: 1.5dppx) {
     background-image: url(../images/sprite-school-icons@x2.png);
     background-repeat: no-repeat;
     float: left;
