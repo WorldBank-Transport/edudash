@@ -1,59 +1,85 @@
 @media only screen and (max-width: 1280px) {
   .navbar-brand {
-    padding-right: 20px; }
+    padding-right: 20px; } }
+@media only screen and (max-width: 480px) {
+  .navbar-brand {
+    padding-right: 0; } }
 
-  .footer p {
-    margin-top: 8px; }
+@media only screen and (max-width: 480px) {
+  .map-widget {
+    bottom: 0; } }
 
+@media only screen and (max-width: 640px) {
+  .map-position-wrap {
+    right: 0; } }
+
+@media only screen and (max-width: 640px) {
+  .sidebar {
+    display: none; } }
+
+@media only screen and (max-width: 480px) {
+  map-bottom-toggle.legend {
+    width: 100%; } }
+
+@media only screen and (max-width: 480px) {
+  map-bottom-toggle.filters {
+    display: none; } }
+
+.footer {
+  bottom: 0;
+  display: fixed; }
+  @media only screen and (max-width: 480px) {
+    .footer {
+      display: none; } }
+  @media only screen and (max-width: 1280px) {
+    .footer p {
+      margin-top: 8px; } }
+  @media only screen and (max-width: 640px) {
+    .footer p {
+      font-size: 11px;
+      line-height: 12px; } }
+
+@media only screen and (max-width: 1280px) {
   .google-form {
     width: 95%;
     margin-top: 10px;
     overflow-x: no-scroll; } }
-@media only screen and (min-width: 1280px) {
-  .footer {
-    bottom: 0;
-    position: fixed; } }
+
 @media only screen and (max-width: 1024px) {
-  .navbar-education ul li a {
-    font-size: 13px; }
-
   #schoolinfo-placeholder {
-    display: none; }
-
-  #generalcontent a.boxlink {
-    font-size: 9px;
-    float: left; }
-
-  .footer {
-    bottom: 0; } }
+    display: none; } }
 @media only screen and (max-width: 992px) {
   #schoolinfo-placeholder {
-    display: none; }
+    display: none; } }
 
-  .footer {
-    position: fixed; } }
+@media only screen and (max-width: 1024px) {
+  #generalcontent a.boxlink {
+    font-size: 9px;
+    float: left; } }
+
 @media screen and (max-width: 850px) {
   .page-title {
     font-size: 25px;
-    line-height: 28px; }
+    line-height: 28px; } }
 
-  .footer {
-    bottom: 0; }
-
+@media screen and (max-width: 850px) {
   .header-announcements {
-    display: none; }
+    display: none; } }
 
+@media screen and (max-width: 850px) {
   .hide-sm {
-    display: none; }
+    display: none; } }
 
+@media screen and (max-width: 850px) {
   .show-sm {
-    display: block; }
+    display: block; } }
 
+@media screen and (max-width: 850px) {
   #schoolinfo .top-school-badge {
     top: 30px; }
+    #schoolinfo .top-school-badge img {
+      width: 60%; } }
 
-  #schoolinfo .top-school-badge img {
-    width: 60%; } }
 @media only screen and (max-width: 768px) {
   .navbar-lang {
     position: absolute;
@@ -71,118 +97,12 @@
           color: #373737; }
       .navbar-lang ul li.active a {
         background: none;
-        color: #373737; }
-
-  ul.main-nav {
-    z-index: 5;
-    margin-top: 38px; }
-    ul.main-nav li a {
-      color: #05a2dc; }
-
-  .footer {
-    bottom: 0;
-    position: fixed; }
-
-  .jumbotron {
-    border-bottom: 0; } }
+        color: #373737; } }
 @media only screen and (max-width: 640px) {
-  .navbar-toggle {
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-    background-clip: padding-box;
-    /* stops bg color from leaking outside the border: */
-    padding: 11px;
-    top: 17px; }
-
-  ul.main-nav li a:hover,
-  ul.main-nav li a:focus {
-    color: #ffffff;
-    outline: none; }
-
-  .container-fluid > .navbar-collapse {
-    position: absolute;
-    top: 59px;
-    right: 31px;
-    width: 22%;
-    background: #05a2dc;
-    z-index: 2; }
-
-  ul.main-nav {
-    margin-top: 17px; }
-
-  ul.main-nav li {
-    border-right: none;
-    margin-bottom: 10px;
-    text-align: right; }
-
-  ul.main-nav li a {
-    color: #ffffff;
-    padding-right: 10px; }
-    ul.main-nav li a:hover {
-      color: #373737; }
-
-  .splash-image {
-    margin-top: 37px; }
-
-  .navbar-education {
-    margin-top: 17px;
-    float: right;
-    margin-right: 76px; }
-    .navbar-education ul li {
-      float: left; }
-
   .navbar-lang {
     top: -13px;
-    right: 15px; }
-
-  .footer {
-    display: none; }
-
-  .map-widget {
-    bottom: 0; } }
+    right: 15px; } }
 @media only screen and (max-width: 480px) {
-  .navbar-brand {
-    padding-right: 0; }
-
-  .navbar-toggle {
-    top: 5px; }
-
-  .container-fluid > .navbar-collapse {
-    width: 30%;
-    top: 47px; }
-
-  .footer {
-    bottom: 0; }
-    .footer p {
-      display: none; }
-
-  .navbar-education {
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 97px;
-    border-top: 1px solid #ffffff;
-    z-index: 2;
-    padding: 0;
-    margin: 0; }
-    .navbar-education ul {
-      padding: 0;
-      margin: 0;
-      width: 100%; }
-      .navbar-education ul li {
-        width: 50%;
-        float: left; }
-
-  .map-container {
-    margin-top: 63px; }
-    .map-container .nav-tabs li {
-      width: 25%; }
-      .map-container .nav-tabs li a {
-        border-left: 1px solid transparent;
-        color: #777777; }
-      .map-container .nav-tabs li.active a {
-        color: #ffffff; }
-
   .navbar-lang {
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -206,19 +126,121 @@
           font-size: 11px;
           color: #777777; }
         .navbar-lang ul li.active a {
-          color: #05a2dc; }
+          color: #05a2dc; } }
 
+@media only screen and (max-width: 768px) {
+  ul.main-nav {
+    z-index: 5;
+    margin-top: 38px; }
+    ul.main-nav li a {
+      color: #05a2dc; } }
+@media only screen and (max-width: 640px) {
+  ul.main-nav {
+    margin-top: 17px; }
+    ul.main-nav li {
+      border-right: none;
+      margin-bottom: 10px;
+      text-align: right; }
+      ul.main-nav li a {
+        color: #ffffff;
+        padding-right: 10px; }
+      ul.main-nav li a:hover,
+      ul.main-nav li a:focus {
+        color: #ffffff;
+        outline: none; } }
+
+@media only screen and (max-width: 768px) {
+  .jumbotron {
+    border-bottom: 0; } }
+
+@media only screen and (max-width: 640px) {
+  .navbar-toggle {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background-clip: padding-box;
+    /* stops bg color from leaking outside the border: */
+    padding: 11px;
+    top: 17px; } }
+@media only screen and (max-width: 480px) {
+  .navbar-toggle {
+    top: 5px; } }
+
+@media only screen and (max-width: 640px) {
+  .container-fluid > .navbar-collapse {
+    position: absolute;
+    top: 59px;
+    right: 31px;
+    width: 22%;
+    background: #05a2dc;
+    z-index: 2; } }
+@media only screen and (max-width: 480px) {
+  .container-fluid > .navbar-collapse {
+    width: 30%;
+    top: 47px; } }
+
+@media only screen and (max-width: 640px) {
+  .splash-image {
+    margin-top: 37px; } }
+
+@media only screen and (max-width: 1024px) {
+  .navbar-education ul li a {
+    font-size: 13px; } }
+@media only screen and (max-width: 640px) {
+  .navbar-education {
+    margin-top: 17px;
+    float: right;
+    margin-right: 76px; }
+    .navbar-education ul li {
+      float: left; } }
+@media only screen and (max-width: 480px) {
+  .navbar-education {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 97px;
+    border-top: 1px solid #ffffff;
+    z-index: 2;
+    padding: 0;
+    margin: 0; }
+    .navbar-education ul {
+      padding: 0;
+      margin: 0;
+      width: 100%; }
+      .navbar-education ul li {
+        width: 50%;
+        float: left; } }
+
+@media only screen and (max-width: 640px) {
+  .map-widget {
+    bottom: 0; } }
+
+@media only screen and (max-width: 480px) {
+  .map-container {
+    margin-top: 63px; }
+    .map-container .nav-tabs li {
+      width: 25%; }
+      .map-container .nav-tabs li a {
+        border-left: 1px solid transparent;
+        color: #777777; }
+      .map-container .nav-tabs li.active a {
+        color: #ffffff; } }
+
+@media only screen and (max-width: 480px) {
   .map-position-wrap {
-    top: 120px; }
+    top: 120px; } }
 
+@media only screen and (max-width: 480px) {
   .sidebar {
     top: 120px; } }
+
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) {
   .pt-ratio {
-    background-image: url(../images/sprite-school-icons@x2.png); }
-
+    background-image: url(../images/sprite-school-icons@x2.png); } }
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 240dpi) {
   .pass-rate {
-    background-image: url(../images/sprite-school-icons@x2.png); }
+    background-image: url(../images/sprite-school-icons@x2.png);
+    background-repeat: no-repeat;
+    float: left; }
     .pass-rate.boy-pass-yellow {
       background-position: -60px -40px; }
     .pass-rate.girl-pass-grey {
