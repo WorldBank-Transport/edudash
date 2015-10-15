@@ -508,6 +508,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           poly.properties.ranks = NATIONAL: utils.rank p, ps, 'PASS_RATE'
           if $scope.polyType == 'districts'
             poly.properties.ranks.REGIONAL = utils.rank p, ps, 'PASS_RATE', 'REGION'
+          poly.properties.type = $scope.polyType
 
         getSchoolPin = (code) -> $q (resolve, reject) ->
           layer = $scope.pins.getLayer code

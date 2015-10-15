@@ -9,6 +9,14 @@
   box-shadow: $map-overlay-outline;
   overflow-y: auto;
   opacity: 1;
+
+  .flyout-missing-data{
+    text-align:left;
+    margin-top:$content-border-height;
+    font-size:14px;
+    text-transform:capitalize;
+  }
+
   &.animate-hide {
     &.ng-hide {
       transition: opacity linear 0.3s;

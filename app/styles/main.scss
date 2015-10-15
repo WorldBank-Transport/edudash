@@ -31,13 +31,13 @@ body {
 }
 .page-header{
     margin: 10px 0 15px;
-    font-weight: 800;
-    color: #777;
+    font-weight: $school-list-weight;
+    color: $body-text-color;
     font-size: 15px;
     padding-bottom: 15px
 }
 .navbar-default .navbar-nav > li > a{
-    color: #F0F0F0;
+    color:$menu-tab-grey;
     cursor: pointer;
 }
 
@@ -78,10 +78,6 @@ body {
   background: white;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
 /* Make the masthead heading the same height as the navigation */
 .header h3 {
   margin-top: 0;
@@ -90,11 +86,10 @@ body {
   padding-bottom: 19px;
 }
 
-
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid $grey-lightest;
 }
 .jumbotron .btn {
   font-size: 21px;
@@ -123,7 +118,7 @@ body {
     padding-right: 0;
     padding-left: 0;
     overflow: visible;
-    background:#f6f6f6;
+    background:$menu-tab-grey;
     @include content-border;
 }
 .navbar{
@@ -154,7 +149,7 @@ html, body {
 
 h1 {
     font-family: 'Open Sans', sans-serif;
-    color: #1595d3;
+    color: $theme-blue;
     text-transform:uppercase;
     display:inline-block;
     margin-top:16px;
@@ -173,7 +168,7 @@ h1 {
     overflow-y: scroll;
     overflow-x: hidden;
     height: 246px;
-    border: 1px solid #e3e3e3;
+    border: 1px solid $grey-lightest;
     margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -199,27 +194,27 @@ table.schools a:link, a:visited, a:hover {
 }
 
 table.schools tr:hover {
-    background-color: #b9e5f5;
+    background-color: $theme-blue-lightest;
 }
 
 table.schools td {
-    border-bottom: 1px dotted #e3e3e3;
+    border-bottom: 1px dotted $grey-lightest;
     height: 35px;
     white-space: nowrap;
 }
 
 table.schools td.rank {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
-    font-size: 14px;
+    font-size: $panel-text;
     width: 20px;
     text-align: right;
 }
 
 table.schools td.name {
-    color: #6b6b6b;
+    color:$body-text-color;
     font-weight: 400;
-    font-size: 14px;
+    font-size: $panel-text;
     text-align:left;
     padding:8px;
     overflow: hidden;
@@ -230,35 +225,35 @@ table.schools td.name {
 table.schools td.passrategreen {
     color: $rank-good;
     font-weight: 400;
-    font-size: 16px;
+    font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateyellow {
   color: $rank-medium;
   font-weight: 400;
-  font-size: 16px;
+  font-size: $school-info-text;
   width: 55px;
 }
 
 table.schools td.passratered {
     color: $rank-poor;
     font-weight: 400;
-    font-size: 16px;
+    font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateunknow {
-  color: #aaa;
+  color: $unknown;
   font-weight: 400;
-  font-size: 16px;
+  font-size: $school-info-text;
   width: 55px;
 }
 
 table.schools p {
     text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 300;
+    font-size: $district-text;
+    font-weight: $content-weight;
     color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
@@ -273,7 +268,7 @@ p.tableheader {
     font-family: 'Open Sans', sans-serif;
     color: white;
     font-weight: 400;
-    font-size: 14px;
+    font-size: $panel-text;
     margin:60px auto 20px auto;
     &.best-performing{
       background:$best-perform;
@@ -301,7 +296,7 @@ img.face {
 }
 .dial-title{
   color: $theme-blue;
-  font-weight: bold;
+  font-weight: $school-list-weight;
   font-size:12px;
   margin-bottom: 2px
 }
@@ -340,7 +335,7 @@ div.cartodb-share a{
 
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
-  background: #cccccc;
+  background: $grey-light;
   color:$content-bg;
   &:hover{
     background: $theme-blue;
@@ -370,7 +365,7 @@ div.cartodb-share a{
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus{
-  background:#1aa4db;
+  background: $theme-blue;
   color:$content-bg;
   border:1px solid transparent;
   -webkit-transition: all 250ms ease-in;
@@ -379,14 +374,9 @@ div.cartodb-share a{
   transition: all 250ms ease-in;
   cursor: pointer;
 }
-
 .link {
   color: $theme-blue;
   cursor: pointer;
-}
-
-.white {
-  color: #d8fffd;
 }
 .show-sm{
     display: none;
@@ -407,13 +397,15 @@ div.cartodb-share a{
   border-radius: 0;
   border-left: 1px solid $content-bg;
   border-right: 1px solid $content-bg;
-  border-top:1px solid #e1e1e1;
-  border-bottom:1px solid #e1e1e1;
+  border-top:1px solid $menu-tab-grey;
+  border-bottom:1px solid $menu-tab-grey;
+  padding-left:20px;
   .form-control{
     box-shadow: none;
     text-transform:uppercase;
-    color:#d4d4d4;
-    font-weight:bold;
+    color:$grey-light;
+    font-weight:$school-list-weight;
+    outline:none;
     &:hover{
       background: $content-bg;
       border: 1px solid $content-bg;
@@ -449,10 +441,10 @@ div.cartodb-share a{
   margin-top: 15px;
 }
 .select2-highlighted .text-muted{
-    color: #EEEEF5
+    color: $menu-tab-grey;
 }
 .ui-select-choices-row.active > a > .text-muted{
-  color:#eeeeee;
+  color: $grey-lightest;
 }
 .ui-select-bootstrap .ui-select-choices-row.active>a{
   background:$theme-blue;
@@ -471,12 +463,20 @@ div.cartodb-share a{
 .form-horizontal{
   margin-bottom:20px;
   margin-top:20px;
+  .glyphicon{
+    color:$grey-light;
+    font-size:20px;
+    position:absolute;
+    left:30px;
+    top:7px;
+    z-index:2;
+  }
 }
 /* School info */
 #schoolinfo-placeholder{
     padding: 23px 0 0 0;
-    color: #ccc;
-    font-size: 16px;
+    color: $grey-light;
+    font-size: $school-info-text;
     float: left;
     -webkit-transition:all linear 0.5s;
     transition:all linear 0.5s;
@@ -486,7 +486,6 @@ div.cartodb-share a{
     /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
     filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
-    padding-top: 15px;
     padding-left: 30px;
     padding-right: 20px;
     padding-bottom: 10px;
@@ -494,7 +493,7 @@ div.cartodb-share a{
 }
 
 #schoolinfo p.schoolname {
-  font-size: 16px;
+  font-size: $school-info-text;
   font-weight: 700;
   color: $theme-blue;
   margin-top: 0px;
@@ -502,7 +501,7 @@ div.cartodb-share a{
 }
 
 #schoolinfo p.code {
-  font-size: 13px;
+  font-size: $table-text;
   font-weight: 500;
   color:  darken($body-text-color, 20%);
   margin-top: 0px;
@@ -530,7 +529,7 @@ div.cartodb-share a{
 #schoolinfo .widgettitle {
   width:100%;
   font-size: 10px;
-  font-weight: bold;
+  font-weight: $label-weight;
   color: $theme-blue;
   text-transform: uppercase;
   margin-top: 0px;
@@ -543,15 +542,15 @@ div.cartodb-share a{
 
 #schoolinfo .widgetnumber {
   font-size: 2em;
-  font-weight: bold;
-  color: #3a3a3a;
+  font-weight: $label-weight;
+  color: $grey-dark;
   margin-top: -5px;
   margin-bottom: 2px;
   margin-right: 10px;
 }
 
 #schoolinfo img.arrow {
-    margin-right: 0px;
+    margin-top: -4px;
 }
 
 #schoolinfo img.teacher {
@@ -580,7 +579,7 @@ p.tableheaderdistrict {
     font-family: 'Open Sans', sans-serif;
     color: white;
     font-weight: 400;
-    font-size: 11px;
+    font-size: $district-text;
     margin-right: 10px;
     margin-top: 10px;
     padding-left:15px;
@@ -601,17 +600,17 @@ table.districts td {
 }
 
 table.districts td.rank {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
-    font-size: 13px;
+    font-size: $table-text;
     width: 20px;
     text-align: right;
 }
 
 table.districts td.name {
-    color: #6b6b6b;
+    color: $body-text-color;
     font-weight: 600;
-    font-size: 13px;
+    font-size: $table-text;
     width: 125px;
     text-align:left;
     padding-left: 8px;
@@ -636,8 +635,8 @@ table.districts td.passratered {
 
 table.districts p {
     text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 300;
+    font-size: $district-text;
+    font-weight: $content-weight;
     color: $body-text-color;
     line-height: 12px;
     margin-top: 0px;
@@ -650,7 +649,7 @@ table.districts p {
 
 #passOverTime .line {
   fill: none;
-  stroke: #E6E9EA;
+  stroke: $menu-tab-grey;
   stroke-width: 4px;
 }
 
@@ -660,7 +659,7 @@ table.districts p {
 
 .dotlabel {
   stroke: white;
-  font-size: 11px;
+  font-size: $district-text;
 }
 
 .circle-poor {
@@ -695,7 +694,7 @@ table.districts p {
 
 #generalcontent p {
     color: $body-text-color;
-    font-weight: 300;
+    font-weight: $content-weight;
     font-size: 17px;
     line-height: 21px;
     text-align: left;
@@ -714,7 +713,7 @@ table.districts p {
   @include border-radius(5px);
   background-color: $theme-blue;
   color: $content-bg;
-  font-weight: 300;
+  font-weight: $content-weight;
   font-size: 12px;
   text-transform:uppercase;
   margin: 20px auto;
@@ -728,7 +727,7 @@ table.districts p {
 }
 
 #generalcontent a.boxlink:hover {
-    background-color: #2ab4e7;
+    background-color: $theme-blue;
 }
 
 // homepage-specific container
@@ -780,7 +779,7 @@ table.districts p {
   @include border-radius(5px);
   float: right;
   margin-left: 20px;
-  background: #f0f0f0;
+  background: $menu-tab-grey;
   margin-top: 10px;
   padding-top: 17px;
   padding-bottom: 13px;
@@ -792,7 +791,7 @@ table.districts p {
 }
 
 .navbar-lang li{
-  border-right:1px solid #1595d3;
+  border-right:1px solid $theme-blue;
   display:inline;
 }
 
@@ -800,20 +799,17 @@ table.districts p {
   border-right:none;
 }
 .navbar-lang li a{
-  color: #aaaaaa;
+  @include transitionAll;
+  color: $unknown;
   padding-top:0;
   padding-bottom:0;
-  line-height:14px;
+  line-height:$panel-text;
   outline:none;
-  -webkit-transition: color 300ms ease-in;
-  -moz-transition: color 300ms ease-in;
-  -o-transition: color 300ms ease-in;
-  transition: color 300ms ease-in;
   cursor:pointer;
 }
 .navbar-lang li a:hover,
 .navbar-lang li.active a{
-  color: #1595d3;
+  color: $theme-blue;
 }
 /*education nav*/
 .navbar-education {
@@ -831,7 +827,7 @@ table.districts p {
         background: $menu-tab-grey;
         color:$body-text-color;
         border-right: 1px solid $content-bg;
-        font-size:16px;
+        font-size: $school-info-text;
         outline:none;
         cursor:pointer;
         padding: 10px 25px;
@@ -869,7 +865,7 @@ ul.main-nav{
   margin-top:25px;
 }
 ul.main-nav li{
-  border-right:1px solid #5b5b5b;
+  border-right:1px solid $body-text-color;
   display:inline;
   height:15px;
 }
@@ -879,13 +875,13 @@ ul.main-nav li:last-child{
 }
 
 ul.main-nav li a{
-  line-height:16px;
+  line-height:$school-info-text;
   padding-top:0;
-  color:#5b5b5b;
+  color:$body-text-color;
 }
 ul.main-nav li a:hover,
 ul.main-nav li a:focus{
-  color: #1595d3;
+  color: $theme-blue;
   background:none;
 }
 ul.main-nav li a.dropdown-toggle,
@@ -931,7 +927,7 @@ ul.main-nav li ul li a{
     padding:8px 20px;
     color: $content-bg;
   &:hover{
-    font-weight:bold;
+    font-weight:$school-list-weight;
     cursor: pointer;
     }
   }
@@ -940,13 +936,16 @@ ul.main-nav li ul li a{
 .school-dropdown{
   &.dropdown-menu{
     top:40px;
+    left:-25px;
     background: $content-bg;
+    width:392px;
+    padding-top:0;
     li {
       padding:10px 5px;
       margin-left:-25px;
+      width:110%;
       a{
         color:darken($body-text-color,45%);
-        padding:5px 15px;
         &:hover{
           color: $content-bg;
           background: $theme-blue;
@@ -987,7 +986,7 @@ map-bottom-toggle {
       margin: 0;
       font-size: 1em;
       line-height: $bottom-bar-height;
-      font-weight: bold;
+      font-weight: $school-list-weight;
       color: $theme-blue;
       cursor: pointer;
       &:before,
@@ -1026,8 +1025,8 @@ map-bottom-toggle.legend {
   li {
     display: inline-block;
     margin: 0 0.4em;
-    font-weight: bold;
-    color: #777;
+    font-weight: $school-list-weight;
+    color: $body-text-color;
     &:before {
       content: "";
       display: inline-block;
@@ -1080,7 +1079,7 @@ map-bottom-toggle.filters {
       border-radius: 0.5em;
     }
     &.active {
-      font-weight: bold;
+      font-weight: $school-list-weight;
       color: darken($theme-blue, 10%);
       &:before {
         background: $theme-blue;
@@ -1123,29 +1122,47 @@ map-bottom-toggle.filters {
   white-space: nowrap;
   left: -10px;
 }
+
 .medium-character {
   position: absolute;
   font-size: 25px;
-  font-weight: 800;
+  font-weight: $school-list-weight;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
   white-space: nowrap;
   left: 0;
-}&.missing-data {
-   font-size: 14px;
-   font-weight: 800;
-   text-transform: capitalize;
-}&.polygon {
-   position: relative;
+
+  &.missing-data {
+    font-size: $panel-text;
+    text-transform: capitalize;
+    padding-left:15px;
+  }
+
+  &.polygon {
+    position: relative;
+  }
+
+  &.polygon {
+    position: relative;
+    font-size: $panel-text;
+    font-weight: $school-list-weight;
+    text-transform: capitalize;
+    }
 }
+
 .text-grey {
   color: $unknown;
 }
+
+.text-center{
+  text-align:center;
+}
+
 .medium-small-character {
   position: absolute;
   font-size: 0.8em;
-  font-weight: bold;
+  font-weight: $school-list-weight;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 10px;
@@ -1156,63 +1173,87 @@ map-bottom-toggle.filters {
 
 .chart-title {
   color: $theme-blue;
-  font-size: 10px;
-  margin-bottom: 2;
-  fill: #05a2dc;
-  width: 100%;
+  fill: $theme-blue;
   text-transform:uppercase;
+  font-weight:$school-list-weight;
+  font-size:10px;
+  text-align:center;
+  position:absolute;
+  top:0;
+
 &.rank-label{
   position: absolute;
   left:0;
   padding-bottom:10px;
   }
-&.gauge {
-  font-size: 10px;
-  font-weight: bold;
-  }
 }
 .gauge-title {
-  position: absolute;
   white-space: nowrap;
-  margin-left: 0px;
-  margin-top: 4px;
-  left: 3px;
-  top: 0px;
-&.withoutchart {
-  margin-top: 5px;
-  left: -6px;
-  top: 53px;
+  &.swahili-title{
+    .chart-title{
+      left:10px;
+      top:8px;
+    }
   }
-&.no-margin {
-  margin-top: 0px;
-  left: 0px;
+  &.withoutchart {
+    left: 20px;
+    text-align:center;
+
+    &.swahili-title{
+      .chart-title{
+        left:0;
+        top:62px;
+      }
+    }
+    .chart-title{
+      left:-35px;
+      top:65px;
+    }
+  }
+
+  .chart-title{
+    left:25px;
+    top:12px;
+    position:absolute;
+    width:125px;
+  }
+
+  &.no-margin {
+    margin-top: 0px;
+    left: 0px;
+  }
 }
-}
-.gauge-na {
-  position: static;
-  margin-top: 20px;
-}
+
 .passrate-change-title {
   position: absolute;
   white-space: nowrap;
-  margin-left: 0px;
-  margin-top: 5px;
-  left: -5px;
-  top: 54px;
+  top: $nav-height+9;
+  .chart-title{
+    left:-6px;
+  }
 }
 .passrate-time-chart {
-  margin-top: -15px;
 }
+
 .passrate-time-title {
   position: absolute;
   white-space: nowrap;
   margin-left: 0;
-  margin-top: -5px;
+  margin-top: -3px;
   padding: 0;
   left: 0px;
   top: 0px;
+  &.swahili-title{
+    .chart-title{
+      left:0;
+      width:$swahili-title-width;
+    }
+  }
 }
-
+.pass-rate-panel {
+  height: 110px;
+  margin-left: 5px;
+}
 .widget-full-width{
   width:100%;
 }
@@ -1229,7 +1270,7 @@ map-bottom-toggle.filters {
   color: $grey-light;
   font-size:30px;
   line-height:34px;
-  font-weight:300;
+  font-weight: $content-weight;
   padding-top: 50px;
 }
 
@@ -1243,7 +1284,7 @@ map-bottom-toggle.filters {
   height:15px;
   margin: 2px 5px 0 0;
   &.selected {
-    background:#c0edff;
+    background:$theme-blue-lightest;
   }
 }
 
@@ -1254,11 +1295,17 @@ map-bottom-toggle.filters {
   width: 100%;
   bottom:0;
   height: $footer-height;
+  a{
+    color:$theme-blue-light;
+    &:hover{
+      color: $content-bg;
+    }
+  }
   p{
     color:$content-bg;
     margin-top:15px;
     font-size:12px;
-    line-height:14px;
+    line-height:$panel-text;
   }
   .navbar-brand{
     height: $footer-height;
@@ -1280,8 +1327,8 @@ map-bottom-toggle.filters {
 
 
 // vertical padding that can be applied to any container
-.vert-padding{
-    @include buffer-top-bottom(30px);
+.vert-padding {
+  @include buffer-top-bottom(30px);
 }
 .full-size-scroll {
   height: 450px;
@@ -1289,24 +1336,35 @@ map-bottom-toggle.filters {
 }
 
 // gauge chart title in kiswahili
-.swahili-title{
-  line-height:12px;
-  width:130px;
+.swahili-title {
+  width:$swahili-title-width;
   text-align:center;
-  padding:0;
+  position:absolute;
   .chart-title{
     white-space:normal;
     line-height:12px;
-    margin-left:12px;
+  }
+  &.passrate-change-title{
+    .chart-title{
+      top:-3px;
+      white-space:normal;
+    }
   }
 }
-.gauge-title.withoutchart.swahili-title{
+.gauge-title.withoutchart.swahili-title {
   left:15px;
   padding:0;
   margin-left:-8px;
-
 }
 .poligonimage {
   margin-top: -10px;
   height: 45px;
+}
+
+.ui-select-match-text{
+  outline:none;
+}
+
+span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
+  outline:none;
 }

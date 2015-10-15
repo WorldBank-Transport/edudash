@@ -93,7 +93,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
     unless max >= min
       throw new Error "invalid range [#{min}, #{max}]"
 
-    (s) -> if s[prop]? then (min <= s[prop] <= max) else true
+    (s) -> if s[prop]? && s[prop] == s[prop] then (min <= s[prop] <= max) else true
 
 
   ###*
