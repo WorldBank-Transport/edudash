@@ -178,7 +178,8 @@
               </div>
               <div class="col-xs-4 text-center">
                 <gauge-chart
-                    title="{{'chart.pupil-teacher-ration'| translate}}"
+                    chart-title="{{'chart.pupil-teacher-ration'| translate}}"
+                    chart-title-class="{{'chart.dial-title.style'| translate}}"
                     property="PUPIL_TEACHER_RATIO"
                     format="{y}"
                     datasource="pupilTeacherRatio">
@@ -186,7 +187,8 @@
               </div>
               <div class="col-xs-4 text-center">
                 <gauge-chart
-                    title="{{'chart.average-pass-rate'| translate}}"
+                    chart-title="{{'chart.average-pass-rate'| translate}}"
+                    chart-title-class="{{'chart.dial-title.style'| translate}}"
                     property="PASS_RATE"
                     format="{y} %"
                     datasource="yearAggregates[year].PASS_RATE">
@@ -197,7 +199,8 @@
           <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
             <div class="row col-xs-12 passrate-time-chart">
               <pass-rate-time
-                  title="{{'chart.pass-rate-time'| translate}}"
+                  chart-title="{{'chart.pass-rate-time'| translate}}"
+                  chart-title-class="{{'chart.dial-title.style'| translate}}"
                   datasource="yearAggregates">
               </pass-rate-time>
             </div>
