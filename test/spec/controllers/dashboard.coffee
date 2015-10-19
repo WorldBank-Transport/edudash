@@ -36,6 +36,7 @@ describe 'Controller: DashboardCtrl', ->
   beforeEach inject ($rootScope, $controller) ->
     $scope = $rootScope.$new()
     $controller 'DashboardCtrl', $scope: $scope
+    $scope.schoolType = 'primary'  # the tests apply to the data pages, not the home page
 
   describe 'polyToggle', ->
     it 'should switch from schools to regions', ->

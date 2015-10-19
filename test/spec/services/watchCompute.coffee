@@ -102,7 +102,7 @@ describe 'watchComputeSrv', ->
       waitForPromise: true
       computer: ->  # undefined
     expect -> $scope.$digest()
-      .toThrow new Error 'waitForPromise requires that opts.computer returns a Promise'
+      .toThrow new Error 'watchCompute a: waitForPromise requires that opts.computer returns a Promise'
 
   it 'should throw when waitForPromise and compute doesn\'t return a promise', ->
     (watchComputeSrv $scope) 'a',
@@ -110,7 +110,7 @@ describe 'watchComputeSrv', ->
       waitForPromise: true
       computer: -> 'a raw value (a string) intead of a promise'
     expect -> $scope.$digest()
-      .toThrow new Error 'waitForPromise requires that opts.computer returns a Promise'
+      .toThrow new Error 'watchCompute a: waitForPromise requires that opts.computer returns a Promise'
 
   it 'should throw when waitForPromise and the promise fails', ->
     (watchComputeSrv $scope) 'a',
