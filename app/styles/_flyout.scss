@@ -2,13 +2,16 @@
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 0;
   width: $flyout-width;
-  padding: 10px 30px;
-  background: $map-overlay;
-  box-shadow: $map-overlay-outline;
   overflow-y: auto;
   opacity: 1;
+
+  .flyout-inner {
+    position:relative;
+    padding: 20px 30px;
+    background: $map-overlay;
+    box-shadow: $map-overlay-outline;
+  }
 
   .flyout-missing-data{
     text-align:left;
