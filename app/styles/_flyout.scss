@@ -42,7 +42,7 @@
   }
   h4 {
     font-style: italic;
-    color: #666;
+    color: $body-text-color;
   }
   .word,
   .number {
@@ -67,7 +67,7 @@
   .stat .stat .number,
   header .stat .number {
     font-size: 2em;
-    color: #666;
+    color: $body-text-color;
   }
   .small-rank {
     font-size: 0.8em;
