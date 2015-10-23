@@ -112,7 +112,7 @@
     "map.missing-data": "missing data",
     "map.selected.govt-schools": "Government-Owned Schools",
     "map.selected.non-govt-schools": "Non-Government Schools",
-    "map.selected.unknown-schools": "Unknown Schools",
+    "map.selected.unknown-schools": "Unknown ownership type Schools",
 
     "footer.licensenote1": "The content of this website is published under a ",
     "footer.licensenote2": ", and the ",
@@ -143,7 +143,7 @@
     "polygon.panel.pupil-teacher-ratio": "average pupil teacher ratio",
     "polygon.panel.gov-own-schools": "government-owned schools",
     "polygon.panel.non-gov-schools": "non-government schools",
-    "polygon.panel.unknown": "unknown schools",
+    "polygon.panel.unknown": "Unknown ownership type schools",
     "polygon.panel.rank": "national ranking",
     "polygon.panel.regions": "Region",
     "polygon.panel.districts": "District",

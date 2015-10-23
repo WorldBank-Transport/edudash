@@ -16,6 +16,19 @@
   bracketer="PASS_RATE">
 </flyout-number>
 <flyout-number
+  name="{{ 'chart.title.national-raking' |translate }}"
+  value="lastHovered.properties.ranks.NATIONAL.rank"
+  suffix="(of {{ lastHovered.properties.ranks.NATIONAL.total}})"
+  suffixclass="small-rank">
+</flyout-number>
+<flyout-number
+  ng-if="lastHovered.properties.ranks.REGIONAL"
+  name="{{ 'chart.title.rank-region' |translate }}"
+  value="lastHovered.properties.ranks.REGIONAL.rank"
+  suffix="(of {{ lastHovered.properties.ranks.REGIONAL.total}})"
+  suffixclass="small-rank">
+</flyout-number>
+<flyout-number
   name="{{ 'map.selected.average-pt-ratio' |translate }}"
   value="lastHovered.properties.PT_RATIO"
   present="Math.round"
@@ -30,16 +43,6 @@
   value="lastHovered.properties.NON_GOVT_SCHOOLS">
 </flyout-number>
 <flyout-number
-  name="{{ 'chart.title.national-raking' |translate }}"
-  value="lastHovered.properties.ranks.NATIONAL.rank"
-  suffix="(of {{ lastHovered.properties.ranks.NATIONAL.total}})"
-  suffixclass="small-rank">
-</flyout-number>
-<flyout-number
-  ng-if="lastHovered.properties.ranks.REGIONAL"
-  name="{{ 'chart.title.rank-region' |translate }}"
-  value="lastHovered.properties.ranks.REGIONAL.rank"
-  suffix="(of {{ lastHovered.properties.ranks.REGIONAL.total}})"
-  suffixclass="small-rank">
-
+  name="{{ 'map.selected.unknown-schools' |translate }}"
+  value="lastHovered.properties.UNKNOWN_SCHOOLS">
 </flyout-number>
