@@ -1320,7 +1320,12 @@ map-bottom-toggle.filters {
       &:first-child{
         border-left:none;
       }
-      a{color: $content-bg;}
+      a{color: $content-bg;
+        &:hover {
+          color: $grey-dark;
+          background:none;
+        }
+      }
     }
   }
 }
