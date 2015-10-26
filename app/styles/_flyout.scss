@@ -2,13 +2,16 @@
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 0;
   width: $flyout-width;
-  padding: 10px 30px;
-  background: $map-overlay;
-  box-shadow: $map-overlay-outline;
   overflow-y: auto;
   opacity: 1;
+
+  .flyout-inner {
+    position:relative;
+    padding: 20px 30px;
+    background: $map-overlay;
+    box-shadow: $map-overlay-outline;
+  }
 
   .flyout-missing-data{
     text-align:left;
@@ -39,7 +42,7 @@
   }
   h4 {
     font-style: italic;
-    color: #666;
+    color: $body-text-color;
   }
   .word,
   .number {
@@ -64,7 +67,7 @@
   .stat .stat .number,
   header .stat .number {
     font-size: 2em;
-    color: #666;
+    color: $body-text-color;
   }
   .small-rank {
     font-size: 0.8em;
