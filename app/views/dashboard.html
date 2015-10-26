@@ -323,7 +323,10 @@
 
           <div class="container-fluid perfomance-gauges" ng-if="false"><!-- bring back for regions views -->
             <div class="row col-xs-12">
-              <pass-rate-time title="{{'chart.pass-rate-time'| translate}}" ranges="40,60" colors="#f05e55,#fcce39,#2d991c" datasource="globalpassratetime"></pass-rate-time>
+              <pass-rate-time
+                 chart-title="{{'chart.pass-rate-time'| translate}}"
+                 chart-title-class="{{'chart.dial-title.style'| translate}}"
+                 datasource="globalpassratetime"></pass-rate-time>
             </div>
           </div>
 
@@ -399,7 +402,8 @@
               </div>
               <div class="col-md-8">
                 <pass-rate-time
-                    title="{{'chart.pass-rate-time'| translate}}"
+                    chart-title="{{'chart.pass-rate-time'| translate}}"
+                    chart-title-class="{{'chart.dial-title.style'| translate}}"
                     datasource="selectedSchool.yearAggregates">
                 </pass-rate-time>
               </div>
