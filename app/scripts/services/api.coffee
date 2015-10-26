@@ -13,9 +13,9 @@ angular.module 'edudashAppSrv'
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       datasetMapping =
         primary:
-          'performance': '9ed361d5-3ea5-491d-8e86-e21048c4704b'
-          'improvement': '17560070-9194-46c9-9f4a-f882c349b7bb'
-        secondary: 'f83d6ec7-626e-48d0-a8ad-57f41a280e1f'
+          'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
+          'improvement': 'd1b88ec0-236b-462c-b663-1d24bba7c4d4'
+        secondary: '99bb9a93-d239-425e-bca8-7e4da3fa6d34'
 
       xget = switch
         when $window.OLDIE? then (url, opts, otherArgs...) ->
@@ -75,7 +75,7 @@ angular.module 'edudashAppSrv'
         $q (resolve, reject) -> ($http.get url).then ((resp) -> resolve resp.data), reject
 
       getSchools: (year, schoolType, moreThan40, subtype) ->
-        extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\", \"PUPIL_TEACHER_RATIO\"" else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
+        extraFields = if schoolType is 'secondary' then ",\"AVG_GPA\", \"CHANGE_PREVIOUS_YEAR_GPA\" " else ",\"AVG_MARK\"" # TODO add CHANGE_PREVIOUS_YEAR_MARK
         dataP = ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             \"CHANGE_PREVIOUS_YEAR\",
@@ -88,16 +88,17 @@ angular.module 'edudashAppSrv'
             \"PASS_RATE\",
             \"RANK\",
             \"REGION\",
-            \"WARD\"
+            \"WARD\",
+            \"PUPIL_TEACHER_RATIO\"
             #{extraFields}
             FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
-        if schoolType == 'secondary'
+        dataP.then (data) -> $q.when data.map (d) ->
           # Fix wrong datatype "text" for numeric CHANGE_PREVIOUS_YEAR_GPA and PUPIL_TEACHER_RATIO in CKAN
-          dataP.then (data) -> $q.when data.map (d) ->
+          if schoolType == 'secondary'
             d.CHANGE_PREVIOUS_YEAR_GPA = parseFloat d.CHANGE_PREVIOUS_YEAR_GPA
-            d.PUPIL_TEACHER_RATIO = parseFloat d.PUPIL_TEACHER_RATIO
-            d
+          d.PUPIL_TEACHER_RATIO = parseFloat d.PUPIL_TEACHER_RATIO
+          d
         dataP
 
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->

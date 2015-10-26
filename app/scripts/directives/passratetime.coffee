@@ -28,8 +28,8 @@ angular.module 'edudashAppDir'
           tooltip:
             enabled: false
           title:
-            text: "<div class='col-md-12 passrate-time-title'>
-                      <span class='chart-title ng-binding gauge'>#{attrs.title}</span>
+            text: "<div class='col-md-12 passrate-time-title #{attrs.chartTitleClass}'>
+                      <span class='chart-title ng-binding gauge'>#{attrs.chartTitle}</span>
                    </div>"
             useHTML: true
             align: 'left'
@@ -81,7 +81,7 @@ angular.module 'edudashAppDir'
         }
         updateChart years: years, data: vals
 
-      attrs.$observe 'title', (value) ->
+      attrs.$observe 'chartTitle', (value) ->
         # TODO This way we could custom the style for swahilli
         chart = element.highcharts()
         if(chart?)

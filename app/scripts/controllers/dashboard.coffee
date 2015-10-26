@@ -275,12 +275,16 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             $q.when if code? then (utils.lookup map, code) else null
 
         watchCompute 'selectedPoly',
-          dependencies: ['polyIdMap', 'selectedPolyId']
+          dependencies: ['allSchools', 'selectedPolyId']
           waitForPromise: true
-          computer: ([map, id], [..., oldId]) ->
-            if id?  # something is selected, get it
+          computer: ([schoolsP, id], [..., oldId]) ->
+            # This function can't be pure, because we need the polygons data from
+            # a different time. So, blah, oh well, whatever, it works.
+            unless id?  # nothing is selected, so really reset now
+              $q.when null
+            else  # something is selected, get it
               if id != oldId  # A new polygon is selected
-                utils.lookup map, id
+                $q.when utils.lookup $scope.polyIdMap, id
               else
                 # So, we're only here because polyIdMap updated,
                 # which happens when we switch regions -> districts
@@ -288,10 +292,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 # But the id hasn't changed, so we don't want to
                 # make a new selection.
                 # ... we want to keep the old polygon selected
-                $q.when $scope.selectedPoly
-            else
-              # nothing is selected, so really reset now
-              $q.when null
+
+                # HOWEVER (update!)
+                # we might also be here because some other state changed in
+                # the app, like the year, leading to a new `polyIdMap`. In
+                # these cases, we have to update the selected poly data!
+                # so... just hack it in here and run it every time:
+                polyGrouper = switch $scope.polyType
+                  when 'districts' then 'REGION'  # looking at districts? then only a REGION could be selected
+                  when null then 'DISTRICT'  # not looking at polygons? then only a DISTRICT could be selected
+                $scope.allSchools.then (schools) ->
+                  $q.when angular.extend $scope.selectedPoly,
+                    properties: getDetailsForPoly schools, id, polyGrouper, $scope.schoolType
 
         watchCompute 'selectedSchoolLayer',
           dependencies: ['selectedSchool']
@@ -577,16 +589,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         getDetailsByPoly = (schools, polyType, schoolType) ->
           detailsByPoly = {}
           schoolsByPoly = groupBy schools, polyGroupProp polyType
-          for id, regSchools of schoolsByPoly
-            byOwner = groupBy regSchools, 'OWNERSHIP'
-            detailsByPoly[id] =
-              CHANGE_PREVIOUS_YEAR: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
-              PASS_RATE: averageProp regSchools, 'PASS_RATE'
-              GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
-              NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
-              UNKNOWN_SCHOOLS: regSchools.length - byOwner.GOVERNMENT?.length - byOwner['NON GOVERNMENT']?.length
-              PT_RATIO: averageProp regSchools, 'PUPIL_TEACHER_RATIO', true
-
+          for id, polySchools of schoolsByPoly
+            detailsByPoly[id] = getPolySchoolsDetails polySchools, schoolType
             # get the region for any district via school data
             if polyType == 'districts'
               [[region, blah], extras...] = ([r, s] for r, s of groupBy schoolsByPoly[id], 'REGION')
@@ -594,17 +598,32 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 .sort ([ra, sa], [rb, sb]) -> sb - sa
               if extras? > 1
                 $log.warn "District has schools with different regions: #{id}"
-              detailsByPoly[id].REGION = region
-
-            angular.extend detailsByPoly[id],
-              if schoolType == 'primary'
-                AVG_MARK: averageProp regSchools, 'AVG_MARK'
-              else if schoolType == 'secondary'
-                AVG_GPA: averageProp regSchools, 'AVG_GPA'
-                CHANGE_PREVIOUS_YEAR_GPA: averageProp regSchools, 'CHANGE_PREVIOUS_YEAR_GPA'
-              else
-                throw new Error 'Expected "primary" or "secondary" for schoolType'
+              schoolsByPoly[id].REGION = region
           detailsByPoly
+
+        getDetailsForPoly = (schools, polyID, polyGrouper, schoolType) ->
+          polySchools = schools.filter (s) -> s[polyGrouper] == polyID
+          getPolySchoolsDetails polySchools, schoolType
+
+        getPolySchoolsDetails = (polySchools, schoolType) ->
+          byOwner = groupBy polySchools, 'OWNERSHIP'
+          details =
+            CHANGE_PREVIOUS_YEAR: averageProp polySchools, 'CHANGE_PREVIOUS_YEAR'  # TODO: confirm
+            PASS_RATE: averageProp polySchools, 'PASS_RATE'
+            GOVT_SCHOOLS: byOwner.GOVERNMENT?.length
+            NON_GOVT_SCHOOLS: byOwner['NON GOVERNMENT']?.length
+            UNKNOWN_SCHOOLS: polySchools.length - (byOwner.GOVERNMENT?.length or 0) - (byOwner['NON GOVERNMENT']?.length or 0)
+            PT_RATIO: averageProp polySchools, 'PUPIL_TEACHER_RATIO', true
+
+          if schoolType == 'primary'
+            details.AVG_MARK = averageProp polySchools, 'AVG_MARK'
+          else if schoolType == 'secondary'
+            details.AVG_GPA = averageProp polySchools, 'AVG_GPA'
+            details.CHANGE_PREVIOUS_YEAR_GPA = averageProp polySchools, 'CHANGE_PREVIOUS_YEAR_GPA'
+          else
+            throw new Error 'Expected "primary" or "secondary" for schoolType'
+
+          details
 
         polyGroupProp = (polyType) ->
           switch polyType

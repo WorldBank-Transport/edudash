@@ -33,8 +33,8 @@ angular.module 'edudashAppDir'
             tooltip:
               enabled: false
             title:
-              text: "<div class='col-md-12 gauge-title #{if attrs.title.length > 20 then 'swahili-title' else ''}'>
-                       <span class='chart-title ng-binding'>#{attrs.title}</span>
+              text: "<div class='col-md-12 gauge-title #{attrs.chartTitleClass}'>
+                       <span class='chart-title ng-binding'>#{attrs.chartTitle}</span>
                      </div>"
               useHTML: true
               y: 60
@@ -121,10 +121,10 @@ angular.module 'edudashAppDir'
               element.html(
                   '<p class="medium-character missing-data gauge-na">' + na + '</p>
                    <div class="col-md-12 gauge-title withoutchart">
-                     <span class="chart-title ng-binding gauge">'+attrs.title+'</span>
+                     <span class="chart-title ng-binding gauge ' + attrs.chartTitleClass + '">'+attrs.chartTitle+'</span>
                    </div>')
 
-        attrs.$observe 'title', (value) ->
+        attrs.$observe 'chartTitle', (value) ->
           # TODO This way we could custom the style for swahilli
           chart = element.highcharts()
           width = element.parent().width()
