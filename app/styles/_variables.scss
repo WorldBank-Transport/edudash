@@ -14,16 +14,22 @@ $best-perform: #82c675;
 $poor-perform: #f05e55;
 
 $body-text-color: #777777;
+$body-text-color-inverse: #ffffff;
 $content-bg: #ffffff;
 
 $unknown: #aaaaaa;
 $menu-tab-grey:#f0f0f0;
+
+$muted-text: #d4d4d4;
+
+$navtabs-border-color: #dddddd;
 
 $map-overlay: hsla(0, 0%, 100%, 0.9);
 $map-overlay-edge: hsla(0, 0%, 0%, 0.1);
 $map-overlay-outline: -1px -1px 0 $map-overlay-edge;
 
 // Typography
+$global-font: 'Open Sans', sans-serif;
 $label-weight: 800;
 $school-list-weight:700;
 $content-weight: 300;
@@ -36,9 +42,8 @@ $school-info-text:16px;
 
 $header-height: 70px;
 
-$nav-height: 56px;  // including content-border  // 47
-
-$content-border-height: 8px;
+$nav-height: 49px;  // including content-border  // 47
+$content-border-height: 3px;
 
 $sidebar-width: 450px;
 
