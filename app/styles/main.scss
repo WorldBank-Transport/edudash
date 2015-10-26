@@ -1321,7 +1321,12 @@ map-bottom-toggle.filters {
       &:first-child{
         border-left:none;
       }
-      a{color: $content-bg;}
+      a{color: $content-bg;
+        &:hover {
+          color: $grey-dark;
+          background:none;
+        }
+      }
     }
   }
 }
@@ -1345,6 +1350,7 @@ map-bottom-toggle.filters {
   .chart-title{
     white-space:normal;
     line-height:12px;
+    width:$swahili-title-width;
   }
   &.passrate-change-title{
     .chart-title{
