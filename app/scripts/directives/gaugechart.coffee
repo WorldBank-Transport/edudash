@@ -19,7 +19,7 @@ angular.module 'edudashAppDir'
           width = element.parent().width()
           gaugeOptions =
             chart:
-              type: 'gauge'
+              type: 'solidgauge'
               plotBackgroundColor: '#FFF'
               plotBackgroundImage: null
               plotBorderWidth: 0
@@ -41,21 +41,23 @@ angular.module 'edudashAppDir'
               width: width + 40
               align: 'center'
             pane:
-              size: '100%'
+              size: '95%'
               startAngle: -90
               endAngle: 90
               BorderWidth: 0
-              background: [{
-                backgroundColor: '#fff',
-                borderWidth: 0
-              }]
+              background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE'
+                innerRadius: '60%'
+                outerRadius: '100%'
+                shape: 'arc'
+              }
             exporting:
               enabled: false
             plotOptions:
-              gauge:
+              solidgauge:
                 dataLabels:
+                  y: -10
                   borderWidth: 0
-                  y: -40
                   format: attrs.format
                   style:
                     fontWeight: 'bold'
@@ -84,30 +86,14 @@ angular.module 'edudashAppDir'
               tickPosition: 'inside'
               tickLength: 10
               tickColor: '#666'
+              stops: [
+                [(ranges[0]+10)/100, colorSrv.color bracketsSrv.getBracket ranges[0]+1, attrs.property]
+                [ranges[1]/100, colorSrv.color bracketsSrv.getBracket ranges[1]+1, attrs.property]
+                [(ranges[2]+10)/100, colorSrv.color bracketsSrv.getBracket ranges[2]+1, attrs.property]
+              ]
               labels:
                 enabled: false
-              plotBands: [
-                {
-                  from: ranges[0]
-                  to: ranges[1]
-                  color: colorSrv.color bracketsSrv.getBracket ranges[0]+1, attrs.property
-                  thickness: '25%'
-                }
-                {
-                  from: ranges[1]
-                  to: ranges[2]
-                  color: colorSrv.color bracketsSrv.getBracket ranges[1]+1, attrs.property
-                  thickness: '25%'
-                }
-                {
-                  from: ranges[2]
-                  to: ranges[3]
-                  color: colorSrv.color bracketsSrv.getBracket ranges[2]+1, attrs.property
-                  thickness: '25%'
-                }
-              ]
             series: [{
-              name: attrs.tooltip
               data: [value]
             }]
           element.highcharts(gaugeOptions)
