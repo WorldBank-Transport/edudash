@@ -302,8 +302,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                   when 'districts' then 'REGION'  # looking at districts? then only a REGION could be selected
                   when null then 'DISTRICT'  # not looking at polygons? then only a DISTRICT could be selected
                 $scope.allSchools.then (schools) ->
-                  # Unlike extend(), merge() recursively descends into object properties of source objects, performing a deep copy.
-                  $q.when angular.merge $scope.selectedPoly,
+                  # Unlike angular.extend(), $.merge() recursively descends into object properties of source objects, performing a deep copy.
+                  $q.when $.merge $scope.selectedPoly,
                     properties: getDetailsForPoly schools, id, polyGrouper, $scope.schoolType
 
         watchCompute 'selectedSchoolLayer',

@@ -167,7 +167,7 @@
               <a class="link" ng-click="resetView()" translate="link.back.national"></a>
             </div>
           </div>
-          <div id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="selectedPolyId|exists"></div>
+          <div id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="(selectedPolyId|exists) && !(selectedSchoolCode|exists)"></div>
           <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
             <div class="row col-lg-12">
               <div class="col-xs-4 text-center">
