@@ -53,9 +53,9 @@ describe 'watchComputeSrv', ->
       expect b.getSortMetric 'primary', 'improvement'
         .toEqual ['CHANGE_PREVIOUS_YEAR', 'DESC']
       expect b.getSortMetric 'secondary', 'performance'
-        .toEqual ['AVG_GPA', 'ASC']
+        .toEqual ['AVG_GPA', 'DESC']
       expect b.getSortMetric 'secondary', 'improvement'
-        .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', 'ASC']
+        .toEqual ['CHANGE_PREVIOUS_YEAR_GPA', 'DESC']
 
   describe 'getBracket', ->
     it 'should validate parameters', ->
@@ -83,12 +83,12 @@ describe 'watchComputeSrv', ->
         .toThrow new Error "AVG_MARK shall not be bracket"
 
     it 'AVG_GPA ranges', ->
-      expect(b.getBracket 1,  'AVG_GPA').toEqual 'GOOD'
-      expect(b.getBracket 3,  'AVG_GPA').toEqual 'GOOD'
+      expect(b.getBracket 1,  'AVG_GPA').toEqual 'POOR'
+      expect(b.getBracket 3,  'AVG_GPA').toEqual 'POOR'
       expect(b.getBracket 3.1,'AVG_GPA').toEqual 'MEDIUM'
       expect(b.getBracket 4.2,'AVG_GPA').toEqual 'MEDIUM'
-      expect(b.getBracket 4.3,'AVG_GPA').toEqual 'POOR'
-      expect(b.getBracket 5,  'AVG_GPA').toEqual 'POOR'
+      expect(b.getBracket 4.3,'AVG_GPA').toEqual 'GOOD'
+      expect(b.getBracket 5,  'AVG_GPA').toEqual 'GOOD'
 
 
     it 'CHANGE_PREVIOUS_YEAR ranges', ->
@@ -139,7 +139,7 @@ describe 'watchComputeSrv', ->
   describe 'getRank', ->
     it 'should rank by school', ->
       expect(b.getRank 'primary').toEqual ['AVG_MARK', 'DESC']
-      expect(b.getRank 'secondary').toEqual ['AVG_GPA', 'ASC']
+      expect(b.getRank 'secondary').toEqual ['AVG_GPA', 'DESC']
 
     it 'should validate parameters', ->
       expect -> b.getRank 'z'
@@ -195,7 +195,7 @@ describe 'watchComputeSrv', ->
         .toBecome false
 
     it 'should apply to top 100 secondary', ->
-      schools = (AVG_GPA: n for n in [1..101])
+      schools = (AVG_GPA: n for n in [101..1])
       idxOffset = 1
       s1 = schools[1 - idxOffset]
       s100 = schools[100 - idxOffset]
@@ -224,7 +224,7 @@ describe 'watchComputeSrv', ->
         .toBecome false
 
     it 'should apply to most improved secondary', ->
-      schools = (CHANGE_PREVIOUS_YEAR_GPA: n for n in [1..101])
+      schools = (CHANGE_PREVIOUS_YEAR_GPA: n for n in [101..1])
       idxOffset = 1
       s1 = schools[1 - idxOffset]
       s100 = schools[100 - idxOffset]
