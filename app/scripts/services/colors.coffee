@@ -11,9 +11,9 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
 
   color: (brace) ->
     switch brace
-      when 'GOOD' then '#80c671'
-      when 'MEDIUM' then '#e9c941'
-      when 'POOR' then '#f56053'
+      when 'GOOD' then '#49ab30'
+      when 'MEDIUM' then '#ffd328'
+      when 'POOR' then '#ee5e52'
       when 'UNKNOWN' then '#aaa'
       else throw new Error "Unknown bracket: '#{brace}'"
 
@@ -28,9 +28,9 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
   pinOff: (colour) ->
     style =
       color: '#fff'
-      fillOpacity: 1
-      opacity: 0.75
-      weight: 1
+      fillOpacity: 0.96
+      opacity: 0.95
+      weight: 2
     if colour?
       style.fillColor = colour
     style
@@ -41,8 +41,8 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
 
   polygonOff: (colour) ->
     style =
-      color: '#fff'
-      fillOpacity: 0.75
+      color: '#ffffff'
+      fillOpacity: 0.84
       opacity: 0.6
       weight: 2
     if colour?
@@ -50,7 +50,7 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
     style
 
   polygonOn: ->
-    color: '#05a2dc'
+    color: '#ffffff'
     fillOpacity: 0.9
     opacity: 1
     weight: 6
