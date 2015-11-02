@@ -56,7 +56,7 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
     weight: 6
 
   polygonSelect: ->
-    color: '#000'
+    color: '#ffffff'
     fill: false
     opacity: 1
     weight: 7

@@ -247,7 +247,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                       schoolsP.then map, rej
                     options:
                       className: 'school-location'
-                      radius: 8
+                      radius: 6
                       onEachFeature: processPin
                 ), reject
 
