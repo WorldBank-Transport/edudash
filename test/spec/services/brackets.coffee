@@ -115,10 +115,10 @@ describe 'watchComputeSrv', ->
     it 'PASS_RATE ranges', ->
       expect(b.getBracket -1, 'PASS_RATE').toEqual 'UNKNOWN'
       expect(b.getBracket 0,  'PASS_RATE').toEqual 'POOR'
-      expect(b.getBracket 39, 'PASS_RATE').toEqual 'POOR'
-      expect(b.getBracket 40, 'PASS_RATE').toEqual 'MEDIUM'
-      expect(b.getBracket 60, 'PASS_RATE').toEqual 'MEDIUM'
-      expect(b.getBracket 61, 'PASS_RATE').toEqual 'GOOD'
+      expect(b.getBracket 40, 'PASS_RATE').toEqual 'POOR'
+      expect(b.getBracket 41, 'PASS_RATE').toEqual 'MEDIUM'
+      expect(b.getBracket 59, 'PASS_RATE').toEqual 'MEDIUM'
+      expect(b.getBracket 60, 'PASS_RATE').toEqual 'GOOD'
       expect(b.getBracket 100,'PASS_RATE').toEqual 'GOOD'
       expect(b.getBracket 101,'PASS_RATE').toEqual 'UNKNOWN'
 

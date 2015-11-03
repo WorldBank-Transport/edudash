@@ -12,8 +12,8 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
   AVG_GPA_MIN = 3
   AVG_GPA_MAX = 4.2
   PASS_RATE_MIN = 0
-  PASS_RATE_MID1 = 40
-  PASS_RATE_MID2 = 60
+  PASS_RATE_MID1 = 41
+  PASS_RATE_MID2 = 59
   PASS_RATE_MAX = 100
   PUPIL_TEACHER_RATIO_MIN = 0
   PUPIL_TEACHER_RATIO_MID1 = 35
