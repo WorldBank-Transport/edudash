@@ -1041,6 +1041,7 @@ map-bottom-toggle.legend {
     }
     &.unknown:before {
       border: 2px solid $unknown;
+      background: $unknown;
     }
     &.poor:before {
       background: $rank-poor;
