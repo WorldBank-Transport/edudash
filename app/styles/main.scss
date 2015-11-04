@@ -1184,6 +1184,7 @@ map-bottom-toggle.filters {
   top:0;
   font-family: $global-font;
 
+
 &.rank-label{
   position: absolute;
   left:0;
@@ -1194,7 +1195,7 @@ map-bottom-toggle.filters {
   white-space: nowrap;
   &.swahili-title{
     .chart-title{
-      left:10px;
+      left:18px;
       top:8px;
     }
   }
@@ -1233,6 +1234,7 @@ map-bottom-toggle.filters {
   top: $nav-height+9;
   .chart-title{
     left:-6px;
+    top:7px;
   }
 }
 .passrate-time-chart {
@@ -1355,7 +1357,7 @@ map-bottom-toggle.filters {
   }
   &.passrate-change-title{
     .chart-title{
-      top:-3px;
+      top:4px;
       white-space:normal;
     }
   }
