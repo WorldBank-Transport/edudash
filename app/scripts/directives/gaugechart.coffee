@@ -19,7 +19,7 @@ angular.module 'edudashAppDir'
           width = element.parent().width()
           gaugeOptions =
             chart:
-              type: 'solidgauge'
+              type: 'gauge'
               plotBackgroundColor: '#FFF'
               plotBackgroundImage: null
               plotBorderWidth: 0
@@ -37,27 +37,25 @@ angular.module 'edudashAppDir'
                        <span class='chart-title ng-binding'>#{attrs.chartTitle}</span>
                      </div>"
               useHTML: true
-              y: 60
+              y: 65
               width: width + 40
               align: 'center'
             pane:
-              size: '95%'
+              size: '100%'
               startAngle: -90
               endAngle: 90
               BorderWidth: 0
-              background: {
-                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE'
-                innerRadius: '60%'
-                outerRadius: '100%'
-                shape: 'arc'
-              }
+              background: [{
+                backgroundColor: '#fff',
+                borderWidth: 0
+              }]
             exporting:
               enabled: false
             plotOptions:
-              solidgauge:
+              gauge:
                 dataLabels:
-                  y: -10
                   borderWidth: 0
+                  y: 0
                   format: attrs.format
                   style:
                     fontWeight: 'bold'
@@ -65,14 +63,14 @@ angular.module 'edudashAppDir'
                     color: labelColor
                     textShadow: null
                 dial:
-                  radius: '25%'
+                  radius: '72%'
                   backgroundColor: 'black'
                   borderColor: 'black'
-                  borderWidth: 1
-                  baseWidth: 15
+                  borderWidth: 0
+                  baseWidth: 5
                   topWidth: 1
-                  baseLength: '5%'
-                  rearLength: '10%'
+                  baseLength: '1%'
+                  rearLength: '1%'
             yAxis:
               min: 0
               max: 100
@@ -86,13 +84,28 @@ angular.module 'edudashAppDir'
               tickPosition: 'inside'
               tickLength: 10
               tickColor: '#666'
-              stops: [
-                [(ranges[0]+10)/100, colorSrv.color bracketsSrv.getBracket ranges[0]+1, attrs.property]
-                [ranges[1]/100, colorSrv.color bracketsSrv.getBracket ranges[1]+1, attrs.property]
-                [(ranges[2]+10)/100, colorSrv.color bracketsSrv.getBracket ranges[2]+1, attrs.property]
-              ]
               labels:
                 enabled: false
+              plotBands: [
+                {
+                  from: ranges[0]
+                  to: ranges[1]
+                  color: colorSrv.color bracketsSrv.getBracket ranges[0]+1, attrs.property
+                  thickness: '25%'
+                }
+                {
+                  from: ranges[1]
+                  to: ranges[2]
+                  color: colorSrv.color bracketsSrv.getBracket ranges[1]+1, attrs.property
+                  thickness: '25%'
+                }
+                {
+                  from: ranges[2]
+                  to: ranges[3]
+                  color: colorSrv.color bracketsSrv.getBracket ranges[2]+1, attrs.property
+                  thickness: '25%'
+                }
+              ]
             series: [{
               data: [value]
             }]
