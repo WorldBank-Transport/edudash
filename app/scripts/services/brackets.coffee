@@ -106,18 +106,19 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
       when 'gpa' then 'AVG_GPA'
       else throw new Error "Unknown vis mode '#{visMode}'"
 
-  getSortMetric: (schoolType, criteria) ->
+  getSortMetric: (schoolType, criteria, inverse) ->
     unless schoolType in ['primary', 'secondary']
       throw new Error "Unknown school type '#{schoolType}'"
     unless criteria in ['performance', 'improvement']
       throw new Error "Unknown criteria '#{criteria}'"
+    order = if inverse? and inverse then 'ASC' else 'DESC'
     switch schoolType
       when 'primary' then switch criteria
-        when 'performance' then ['AVG_MARK', 'DESC']
-        when 'improvement' then ['CHANGE_PREVIOUS_YEAR', 'DESC']
+        when 'performance' then ['AVG_MARK', order]
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR', order]
       when 'secondary' then switch criteria
-        when 'performance' then ['AVG_GPA', 'DESC']
-        when 'improvement' then ['CHANGE_PREVIOUS_YEAR_GPA', 'DESC']
+        when 'performance' then ['AVG_GPA', order]
+        when 'improvement' then ['CHANGE_PREVIOUS_YEAR_GPA', order]
 
   getRank: (schoolType) ->
     unless schoolType in ['primary', 'secondary']
@@ -125,3 +126,10 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
     switch schoolType
       when 'primary' then ['AVG_MARK', 'DESC'] # AVG_MARK is sum of 5 exam from 0-50, greater the better, order desc
       when 'secondary' then ['AVG_GPA', 'DESC'] # AVG_GPA greater the better. order desc
+
+  getLimit: (schoolType, criteria) ->
+    unless schoolType in ['primary', 'secondary']
+      throw new Error "Unknown school type '#{schoolType}'"
+    unless criteria in ['performance', 'improvement']
+      throw new Error "Unknown criteria '#{criteria}'"
+    if schoolType is 'primary' and criteria is 'improvement' then 300 else 100

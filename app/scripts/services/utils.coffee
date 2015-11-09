@@ -77,6 +77,30 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
         resolve schoolSort list, prop, order
 
   ###*
+  # Sort a list of schools promise by a [prop, desc] metric
+  # @param {Promise<Array>} listP The array of schools
+  # @param {Array} metric The criteria for ranking
+  # @param {string} metric[0] The property we should use to rank
+  # @param {string} metric[1] limit
+  # @returns {Promise<Array>} The schools, sorted
+  ###
+  rankTop: (listP, [prop, order], limit) ->
+    unless listP? and typeof listP.then == 'function'
+      throw new Error "param `listP` must be a Promise. Got '#{typeof listP}'"
+    unless typeof prop == 'string'
+      throw new Error "param `metric[0]` must a string. Got '#{typeof prop}'"
+    unless typeof limit == 'number'
+      throw new Error "param `metric[1]` must be a number. Got '#{limit}'"
+
+    listP.then (list) -> $q (resolve, reject) ->
+      unless list instanceof Array
+        reject "listP promise must resolve to an Array. Got '#{typeof list}'"
+      else
+        best = schoolSort list, prop, 'ASC'
+        worst = schoolSort list, prop, 'DESC'
+        resolve (best.slice 0, limit).concat (worst.slice 0, limit)
+
+  ###*
   # Get a filter function that filters objects by a numerical prop value
   # @param {string} prop Property to check for filtering
   # @param {number} min Inclusive lower bound of acceptable `prop` values
