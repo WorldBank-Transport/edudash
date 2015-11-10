@@ -56,6 +56,7 @@ angular.module 'edudashApp'
               total: scope.modalLimit
               type: scope.rankby
               school: scope.school
+              listType: scope.listType
         modalInstance.result.then (selectedItem) ->
           scope.click(selectedItem)
         , () ->

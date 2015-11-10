@@ -139,6 +139,12 @@
               <span class="show-sm" translate="tab.regional">Regional</span>
             </a>
           </li>
+          <li role="presentation" ng-class="{active: viewMode==='rank-schools'}">
+            <a ng-click="bestWorst()">
+              <span class="hide-sm" translate="tab.top-worst-view">Top & Worst</span>
+              <span class="show-sm" translate="tab.top-worst">Top & Worst</span>
+            </a>
+          </li>
           <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
               <span class="hide-sm" translate="tab.year-mode">Year</span>
@@ -168,7 +174,7 @@
             </div>
           </div>
           <div id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="(selectedPolyId|exists) && !(selectedSchoolCode|exists)"></div>
-          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools')">
             <div class="row col-lg-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
@@ -196,7 +202,7 @@
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists)">
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools')">
             <div class="row col-xs-12 passrate-time-chart">
               <pass-rate-time
                   chart-title="{{'chart.pass-rate-time'| translate}}"
@@ -246,7 +252,7 @@
             </div>
             <div class="container-fluid margin-top sidebar-toggle-pair">
             </div>
-            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='improvement'">
+            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools') && rankBy==='improvement'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.schools.improvement' | translate}}"
@@ -263,12 +269,46 @@
                   limit="10">
               </school-list>
             </div>
-            <div class="container-fluid" ng-if="viewMode==='schools' && rankBy==='performance'">
+            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools') && rankBy==='performance'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.schools.performance' | translate}}"
                   type="good"
                   dataset="rankedSchools.performance"
+                  rankBy="rankBy"
+                  click="selectSchool"
+                  hover="hover"
+                  unHover="unHover"
+                  property="PASS_RATE"
+                  modalLimit="100"
+                  school="schoolType"
+                  sufix="%"
+                  limit="10">
+              </school-list>
+            </div>
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools' && rankBy==='improvement'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.schools.least-improvement' | translate}}"
+                  type="bad"
+                  dataset="rankedSchools.worst_improvement"
+                  rankBy="rankBy"
+                  click="selectSchool"
+                  hover="hover"
+                  unHover="unHover"
+                  property="PASS_RATE"
+                  modalLimit="300"
+                  school="schoolType"
+                  sufix="%"
+                  limit="10">
+              </school-list>
+            </div>
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools' && rankBy==='performance'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.schools.least-performance' | translate}}"
+                  type="bad"
+                  dataset="rankedSchools.worst_performance"
                   rankBy="rankBy"
                   click="selectSchool"
                   hover="hover"
@@ -302,12 +342,29 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="viewMode==='schools'">
+            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools')">
               <school-list
                   class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
                   type="good"
                   dataset="rankedSchools[rankBy]"
+                  rankby="rankBy"
+                  click="selectSchool"
+                  hover="hover"
+                  unHover="unHover"
+                  modalLimit="100"
+                  school="schoolType"
+                  property="PASS_RATE"
+                  sufix="%"
+                  limit="10">
+              </school-list>
+            </div>
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools'">
+              <school-list
+                  class="position"
+                  list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
+                  type="bad"
+                  dataset="rankedSchools[('worst_'+ rankBy)]"
                   rankby="rankBy"
                   click="selectSchool"
                   hover="hover"

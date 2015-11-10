@@ -72,6 +72,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           getColor: (v, m) -> colorSrv.color $scope.getBracket v, m
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
           resetView: -> resetView()
+          bestWorst: () -> bestWorst()
 
         # view util functions
         angular.extend $scope,
@@ -91,7 +92,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'allSchools',
           dependencies: ['viewMode', 'year', 'schoolType', 'moreThan40', 'rankBy']
           computer: ([viewMode, year, rest...]) ->
-            if year? then api.getSchools year, rest...
+            if year? 
+              allSchools = api.getSchools year, rest...
+              if(viewMode is 'rank-schools') 
+                allSchools = utils.rankTop allSchools,
+                  (bracketsSrv.getSortMetric $scope.schoolType, $scope.rankBy), bracketsSrv.getLimit $scope.schoolType, $scope.rankBy
+              allSchools
             else
               $q.when []
 
@@ -181,7 +187,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         watchCompute 'schoolCodeMap',
           dependencies: ['viewMode', 'allSchools']
           computer: ([viewMode, allSchools]) -> $q (resolve, reject) ->
-            unless viewMode == 'schools' and allSchools?
+            unless(viewMode in ['schools', 'rank-schools']) and allSchools?
               resolve null
             else
               allSchools
@@ -207,19 +213,23 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           dependencies: ['viewMode', 'schoolType', 'allSchools']
           computer: ([viewMode, schoolType, allSchools]) ->
             # check viewMode to ensure we don't sort schools for polygon views
-            unless viewMode == 'schools' and allSchools? and schoolType?
+            unless (viewMode in ['schools', 'rank-schools']) and allSchools? and schoolType?
               null
             else
               performance: utils.rankAll allSchools,
                 bracketsSrv.getSortMetric schoolType, 'performance'
               improvement: utils.rankAll allSchools,
                 bracketsSrv.getSortMetric schoolType, 'improvement'
+              worst_performance: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'performance', true
+              worst_improvement: utils.rankAll allSchools,
+                bracketsSrv.getSortMetric schoolType, 'improvement', true
 
         watchCompute 'filteredSchools',
           dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
                          'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max', 'range.gpa.min', 'range.gpa.max']
           computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax, gpaMin, gpaMax]) ->
-            unless viewMode == 'schools' and allSchools?
+            unless (viewMode in ['schools', 'rank-schools']) and allSchools?
               null
             else
               $q (resolve, reject) -> allSchools.then ((schools) ->
@@ -490,6 +500,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           leafletData.getMap(mapId).then (map) ->
             map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
 
+        bestWorst = ->
+          $scope.setViewMode 'rank-schools'
+
         # View transition logic for clicking on the top tabs
         togglePolygons = (polyType) ->
           # in every case, deselect any schools and polygons
@@ -580,7 +593,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         colorPin = (code, layer) ->
           utils.lookup($scope.schoolCodeMap, code).then (school) ->
-            val = school[$scope.visMetric]
+            val = if school? then school[$scope.visMetric] else -1;
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->
