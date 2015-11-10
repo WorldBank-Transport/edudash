@@ -1197,7 +1197,7 @@ map-bottom-toggle.filters {
   &.swahili-title{
     .chart-title{
       left:18px;
-      top:8px;
+      top:12px;
     }
   }
   &.withoutchart {
@@ -1207,12 +1207,12 @@ map-bottom-toggle.filters {
     &.swahili-title{
       .chart-title{
         left:0;
-        top:62px;
+        top:66px;
       }
     }
     .chart-title{
       left:-35px;
-      top:65px;
+      top:69px;
     }
   }
 
@@ -1235,7 +1235,7 @@ map-bottom-toggle.filters {
   top: $nav-height+9;
   .chart-title{
     left:-6px;
-    top:7px;
+    top:11px;
   }
 }
 .passrate-time-chart {
@@ -1358,7 +1358,7 @@ map-bottom-toggle.filters {
   }
   &.passrate-change-title{
     .chart-title{
-      top:4px;
+      top:8px;
       white-space:normal;
     }
   }
