@@ -57,6 +57,8 @@
     "chart.top.schools.least-performance": "Worst performing schools",
     "button.best.performing" : "Best Performing",
     "button.best.improved" : "Best Improved",
+    "button.performing": "Performing",
+    "button.improved" : "Improved",
     "map.tooltip": "Explore the map and click on a school to get started.",
     "chart.title.change-since-2013": "change since",
     "chart.title.national-raking": "national ranking",
