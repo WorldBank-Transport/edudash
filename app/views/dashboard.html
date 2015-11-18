@@ -104,7 +104,7 @@
       ng-style="{bottom: filtersHeight}"
       ng-mouseenter="keepHovered()"
       ng-mouseleave="unHover()"
-      ng-show="viewMode==='schools' && hovered!==null"
+      ng-show="(viewMode === 'schools' || viewMode === 'rank-schools') && hovered!==null"
       ng-include="'views/schoolFlyout.html'">
     </div>
     <div
@@ -410,7 +410,7 @@
             </div>
           </div>
 
-          <div ng-if="viewMode==='schools'">
+          <div ng-if="viewMode === 'schools' || viewMode === 'rank-schools'">
             <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
               <p class="schoolname">
                 {{ selectedSchool.NAME }}
