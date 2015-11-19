@@ -347,7 +347,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         # side-effect: re-select a school after the year changes
         $scope.$watch 'allSchools', (schoolsP) -> if schoolsP?
           schoolsP.then (schools) ->
-            if $scope.selectedSchool? and $scope.viewMode == 'schools'
+            if $scope.selectedSchool? and ($scope.viewMode == 'schools' || $scope.viewMode == 'rank-schools')
               $scope.selectedCodeYear =  # TODO: fix issue with 'selectedSchool' watchCompute and remove this assignment
                 code: $scope.selectedSchool.CODE
                 year: $scope.year
@@ -363,7 +363,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           loadingSrv.containerLoad polysP, document.getElementById mapId
 
         # side-effect: load full school data when the school is selected
-        $scope.$watch 'selectedSchool', (school) -> if school? and $scope.viewMode == 'schools'
+        $scope.$watch 'selectedSchool', (school) -> if school? and ($scope.viewMode == 'schools' || $scope.viewMode == 'rank-schools')
 
           # Add rankings to the school object
           criteria = bracketsSrv.getRank $scope.schoolType
@@ -452,6 +452,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               when 'schools' then getSchoolPin(thing.CODE).then (pin) ->
                 pin.bringToFront()
                 pin.setStyle colorSrv.pinOn()
+              when 'rank-schools' then getSchoolPin(thing.CODE).then (pin) ->
+                pin.bringToFront()
+                pin.setStyle colorSrv.pinOn()
               when 'polygons' then getPolyLayer(thing.id).then (layer) ->
                 layer.bringToFront()
                 layer.setStyle colorSrv.polygonOn()
@@ -462,6 +465,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           if oldThing != null
             switch $scope.viewMode
               when 'schools' then getSchoolPin(oldThing.CODE).then (pin) ->
+                pin.setStyle colorSrv.pinOff()
+              when 'rank-schools' then getSchoolPin(oldThing.CODE).then (pin) ->
                 pin.setStyle colorSrv.pinOff()
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
@@ -496,7 +501,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           $scope.selectSchool null
           $scope.setPolyType null
           $scope.selectPoly null
-          $scope.setViewMode 'schools'
+          if $scope.viewMode == 'rank-schools'
+            $scope.setViewMode 'rank-schools'
+          else
+            $scope.setViewMode 'schools'
           leafletData.getMap(mapId).then (map) ->
             map.fitBounds [[-.8, 29.3], [-11.8, 40.8]]
 
@@ -518,7 +526,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             $scope.setPolyType polyType
 
         hoverThing = (id) ->
-          if $scope.viewMode == 'schools'
+          if $scope.viewMode == 'schools' || $scope.viewMode == 'rank-schools'
             utils.lookup $scope.schoolCodeMap, id
               .then (s) -> $scope.hovered = s
               .catch $log.error
