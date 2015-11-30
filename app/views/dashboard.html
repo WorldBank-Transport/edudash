@@ -254,7 +254,7 @@
             </div>
             <div class="container-fluid margin-top sidebar-toggle-pair">
             </div>
-            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools') && rankBy==='improvement'">
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools' && rankBy==='improvement'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.schools.improvement' | translate}}"
@@ -271,7 +271,7 @@
                   limit="10">
               </school-list>
             </div>
-            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools') && rankBy==='performance'">
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools' && rankBy==='performance'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.schools.performance' | translate}}"
@@ -346,7 +346,7 @@
                 </li>
               </ul>
             </div>
-            <div class="container-fluid" ng-if="(viewMode === 'schools' || viewMode === 'rank-schools')">
+            <div class="container-fluid" ng-if="viewMode === 'rank-schools'">
               <school-list
                   class="position"
                   list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
