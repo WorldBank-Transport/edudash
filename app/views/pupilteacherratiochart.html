@@ -1,16 +1,16 @@
 <div class="widget first">
     <p class="widgettitle" translate="chart.pupil-teacher-ration"></p>
-    <div class="row" ng-if="selected.PUPIL_TEACHER_RATIO|exists">
-        <div class="col-xs-2"><p class="widgetnumber">{{ selected.PUPIL_TEACHER_RATIO }}</p>
+    <div class="row" ng-if="value|exists">
+        <div class="col-xs-2"><p class="widgetnumber">{{ present ? present(value) : value }}</p>
         </div>
         <div class="col-xs-10">
             <div class="row" style="max-width: 90%">
-                <div class="pt-ratio" ng-class="getClass($index, selected.PUPIL_TEACHER_RATIO)"
-                     ng-repeat="i in getTimes(selected.PUPIL_TEACHER_RATIO) track by $index"></div>
+                <div class="pt-ratio" ng-class="getClass($index, value)"
+                     ng-repeat="i in getTimes(value) track by $index"></div>
             </div>
         </div>
     </div>
-    <div class="row" ng-hide="selected.PUPIL_TEACHER_RATIO|exists">
+    <div class="row" ng-hide="value|exists">
         <div><p class="medium-character missing-data" style="position: static; margin-left: 20px" translate="chart.metric.missing-data">NA</p></div>
     </div>
 </div>

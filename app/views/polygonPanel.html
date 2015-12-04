@@ -9,38 +9,31 @@
     <a class="link" ng-click="resetView()" translate="link.back.national"></a>
   </div>
 </div>
-<header>
-  <h2>{{'polygon.panel.' + selectedPoly.properties.type | translate}}: {{ selectedPoly.properties.NAME }}</h2>
-</header>
+<h2>
+  <p class="schoolname">{{'polygon.panel.' + selectedPoly.properties.type | translate}}: {{ selectedPoly.properties.NAME }}</p>
+</h2>
 <div>
   <div class="row">
     <div class="col-xs-11 pass-rate-panel">
-      <gauge-chart
-        chart-title="{{'chart.average-pass-rate'| translate}}"
-        chart-title-class="{{'chart.dial-title.style'| translate}}"
-        property="PASS_RATE"
-        format="{y} %"
-        datasource="selectedPoly.properties.PASS_RATE">
-      </gauge-chart>
+      <rate-pass-chart
+          datasource="selectedPoly.properties.PASS_RATE">
+      </rate-pass-chart>
     </div>
   </div>
 </div>
-<poligon-number
-  name="{{'polygon.panel.rank' | translate}}"
-  value="selectedPoly.properties.ranks.NATIONAL.rank"
-  image="ranking.png">
-</poligon-number>
-<poligon-number ng-if="selectedPoly.properties.type == 'districts'"
-  name="{{'polygon.panel.regions.rank' | translate}}"
-  value="selectedPoly.properties.ranks.REGIONAL.rank"
-  image="ranking.png">
-</poligon-number>
-<poligon-number
-  name="{{'polygon.panel.pupil-teacher-ratio' | translate}}"
-  value="selectedPoly.properties.PT_RATIO"
-  present="Math.round"
-  image="pupil.png">
-</poligon-number>
+<div class="row col-md-12" style="width: 400px">
+  <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
+  <rank-chart datasource="selectedPoly.properties.ranks.NATIONAL"></rank-chart>
+</div>
+<div class="row col-md-12" ng-if="selectedPoly.properties.type == 'districts' && (lastHovered.properties.ranks.REGIONAL.rank |exists)">
+  <rank
+    datasource="selectedPoly.properties.ranks.REGIONAL"
+    title="polygon.panel.regions.rank">
+  </rank>
+</div>
+<div class="row col-md-12" style="width: 400px">
+  <pupil-teacher-ratio-chart datasource="selectedPoly.properties.PT_RATIO" present="Math.round"/>
+</div>
 <poligon-number
   name="{{'polygon.panel.gov-own-schools' | translate}}"
   value="selectedPoly.properties.GOVT_SCHOOLS"
