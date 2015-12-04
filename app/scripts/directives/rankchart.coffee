@@ -12,7 +12,7 @@ angular.module 'edudashAppDir'
     template: '<div class="loading"></div>'
     # TODO: pass selectedSchool by props instead of using the parent scope
     link: (scope, element, attrs) ->
-      scope.$watch 'selectedSchool.ranks.national', (newValue, oldValue) -> if newValue?
+      scope.$watch attrs.datasource, (newValue, oldValue) -> if newValue?
         width = element.parent().width()
         element.highcharts({
             exporting:

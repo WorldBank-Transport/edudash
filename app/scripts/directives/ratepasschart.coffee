@@ -11,11 +11,10 @@ angular.module 'edudashAppDir'
       restrict: 'E'
       templateUrl: 'views/ratepasschart.html'
       scope:
-        selectedSchool: '=datasource'
-        selectedYear: '@selectedyear'
+        passRate: '=datasource'
       link: (scope, element, attrs) ->
         scope.getTimes = (n) ->
-          if n? then new Array(parseInt(n)) else Array(0)
+          if n? and n == n then new Array(parseInt(n)) else Array(0)
         scope.getClass = (index, value) ->
           sex = if index % 2 == 0 then 'boy' else 'girl'
           color = switch
