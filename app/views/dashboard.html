@@ -40,9 +40,18 @@
       <div ng-if="visMode==='ptratio'">
         <ol class="ptratio">
           <li class="unknown" translate="legend.unknown">Unknown</li>
-          <li class="good">&lt; 35</li>
-          <li class="medium">35&ndash;50</li>
+          <li class="medium">&lt; 35</li>
+          <li class="good">35&ndash;50</li>
           <li class="poor">&gt; 50</li>
+        </ol>
+      </div>
+      <div>
+        <p class="performance-select ptr" translate="legend.ptratio"/>
+        <ol class="ptratio">
+          <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
+          <li class="ptr-medium">&lt; 35</li>
+          <li class="ptr-good">35&ndash;50</li>
+          <li class="ptr-poor">&gt; 50</li>
         </ol>
       </div>
     </map-bottom-toggle>

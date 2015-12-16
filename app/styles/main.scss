@@ -1052,6 +1052,26 @@ map-bottom-toggle.legend {
     &.good:before {
       background: $rank-good;
     }
+    &.ptr-poor:before {
+      border: 1px solid $unknown;
+      height: 0.6em;
+      width: 0.6em;
+    }
+    &.ptr-medium:before {
+      border: 1px solid $unknown;
+      height: 1.0em;
+      width: 1.0em;
+    }
+    &.ptr-unknown:before {
+      border: 1px solid $unknown;
+      height: 1.0em;
+      width: 1.0em;
+    }
+    &.ptr-good:before {
+      border: 1px solid $unknown;
+      height: 1.4em;
+      width: 1.4em;
+    }
   }
 }
 map-bottom-toggle.filters {
@@ -1090,6 +1110,12 @@ map-bottom-toggle.filters {
     &.ng-click-active:before {
       background: lighten($theme-blue, 40%);
     }
+  }
+  &.ptr {
+    display: inline-block;
+    margin: 0 1em;
+    color: desaturate($theme-blue, 20%);
+    cursor: pointer;
   }
 }
 
