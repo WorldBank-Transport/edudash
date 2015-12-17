@@ -1251,7 +1251,7 @@ map-bottom-toggle.filters {
       }
     }
     .chart-title{
-      left:-35px;
+      left:-20px;
       top:69px;
     }
   }
@@ -1275,7 +1275,7 @@ map-bottom-toggle.filters {
   top: $nav-height+9;
   .chart-title{
     left:-6px;
-    top:11px;
+    top:13px;
   }
 }
 .passrate-time-chart {
@@ -1413,6 +1413,7 @@ map-bottom-toggle.filters {
 .poligonimage {
   margin-top: -10px;
   height: 45px;
+  display: block;
 }
 
 .ui-select-match-text{
@@ -1450,4 +1451,24 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   position: absolute;
   right:0;
   top:-3px;
+}
+gauge-chart.middle-chart{
+  position:absolute;
+  left:3px;
+  .missing-data{
+    position:absolute;
+    top:32px;
+    left:12px;
+  }
+}
+
+.polygon-stats {
+  margin-bottom:4px;
+  display:block;
+  .poligonimage {
+    float: left;
+    margin-right:5px;
+    margin-top:4px;
+    height:32px;
+  }
 }
