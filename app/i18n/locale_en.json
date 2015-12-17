@@ -91,7 +91,7 @@
     "main.link.primary": "Primary Schools",
     "main.link.secondary": "Secondary Schools",
     "link.back.national": "<< Back to National View",
-    "main.paragh1": "This Education Dashboard is a public open data portal to view the latest national exam results and monitor the information that is important to you. You can also use the menu options above to see original ",
+    "main.paragh1": "This Education Dashboard visualizes key information from Tanzania's open data portal. Use it to view the latest national exam results and monitor the information that is important to you. You can also use the menu options above to see original ",
     "main.paragh2": " about missing or wrong data.",
     "main.paragh.connector": "and",
     "main.link.speakout": "speak out",
@@ -118,7 +118,7 @@
     "map.selected.non-govt-schools": "Non-Government Schools",
     "map.selected.unknown-schools": "Unknown ownership type Schools",
 
-    "footer.licensenote1": "The content of this website is published under a ",
+    "footer.licensenote1": "The source code of this website is published under a ",
     "footer.licensenote2": ", and the ",
     "footer.licensenote3": " is published under a ",
     "footer.licensenote4": ". Visitors are encouraged to examine and re-use the code as long as they publish it under a similar license.",
