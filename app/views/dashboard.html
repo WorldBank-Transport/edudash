@@ -136,13 +136,13 @@
               <span class="show-sm" translate="tab.school">Schools</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: polyType==='districts'}">
+          <li role="presentation" ng-class="{active: polyType==='districts' && viewMode==='polygons'}">
             <a ng-click="togglePolygons('districts')">
               <span class="hide-sm" translate="tab.district-view">Regions</span>
               <span class="show-sm" translate="tab.district">Regional</span>
             </a>
           </li>
-          <li role="presentation" ng-class="{active: polyType==='regions'}">
+          <li role="presentation" ng-class="{active: polyType==='regions' && viewMode==='polygons'}">
             <a ng-click="togglePolygons('regions')">
               <span class="hide-sm" translate="tab.regional-view">Regions</span>
               <span class="show-sm" translate="tab.regional">Regional</span>
