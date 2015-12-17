@@ -68,8 +68,8 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
           else 'UNKNOWN'
 
         when 'PUPIL_TEACHER_RATIO' then switch
-          when PUPIL_TEACHER_RATIO_MIN < val < PUPIL_TEACHER_RATIO_MID1 then 'GOOD'
-          when PUPIL_TEACHER_RATIO_MID1 <= val <= PUPIL_TEACHER_RATIO_MID2 then 'MEDIUM'
+          when PUPIL_TEACHER_RATIO_MIN < val < PUPIL_TEACHER_RATIO_MID1 then 'MEDIUM'
+          when PUPIL_TEACHER_RATIO_MID1 <= val <= PUPIL_TEACHER_RATIO_MID2 then 'GOOD'
           when val > PUPIL_TEACHER_RATIO_MID2 then 'POOR'
           else 'UNKNOWN'
 
@@ -133,3 +133,12 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
     unless criteria in ['performance', 'improvement']
       throw new Error "Unknown criteria '#{criteria}'"
     if schoolType is 'primary' and criteria is 'improvement' then 300 else 100
+
+  getMarkRadius: (school) ->
+    unless school?
+      throw new Error "Unknown school '#{school}'"
+    switch this.getBracket school.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO'
+      when 'MEDIUM' then 6
+      when 'GOOD' then 8
+      when 'POOR' then 4
+      else 6
