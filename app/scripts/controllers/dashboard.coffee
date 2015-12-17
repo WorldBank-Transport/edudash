@@ -602,6 +602,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         colorPin = (code, layer) ->
           utils.lookup($scope.schoolCodeMap, code).then (school) ->
             val = if school? then school[$scope.visMetric] else -1;
+            if school? and school.PUPIL_TEACHER_RATIO? and school.PUPIL_TEACHER_RATIO == school.PUPIL_TEACHER_RATIO
+              layer.options.radius = bracketsSrv.getMarkRadius school
             layer.setStyle colorSrv.pinOff $scope.getColor val
 
         colorPoly = (feature, layer) ->

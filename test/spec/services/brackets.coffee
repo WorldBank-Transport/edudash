@@ -124,10 +124,10 @@ describe 'watchComputeSrv', ->
 
     it 'PUPIL_TEACHER_RATIO ranges', ->
       expect(b.getBracket 0, 'PUPIL_TEACHER_RATIO').toEqual 'UNKNOWN'
-      expect(b.getBracket 1,  'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
-      expect(b.getBracket 34, 'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
-      expect(b.getBracket 35, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
-      expect(b.getBracket 50, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
+      expect(b.getBracket 1,  'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
+      expect(b.getBracket 34, 'PUPIL_TEACHER_RATIO').toEqual 'MEDIUM'
+      expect(b.getBracket 35, 'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
+      expect(b.getBracket 50, 'PUPIL_TEACHER_RATIO').toEqual 'GOOD'
       expect(b.getBracket 51, 'PUPIL_TEACHER_RATIO').toEqual 'POOR'
       expect(b.getBracket 100,'PUPIL_TEACHER_RATIO').toEqual 'POOR'
 
