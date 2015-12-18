@@ -29,7 +29,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           yearAggregates: null
           visMetric: null
           viewMode: null  # set after init
-          visMode: 'passrate'
+          visMode: 'combined'
           schoolType: $routeParams.type
           polyType: null
           hovered: null
@@ -229,7 +229,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               ), reject
 
         watchCompute 'pins',
-          dependencies: ['filteredSchools']
+          dependencies: ['filteredSchools', 'visMode']
           waitForPromise: true
           computer: ([schoolsP]) ->
             $q (resolve, reject) ->
@@ -452,9 +452,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           if oldThing != null
             switch $scope.viewMode
               when 'schools' then getSchoolPin(oldThing.CODE).then (pin) ->
-                pin.setStyle colorSrv.pinOff()
+                pin.setStyle colorSrv.pinOff(pin.options)
               when 'rank-schools' then getSchoolPin(oldThing.CODE).then (pin) ->
-                pin.setStyle colorSrv.pinOff()
+                pin.setStyle colorSrv.pinOff(pin.options)
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
@@ -589,9 +589,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         colorPin = (code, layer) ->
           utils.lookup($scope.schoolCodeMap, code).then (school) ->
             val = if school? then school[$scope.visMetric] else -1;
-            if school? and school.PUPIL_TEACHER_RATIO? and school.PUPIL_TEACHER_RATIO == school.PUPIL_TEACHER_RATIO
-              layer.options.radius = bracketsSrv.getMarkRadius school
-            layer.setStyle colorSrv.pinOff $scope.getColor val
+            layer.setStyle bracketsSrv.getMarkStyle(school, $scope.visMode, colorSrv.pinOff(), $scope.getColor(val))
 
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.visMetric]
