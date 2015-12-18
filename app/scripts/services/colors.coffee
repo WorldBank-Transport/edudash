@@ -25,14 +25,12 @@ angular.module('edudashAppSrv').service 'colorSrv', ->
       when 'UNKNOWN' then undefined
       else  throw new Error "Unknown bracket: '#{brace}'"
 
-  pinOff: (colour) ->
+  pinOff: (previous) ->
     style =
-      color: '#fff'
+      color: previous?.color or '#fff'
       fillOpacity: 0.96
       opacity: 0.95
       weight: 1
-    if colour?
-      style.fillColor = colour
     style
 
   pinOn: ->

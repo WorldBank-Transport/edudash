@@ -104,6 +104,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
       when 'passrate' then 'PASS_RATE'
       when 'ptratio' then 'PUPIL_TEACHER_RATIO'
       when 'gpa' then 'AVG_GPA'
+      when 'combined' then 'PASS_RATE'
       else throw new Error "Unknown vis mode '#{visMode}'"
 
   getSortMetric: (schoolType, criteria, inverse) ->
@@ -134,11 +135,26 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
       throw new Error "Unknown criteria '#{criteria}'"
     if schoolType is 'primary' and criteria is 'improvement' then 300 else 100
 
-  getMarkRadius: (school) ->
+  getMarkStyle: (school, visMode, options, color) ->
     unless school?
       throw new Error "Unknown school '#{school}'"
-    switch this.getBracket school.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO'
-      when 'MEDIUM' then 6
-      when 'GOOD' then 8
-      when 'POOR' then 4
-      else 6
+    if visMode is 'ptratio'
+      options.color = 'blue'
+      if color is '#aaa'
+        options.fillColor = color
+      else 
+        options.fill = false
+    else 
+      options.fillColor = color
+    if visMode in ['combined', 'ptratio']
+      options.radius = switch this.getBracket school.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO'
+        when 'MEDIUM' then 4
+        when 'GOOD' then 6
+        when 'POOR' then 8
+        else 
+          if visMode is 'combined'
+            options.color = options.fillColor
+            options.fill = false
+            options.weight = 2
+          4
+    options
