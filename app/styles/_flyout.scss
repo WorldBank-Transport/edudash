@@ -41,6 +41,11 @@
     color: #444;
     text-transform: capitalize;
   }
+  h3{
+    margin-top:4px;
+    margin-bottom: 0;
+    padding-bottom:0;
+  }
   h4 {
     font-style: italic;
     color: $body-text-color;
@@ -58,6 +63,7 @@
   .number {
     font-size: 2em;
     font-weight:$label-weight;
+    margin-top: -5px;
     &.GOOD { color: $rank-good; }
     &.MEDIUM { color: $rank-medium; }
     &.POOR { color: $rank-poor; }
