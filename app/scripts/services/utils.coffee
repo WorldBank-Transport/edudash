@@ -107,7 +107,7 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
   # @param {number} max Inclusive upper bound of acceptable `prop` values
   # @returns {function} suitable for passing to Array.prototype.filter
   ###
-  rangeFilter: (prop, min, max) ->
+  rangeFilter: (prop, min, max, minLimit, maxLimit) ->
     unless typeof prop == 'string'
       throw new Error "param `prop` must be a string. Got '#{typeof prop}'"
     unless typeof min == 'number'
@@ -117,7 +117,15 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
     unless max >= min
       throw new Error "invalid range [#{min}, #{max}]"
 
-    (s) -> if s[prop]? && s[prop] == s[prop] then (min <= s[prop] <= max) else true
+    (s) -> 
+      if min == minLimit and max == maxLimit  # No Filters
+        true
+      else if min != minLimit and max == maxLimit  # No Max Filter selected
+        s[prop] >= min
+      else if min == minLimit and max != maxLimit  # No Min Filter selected
+        s[prop] <= max
+      else
+        (min <= s[prop] <= max)
 
 
   ###*

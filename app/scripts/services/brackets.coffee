@@ -139,11 +139,10 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
     unless school?
       throw new Error "Unknown school '#{school}'"
     if visMode is 'ptratio'
-      options.color = 'blue'
       if color is '#aaa'
         options.fillColor = color
       else 
-        options.fill = false
+        options.fillColor = '#05a2dc'
     else 
       options.fillColor = color
     if visMode in ['combined', 'ptratio']
