@@ -1074,6 +1074,11 @@ map-bottom-toggle.legend {
     }
     &.blue-line:before {
       border: 1px solid $theme-blue;
+      background-color: $unknown;
+    }
+    &.blue-fill:before {
+      border: 1px solid #fff;
+      background-color: $theme-blue;
     }
   }
 }
