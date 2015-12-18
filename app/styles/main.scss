@@ -1072,6 +1072,9 @@ map-bottom-toggle.legend {
       height: 1.0em;
       width: 1.0em;
     }
+    &.blue-line:before {
+      border: 1px solid $theme-blue;
+    }
   }
 }
 map-bottom-toggle.filters {
