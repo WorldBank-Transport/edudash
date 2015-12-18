@@ -11,6 +11,7 @@
     padding: 20px 30px;
     background: $map-overlay;
     box-shadow: $map-overlay-outline;
+    z-index: 10;
   }
 
   .flyout-missing-data{

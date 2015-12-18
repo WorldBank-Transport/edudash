@@ -8,6 +8,7 @@
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
       <p class="performance-select">
+        <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate (%) / Pupil-Teacher Ratio</a>
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
         <a ng-if="schoolType==='secondary'"
@@ -39,14 +40,21 @@
       </div>
       <div ng-if="visMode==='ptratio'">
         <ol class="ptratio">
-          <li class="unknown" translate="legend.unknown">Unknown</li>
-          <li class="medium">&lt; 35</li>
-          <li class="good">35&ndash;50</li>
-          <li class="poor">&gt; 50</li>
+          <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
+          <li class="ptr-medium">&lt; 35</li>
+          <li class="ptr-good">35&ndash;50</li>
+          <li class="ptr-poor">&gt; 50</li>
         </ol>
       </div>
-      <div>
-        <p class="performance-select ptr" translate="legend.ptratio"/>
+      <div ng-if="visMode==='combined'">
+        <p class="performance-select subtitle" translate="legend.passrate"/>
+        <ol class="passrate">
+          <li class="unknown" translate="legend.unknown">Unknown</li>
+          <li class="poor">&lt;40</li>
+          <li class="medium">41&ndash;59</li>
+          <li class="good">&gt;60</li>
+        </ol>
+        <p class="performance-select subtitle" translate="legend.ptratio"/>
         <ol class="ptratio">
           <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
           <li class="ptr-medium">&lt; 35</li>
@@ -336,16 +344,6 @@
             </div>
           </div>
           <div class="container-fluid margin-top sidebar-toggle-pair" ng-hide="(schoolType==='secondary' && selectedSchoolCode|exists) || selectedPolyId|exists">
-            <div class="col-sm-12 performance-nav" ng-init="moreThan40=true">
-              <ul class="nav nav-tabs">
-                <li role="presentation" ng-class="{active: moreThan40}">
-                  <a ng-click="moreThan40=true">{{'tab.pupils.morethan40'|translate}}</a>
-                </li>
-                <li role="presentation" ng-class="{active: !moreThan40}">
-                  <a ng-click="moreThan40=false">{{'tab.pupils.lessthan40'|translate}}</a>
-                </li>
-              </ul>
-            </div>
             <div class="container-fluid margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs" ng-init="rankBy='performance'">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">

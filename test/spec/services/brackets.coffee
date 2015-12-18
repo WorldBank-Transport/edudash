@@ -33,6 +33,8 @@ describe 'watchComputeSrv', ->
         .toEqual 'PUPIL_TEACHER_RATIO'
       expect b.getVisMetric 'gpa'
         .toEqual 'AVG_GPA'
+      expect b.getVisMetric 'combined'
+        .toEqual 'PASS_RATE'
 
 
   describe 'getSortMetric', ->
