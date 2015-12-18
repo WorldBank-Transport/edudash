@@ -15,6 +15,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
 
+        PTR_MAX = 150
+        PTR_MIN = 0
+        PR_MAX = 100
+        PR_MIN = 0
+        GPA_MAX = 5
+        GPA_MIN = 0
+
         # app state
         angular.extend $scope,
           year: null  # set after init
@@ -43,16 +50,14 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           polyLayer: null
           range:
             passrate:
-              min: 0
-              max: 100
+              min: PR_MIN
+              max: PR_MAX
             ptratio:
-              min: 0
-              max: 100
+              min: PTR_MIN
+              max: PTR_MAX
             gpa:
-              min: 0
-              max: 5
-          ptratioComputedMax: 100
-          gpaComputedMax: 5
+              min: GPA_MIN
+              max: GPA_MAX
 
         # state transitioners
         angular.extend $scope,
@@ -100,24 +105,6 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               allSchools
             else
               $q.when []
-
-        watchCompute 'ptratioComputedMax',
-          dependencies: ['allSchools']
-          waitForPromise: true
-          computer: ([allSchools]) -> utils.max allSchools, 'PUPIL_TEACHER_RATIO', 100
-
-        watchCompute 'gpaComputedMax',
-          dependencies: ['allSchools']
-          waitForPromise: true
-          computer: ([allSchools]) -> utils.max allSchools, 'AVG_GPA', 4
-
-        $scope.$watch 'ptratioComputedMax', (ptratioComputedMax, ptratioComputedMaxOld) -> if ptratioComputedMax? and ptratioComputedMax != ptratioComputedMaxOld
-          if ptratioComputedMax? and ptratioComputedMax != $scope.range.ptratio.max
-            $scope.range.ptratio.max = ptratioComputedMax
-
-        $scope.$watch 'gpaComputedMax', (gpaComputedMax, gpaComputedMaxOld) -> if gpaComputedMax? and gpaComputedMax != gpaComputedMaxOld
-          if gpaComputedMax? and gpaComputedMax != $scope.range.gpa.max
-            $scope.range.gpa.max = gpaComputedMax
 
         watchCompute 'polygons',
           dependencies: ['viewMode', 'polyType']
@@ -234,10 +221,10 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             else
               $q (resolve, reject) -> allSchools.then ((schools) ->
                 filtered = schools
-                  .filter utils.rangeFilter 'PASS_RATE', prMin, prMax
-                  .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax
+                  .filter utils.rangeFilter 'PASS_RATE', prMin, prMax, PR_MIN, PR_MAX
+                  .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax, PTR_MIN, PTR_MAX
                 if $scope.schoolType is 'secondary'
-                  filtered = filtered.filter utils.rangeFilter 'AVG_GPA', gpaMin, gpaMax
+                  filtered = filtered.filter utils.rangeFilter 'AVG_GPA', gpaMin, gpaMax, GPA_MIN, GPA_MAX
                 resolve filtered
               ), reject
 
