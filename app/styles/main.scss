@@ -1054,23 +1054,23 @@ map-bottom-toggle.legend {
     }
     &.ptr-poor:before {
       border: 1px solid $unknown;
-      height: 0.6em;
-      width: 0.6em;
+      height: 1.4em;
+      width: 1.4em;
     }
     &.ptr-medium:before {
       border: 1px solid $unknown;
-      height: 1.0em;
-      width: 1.0em;
+      height: 0.5em;
+      width: 0.5em;
     }
     &.ptr-unknown:before {
-      border: 1px solid $unknown;
-      height: 1.0em;
-      width: 1.0em;
+      border: 2px solid $unknown;
+      height: 0.6em;
+      width: 0.6em;
     }
     &.ptr-good:before {
       border: 1px solid $unknown;
-      height: 1.4em;
-      width: 1.4em;
+      height: 1.0em;
+      width: 1.0em;
     }
   }
 }
@@ -1111,7 +1111,7 @@ map-bottom-toggle.filters {
       background: lighten($theme-blue, 40%);
     }
   }
-  &.ptr {
+  &.subtitle {
     display: inline-block;
     margin: 0 1em;
     color: desaturate($theme-blue, 20%);
