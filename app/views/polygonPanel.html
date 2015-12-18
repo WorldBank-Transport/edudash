@@ -13,13 +13,11 @@
   <p class="schoolname">{{'polygon.panel.' + selectedPoly.properties.type | translate}}: {{ selectedPoly.properties.NAME }}</p>
 </h2>
 <div>
-  <div class="row">
-    <div class="col-xs-11 pass-rate-panel">
-      <rate-pass-chart
-          datasource="selectedPoly.properties.PASS_RATE">
-      </rate-pass-chart>
-    </div>
-  </div>
+<div class="row col-md-12 poly-pass-rate-panel">
+  <rate-pass-chart
+      datasource="selectedPoly.properties.PASS_RATE">
+  </rate-pass-chart>
+</div>  
 </div>
 <div class="row col-md-12" style="width: 400px">
   <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
