@@ -181,24 +181,32 @@ describe 'utils', ->
         .toEqual []
 
     it 'should include an object meeting the filter criteria', ->
-      expect [{p: 0}].filter u.rangeFilter 'p', 0, 1
+      expect [{p: 0}].filter u.rangeFilter 'p', 0, 1, 0, 10
         .toEqual [{p: 0}]
-      expect [{p: 0.5}].filter u.rangeFilter 'p', 0, 1
+      expect [{p: 0.5}].filter u.rangeFilter 'p', 0, 1, 0, 10
         .toEqual [{p: 0.5}]
-      expect [{p: 1}].filter u.rangeFilter 'p', 0, 1
+      expect [{p: 1}].filter u.rangeFilter 'p', 0, 1, 0, 10
         .toEqual [{p: 1}]
-      expect [{p: 0}].filter u.rangeFilter 'p', 0, 0
+      expect [{p: 0}].filter u.rangeFilter 'p', 0, 0, 0, 10
         .toEqual [{p: 0}]
+      expect [{p: 2}].filter u.rangeFilter 'p', 1, 1, 0, 1
+        .toEqual [{p: 2}]
+      expect [{p: -1}].filter u.rangeFilter 'p', 0, 2, 0, 10
+        .toEqual [{p: -1}]
 
     it 'should exclude objects with props failing the criteria', ->
-      expect [{p: 2}].filter u.rangeFilter 'p', 0, 1
+      expect [{p: 2}].filter u.rangeFilter 'p', 0, 1, 0, 10
         .toEqual []
-      expect [{p: -1}].filter u.rangeFilter 'p', 0, 1
+      expect [{p: -1}].filter u.rangeFilter 'p', 1, 2, 0, 10
         .toEqual []
 
     it 'should include objects missing the prop', ->
-      expect [{z: 0}].filter u.rangeFilter 'p', 0, 1
+      expect [{z: 0}].filter u.rangeFilter 'p', 0, 1, 0, 1
         .toEqual [{z: 0}]
+
+    it 'should NOT include objects missing the prop when filter is selected', ->
+      expect [{z: 0}].filter u.rangeFilter 'p', 0, 9, 0, 10
+        .toEqual []
 
   describe 'debounce', ->
     it 'shoud validate its params', ->
