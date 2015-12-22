@@ -190,7 +190,9 @@
               <a class="link" ng-click="resetView()" translate="link.back.national"></a>
             </div>
           </div>
-          <div id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="(selectedPolyId|exists) && !(selectedSchoolCode|exists)"></div>
+          <div class="row">
+            <div class="col-lg-12" id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="(selectedPolyId|exists) && !(selectedSchoolCode|exists)"></div>
+          </div>
           <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools')">
             <div class="row col-lg-12">
               <div class="col-xs-4 text-center">
@@ -205,6 +207,7 @@
                     chart-title-class="{{'chart.dial-title.style'| translate}}"
                     property="PUPIL_TEACHER_RATIO"
                     format="{y}"
+                    class="middle-chart"
                     datasource="pupilTeacherRatio">
                 </gauge-chart>
               </div>
@@ -423,14 +426,17 @@
 
           <div ng-if="viewMode === 'schools' || viewMode === 'rank-schools'">
             <div ng-if="selectedSchool|exists" id="schoolinfo" class="container-fluid">
+              <div class="padded-wrapper">
               <p class="schoolname">
                 {{ selectedSchool.NAME }}
               </p>
               <span class="pull-right top-school-badge text-right">
                 <img
                     alt="{{ 'sidepanel.badge.top100' | translate }}"
+                    class="school-badge"
                     ng-show="selectedSchool.badges.top100"
                     src="images/topschoolbadge.png" />
+
                 <img
                     alt="{{ 'sidepanel.badge.improved.' + schoolType | translate }}"
                     ng-show="selectedSchool.badges.mostImproved"
@@ -440,12 +446,15 @@
                 {{ selectedSchool.CODE }}
                 <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
               </p>
+            </div>
               <div class="clearfix"></div>
+              <div class="padded-wrapper">
               <rate-pass-chart
                   datasource="selectedSchool.PASS_RATE">
               </rate-pass-chart>
-              <div class="no-padding widget col-md-4">
-                <p class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</p>
+              </div>
+              <div class="widget col-md-4 padded-left">
+                <p class="widgettitle padded-top">{{'chart.title.change-since-2013'|translate}} {{year-1}}</p>
                 <p class="widgetnumber">
                   <span ng-show="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') }}" class="arrow" />
@@ -456,15 +465,17 @@
                       {{ Math.round(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE) }}
                     </span>
                   </span>
-                  <p
-                      ng-hide="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists"
-                      class="medium-character missing-data"
-                      style="position: static"
-                      translate="chart.metric.missing-data">
-                    NA
-                  </p>
+                  <div class="missing-data-wrapper">
+                      <p
+                          ng-hide="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists"
+                          class="medium-character missing-data"
+                          style="position: static"
+                          translate="chart.metric.missing-data">
+                        NA
+                      </p>
+                  </div>
                 </p>
-              </div>
+            </div>
               <div class="col-md-8">
                 <pass-rate-time
                     chart-title="{{'chart.pass-rate-time'| translate}}"
@@ -472,8 +483,10 @@
                     datasource="selectedSchool.yearAggregates">
                 </pass-rate-time>
               </div>
-              <div class="widget col-md-12">
-                <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
+              <div class="row widget">
+                <div class="colr-md-12">
+                  <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
+                </div>
                 <div rank-chart datasource="selectedSchool.ranks.national" class="text-muted"></div>
               </div>
               <div class="widget row widget-full-width">
@@ -493,16 +506,16 @@
                 </div>
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='primary'">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                   <p class="widgettitle" translate="chart.title.mark">average mark</p>
                   <p class="widgetnumber">
                     <span>{{ selectedSchool.AVG_MARK }}</span>
                   </p>
                   <p ng-if="selectedSchool.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                   <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
-                  <p class="widgetnumber">
+                  <div class="widgetnumber">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') }}" class="arrow" />
                     <span ng-class="{
                       'text-red': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'POOR',
@@ -510,7 +523,7 @@
                       'text-green': getBracket(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') === 'GOOD'}">
                       {{ selectedSchool.CHANGE_PREVIOUS_YEAR }}
                     </span>
-                  </p>
+                  </div>
                 </div>
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
@@ -537,8 +550,10 @@
                   </p>
                 </div>
               </div>
-              <div class="widget">
-                <pupil-teacher-ratio-chart datasource="selectedSchool.PUPIL_TEACHER_RATIO" />
+              <div class="row widget">
+                <div class="col-lg-12">
+                  <pupil-teacher-ratio-chart datasource="selectedSchool.PUPIL_TEACHER_RATIO" />
+                </div>
               </div>
             </div>
           </div>
