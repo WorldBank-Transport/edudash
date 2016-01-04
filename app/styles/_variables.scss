@@ -39,12 +39,13 @@ $district-text:11px;
 $table-text: 13px;
 $panel-text: 14px;
 $school-info-text:16px;
+$smallest-text: 10px;
 
 // Layout
 
 $header-height: 70px;
 
-$nav-height: 49px;  // including content-border  // 47
+$nav-height: 40px;  // including content-border  // 47
 $content-border-height: 3px;
 
 $sidebar-width: 450px;
@@ -61,7 +62,7 @@ $filter-content-width: 360px;
 // translation related
 $swahili-title-width: 110px;
 
-$footer-height: $header-height;
+$footer-height: 50px;
 
 $xxs: 480px;  // very small screens
 $xs-ish: 640px;  // small but not tiny?
