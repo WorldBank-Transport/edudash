@@ -345,7 +345,7 @@ div.cartodb-share a{
   box-sizing: border-box;
   height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
   background:$menu-tab-grey;
-  padding: 8px 15px;
+  padding: 0 15px;
   margin-right: 0px;
   border-right: 1px solid $navtabs-border-color;
   border-radius: 0;
@@ -1372,17 +1372,18 @@ map-bottom-toggle.filters {
   }
   p{
     color:$content-bg;
-    margin-top:15px;
-    font-size:12px;
-    line-height:$panel-text;
+    margin-top:7px;
+    font-size:$smallest-text + 0.5;
+    line-height:$smallest-text + 1;
   }
   .navbar-brand{
-    height: $footer-height;
+    height: $footer-height+10;
+    margin-top:-4px;
   }
 
   .navbar-collapse{
     @include border-radius(0);
-    padding-top:$header-height/5;
+    padding-top: 2px;
     li{
       height:15px;
       &:first-child{
@@ -1397,8 +1398,6 @@ map-bottom-toggle.filters {
     }
   }
 }
-
-
 
 // vertical padding that can be applied to any container
 .vert-padding {
