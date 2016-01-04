@@ -987,6 +987,7 @@ ul.main-nav li ul li a{
   background: $map-overlay;
 }
 map-bottom-toggle {
+  overflow: hidden;
   header {
     height: $bottom-bar-height;
     background: $map-overlay;
@@ -999,6 +1000,7 @@ map-bottom-toggle {
       font-weight: $school-list-weight;
       color: $theme-blue;
       cursor: pointer;
+      outline:none;
       &:before,
       &:after {
         content: "▾";
@@ -1011,7 +1013,7 @@ map-bottom-toggle {
     content: "▴";
   }
   .body {
-    padding: 5px 1em;
+    padding:0 20px 25px 20px;
     margin-top: 1px;
     background: $map-overlay;
     box-shadow: $map-overlay-outline;
@@ -1021,22 +1023,28 @@ map-bottom-toggle {
   }
 }
 map-bottom-toggle.legend {
+  padding-bottom: 0;
   h4 {
-    max-width: $legend-content-width;
-    margin: 15px auto 10px;
+    color: $grey-dark;
+    max-width: $filter-content-width;
     font-size: 1em;
+    padding: 16px 0 4px 0;
+    margin:0;
+    display: block;
+    font-weight: $label-weight;
   }
   ol {
     max-width: $legend-content-width;
-    margin: 10px auto 20px;
     padding: 0;
     list-style: none;
+    margin-bottom: 0;
+    margin-left: -20px;
   }
   li {
     display: inline-block;
-    margin: 0 0.4em;
     font-weight: $school-list-weight;
     color: $body-text-color;
+    margin-bottom: 0;
     &:before {
       content: "";
       display: inline-block;
@@ -1044,7 +1052,8 @@ map-bottom-toggle.legend {
       height: 1.2em;
       width: 1.2em;
       border-radius: 100%;
-      margin-right: 0.333em;
+      margin-left: 20px;
+      margin-right:7px;
       vertical-align: middle;
       top: -2px;
     }
@@ -1094,18 +1103,22 @@ map-bottom-toggle.legend {
 map-bottom-toggle.filters {
   padding-right: 1px;  // gap
   h4 {
+    color: $grey-dark;
     max-width: $filter-content-width;
     font-size: 1em;
+    padding: 16px 0 4px 0;
+    margin:0;
+    display: block;
+    font-weight: $label-weight;
   }
 }
 
 // legend mode
 .performance-select {
-  margin: 1em 0;
-  text-align: center;
+  padding-top:15px;
   a {
     display: inline-block;
-    margin: 0 1em;
+    margin: 0;
     color: desaturate($theme-blue, 20%);
     cursor: pointer;
     &:before {
@@ -1130,8 +1143,9 @@ map-bottom-toggle.filters {
   }
   &.subtitle {
     display: inline-block;
-    margin: 0 1em;
-    color: desaturate($theme-blue, 20%);
+    font-weight:$label-weight;
+    margin: 0;
+    color: $grey-dark;
     cursor: pointer;
   }
 }
@@ -1482,5 +1496,44 @@ gauge-chart.middle-chart{
     margin-right:5px;
     margin-top:4px;
     height:32px;
+  }
+}
+
+// filter area
+
+.ngrs-range-slider{
+  .ngrs-handle{
+    border-radius: 50%;
+    background: $theme-blue;
+    border: 1px solid $theme-blue-lightest;
+  }
+  .ngrs-join{
+    background-color: $grey-lightest;
+    background-image: none;
+  }
+  .ngrs-runner{
+    margin: 0 7px;
+  }
+}
+
+.ngrs-range-slider{
+  border: 1px solid $content-bg;
+  box-shadow: none;
+  padding:0;
+  margin: 0;
+
+  .ngrs-attached-handles .ngrs-value > div{
+    margin-top: -5px;
+  }
+}
+
+// leaflet label
+.leaflet-control-attribution{
+  &.leaflet-control{
+    margin-top:-23px;
+    a{
+      margin-right: 10px;
+      margin-bottom: 20px;
+    }
   }
 }
