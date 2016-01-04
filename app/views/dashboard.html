@@ -7,13 +7,13 @@
     </div>
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
-      <p class="performance-select">
+      <div class="performance-select">
         <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate (%) / Pupil-Teacher Ratio</a>
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
         <a ng-if="schoolType==='secondary'"
           ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.avggpa">GPA </a>
-      </p>
+      </div>
       <div ng-if="visMode==='passrate' && schoolType==='primary'">
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
@@ -47,14 +47,14 @@
         </ol>
       </div>
       <div ng-if="visMode==='combined'">
-        <p class="performance-select subtitle" translate="legend.passrate"/>
+        <h4 translate="legend.passrate"/>
         <ol class="passrate">
           <li class="unknown" translate="legend.unknown">Unknown</li>
           <li class="poor">&lt;40</li>
           <li class="medium">41&ndash;59</li>
           <li class="good">&gt;60</li>
         </ol>
-        <p class="performance-select subtitle" translate="legend.ptratio"/>
+        <h4 translate="legend.ptratio"/>
         <ol class="ptratio">
           <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
           <li class="ptr-medium">&lt; 35</li>
