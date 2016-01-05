@@ -519,7 +519,7 @@
                 </div>
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
-                <div class="col-lg-6">
+                <div class="col-lg-4 bordered-col">
                   <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
                   <p class="widgetnumber">
                     <span ng-class="{
@@ -529,7 +529,7 @@
                   </p>
                   <p ng-if="selectedSchool.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-8 bordered-col">
                   <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
                   <p class="widgetnumber">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') }}" class="arrow" />
@@ -555,6 +555,7 @@
                <pass-rate-time
                    chart-title="{{'chart.pass-rate-time'| translate}}"
                    chart-title-class="{{'chart.dial-title.style'| translate}}"
+                   class="passrate-individual"
                    datasource="selectedSchool.yearAggregates">
                </pass-rate-time>
                </div>

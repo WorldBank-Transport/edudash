@@ -297,7 +297,7 @@ img.face {
 .dial-title{
   color: $theme-blue;
   font-weight: $school-list-weight;
-  font-size:12px;
+  font-size:$small-title;
   margin-bottom: 2px
 }
 .list-horizontal li{
@@ -533,7 +533,7 @@ div.cartodb-share a{
 
 #schoolinfo .widgettitle {
   width:100%;
-  font-size: 10px;
+  font-size: $smallest-text;
   font-weight: $label-weight;
   color: $theme-blue;
   text-transform: uppercase;
@@ -640,14 +640,14 @@ table.districts td.name {
 table.districts td.passrategreen {
     color: $rank-good;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $passrate-text;
     width: 40px;
 }
 
 table.districts td.passratered {
     color: $rank-poor;
     font-weight: $light-text-weight;
-    font-size: 18px;
+    font-size: $passrate-text;
     width: 40px;
 }
 
@@ -697,7 +697,7 @@ table.districts p {
   font-family:$global-font;
   color: $theme-blue;
   font-weight: $light-text-weight;
-  font-size: 20px;
+  font-size: $general-content-text;
   line-height: 24px;
   margin-top: 3px;
   min-height: 600px;
@@ -731,7 +731,7 @@ table.districts p {
   background-color: $theme-blue;
   color: $content-bg;
   font-weight: $content-weight;
-  font-size: 12px;
+  font-size: $small-title;
   text-transform:uppercase;
   margin: 20px auto;
   display: block;
@@ -1180,7 +1180,7 @@ map-bottom-toggle.filters {
 
 .big-character {
   position: absolute;
-  font-size: 36px;
+  font-size: $big-character;
   font-weight: 900;
   margin-top: 0px;
   margin-bottom: 2px;
@@ -1193,7 +1193,7 @@ map-bottom-toggle.filters {
 .medium-character {
   // position: absolute;
   position: relative;
-  font-size: 25px;
+  font-size: $medium-text;
   font-weight: 700;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -1312,13 +1312,10 @@ map-bottom-toggle.filters {
     top:21px;
   }
 }
-.passrate-time-chart {
-}
-
 .passrate-time-title {
   position: absolute;
   white-space: nowrap;
-  margin-left: -10px;
+  margin-left: 0;
   padding: 0;
   left: 0;
   top: 0;
@@ -1331,6 +1328,19 @@ map-bottom-toggle.filters {
     }
   }
 }
+
+// passrate line chart for individual school selection
+.passrate-individual{
+  .passrate-time-title {
+    margin-left: -10px;
+  }
+  .highcharts-container{
+    svg{
+      left: -35px;
+    }
+  }
+}
+
 .pass-rate-panel {
   height: 110px;
   margin-left: 5px;
@@ -1349,8 +1359,8 @@ map-bottom-toggle.filters {
 // homepage
 .page-title{
   color: $grey-light;
-  font-size:30px;
-  line-height:34px;
+  font-size:$page-title;
+  line-height:$page-title + 4;
   font-weight: $content-weight;
   padding-top: 50px;
 }
