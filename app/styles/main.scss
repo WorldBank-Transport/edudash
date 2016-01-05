@@ -212,7 +212,7 @@ table.schools td.rank {
 
 table.schools td.name {
     color:$body-text-color;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $panel-text;
     text-align:left;
     padding:8px;
@@ -223,28 +223,28 @@ table.schools td.name {
 
 table.schools td.passrategreen {
     color: $rank-good;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateyellow {
   color: $rank-medium;
-  font-weight: 400;
+  font-weight: $light-text-weight;
   font-size: $school-info-text;
   width: 55px;
 }
 
 table.schools td.passratered {
     color: $rank-poor;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateunknow {
   color: $unknown;
-  font-weight: 400;
+  font-weight: $light-text-weight;
   font-size: $school-info-text;
   width: 55px;
 }
@@ -1286,7 +1286,7 @@ map-bottom-toggle.filters {
     }
     .chart-title{
       left:-20px;
-      top:69px;
+      top:72px;
     }
   }
 
@@ -1319,12 +1319,12 @@ map-bottom-toggle.filters {
   padding: 0;
   left: 0;
   top: 0;
-  font-weight: 800;
+  font-weight: $label-weight;
   &.swahili-title{
     .chart-title{
       left:0;
       width:$swahili-title-width;
-      font-weight: 800;
+      font-weight: $label-weight;
     }
   }
 }
@@ -1470,24 +1470,18 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   outline:none;
 }
 
-.highcharts-widgetnumber{
-  background: #000;
-}
 .rank-widgetnumber {
   font-size: 2.3em;
   font-weight: $label-heavy-weight;
   font-family: $global-font;
   color: $grey-dark;
-  margin-right: 10px;
   margin-top:-5px;
   display:block;
   float: left;
   text-align: left;
-  margin-left:-22px;
+  margin-left:0;
   position: relative;
 }
-
-
 .missing-data-wrapper {
   // height: 30px;
   // position: relative;
@@ -1574,13 +1568,22 @@ gauge-chart.middle-chart{
   }
 }
 
-.rank-chart{
-}
-
 .highcharts-highcharts-national-rank{
   width: 100%;
-  overflow: hidden;
   height: 25px;
+  // margin-left: -10px;
+  // position: relative;
+  padding:0;
+  // overflow: hidden;
+  // width: 100px;
+  margin-left:0;
+  .rank-widgetnumber{
+    display:block;
+    position:absolute;
+    text-align: left;
+    left: -6px;
+    top: 7px;
+  }
 }
 
 .highcharts-container svg{
@@ -1599,4 +1602,8 @@ gauge-chart.middle-chart{
 }
 .bottom-space-5{
   margin-bottom: 5px;
+}
+
+.highcharts-national-rank{
+  background: #666;
 }
