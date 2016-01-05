@@ -23,19 +23,17 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 #main-nav.navbar-default {
     background-color: $theme-blue;
     border: none;
     border-radius: 0;
 }
 .page-header{
-    margin: 5px 0 15px;
     font-weight: $school-list-weight;
     color: $body-text-color;
     font-size: 15px;
-    padding-bottom: 15px;
     border-bottom:2px solid #eeeeee;
+    margin: 10px 10px 0 10px;
 }
 .navbar-default .navbar-nav > li > a{
     color:$menu-tab-grey;
@@ -291,8 +289,10 @@ img.face {
 /* ----------------- */
 .perfomance-gauges{
   padding-bottom: 0;
-}
-.perfomance-gauges .col-sm-4{
+  margin-top: 10px;
+  .missing-data{
+    top: 20px;
+  }
 }
 .dial-title{
   color: $theme-blue;
@@ -343,7 +343,7 @@ div.cartodb-share a{
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
-  height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
+  height: $nav-height - $content-border-height;  // 1px for the bottom grey line
   background:$menu-tab-grey;
   padding: 0 15px;
   margin-right: 0px;
@@ -390,6 +390,7 @@ div.cartodb-share a{
   border: 1px solid $content-bg;
   outline:none;
   border-color: $content-bg;
+  margin-top: 10px;
 }
 .search-schools{
   -webkit-border-radius: 0;
@@ -467,7 +468,7 @@ div.cartodb-share a{
     font-size:20px;
     position:absolute;
     left:30px;
-    top:7px;
+    top:16px;
     z-index:2;
   }
 }
@@ -504,18 +505,19 @@ div.cartodb-share a{
   font-weight: 500;
   color:  darken($body-text-color, 20%);
   margin-top: 0px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   font-style: italic;
 }
 
 #schoolinfo .widget {
   position: relative;
-  padding-left: 0;
   overflow:hidden;
-  margin:0;
-  padding: 0;
+  margin:3px 0 0 0;
   &.padded-left{
     padding-left: 15px;
+  }
+  &.padded-left5{
+    padding-left:5px;
   }
 }
 #schoolinfo .no-padding {
@@ -536,10 +538,10 @@ div.cartodb-share a{
   color: $theme-blue;
   text-transform: uppercase;
   margin-bottom: 3px;
-  margin-top: 7px;
   p{
-  margin:0
+  margin:0;
   }
+
 }
 
 #schoolinfo .widgetnumber {
@@ -552,7 +554,13 @@ div.cartodb-share a{
   border:1px solid transparent;
   overflow: visible;
   padding-bottom: 0;
+
+  &.percentNumber{
+    font-size: 3em;
+  }
+
 }
+
 
 #schoolinfo img.arrow {
     margin-top: -4px;
@@ -605,7 +613,6 @@ table.districts {
 }
 
 table.districts td {
-    /*border-bottom: 1px dotted #e3e3e3;*/
     height: 25px;
     white-space: nowrap;
 }
@@ -922,7 +929,7 @@ ul.main-nav li ul li a{
 .open > .dropdown-menu{
   @include border-radius(0);
   border:none;
-  top:43px;
+  top:37px;
   width:465px;
   color: $content-bg;
   padding-left:20px;
@@ -1152,7 +1159,6 @@ map-bottom-toggle.filters {
 
 /* Sidebar */
 .sidebar {
-  padding-top: 10px;
   background: $content-bg;
   p {
     margin: 0;
@@ -1162,8 +1168,6 @@ map-bottom-toggle.filters {
 .sidebar .contained {  /* hack for search for now */
   margin: 0;
 }
-
-
 .text-red {
   color: $rank-poor;
 }
@@ -1187,7 +1191,8 @@ map-bottom-toggle.filters {
 }
 
 .medium-character {
-  position: absolute;
+  // position: absolute;
+  position: relative;
   font-size: 25px;
   font-weight: 700;
   margin-top: 5px;
@@ -1199,9 +1204,18 @@ map-bottom-toggle.filters {
   &.missing-data {
     font-size: $panel-text;
     text-transform: capitalize;
-    padding-left:-5px;
-    margin-top:0;
+    // margin-top:20px;
     text-align: left;
+    margin-left: 15px;
+  }
+
+  &.first{
+    left: -20px;
+  }
+
+  .no-left-space {
+    margin-left: 0;
+    left: -10px;
   }
 
   &.polygon {
@@ -1226,14 +1240,12 @@ map-bottom-toggle.filters {
 
 .medium-small-character {
   position: absolute;
-  font-size: 0.8em;
+  font-size: 0.5em;
   font-weight: $school-list-weight;
-  margin-top: 0px;
   margin-bottom: 0px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-left: 5px;
   white-space: nowrap;
-  top: 0px;
+  top: 3px;
 }
 
 .chart-title {
@@ -1297,7 +1309,7 @@ map-bottom-toggle.filters {
   top: $nav-height+9;
   .chart-title{
     left:-6px;
-    top:13px;
+    top:21px;
   }
 }
 .passrate-time-chart {
@@ -1306,9 +1318,9 @@ map-bottom-toggle.filters {
 .passrate-time-title {
   position: absolute;
   white-space: nowrap;
-  margin-left: 0;
+  margin-left: -10px;
   padding: 0;
-  left: 0px;
+  left: 0;
   top: 0;
   font-weight: 800;
   &.swahili-title{
@@ -1426,6 +1438,9 @@ map-bottom-toggle.filters {
     }
   }
 }
+.gauge-title.withoutchart{
+  top:-22px;
+}
 .gauge-title.withoutchart.swahili-title {
   left:15px;
   padding:0;
@@ -1445,29 +1460,40 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   outline:none;
 }
 
+.highcharts-widgetnumber{
+  background: #000;
+}
 .rank-widgetnumber {
   font-size: 2.3em;
   font-weight: $label-heavy-weight;
   font-family: $global-font;
   color: $grey-dark;
+  margin-right: 10px;
+  margin-top:-5px;
+  display:block;
+  float: left;
+  text-align: left;
+  margin-left:-22px;
+  position: relative;
 }
 
+
 .missing-data-wrapper {
-  height: 30px;
-  position: relative;
+  // height: 30px;
+  // position: relative;
   overflow: hidden;
-  padding-top:5px;
 
   .missing-data {
-    left: 15px;
-    position:absolute;
-    top:-2px;
+    left: 0;
+    // position:absolute;
+    // top:-2px;
+    margin-left:15px;
+    position: relative;
   }
 }
 .padded-top{
   padding-top:25px;
 }
-
 .top-school-badge{
   clear:both;
   width:100%;
@@ -1480,11 +1506,12 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
 gauge-chart.middle-chart{
   position:absolute;
   left:3px;
-  .missing-data{
-    position:absolute;
-    top:32px;
-    left:12px;
-  }
+  // .missing-data{
+    // position:absolute;
+    // top:32px;
+    // left:0;
+    // background: #000;
+  // }
 }
 
 .polygon-stats {
@@ -1535,4 +1562,31 @@ gauge-chart.middle-chart{
       margin-bottom: 20px;
     }
   }
+}
+
+.rank-chart{
+}
+
+.highcharts-highcharts-national-rank{
+  width: 100%;
+  overflow: hidden;
+  height: 25px;
+}
+
+.highcharts-container svg{
+  position:absolute;
+  top:0;
+  left: -5px;
+}
+
+.bordered-col{
+  border-left: 3px solid $grey-light;
+  padding-left:5px;
+  margin-bottom: 5px;
+}
+.non-bordered-col{
+  padding-left: 0;
+}
+.bottom-space-5{
+  margin-bottom: 5px;
 }

@@ -21,7 +21,7 @@ angular.module 'edudashAppDir'
               enabled: false
             chart:
               plotShadow: false
-              height: 50
+              height: 30
               width: width + 10
             title:
               text: ""
@@ -82,4 +82,3 @@ angular.module 'edudashAppDir'
                 })
             .add(group);
           )
-

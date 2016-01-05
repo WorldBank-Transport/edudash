@@ -1,10 +1,10 @@
 <div class="widget first">
   <p class="widgettitle">{{'chart.title.passrate-2014'|translate}}</p>
   <div class="row" ng-if="passRate !== 0">
-    <div ng-class="{'col-xs-3': passRate === 100, 'col-xs-2': passRate !== 100}">
-      <p class="percentNumber widgetnumber">{{ passRate| number:0}}%</p>
+    <div ng-class="{'col-xs-4': passRate === 100, 'col-xs-3': passRate !== 100}">
+      <p class="widgetnumber percentNumber">{{ passRate| number:0}}%</p>
     </div>
-    <div ng-class="{'col-xs-9': passRate === 100, 'col-xs-10': passRate !== 100}">
+    <div ng-class="{'col-xs-8': passRate === 100, 'col-xs-9': passRate !== 100}">
       <div class="pass-rate"
           ng-class="getClass($index, passRate)"
           ng-repeat="i in getTimes(passRate/10) track by $index"></div>
@@ -16,6 +16,6 @@
     </div>
   </div>
   <div class="row" ng-if="passRate === 0">
-    <p class="medium-character missing-data" style="position: static; margin-left: 20px" translate="chart.metric.missing-data">NA</p>
+    <p class="medium-character missing-data" translate="chart.metric.missing-data">NA</p>
   </div>
 </div>
