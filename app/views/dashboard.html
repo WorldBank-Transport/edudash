@@ -175,6 +175,32 @@
               </a>
             </ul>
           </li>
+          <li role="presentation" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
+              <span class="hide-sm" translate="tab.share">Share</span>
+              <span class="show-sm" translate="tab.share">Share</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <a ng-click="share()">
+                <li>
+                  <img src="images/icon-share.png">
+                  <span translate="tab.share.share"></span>
+                </li>
+              </a>
+              <a ng-click="feedback()">
+                <li>
+                  <img src="images/icon-feedback.png">
+                  <span translate="tab.share.feedback"></span>
+                </li>
+              </a>
+              <a ng-click="print()">
+                <li>
+                  <img src="images/icon-print.png">
+                  <span translate="tab.share.print"></span>
+                </li>
+              </a>
+            </ul>
+          </li>
         </ul>
       </div>
 
