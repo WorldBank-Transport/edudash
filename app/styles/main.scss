@@ -33,8 +33,18 @@ body {
     color: $body-text-color;
     font-size: 15px;
     border-bottom:2px solid #eeeeee;
-    margin: 10px 10px 0 10px;
+    margin: 10px 10px 0 15px;
 }
+
+.national-link {
+  border-bottom:2px solid #eeeeee;
+  margin-left: -3px;
+  padding: 10px 0;
+  a{
+    font-weight: bold;
+  }
+}
+
 .navbar-default .navbar-nav > li > a{
     color:$menu-tab-grey;
     cursor: pointer;
