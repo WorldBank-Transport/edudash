@@ -167,7 +167,7 @@
               <span class="hide-sm" translate="tab.year-mode">Year</span>
               <span class="show-sm" translate="tab.year">Year</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
+            <ul class="dropdown-menu">
               <a ng-repeat="y in years" ng-click="setYear(y)">
                 <li>
                   <span class="selectable" ng-class="{selected: year===y}"></span>{{y}}
@@ -180,22 +180,22 @@
               <span class="hide-sm" translate="tab.share">Share</span>
               <span class="show-sm" translate="tab.share">Share</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
+            <ul class="dropdown-menu dropdown-menu-right share-dropdown">
               <a ng-click="share()">
                 <li>
-                  <img src="images/icon-share.png">
+                  <img class="share-icon" src="images/icon-share.png">
                   <span translate="tab.share.share"></span>
                 </li>
               </a>
               <a ng-click="feedback()">
                 <li>
-                  <img src="images/icon-feedback.png">
+                  <img class="share-icon" src="images/icon-feedback.png">
                   <span translate="tab.share.feedback"></span>
                 </li>
               </a>
               <a ng-click="print()">
                 <li>
-                  <img src="images/icon-print.png">
+                  <img class="share-icon" src="images/icon-print.png">
                   <span translate="tab.share.print"></span>
                 </li>
               </a>

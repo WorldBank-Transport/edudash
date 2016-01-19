@@ -324,6 +324,7 @@ div.cartodb-share a{
 .nav-tabs > li {
   float: none;
   display: table-cell;
+  width: 17%;
 }
 /* sidebar toggle buttons should be 1/2 width */
 .sidebar-toggle-pair .nav-tabs {
@@ -940,7 +941,11 @@ ul.main-nav li ul li a{
   @include border-radius(0);
   border:none;
   top:37px;
+<<<<<<< HEAD
   width:465px;
+=======
+  width:320px;
+>>>>>>> edudash-2.0
   color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
@@ -953,8 +958,9 @@ ul.main-nav li ul li a{
     float:left;
     padding:8px 20px;
     color: $content-bg;
+    opacity: 1;
   &:hover{
-    font-weight:$school-list-weight;
+    opacity: 0.7;
     cursor: pointer;
     }
   }
@@ -1581,6 +1587,7 @@ gauge-chart.middle-chart{
     }
   }
 }
+<<<<<<< HEAD
 
 .highcharts-highcharts-national-rank{
   width: 100%;
@@ -1625,3 +1632,13 @@ gauge-chart.middle-chart{
 .map-details-container{
   padding: 0;
 }
+=======
+.dropdown-menu {
+  &.share-dropdown{
+    width: 340px;
+    .share-icon{
+      width: 20px;
+    }
+  }
+}
+>>>>>>> edudash-2.0
