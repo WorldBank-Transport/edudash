@@ -352,3 +352,14 @@ ul.main-nav {
     }
   }
 }
+
+.feedback-form-container {
+  @media only screen and (max-width: $md-ish) {
+    padding-bottom: 600px;
+  }
+  @media only screen and (max-width: $xs) {
+    left:-6%;
+    padding-bottom: 750px;
+    width: 110%;
+  }
+}
