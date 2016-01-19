@@ -23,20 +23,28 @@ body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
 #main-nav.navbar-default {
     background-color: $theme-blue;
     border: none;
     border-radius: 0;
 }
 .page-header{
-    margin: 5px 0 15px;
     font-weight: $school-list-weight;
     color: $body-text-color;
     font-size: 15px;
-    padding-bottom: 15px;
     border-bottom:2px solid #eeeeee;
+    margin: 10px 10px 0 15px;
 }
+
+.national-link {
+  border-bottom:2px solid #eeeeee;
+  margin-left: -3px;
+  padding: 10px 0;
+  a{
+    font-weight: bold;
+  }
+}
+
 .navbar-default .navbar-nav > li > a{
     color:$menu-tab-grey;
     cursor: pointer;
@@ -214,7 +222,7 @@ table.schools td.rank {
 
 table.schools td.name {
     color:$body-text-color;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $panel-text;
     text-align:left;
     padding:8px;
@@ -225,28 +233,28 @@ table.schools td.name {
 
 table.schools td.passrategreen {
     color: $rank-good;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateyellow {
   color: $rank-medium;
-  font-weight: 400;
+  font-weight: $light-text-weight;
   font-size: $school-info-text;
   width: 55px;
 }
 
 table.schools td.passratered {
     color: $rank-poor;
-    font-weight: 400;
+    font-weight: $light-text-weight;
     font-size: $school-info-text;
     width: 55px;
 }
 
 table.schools td.passrateunknow {
   color: $unknown;
-  font-weight: 400;
+  font-weight: $light-text-weight;
   font-size: $school-info-text;
   width: 55px;
 }
@@ -291,13 +299,15 @@ img.face {
 /* ----------------- */
 .perfomance-gauges{
   padding-bottom: 0;
-}
-.perfomance-gauges .col-sm-4{
+  margin-top: 10px;
+  .missing-data{
+    top: 20px;
+  }
 }
 .dial-title{
   color: $theme-blue;
   font-weight: $school-list-weight;
-  font-size:12px;
+  font-size:$small-title;
   margin-bottom: 2px
 }
 .list-horizontal li{
@@ -314,6 +324,7 @@ div.cartodb-share a{
 .nav-tabs > li {
   float: none;
   display: table-cell;
+  width: 17%;
 }
 /* sidebar toggle buttons should be 1/2 width */
 .sidebar-toggle-pair .nav-tabs {
@@ -343,7 +354,7 @@ div.cartodb-share a{
 }
 .nav-tabs > li > a {
   box-sizing: border-box;
-  height: $nav-height - $content-border-height - 1px;  // 1px for the bottom grey line
+  height: $nav-height - $content-border-height;  // 1px for the bottom grey line
   background:$menu-tab-grey;
   padding: 0 15px;
   margin-right: 0px;
@@ -390,6 +401,7 @@ div.cartodb-share a{
   border: 1px solid $content-bg;
   outline:none;
   border-color: $content-bg;
+  margin-top: 10px;
 }
 .search-schools{
   -webkit-border-radius: 0;
@@ -467,7 +479,7 @@ div.cartodb-share a{
     font-size:20px;
     position:absolute;
     left:30px;
-    top:7px;
+    top:16px;
     z-index:2;
   }
 }
@@ -504,18 +516,19 @@ div.cartodb-share a{
   font-weight: 500;
   color:  darken($body-text-color, 20%);
   margin-top: 0px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   font-style: italic;
 }
 
 #schoolinfo .widget {
   position: relative;
-  padding-left: 0;
   overflow:hidden;
-  margin:0;
-  padding: 0;
+  margin:3px 0 0 0;
   &.padded-left{
     padding-left: 15px;
+  }
+  &.padded-left5{
+    padding-left:5px;
   }
 }
 #schoolinfo .no-padding {
@@ -531,15 +544,15 @@ div.cartodb-share a{
 
 #schoolinfo .widgettitle {
   width:100%;
-  font-size: 10px;
+  font-size: $smallest-text;
   font-weight: $label-weight;
   color: $theme-blue;
   text-transform: uppercase;
   margin-bottom: 3px;
-  margin-top: 7px;
   p{
-  margin:0
+  margin:0;
   }
+
 }
 
 #schoolinfo .widgetnumber {
@@ -552,7 +565,13 @@ div.cartodb-share a{
   border:1px solid transparent;
   overflow: visible;
   padding-bottom: 0;
+
+  &.percentNumber{
+    font-size: 3em;
+  }
+
 }
+
 
 #schoolinfo img.arrow {
     margin-top: -4px;
@@ -605,7 +624,6 @@ table.districts {
 }
 
 table.districts td {
-    /*border-bottom: 1px dotted #e3e3e3;*/
     height: 25px;
     white-space: nowrap;
 }
@@ -633,14 +651,14 @@ table.districts td.name {
 table.districts td.passrategreen {
     color: $rank-good;
     font-weight: 400;
-    font-size: 18px;
+    font-size: $passrate-text;
     width: 40px;
 }
 
 table.districts td.passratered {
     color: $rank-poor;
     font-weight: $light-text-weight;
-    font-size: 18px;
+    font-size: $passrate-text;
     width: 40px;
 }
 
@@ -690,7 +708,7 @@ table.districts p {
   font-family:$global-font;
   color: $theme-blue;
   font-weight: $light-text-weight;
-  font-size: 20px;
+  font-size: $general-content-text;
   line-height: 24px;
   margin-top: 3px;
   min-height: 600px;
@@ -724,7 +742,7 @@ table.districts p {
   background-color: $theme-blue;
   color: $content-bg;
   font-weight: $content-weight;
-  font-size: 12px;
+  font-size: $small-title;
   text-transform:uppercase;
   margin: 20px auto;
   display: block;
@@ -922,11 +940,12 @@ ul.main-nav li ul li a{
 .open > .dropdown-menu{
   @include border-radius(0);
   border:none;
-  top:43px;
+  top:37px;
   width:465px;
   color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
+
   ul{
     border-right:none;
     padding:0px;
@@ -936,8 +955,9 @@ ul.main-nav li ul li a{
     float:left;
     padding:8px 20px;
     color: $content-bg;
+    opacity: 1;
   &:hover{
-    font-weight:$school-list-weight;
+    opacity: 0.7;
     cursor: pointer;
     }
   }
@@ -1152,7 +1172,6 @@ map-bottom-toggle.filters {
 
 /* Sidebar */
 .sidebar {
-  padding-top: 10px;
   background: $content-bg;
   p {
     margin: 0;
@@ -1162,8 +1181,6 @@ map-bottom-toggle.filters {
 .sidebar .contained {  /* hack for search for now */
   margin: 0;
 }
-
-
 .text-red {
   color: $rank-poor;
 }
@@ -1176,7 +1193,7 @@ map-bottom-toggle.filters {
 
 .big-character {
   position: absolute;
-  font-size: 36px;
+  font-size: $big-character;
   font-weight: 900;
   margin-top: 0px;
   margin-bottom: 2px;
@@ -1187,8 +1204,9 @@ map-bottom-toggle.filters {
 }
 
 .medium-character {
-  position: absolute;
-  font-size: 25px;
+  // position: absolute;
+  position: relative;
+  font-size: $medium-text;
   font-weight: 700;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -1199,9 +1217,22 @@ map-bottom-toggle.filters {
   &.missing-data {
     font-size: $panel-text;
     text-transform: capitalize;
-    padding-left:-5px;
-    margin-top:0;
+    // margin-top:20px;
     text-align: left;
+    margin-left: 15px;
+
+  &.polygon {
+    top: 6px;
+    }
+  }
+
+  &.first{
+    left: -20px;
+  }
+
+  .no-left-space {
+    margin-left: 0;
+    left: -10px;
   }
 
   &.polygon {
@@ -1226,14 +1257,12 @@ map-bottom-toggle.filters {
 
 .medium-small-character {
   position: absolute;
-  font-size: 0.8em;
+  font-size: 0.5em;
   font-weight: $school-list-weight;
-  margin-top: 0px;
   margin-bottom: 0px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-left: 5px;
   white-space: nowrap;
-  top: 0px;
+  top: 3px;
 }
 
 .chart-title {
@@ -1274,7 +1303,7 @@ map-bottom-toggle.filters {
     }
     .chart-title{
       left:-20px;
-      top:69px;
+      top:72px;
     }
   }
 
@@ -1297,28 +1326,38 @@ map-bottom-toggle.filters {
   top: $nav-height+9;
   .chart-title{
     left:-6px;
-    top:13px;
+    top:21px;
   }
 }
-.passrate-time-chart {
-}
-
 .passrate-time-title {
   position: absolute;
   white-space: nowrap;
   margin-left: 0;
   padding: 0;
-  left: 0px;
+  left: 0;
   top: 0;
-  font-weight: 800;
+  font-weight: $label-weight;
   &.swahili-title{
     .chart-title{
       left:0;
       width:$swahili-title-width;
-      font-weight: 800;
+      font-weight: $label-weight;
     }
   }
 }
+
+// passrate line chart for individual school selection
+.passrate-individual{
+  .passrate-time-title {
+    margin-left: -10px;
+  }
+  .highcharts-container{
+    svg{
+      left: -35px;
+    }
+  }
+}
+
 .pass-rate-panel {
   height: 110px;
   margin-left: 5px;
@@ -1337,8 +1376,8 @@ map-bottom-toggle.filters {
 // homepage
 .page-title{
   color: $grey-light;
-  font-size:30px;
-  line-height:34px;
+  font-size:$page-title;
+  line-height:$page-title + 4;
   font-weight: $content-weight;
   padding-top: 50px;
 }
@@ -1426,6 +1465,9 @@ map-bottom-toggle.filters {
     }
   }
 }
+.gauge-title.withoutchart{
+  top:-22px;
+}
 .gauge-title.withoutchart.swahili-title {
   left:15px;
   padding:0;
@@ -1450,24 +1492,29 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   font-weight: $label-heavy-weight;
   font-family: $global-font;
   color: $grey-dark;
-}
-
-.missing-data-wrapper {
-  height: 30px;
+  margin-top:-5px;
+  display:block;
+  float: left;
+  text-align: left;
+  margin-left:0;
   position: relative;
+}
+.missing-data-wrapper {
+  // height: 30px;
+  // position: relative;
   overflow: hidden;
-  padding-top:5px;
 
   .missing-data {
-    left: 15px;
-    position:absolute;
-    top:-2px;
+    left: 0;
+    // position:absolute;
+    // top:-2px;
+    margin-left:15px;
+    position: relative;
   }
 }
 .padded-top{
   padding-top:25px;
 }
-
 .top-school-badge{
   clear:both;
   width:100%;
@@ -1480,11 +1527,12 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
 gauge-chart.middle-chart{
   position:absolute;
   left:3px;
-  .missing-data{
-    position:absolute;
-    top:32px;
-    left:12px;
-  }
+  // .missing-data{
+    // position:absolute;
+    // top:32px;
+    // left:0;
+    // background: #000;
+  // }
 }
 
 .polygon-stats {
@@ -1493,8 +1541,8 @@ gauge-chart.middle-chart{
   .poligonimage {
     float: left;
     margin-right:5px;
-    margin-top:4px;
-    height:32px;
+    margin-top:6px;
+    height:25px;
   }
 }
 
@@ -1533,6 +1581,58 @@ gauge-chart.middle-chart{
     a{
       margin-right: 10px;
       margin-bottom: 20px;
+    }
+  }
+}
+
+.highcharts-highcharts-national-rank{
+  width: 100%;
+  height: 25px;
+  // margin-left: -10px;
+  // position: relative;
+  padding:0;
+  // overflow: hidden;
+  // width: 100px;
+  margin-left:0;
+  .rank-widgetnumber{
+    display:block;
+    position:absolute;
+    text-align: left;
+    left: -3px;
+    top: 7px;
+  }
+}
+
+.highcharts-container svg{
+  position:absolute;
+  top:0;
+  left: -5px;
+}
+
+.bordered-col{
+  border-left: 3px solid $grey-light;
+  padding-left:5px;
+  margin-bottom: 5px;
+}
+.non-bordered-col{
+  padding-left: 0;
+}
+.bottom-space-5{
+  margin-bottom: 5px;
+}
+
+.highcharts-national-rank{
+  background: #666;
+}
+
+.map-details-container{
+  padding: 0;
+}
+.dropdown-menu {
+  &.share-dropdown{
+    width: 340px;
+    .share-icon{
+      width: 20px;
     }
   }
 }

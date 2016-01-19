@@ -3,7 +3,7 @@
         <p ng-class="getStyle(data)" class="big-character">{{sign}}{{ data }}%</p>
     </div>
     <div class="col-md-12" ng-if="data === 0">
-        <div><p class="medium-character missing-data" style="position: static;" translate="chart.metric.missing-data">NA</p></div>
+        <div><p class="medium-character missing-data first" translate="chart.metric.missing-data">NA</p></div>
     </div>
     <div class="col-md-12 {{'chart.dial-title.style'| translate}} passrate-change-title">
         <span class="chart-title">{{'chart.dial-title'| translate}} {{ since-1 }}</span>
