@@ -1411,9 +1411,11 @@ map-bottom-toggle.filters {
   }
   p{
     color:$content-bg;
-    margin-top:7px;
+    margin-top:13px;
     font-size:$smallest-text + 0.5;
     line-height:$smallest-text + 1;
+    text-align: right;
+    width: 75%;
   }
   .navbar-brand{
     height: $footer-height+10;
