@@ -314,6 +314,7 @@ div.cartodb-share a{
 .nav-tabs > li {
   float: none;
   display: table-cell;
+  width: 17%;
 }
 /* sidebar toggle buttons should be 1/2 width */
 .sidebar-toggle-pair .nav-tabs {
@@ -923,7 +924,7 @@ ul.main-nav li ul li a{
   @include border-radius(0);
   border:none;
   top:37px;
-  width:465px;
+  width:320px;
   color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
