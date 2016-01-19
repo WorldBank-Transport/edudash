@@ -1207,6 +1207,10 @@ map-bottom-toggle.filters {
     // margin-top:20px;
     text-align: left;
     margin-left: 15px;
+
+  &.polygon {
+    top: 6px;
+    }
   }
 
   &.first{
@@ -1524,8 +1528,8 @@ gauge-chart.middle-chart{
   .poligonimage {
     float: left;
     margin-right:5px;
-    margin-top:4px;
-    height:32px;
+    margin-top:6px;
+    height:25px;
   }
 }
 
@@ -1581,7 +1585,7 @@ gauge-chart.middle-chart{
     display:block;
     position:absolute;
     text-align: left;
-    left: -6px;
+    left: -3px;
     top: 7px;
   }
 }
@@ -1606,4 +1610,8 @@ gauge-chart.middle-chart{
 
 .highcharts-national-rank{
   background: #666;
+}
+
+.map-details-container{
+  padding: 0;
 }

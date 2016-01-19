@@ -13,23 +13,23 @@
   <p class="schoolname">{{'polygon.panel.' + selectedPoly.properties.type | translate}}: {{ selectedPoly.properties.NAME }}</p>
 </h2>
 <div>
-<div class="row col-md-12 poly-pass-rate-panel">
+<div class="widget col-md-12 poly-pass-rate-panel bordered-col">
   <rate-pass-chart
       datasource="selectedPoly.properties.PASS_RATE">
   </rate-pass-chart>
 </div>
 </div>
-<div class="row col-md-12 bordered-col" style="width: 430px">
+<div class="widget col-md-12 bordered-col" style="width: 430px">
   <p class="widgettitle" translate="chart.title.national-raking">national ranking</p>
   <rank-chart datasource="selectedPoly.properties.ranks.NATIONAL"></rank-chart>
 </div>
-<div class="row col-md-12 bordered-col" ng-if="selectedPoly.properties.type == 'districts' && (lastHovered.properties.ranks.REGIONAL.rank |exists)">
+<div class="widget col-md-12 bordered-col" ng-if="selectedPoly.properties.type == 'districts' && (lastHovered.properties.ranks.REGIONAL.rank |exists)">
   <rank
     datasource="selectedPoly.properties.ranks.REGIONAL"
     title="polygon.panel.regions.rank">
   </rank>
 </div>
-<div class="row col-md-12 bordered-col" style="width: 430px">
+<div class="widget col-md-12 bordered-col" style="width: 430px">
   <pupil-teacher-ratio-chart datasource="selectedPoly.properties.PT_RATIO" present="Math.round"/>
 </div>
 <poligon-number
