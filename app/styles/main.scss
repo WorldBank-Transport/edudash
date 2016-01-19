@@ -1643,7 +1643,7 @@ gauge-chart.middle-chart{
 .feedback-form-container {
   height: 0;
   overflow: hidden;
-  padding-bottom: 80%;
+  padding-bottom: 110%;
   padding-top:0;
   position: relative;
 
@@ -1652,7 +1652,7 @@ gauge-chart.middle-chart{
     height: 100%;
     left: 0;
     position: absolute;
-    top: -100px;
+    top: 0;
     width: 99%;
   }
 }
