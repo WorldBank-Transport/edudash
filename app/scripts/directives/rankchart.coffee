@@ -31,18 +31,18 @@ angular.module 'edudashAppDir'
             if (newValue.rank?)
               rank = newValue.rank
               worstRank = newValue.total
-            lineRange = width * 0.6;
+              lineRange = width * 0.6;
               startLine = width - lineRange;
               n=5
               section = lineRange/n
               group = renderer.g("highcharts-national-rank").add();
               padding = switch
-              when rank < 10 then 0
-              when rank < 100 then 0
-              when rank < 1000 then 0
-              when rank < 10000 then 0
-              else 0
-            renderer.label('<span class="rank-widgetnumber">' + rank + '</span>', padding, 0, undefined, 0, 0, true, true, 'widgetnumber').add(group)
+                when rank < 10 then 0
+                when rank < 100 then 0
+                when rank < 1000 then 0
+                when rank < 10000 then 0
+                else 0
+              renderer.label('<span class="rank-widgetnumber">' + rank + '</span>', padding, 0, undefined, 0, 0, true, true, 'widgetnumber').add(group)
               chartCenter = 20
               renderer.path(['M', startLine, chartCenter, 'L', startLine + section, chartCenter]).attr({
                 'stroke-width': 4,
