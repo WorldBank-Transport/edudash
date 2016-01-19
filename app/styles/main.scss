@@ -314,6 +314,7 @@ div.cartodb-share a{
 .nav-tabs > li {
   float: none;
   display: table-cell;
+  width: 17%;
 }
 /* sidebar toggle buttons should be 1/2 width */
 .sidebar-toggle-pair .nav-tabs {
@@ -922,8 +923,8 @@ ul.main-nav li ul li a{
 .open > .dropdown-menu{
   @include border-radius(0);
   border:none;
-  top:43px;
-  width:465px;
+  top:37px;
+  width:320px;
   color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
@@ -936,8 +937,9 @@ ul.main-nav li ul li a{
     float:left;
     padding:8px 20px;
     color: $content-bg;
+    opacity: 1;
   &:hover{
-    font-weight:$school-list-weight;
+    opacity: 0.7;
     cursor: pointer;
     }
   }
@@ -1533,6 +1535,14 @@ gauge-chart.middle-chart{
     a{
       margin-right: 10px;
       margin-bottom: 20px;
+    }
+  }
+}
+.dropdown-menu {
+  &.share-dropdown{
+    width: 340px;
+    .share-icon{
+      width: 20px;
     }
   }
 }
