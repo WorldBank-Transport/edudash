@@ -941,14 +941,11 @@ ul.main-nav li ul li a{
   @include border-radius(0);
   border:none;
   top:37px;
-<<<<<<< HEAD
   width:465px;
-=======
-  width:320px;
->>>>>>> edudash-2.0
   color: $content-bg;
   padding-left:20px;
   background: $theme-blue;
+
   ul{
     border-right:none;
     padding:0px;
@@ -1587,7 +1584,6 @@ gauge-chart.middle-chart{
     }
   }
 }
-<<<<<<< HEAD
 
 .highcharts-highcharts-national-rank{
   width: 100%;
@@ -1632,7 +1628,6 @@ gauge-chart.middle-chart{
 .map-details-container{
   padding: 0;
 }
-=======
 .dropdown-menu {
   &.share-dropdown{
     width: 340px;
@@ -1641,4 +1636,3 @@ gauge-chart.middle-chart{
     }
   }
 }
->>>>>>> edudash-2.0
