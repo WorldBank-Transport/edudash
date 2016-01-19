@@ -385,7 +385,7 @@
             <div class="container-fluid" ng-if="viewMode === 'rank-schools'">
               <school-list
                   class="position"
-                  list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
+                  list-title="{{'chart.top.schools.performance' | translate}}"
                   type="good"
                   dataset="rankedSchools[rankBy]"
                   rankby="rankBy"
@@ -402,7 +402,7 @@
             <div class="container-fluid" ng-if="viewMode === 'rank-schools'">
               <school-list
                   class="position"
-                  list-title="{{'chart.top.more-than-40-'+(moreThan40?'YES':'NO') | translate}}"
+                  list-title="{{'chart.top.schools.least-performance' | translate}}"
                   type="bad"
                   dataset="rankedSchools[('worst_'+ rankBy)]"
                   rankby="rankBy"
