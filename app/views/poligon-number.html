@@ -1,9 +1,8 @@
-<div class="widget col-md-12">
+<div class="widget col-md-12 bordered-col">
   <span class="widgettitle">{{name}}</span>
-</div>
-
   <span class="polygon-stats">
     <img class="poligonimage" ng-src="images/{{image}}">
     <span ng-show="value|exists" class="widgetnumber">{{ present? present(value): value}}</span>
     <span ng-hide="value|exists" class="medium-character missing-data polygon" translate="chart.metric.missing-data">NA</span >
   </span>
+</div>
