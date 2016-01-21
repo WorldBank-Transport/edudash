@@ -20,7 +20,7 @@ angular.module 'edudashAppDir'
           gaugeOptions =
             chart:
               type: 'gauge'
-              plotBackgroundColor: '#FFF'
+              plotBackgroundColor: '#fff'
               plotBackgroundImage: null
               plotBorderWidth: 0
               plotShadow: false
@@ -37,7 +37,7 @@ angular.module 'edudashAppDir'
                        <span class='chart-title ng-binding'>#{attrs.chartTitle}</span>
                      </div>"
               useHTML: true
-              y: 65
+              y: 55
               width: width + 40
               align: 'center'
             pane:
