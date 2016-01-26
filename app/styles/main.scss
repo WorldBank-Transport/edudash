@@ -306,6 +306,14 @@ img.face {
   font-size:$small-title;
   margin-bottom: 2px
 }
+.highcharts-container {
+  .highcharts-series {
+    & > circle {
+      fill: #777;
+    }
+  }
+}
+
 .list-horizontal li{
   display: inline-block;
 }
