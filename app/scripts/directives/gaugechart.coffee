@@ -64,13 +64,8 @@ angular.module 'edudashAppDir'
                     textShadow: null
                 dial:
                   radius: '72%'
-                  backgroundColor: 'black'
-                  borderColor: 'black'
-                  borderWidth: 0
-                  baseWidth: 5
-                  topWidth: 1
-                  baseLength: '1%'
-                  rearLength: '1%'
+                  backgroundColor: '#777'
+                  
             yAxis:
               min: 0
               max: 100
