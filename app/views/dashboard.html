@@ -479,8 +479,8 @@
                   datasource="selectedSchool.PASS_RATE">
               </rate-pass-chart>
               </div>
-              <div class="widget col-md-4 bordered-col" style="margin-bottom:10px;">
-                <span class="widgettitle padded-top">{{'chart.title.change-since-2013'|translate}} {{year-1}}</span>
+              <div class="widget col-lg-4 bordered-col" style="">
+                <span class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</span>
                 <p class="widgetnumber">
                   <span ng-show="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE, 'CHANGE_PREVIOUS_YEAR_PASSRATE') }}" class="arrow" />
@@ -491,13 +491,14 @@
                       {{ Math.round(selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE) }}
                     </span>
                   </span>
-                  <div class="missing-data-wrapper">
+                  <div class="row missing-data-wrapper">
+                    <div class="medium-character missing-data prev-year-change">
                       <p
                           ng-hide="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists"
-                          class="medium-character missing-data"
                           translate="chart.metric.missing-data">
                         NA
                       </p>
+                    </div>
                   </div>
                 </p>
             </div>
@@ -532,7 +533,7 @@
                   <p ng-if="selectedSchool.AVG_MARK === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8 bordered-col">
-                  <p class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</p>
+                  <span class="widgettitle" translate="chart.title.mark.change-previous-year">change mark previous year</span>
                   <div class="widgetnumber">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR, 'CHANGE_PREVIOUS_YEAR') }}" class="arrow" />
                     <span ng-class="{
@@ -546,7 +547,7 @@
               </div>
               <div class="widget row widget-full-width" ng-if="schoolType==='secondary'">
                 <div class="col-lg-4 bordered-col">
-                  <p class="widgettitle" translate="chart.title.gpa">average gpa</p>
+                  <span class="widgettitle" translate="chart.title.gpa">average gpa</span>
                   <p class="widgetnumber">
                     <span ng-class="{
                       'text-red': getBracket(selectedSchool.AVG_GPA, 'AVG_GPA') === 'POOR',
@@ -556,7 +557,7 @@
                   <p ng-if="selectedSchool.AVG_GPA === undefined" class="medium-character missing-data" style="position: static" translate="chart.metric.missing-data">NA</p>
                 </div>
                 <div class="col-lg-8 bordered-col">
-                  <p class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</p>
+                  <span class="widgettitle" translate="chart.title.gpa.change-previous-year">change gpa previous year</span>
                   <p class="widgetnumber">
                     <img ng-src="{{ getArrow(selectedSchool.CHANGE_PREVIOUS_YEAR_GPA, 'CHANGE_PREVIOUS_YEAR_GPA') }}" class="arrow" />
                     <span ng-class="{

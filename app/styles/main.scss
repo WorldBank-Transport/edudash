@@ -527,7 +527,8 @@ div.cartodb-share a{
 #schoolinfo .widget {
   position: relative;
   overflow:hidden;
-  margin:3px 0 0 0;
+  margin:3px 0 3px 0;
+
   &.padded-left{
     padding-left: 15px;
   }
@@ -548,9 +549,11 @@ div.cartodb-share a{
 
 #schoolinfo .widgettitle {
   width:100%;
+  display: block;
   font-size: $smallest-text;
   font-weight: $label-weight;
   color: $theme-blue;
+  line-height: 100%;
   text-transform: uppercase;
   margin-bottom: 3px;
   p{
@@ -1220,6 +1223,15 @@ map-bottom-toggle.filters {
     text-align: left;
     margin-left: 15px;
 
+  &.prev-year-change {
+      display: block;
+      margin-left: 0;
+      margin-top: 6px;
+      padding: 0 0 0 15px;
+      top: 15px;
+      position: static;
+    }
+
   &.polygon {
     top: 6px;
     }
@@ -1349,6 +1361,7 @@ map-bottom-toggle.filters {
       left:0;
       width:$swahili-title-width;
       font-weight: $label-weight;
+      text-align: left;
     }
   }
 }
@@ -1513,13 +1526,15 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
 .missing-data-wrapper {
   // height: 30px;
   // position: relative;
-  overflow: hidden;
+    overflow: hidden;
+    margin-top:-11px;
 
   .missing-data {
     left: 0;
     // position:absolute;
     // top:-2px;
     margin-left:15px;
+    margin-top: 11px;
     position: relative;
   }
 }
