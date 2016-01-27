@@ -1411,9 +1411,9 @@ map-bottom-toggle.filters {
   bottom:0;
   height: $footer-height;
   a{
-    color:$theme-blue-light;
+    color:$body-text-color-inverse;
     &:hover{
-      color: $content-bg;
+      color:$theme-blue-light;
     }
   }
   p{
