@@ -527,7 +527,8 @@ div.cartodb-share a{
 #schoolinfo .widget {
   position: relative;
   overflow:hidden;
-  margin:3px 0 0 0;
+  margin:3px 0 3px 0;
+
   &.padded-left{
     padding-left: 15px;
   }
@@ -548,9 +549,11 @@ div.cartodb-share a{
 
 #schoolinfo .widgettitle {
   width:100%;
+  display: block;
   font-size: $smallest-text;
   font-weight: $label-weight;
   color: $theme-blue;
+  line-height: 100%;
   text-transform: uppercase;
   margin-bottom: 3px;
   p{
@@ -1220,6 +1223,15 @@ map-bottom-toggle.filters {
     text-align: left;
     margin-left: 15px;
 
+  &.prev-year-change {
+      display: block;
+      margin-left: 0;
+      margin-top: 6px;
+      padding: 0 0 0 15px;
+      top: 15px;
+      position: static;
+    }
+
   &.polygon {
     top: 6px;
     }
@@ -1284,14 +1296,16 @@ map-bottom-toggle.filters {
 }
 .gauge-title {
   white-space: nowrap;
-  margin-top: 5px;
+  position: absolute;
+  left: -17px;
 
   .chart-title{
-    margin-top: 6px;
+    margin-top: 10px;
   }
 
   &.swahili-title{
-    margin-top:6px;
+    left: -2px;
+    top: -4px;
 
     .chart-title{
       left:18px;
@@ -1346,9 +1360,10 @@ map-bottom-toggle.filters {
   font-weight: $label-weight;
   &.swahili-title{
     .chart-title{
-      left:0;
+      left:19px;
       width:$swahili-title-width;
       font-weight: $label-weight;
+      text-align: left;
     }
   }
 }
@@ -1411,9 +1426,9 @@ map-bottom-toggle.filters {
   bottom:0;
   height: $footer-height;
   a{
-    color:$theme-blue-light;
+    color:$body-text-color-inverse;
     &:hover{
-      color: $content-bg;
+      color:$theme-blue-light;
     }
   }
   p{
@@ -1461,15 +1476,16 @@ map-bottom-toggle.filters {
   width:$swahili-title-width;
   text-align:center;
   position:absolute;
-
+  
   .chart-title{
     white-space:normal;
     line-height:12px;
     width:$swahili-title-width;
   }
   &.passrate-change-title{
+
     .chart-title{
-      top:27px;
+      top:23px;
       white-space:normal;
       font-size: 11px;
       font-weight: bolder;
@@ -1513,13 +1529,15 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
 .missing-data-wrapper {
   // height: 30px;
   // position: relative;
-  overflow: hidden;
+    overflow: hidden;
+    margin-top:-11px;
 
   .missing-data {
     left: 0;
     // position:absolute;
     // top:-2px;
     margin-left:15px;
+    margin-top: 11px;
     position: relative;
   }
 }
@@ -1536,7 +1554,7 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   }
 }
 gauge-chart.middle-chart{
-  position:absolute;
+  // position:absolute;
   left:3px;
   // .missing-data{
     // position:absolute;
@@ -1610,7 +1628,7 @@ gauge-chart.middle-chart{
     position:absolute;
     text-align: left;
     left: -3px;
-    top: 7px;
+    top: 8px;
   }
 }
 

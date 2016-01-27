@@ -65,7 +65,7 @@ angular.module 'edudashAppDir'
                 dial:
                   radius: '72%'
                   backgroundColor: '#777'
-                  
+
             yAxis:
               min: 0
               max: 100
