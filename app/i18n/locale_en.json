@@ -42,7 +42,7 @@
     "legend.passrate": "Pass Rate",
     "legend.ptratio": "Pupil-Teacher Ratio",
     "legend.avggpa": "Average GPA",
-    "legend.combined": "Pass Rate (%) / Pupil-Teacher Ratio",
+    "legend.combined": "Pass Rate and Pupil-Teacher Ratio",
     "filters.title": "filters",
     "chart.dial-title": "CHANGE SINCE",
     "chart.details": "Click for details",
