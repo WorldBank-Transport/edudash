@@ -15,7 +15,7 @@ angular.module 'edudashAppSrv'
         primary:
           'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
           'improvement': 'd1b88ec0-236b-462c-b663-1d24bba7c4d4'
-        secondary: '99bb9a93-d239-425e-bca8-7e4da3fa6d34'
+        secondary: 'd57dfd49-a0b8-4aaa-a3b6-86738c2b8164'
 
       xget = switch
         when $window.OLDIE? then (url, opts, otherArgs...) ->
@@ -102,15 +102,11 @@ angular.module 'edudashAppSrv'
         dataP
 
       getYearAggregates: (educationLevel, subtype, moreThan40, year) ->
-        condition = switch educationLevel
-          when 'secondary' then "WHERE \"MORE_THAN_40\" = '#{if moreThan40 then 'YES' else 'NO'}'"
-          else ''
         ckanResp xget ckanQueryURL, params: sql: "
           SELECT
             AVG(\"PASS_RATE\") as average_pass_rate,
             \"YEAR_OF_RESULT\"
           FROM \"#{getTable(educationLevel, subtype)}\"
-          #{condition}
           GROUP BY \"YEAR_OF_RESULT\"
           ORDER BY \"YEAR_OF_RESULT\""
 
