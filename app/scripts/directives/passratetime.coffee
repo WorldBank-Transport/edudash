@@ -35,12 +35,12 @@ angular.module 'edudashAppDir'
             align: 'left'
           xAxis:
             categories: value.years
-            lineColor: '#FFFFFF'
+            lineColor: '#ffffff'
             labels:
               enabled: true
               style:
                 fontWeight: 'bold'
-              y: 10
+              y: 18
           yAxis:
             gridLineWidth: 0
             title:
