@@ -17,10 +17,17 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         PTR_MAX = 150
         PTR_MIN = 0
+        PTR_MIN_TEMP = 0
+        PTR_MAX_TEMP = 150
         PR_MAX = 100
         PR_MIN = 0
+        PR_MAX_TEMP = 100
+        PR_MIN_TEMP = 0
         GPA_MAX = 5
         GPA_MIN = 0
+        GPA_MAX_TEMP = 5
+        GPA_MIN_TEMP = 0
+       
 
         # app state
         angular.extend $scope,
@@ -52,12 +59,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             passrate:
               min: PR_MIN
               max: PR_MAX
+              min_temp: PR_MIN_TEMP
+              max_temp: PR_MAX_TEMP
             ptratio:
               min: PTR_MIN
               max: PTR_MAX
+              min_temp: PTR_MIN_TEMP
+              max_temp: PTR_MAX_TEMP
             gpa:
               min: GPA_MIN
               max: GPA_MAX
+              min_temp: GPA_MIN_TEMP
+              max_temp: GPA_MAX_TEMP             
 
         # state transitioners
         angular.extend $scope,
@@ -120,7 +133,64 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                   null
                 )
 
-        watchCompute 'detailedPolys',
+        timeoutInstance = undefined
+        $scope.$watch 'range.passrate.max_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.passrate.max = newVal
+              return
+            ), 100)
+          return        
+        $scope.$watch 'range.passrate.min_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.passrate.min = newVal
+              return
+            ), 150)
+          return     
+        $scope.$watch 'range.ptratio.max_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.ptratio.max = newVal
+              return
+            ), 100)
+          return        
+        $scope.$watch 'range.ptratio.min_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.ptratio.min = newVal
+              return
+            ), 100)
+          return 
+        $scope.$watch 'range.gpa.max_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.gpa.max = newVal
+              return
+            ), 100)
+          return        
+        $scope.$watch 'range.gpa.min_temp', (newVal) ->
+          if !isNaN(newVal)
+            if timeoutInstance
+              $timeout.cancel timeoutInstance
+            timeoutInstance = $timeout((->
+              $scope.range.gpa.min = newVal
+              return
+            ), 100)
+          return     
+    
+
+         watchCompute 'detailedPolys',
           dependencies: ['polygons', 'allSchools', 'polyType', 'schoolType']
           waitForPromise: true
           computer: ([polygons, allSchools, polyType, schoolType], [oldPolys, oldSchools]) ->

@@ -8,7 +8,7 @@
 
     <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
       <div class="performance-select">
-        <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate (%) / Pupil-Teacher Ratio</a>
+        <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate and Pupil-Teacher Ratio</a>
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
         <a ng-if="schoolType==='secondary'"
@@ -47,20 +47,24 @@
         </ol>
       </div>
       <div ng-if="visMode==='combined'">
-        <h4 translate="legend.passrate"/>
-        <ol class="passrate">
-          <li class="unknown" translate="legend.unknown">Unknown</li>
-          <li class="poor">&lt;40</li>
-          <li class="medium">41&ndash;59</li>
-          <li class="good">&gt;60</li>
-        </ol>
-        <h4 translate="legend.ptratio"/>
-        <ol class="ptratio">
-          <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
-          <li class="ptr-medium">&lt; 35</li>
-          <li class="ptr-good">35&ndash;50</li>
-          <li class="ptr-poor">&gt; 50</li>
-        </ol>
+        <div>
+          <h4 translate="legend.passrate"/>
+          <ol class="passrate">
+            <li class="unknown" translate="legend.unknown">Unknown</li>
+            <li class="poor">&lt;40</li>
+            <li class="medium">41&ndash;59</li>
+            <li class="good">&gt;60</li>
+          </ol>
+        </div>
+        <div>
+          <h4 translate="legend.ptratio"/>
+          <ol class="ptratio">
+            <li class="ptr-unknown" translate="legend.unknown">Unknown</li>
+            <li class="ptr-medium">&lt; 35</li>
+            <li class="ptr-good">35&ndash;50</li>
+            <li class="ptr-poor">&gt; 50</li>
+          </ol>
+        </div>
       </div>
     </map-bottom-toggle>
 
@@ -73,8 +77,8 @@
       <div range-slider ng-if="schoolType==='primary'"
           min="0"
           max="100"
-          model-min="range.passrate.min"
-          model-max="range.passrate.max"
+          model-min="range.passrate.min_temp"
+          model-max="range.passrate.max_temp"
           prevent-equal-min-max="true"
           attach-handle-values="true"
           show-Values="true"
@@ -83,8 +87,8 @@
       <div range-slider ng-if="schoolType==='secondary'"
           min="0"
           max="100"
-          model-min="range.passrate.min"
-          model-max="range.passrate.max"
+          model-min="range.passrate.min_temp"
+          model-max="range.passrate.max_temp"
           prevent-equal-min-max="true"
           attach-handle-values="true"
           show-Values="true"
@@ -95,8 +99,8 @@
           <div range-slider
                min="0"
                max="5"
-               model-min="range.gpa.min"
-               model-max="range.gpa.max"
+               model-min="range.gpa.min_temp"
+               model-max="range.gpa.max_temp"
                prevent-equal-min-max="true"
                attach-handle-values="true"
                show-Values="true"
@@ -107,8 +111,8 @@
       <div range-slider
           min="0"
           max="150"
-          model-min="range.ptratio.min"
-          model-max="range.ptratio.max"
+          model-min="range.ptratio.min_temp"
+          model-max="range.ptratio.max_temp"
           prevent-equal-min-max="true"
           attach-handle-values="true"
           show-Values="true"
@@ -373,12 +377,7 @@
             <div class="container-fluid margin-top sidebar-toggle-pair">
               <ul class="nav nav-tabs" ng-init="rankBy='performance'">
                 <li role="presentation" ng-class="{active: rankBy==='performance'}">
-                  <!--a ng-click="rankBy='performance'" ng-hide="viewMode === 'rank-schools'">{{'button.best.performing'|translate}}</a-->
                   <a ng-click="rankBy='performance'" ng-show="viewMode === 'rank-schools'" style="text-transform: uppercase;">{{'button.performing'|translate}}</a>
-                </li>
-                <li role="presentation" ng-class="{active: rankBy==='improvement'}">
-                  <!--a ng-click="rankBy='improvement'" ng-hide="viewMode === 'rank-schools'">{{'button.best.improved'|translate}}</a-->
-                  <a ng-click="rankBy='performance'" ng-show="viewMode === 'rank-schools'" style="text-transform: uppercase;">{{'button.improved'|translate}}</a>
                 </li>
               </ul>
             </div>
