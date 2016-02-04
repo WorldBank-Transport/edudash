@@ -1568,14 +1568,8 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   }
 }
 gauge-chart.middle-chart{
-  // position:absolute;
-  left:3px;
-  // .missing-data{
-    // position:absolute;
-    // top:32px;
-    // left:0;
-    // background: #000;
-  // }
+  left:5px;
+  position: absolute;
 }
 
 .polygon-stats {
@@ -1712,7 +1706,8 @@ gauge-chart.middle-chart{
   border-bottom: 1px solid #ffffff;
   border-right: 1px solid transparent;
 }
-
 .performance-nav .nav-tabs > li > a {
   border-right:1px solid transparent;
+}
+.last-gauge {
 }
