@@ -399,13 +399,15 @@ div.cartodb-share a{
 .btn-default{
   border-color: $content-bg;
 }
+.search-schools {
+  margin-top: 10px;
+}
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
   border: 1px solid $content-bg;
   outline:none;
   border-color: $content-bg;
-  margin-top: 10px;
 }
 .search-schools{
   -webkit-border-radius: 0;
@@ -1226,9 +1228,8 @@ map-bottom-toggle.filters {
   &.prev-year-change {
       display: block;
       margin-left: 0;
-      margin-top: 6px;
+      margin-top: 20px;
       padding: 0 0 0 15px;
-      top: 15px;
       position: static;
     }
 
@@ -1387,6 +1388,9 @@ map-bottom-toggle.filters {
 .widget-full-width{
   width:100%;
 }
+.widget-small-stat{
+  height: 50px;
+}
 .rank-value{
   padding-left: 0px;
 }
@@ -1476,7 +1480,7 @@ map-bottom-toggle.filters {
   width:$swahili-title-width;
   text-align:center;
   position:absolute;
-  
+
   .chart-title{
     white-space:normal;
     line-height:12px;
