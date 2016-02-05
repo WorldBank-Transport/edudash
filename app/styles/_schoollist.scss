@@ -33,16 +33,21 @@
     font-size:11px;
     margin-left:0;
     padding-left:0;
+    width: 75%;
   }
   .rank{
     font-size:13px !important;
     padding-right:15px;
     font-weight:bold;
+    width: 10%;
   }
   td{
     outline:none;
     padding-left:10px;
-
+  &.passrate{
+      padding-right: 3px;
+      text-align: right;
+    }
   &.passrategreen{
     color: $rank-good;
     font-weight:bold;
