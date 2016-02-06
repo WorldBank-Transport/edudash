@@ -455,6 +455,10 @@
               <p class="schoolname">
                 {{ selectedSchool.NAME }}
               </p>
+              <p class="code">
+                {{ selectedSchool.CODE }}
+                <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
+              </p>
               <span class="pull-right top-school-badge text-right">
                 <img
                     alt="{{ 'sidepanel.badge.top100' | translate }}"
@@ -467,10 +471,6 @@
                     ng-show="selectedSchool.badges.mostImproved"
                     ng-src="images/mostimprovedbadge{{ schoolType }}.png" />
               </span>
-              <p class="code">
-                {{ selectedSchool.CODE }}
-                <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
-              </p>
             </div>
               <div class="clearfix"></div>
               <div class="padded-wrapper bordered-col">
