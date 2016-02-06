@@ -24,7 +24,7 @@
       <td ng-repeat="column in columns" class="name">
           {{ school[column] }}
       </td>
-      <td ng-class="getStyle(school[property], property)">
+      <td class="passrate" ng-class="getStyle(school[property], property)">
         {{ school[property] }}{{ sufix }}
       </td>
     </tr>
