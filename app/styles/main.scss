@@ -32,12 +32,12 @@ body {
     font-weight: $school-list-weight;
     color: $body-text-color;
     font-size: 15px;
-    border-bottom:2px solid #eeeeee;
+    border-bottom:2px solid $border-grey;
     margin: 10px 10px 0 15px;
 }
 
 .national-link {
-  border-bottom:2px solid #eeeeee;
+  border-bottom:2px solid $border-grey;
   margin-left: -3px;
   padding: 10px 0;
   a{
@@ -1701,7 +1701,11 @@ gauge-chart.middle-chart{
   color: $theme-blue;
   display: block;
   font-weight: bold;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid $border-grey;
+  outline: none;
 }
 .performance-nav .nav-tabs{
   border-bottom: 1px solid #ffffff;
