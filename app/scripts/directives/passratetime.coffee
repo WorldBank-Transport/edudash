@@ -35,12 +35,12 @@ angular.module 'edudashAppDir'
             align: 'left'
           xAxis:
             categories: value.years
-            lineColor: '#FFFFFF'
+            lineColor: '#ffffff'
             labels:
               enabled: true
               style:
                 fontWeight: 'bold'
-              y: 10
+              y: 18
           yAxis:
             gridLineWidth: 0
             title:
@@ -87,7 +87,7 @@ angular.module 'edudashAppDir'
         if(chart?)
           titleObj =
             text: "<div class='col-md-12 passrate-time-title #{if value.length > 20 then 'swahili-title' else ''}'>
-                     <span class='chart-title ng-binding gauge'>#{value}</span>
+                     <span class='chart-title school-panel-title ng-binding gauge'>#{value}</span>
                    </div>"
             useHTML: true
             align: 'left'

@@ -241,7 +241,7 @@
                     datasource="pupilTeacherRatio">
                 </gauge-chart>
               </div>
-              <div class="col-xs-4 text-center">
+              <div class="col-xs-4 last-gauge text-center">
                 <gauge-chart
                     chart-title="{{'chart.average-pass-rate'| translate}}"
                     chart-title-class="{{'chart.dial-title.style'| translate}}"
@@ -453,6 +453,10 @@
               <p class="schoolname">
                 {{ selectedSchool.NAME }}
               </p>
+              <p class="code">
+                {{ selectedSchool.CODE }}
+                <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
+              </p>
               <span class="pull-right top-school-badge text-right">
                 <img
                     alt="{{ 'sidepanel.badge.top100' | translate }}"
@@ -465,10 +469,6 @@
                     ng-show="selectedSchool.badges.mostImproved"
                     ng-src="images/mostimprovedbadge{{ schoolType }}.png" />
               </span>
-              <p class="code">
-                {{ selectedSchool.CODE }}
-                <span ng-if="selectedSchool.OWNERSHIP|exists" class="text-capitalize">, {{ selectedSchool.OWNERSHIP }}</span>
-              </p>
             </div>
               <div class="clearfix"></div>
               <div class="padded-wrapper bordered-col">
@@ -476,7 +476,7 @@
                   datasource="selectedSchool.PASS_RATE">
               </rate-pass-chart>
               </div>
-              <div class="widget col-lg-4 bordered-col" style="">
+              <div class="widget col-lg-4 bordered-col widget-small-stat">
                 <span class="widgettitle">{{'chart.title.change-since-2013'|translate}} {{year-1}}</span>
                 <p class="widgetnumber">
                   <span ng-show="selectedSchool.CHANGE_PREVIOUS_YEAR_PASSRATE|exists">
@@ -499,13 +499,13 @@
                   </div>
                 </p>
             </div>
-              <div class="widget col-md-8 bordered-col">
+              <div class="widget col-md-8 bordered-col widget-small-stat">
                 <div class="col-md-12 rank-value">
                   <span class="widgettitle" translate="chart.title.national-raking">national ranking</span>
                 </div>
                 <div rank-chart datasource="selectedSchool.ranks.national" class="text-muted"></div>
               </div>
-              <div class="widget row widget-full-width ">
+              <div class="widget row widget-full-width widget-small-stat">
                 <div class="col-lg-4 bordered-col">
                   <rank
                       datasource="selectedSchool.ranks.region"
@@ -521,7 +521,7 @@
                   </rank>
                 </div>
               </div>
-              <div class="widget row widget-full-width" ng-if="schoolType==='primary'">
+              <div class="widget row widget-full-width widget-small-stat" ng-if="schoolType==='primary'">
                 <div class="col-lg-4 bordered-col">
                   <span class="widgettitle" translate="chart.title.mark">average mark</span>
                   <p class="widgetnumber">

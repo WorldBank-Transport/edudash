@@ -32,12 +32,12 @@ body {
     font-weight: $school-list-weight;
     color: $body-text-color;
     font-size: 15px;
-    border-bottom:2px solid #eeeeee;
+    border-bottom:2px solid $border-grey;
     margin: 10px 10px 0 15px;
 }
 
 .national-link {
-  border-bottom:2px solid #eeeeee;
+  border-bottom:2px solid $border-grey;
   margin-left: -3px;
   padding: 10px 0;
   a{
@@ -399,13 +399,15 @@ div.cartodb-share a{
 .btn-default{
   border-color: $content-bg;
 }
+.search-schools {
+  margin-top: 10px;
+}
 .search-schools,
 .search-schools input{
     /* min-width: 300px; */
   border: 1px solid $content-bg;
   outline:none;
   border-color: $content-bg;
-  margin-top: 10px;
 }
 .search-schools{
   -webkit-border-radius: 0;
@@ -1226,9 +1228,8 @@ map-bottom-toggle.filters {
   &.prev-year-change {
       display: block;
       margin-left: 0;
-      margin-top: 6px;
+      margin-top: 20px;
       padding: 0 0 0 15px;
-      top: 15px;
       position: static;
     }
 
@@ -1304,12 +1305,13 @@ map-bottom-toggle.filters {
   }
 
   &.swahili-title{
-    left: -2px;
-    top: -4px;
-
     .chart-title{
-      left:18px;
+      left:30px;
       line-height: 100%;
+      // border:1px dotted #f78;
+      margin-top: 8px;
+      width: 120px;
+      height: 150px;
     }
   }
   &.withoutchart {
@@ -1341,10 +1343,21 @@ map-bottom-toggle.filters {
   }
 }
 
+.highcharts-container {
+  overflow: hidden;
+}
+
 .passrate-change-title {
   position: absolute;
   white-space: nowrap;
   top: $nav-height+9;
+  font-weight: bolder;
+  &.swahili-title {
+    margin-top:0;
+    font-size: 10px;
+    &.chart-title {
+    }
+  }
   .chart-title{
     left:-6px;
     top:21px;
@@ -1358,9 +1371,9 @@ map-bottom-toggle.filters {
   left: 0;
   top: 0;
   font-weight: $label-weight;
-  &.swahili-title{
+    &.swahili-title{
     .chart-title{
-      left:19px;
+      left:1px;
       width:$swahili-title-width;
       font-weight: $label-weight;
       text-align: left;
@@ -1386,6 +1399,9 @@ map-bottom-toggle.filters {
 }
 .widget-full-width{
   width:100%;
+}
+.widget-small-stat{
+  height: 50px;
 }
 .rank-value{
   padding-left: 0px;
@@ -1474,20 +1490,18 @@ map-bottom-toggle.filters {
 // gauge chart title in kiswahili
 .swahili-title {
   width:$swahili-title-width;
-  text-align:center;
   position:absolute;
-  
+
   .chart-title{
     white-space:normal;
     line-height:12px;
     width:$swahili-title-width;
   }
   &.passrate-change-title{
-
     .chart-title{
       top:23px;
       white-space:normal;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: bolder;
     }
   }
@@ -1551,17 +1565,12 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
     display: block;
     float: left;
     margin: 5px 10px 5px 0;
+    width: 180px;
   }
 }
 gauge-chart.middle-chart{
-  // position:absolute;
-  left:3px;
-  // .missing-data{
-    // position:absolute;
-    // top:32px;
-    // left:0;
-    // background: #000;
-  // }
+  left:5px;
+  position: absolute;
 }
 
 .polygon-stats {
@@ -1692,5 +1701,21 @@ gauge-chart.middle-chart{
   color: $theme-blue;
   display: block;
   font-weight: bold;
-  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid $border-grey;
+  outline: none;
+}
+
+.performance-nav .nav-tabs{
+  border-bottom: 1px solid #ffffff;
+  border-right: 1px solid transparent;
+}
+
+.performance-nav .nav-tabs > li > a {
+  border-right:1px solid transparent;
+}
+
+.last-gauge {
 }

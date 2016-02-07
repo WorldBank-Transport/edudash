@@ -24,9 +24,9 @@ angular.module 'edudashAppDir'
               plotBackgroundImage: null
               plotBorderWidth: 0
               plotShadow: false
-              height: 100
+              height: 120
               width: width + 20
-              margin: [0, 0, 0, 0]
+              margin: [0, 0, 20, 0]
               spacingLeft: 1
             credits:
               enabled: false
