@@ -741,14 +741,13 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 $scope.shareUrl = url
 
         if(shareSrv.isShare())
-          debugger
           leafletData.getMap mapId
             .then (map) ->
-              debugger
               data = shareSrv.getShareData()
-              map.fitBounds data.bounds
-              angular.extend $scope, data
+              angular.extend $scope, data 
+              $timeout (->
+                map.fitBounds data.bounds
+              ), 2000
             .catch (e) ->
-              debugger
               $log.log(e)
           
