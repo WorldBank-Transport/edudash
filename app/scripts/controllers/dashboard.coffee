@@ -10,7 +10,7 @@
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
   $location, $log, $q, $routeParams, $scope, $timeout,
   _, api, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv,
-  utils, watchComputeSrv ) ->
+  utils, watchComputeSrv, shareSrv) ->
 
         if $routeParams.type isnt 'primary' and $routeParams.type isnt 'secondary'
           $timeout -> $location.path '/'
@@ -70,7 +70,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               min: GPA_MIN
               max: GPA_MAX
               min_temp: GPA_MIN_TEMP
-              max_temp: GPA_MAX_TEMP             
+              max_temp: GPA_MAX_TEMP
+          shareUrl: null         
 
         # state transitioners
         angular.extend $scope,
@@ -91,6 +92,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           getArrow: (v, m) -> colorSrv.arrow $scope.getBracket v, m
           resetView: -> resetView()
           bestWorst: () -> bestWorst()
+          share: () -> share()
 
         # view util functions
         angular.extend $scope,
@@ -731,3 +733,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 .then (schools) ->
                   $scope.searchText = query
                   $scope.searchChoices = _.unique schools
+
+        share = ->
+          leafletData.getMap mapId
+            .then (map) ->
+              shareSrv.saveShare($scope, map).then (url) ->
+                $scope.shareUrl = url
+
+        if(shareSrv.isShare())
+          debugger
+          leafletData.getMap mapId
+            .then (map) ->
+              debugger
+              data = shareSrv.getShareData()
+              map.fitBounds data.bounds
+              angular.extend $scope, data
+            .catch (e) ->
+              debugger
+              $log.log(e)
+          

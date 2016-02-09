@@ -32,6 +32,9 @@ angular
       .when '/dashboard/:type',
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'
+      .when '/share/:shareId',
+        templateUrl: 'views/main.html'
+        controller: 'ShareCtrl'
       .when '/dashboard/:type/morethan40/:morethan40',
         templateUrl: 'views/dashboard.html'
         controller: 'DashboardCtrl'

@@ -1672,6 +1672,12 @@ gauge-chart.middle-chart{
     .share-icon{
       width: 20px;
     }
+
+    .share-url {
+      > input {
+        color: #000000;
+      }
+    }
   }
 }
 
