@@ -11,6 +11,7 @@ angular.module 'edudashAppSrv'
   .service 'api',
     ($http, $log, $location, $q, $window, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
+      SHARE_API = '//api.takwimu.org/share'
       datasetMapping =
         primary:
           'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
@@ -162,3 +163,9 @@ angular.module 'edudashAppSrv'
               type: feature.type
               id: feature.properties.name.toUpperCase()
               geometry: feature.geometry
+
+      postShare: (shareData) =>
+        $http.post SHARE_API, shareData
+
+      getShare: (shareId) =>
+        xget SHARE_API, params: id: shareId

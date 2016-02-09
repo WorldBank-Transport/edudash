@@ -178,11 +178,11 @@
             </ul>
           </li>
           <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="">
+            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="showSubmenu=true">
               <span class="hide-sm" translate="tab.share">Share</span>
               <span class="show-sm" translate="tab.share">Share</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right share-dropdown">
+            <ul ng-show="showSubmenu" class="dropdown-menu dropdown-menu-right share-dropdown">
               <a ng-click="share()">
                 <li>
                   <img class="share-icon" src="images/icon-share.png">
@@ -201,6 +201,7 @@
                   <span translate="tab.share.print"></span>
                 </li>
               </a>
+              <div class="share-url" ng-show="shareUrl|exists"><input value="{{shareUrl}}" /></div>
             </ul>
           </li>
         </ul>
