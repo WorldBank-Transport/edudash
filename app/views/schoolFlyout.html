@@ -11,15 +11,15 @@
 </header>
 <div class="stat">
   <h3 translate="map.selected.region">Region</h3>
-  <p class="word">{{ lastHovered.REGION }}</p>
+  <p class="word">{{ lastHovered.REGION || ('map.missing-data' |translate ) }}</p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.district">District</h3>
-  <p class="word">{{ lastHovered.DISTRICT }}</p>
+  <p class="word">{{ lastHovered.DISTRICT || ('map.missing-data' |translate ) }}</p>
 </div>
 <div class="stat">
   <h3 translate="map.selected.ward">Ward</h3>
-  <p class="word">{{ lastHovered.WARD }}</p>
+  <p class="word">{{ lastHovered.WARD || ('map.missing-data' |translate )}}</p>
 </div>
 <flyout-number
   name="{{ 'map.selected.passrate' |translate }}"
