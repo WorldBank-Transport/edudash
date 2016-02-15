@@ -423,26 +423,24 @@
             </div>
           </div>
 
-          <div ng-if="viewMode==='districts'">
+          <div ng-if="viewMode==='polygons'">
             <div id="districtinfo" class="container-fluid">
-              <div class="col-sm-12 performance-nav">
-                <ul class="nav nav-tabs">
-                  <li role="presentation" ng-class="{active: rankBy==='performance'}" ng-init="rankBy='performance'">
-                    <a ng-click="rankBy='performance'">Performance</a>
-                  </li>
-                  <li role="presentation" ng-class="{active: rankBy==='improvement'}">
-                    <a ng-click="rankBy='improvement'">Improvement</a>
-                  </li>
-                </ul>
-              </div>
-              <div ng-if="rankBy==='performance'">
-                <top-district-list class="row" title="chart.top.best-performing" emoticon="happy" data="bpdistrics"></top-district-list>
-                <top-district-list class="row" title="chart.top.worst-performing" emoticon="sad" data="wpdistrics"></top-district-list>
-              </div>
-              <div ng-if="rankBy==='improvement'">
-                <top-district-list class="row" title="chart.top.most-improved" emoticon="happy" data="midistrics"></top-district-list>
-                <top-district-list class="row" title="chart.top.least-improved" emoticon="sad" data="lidistrics"></top-district-list>
-              </div>
+              <top-district-list class="row" 
+                  title="{{'chart.top.' + polyType + '.best-performing'}}"
+                  emoticon="happy" 
+                  data="polyRanks" 
+                  order="best"
+                  select-poly="selectPoly"
+                  hover="hover"
+                  un-hover="unHover"></top-district-list>
+              <top-district-list class="row" 
+                  title="{{'chart.top.' + polyType + '.worst-performing'}}"
+                  emoticon="sad" 
+                  data="polyRanks" 
+                  order="worst"
+                  selectpoly="selectPoly"
+                  hover="hover"
+                  unhover="unHover"></top-district-list>
             </div>
           </div>
 

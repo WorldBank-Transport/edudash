@@ -17,6 +17,14 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
       sorted.reverse()
     sorted
 
+  polygonSort = (objs, prop, order) ->
+    sorted = objs
+      .filter (o) -> o.properties[prop]?
+      .sort (a, b) -> a.properties[prop] - b.properties[prop]
+    if order == 'DESC'
+      sorted.reverse()
+    sorted
+
   ###*
   # Rank an object (1-indexed!!!) from a list of objects by a property
   # @param {object} item The object whose rank we want to know
@@ -99,6 +107,28 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
         best = schoolSort list, prop, 'ASC'
         worst = schoolSort list, prop, 'DESC'
         resolve (best.slice 0, limit).concat (worst.slice 0, limit)
+
+  ###*
+  # Sort a list of polygon by a [prop, desc] metric
+  # @param {Array} The array of poligons
+  # @param {Array} metric The criteria for ranking
+  # @param {string} metric[0] The property we should use to rank
+  # @param {string} metric[1] limit
+  # @returns {Array} The polygons, sorted
+  ###
+  rankTopPolygons: (list, [prop, order], limit) ->
+    unless list? and list instanceof Array
+      throw new Error "param `list` must be an Array. Got '#{typeof list}'"
+    unless typeof prop == 'string'
+      throw new Error "param `metric[0]` must a string. Got '#{typeof prop}'"
+    unless typeof limit == 'number'
+      throw new Error "param `metric[1]` must be a number. Got '#{limit}'"
+
+    result =
+      best: (polygonSort list, prop, 'DESC').slice 0, limit
+      worst: (polygonSort list, prop, 'ASC').slice 0, limit
+    result
+    
 
   ###*
   # Get a filter function that filters objects by a numerical prop value
