@@ -7,14 +7,25 @@
  # # topDistrictList
 ###
 angular.module 'edudashAppDir'
-  .directive 'topDistrictList', ->
+  .directive 'topDistrictList', (loadingSrv, bracketsSrv) ->
     restrict: 'E'
     templateUrl: 'views/topdistrictlist.html'
-    transclude: true
     scope:
       districtListTile: '@title'
       districtListTileEmoticon: '@emoticon'
-      type: '@data'
-      tdlData: '=data'
-      setMapView: '=click'
+      order: '@order'
+      type: '@type'
+      data: '=data'
+      selectPoly: '=selectPoly'
+      hover: '=hover'
+      unHover: '=unHover'
     link: (scope, element, attrs) ->
+      debugger
+      scope.$watch 'data', (p) ->
+        if p?
+          p.then (polygons) ->
+            if(polygons[scope.order]?)
+              scope.polygons = polygons[scope.order]
+          loadingSrv.containerLoad p, element[0]
+        else
+          scope.polygons = null
