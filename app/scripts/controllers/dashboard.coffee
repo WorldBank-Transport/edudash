@@ -268,6 +268,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 map
               ), {}
 
+        watchCompute 'polyRanks',
+          dependencies: ['detailedPolys']
+          computer: ([polygons]) -> $q (resolve, reject) ->
+            unless polygons?
+              resolve {}
+            else
+              resolve (utils.rankTopPolygons(polygons,
+                (bracketsSrv.getSortMetric $scope.schoolType, $scope.rankBy), 10))
+
         watchCompute 'rankedSchools',
           dependencies: ['viewMode', 'schoolType', 'allSchools']
           computer: ([viewMode, schoolType, allSchools]) ->
