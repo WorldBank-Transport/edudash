@@ -274,8 +274,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             unless polygons?
               resolve {}
             else
-              resolve (utils.rankTopPolygons(polygons,
-                (bracketsSrv.getSortMetric $scope.schoolType, $scope.rankBy), 10))
+              resolve (utils.rankTopPolygons(polygons, 'PASS_RATE', 10))
 
         watchCompute 'rankedSchools',
           dependencies: ['viewMode', 'schoolType', 'allSchools']

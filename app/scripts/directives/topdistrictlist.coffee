@@ -20,7 +20,6 @@ angular.module 'edudashAppDir'
       hover: '=hover'
       unHover: '=unHover'
     link: (scope, element, attrs) ->
-      debugger
       scope.$watch 'data', (p) ->
         if p?
           p.then (polygons) ->

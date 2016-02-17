@@ -111,12 +111,11 @@ angular.module('edudashAppSrv').service 'utils', ($timeout, $q) ->
   ###*
   # Sort a list of polygon by a [prop, desc] metric
   # @param {Array} The array of poligons
-  # @param {Array} metric The criteria for ranking
-  # @param {string} metric[0] The property we should use to rank
-  # @param {string} metric[1] limit
+  # @param {string} prop The property we should use to rank
+  # @param {number} limit The limit of the rank
   # @returns {Array} The polygons, sorted
   ###
-  rankTopPolygons: (list, [prop, order], limit) ->
+  rankTopPolygons: (list, prop, limit) ->
     unless list? and list instanceof Array
       throw new Error "param `list` must be an Array. Got '#{typeof list}'"
     unless typeof prop == 'string'
