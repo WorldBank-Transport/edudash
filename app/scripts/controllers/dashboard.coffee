@@ -668,8 +668,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         colorPin = (code, layer) ->
           utils.lookup($scope.schoolCodeMap, code).then (school) ->
-            val = if school? then school[$scope.visMetric] else -1;
-            layer.setStyle bracketsSrv.getMarkStyle(school, $scope.visMode, colorSrv.pinOff(), $scope.getColor(val))
+            if school?
+              layer.setStyle bracketsSrv.getMarkStyle(school, $scope.visMode, colorSrv.pinOff(), $scope.getColor(school[$scope.visMetric]))
 
         colorPoly = (feature, layer) ->
           val = feature.properties[$scope.visMetric]
