@@ -500,8 +500,6 @@ div.cartodb-share a{
 }
 #schoolinfo {
     margin: 0 auto;
-    /* -webkit-filter: drop-shadow(0px 1px 5px #cdcdcd);
-    filter: drop-shadow(0px 1px 5px #cdcdcd); */
     position: relative;
     padding-left: 30px;
     padding-right: 20px;
@@ -552,7 +550,7 @@ div.cartodb-share a{
 #schoolinfo .widgettitle {
   width:100%;
   display: block;
-  font-size: $smallest-text;
+  font-size: $chart-title-size;
   font-weight: $label-weight;
   color: $theme-blue;
   line-height: 100%;
@@ -568,10 +566,9 @@ div.cartodb-share a{
   font-size: 2em;
   font-weight: $label-weight;
   color: $grey-dark;
-  margin-top: -10px;
+  margin-top: -5px;
   margin-bottom: 0;
   margin-right: 10px;
-  border:1px solid transparent;
   overflow: visible;
   padding-bottom: 0;
 
@@ -1274,7 +1271,7 @@ map-bottom-toggle.filters {
   margin-bottom: 0px;
   margin-left: 5px;
   white-space: nowrap;
-  top: 3px;
+  top: 17px;
 }
 
 .chart-title {
@@ -1282,13 +1279,12 @@ map-bottom-toggle.filters {
   fill: $theme-blue;
   text-transform:uppercase;
   font-weight:$label-weight;
-  // font-size:10px;
-  font-size: 0.44em;
-  text-align:center;
+  font-size:$chart-title-size;
+  text-align:left;
   position:absolute;
   top:0;
   font-family: $global-font;
-
+  width: 120px;
 
 &.rank-label{
   position: absolute;
@@ -1299,7 +1295,7 @@ map-bottom-toggle.filters {
 .gauge-title {
   white-space: nowrap;
   position: absolute;
-  left: -17px;
+  left: -5px;
 
   .chart-title{
     margin-top: 10px;
@@ -1307,7 +1303,7 @@ map-bottom-toggle.filters {
 
   &.swahili-title{
     .chart-title{
-      font-size: 0.47em;
+      font-size: 8px;
       left:30px;
       line-height: 100%;
       margin-top: 8px;
@@ -1332,10 +1328,12 @@ map-bottom-toggle.filters {
   }
 
   .chart-title{
+    font-size: $chart-title-size;
     left:25px;
     top:12px;
     position:absolute;
     width:125px;
+    // xoxoxo
   }
 
   &.no-margin {
@@ -1351,19 +1349,21 @@ map-bottom-toggle.filters {
 .passrate-change-title {
   position: absolute;
   white-space: nowrap;
-  top: $nav-height+9;
+  margin-top: $nav-height+10;
   font-weight: bolder;
-  font-size: 1.30em;
+  font-size: 14px;
 
   &.swahili-title {
-    margin-top:0;
-    font-size: 1.30em;
     &.chart-title {
+      font-size: 8px;
+      margin-top: $nav-height+10;
     }
   }
   .chart-title{
+    font-size: $chart-title-size;
     left:-6px;
     top:21px;
+    width: 120px;
   }
 }
 .passrate-time-title {
@@ -1374,13 +1374,14 @@ map-bottom-toggle.filters {
   left: 0;
   top: 0;
   font-weight: $label-weight;
+  width: 125px;
     &.swahili-title{
+      font-size: 8px;
     .chart-title{
       left:1px;
       width:$swahili-title-width;
       font-weight: $label-weight;
       text-align: left;
-      font-size: 0.7em;
       line-height: 9px;
     }
   }
@@ -1538,11 +1539,11 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
   font-weight: $label-heavy-weight;
   font-family: $global-font;
   color: $grey-dark;
-  margin-top:-5px;
   display:block;
   float: left;
   text-align: left;
   margin-left:0;
+  margin-top:2px;
   position: relative;
 }
 .missing-data-wrapper {
@@ -1642,7 +1643,7 @@ gauge-chart.middle-chart{
     position:absolute;
     text-align: left;
     left: -3px;
-    top: 12px;
+    top: 6px;
   }
 }
 
@@ -1728,5 +1729,6 @@ gauge-chart.middle-chart{
   border-right:1px solid transparent;
 }
 
-.last-gauge {
+.ratio-pupil-icons{
+  padding-top: 5px;
 }
