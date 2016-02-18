@@ -73,10 +73,10 @@ angular.module 'edudashAppDir'
           x: y,
           y: if values[''+y]? then Math.round values[''+y].PASS_RATE else 0 # explicit string-cast for key
           marker:
-            fillColor: values[''+y].color
+            fillColor: if values[''+y] then values[''+y].color else '#aaa'
             states:
               hover:
-                fillColor: values[''+y].color
+                fillColor: if values[''+y] then values[''+y].color else '#aaa'
 
         }
         updateChart years: years, data: vals
