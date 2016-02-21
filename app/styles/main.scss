@@ -324,6 +324,7 @@ div.cartodb-share a{
 .nav-tabs{
   display:table;
   width:100%;
+  border-bottom: 2px solid $grey-lightest;
 }
 .nav-tabs > li {
   float: none;
@@ -359,16 +360,17 @@ div.cartodb-share a{
 .nav-tabs > li > a {
   box-sizing: border-box;
   height: $nav-height - $content-border-height;  // 1px for the bottom grey line
-  background:$menu-tab-grey;
+  background:$content-bg;
   padding: 0 15px;
   margin-right: 0px;
   border-right: 1px solid $navtabs-border-color;
   border-radius: 0;
   cursor: pointer;
   outline:none;
-  color:$unknown;
+  color:$theme-blue;
   margin-left:-1px;
-  font-size:17px;
+  font-size:$small-title;
+  font-weight: $tab-text-weight;
   line-height:20px;
   text-align:center;
   vertical-align: middle;
@@ -1571,7 +1573,7 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
     display: block;
     float: left;
     margin: 5px 10px 5px 0;
-    width: 180px;
+    width: 160px;
   }
 }
 gauge-chart.middle-chart{
