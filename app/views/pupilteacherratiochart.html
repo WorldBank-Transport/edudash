@@ -3,8 +3,8 @@
     <div class="row" ng-if="value|exists">
         <div class="col-xs-2"><p class="widgetnumber">{{ present ? present(value) : value }}</p>
         </div>
-        <div class="col-xs-10">
-            <div class="row ratio-pupil-icons" style="max-width: 90%">
+        <div class="col-md-10">
+            <div class="row ratio-pupil-icons-bottom" style="max-width: 90%">
                 <div class="pt-ratio" ng-class="getClass($index, value)"
                      ng-repeat="i in getTimes(value) track by $index"></div>
             </div>

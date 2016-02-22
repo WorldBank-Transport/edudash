@@ -1,7 +1,7 @@
 .map-flyout {
   position: absolute;
   right: 0;
-  top: 0;
+  top: 2px;
   width: $flyout-width;
   overflow-y: auto;
   opacity: 1;
@@ -38,12 +38,13 @@
     margin: 0;
     font-size: 1em;
     font-weight: normal;
-    color: #444;
+    color: $top-nav-color;
     text-transform: capitalize;
   }
   h3{
+    line-height: 120%;
     margin-top:4px;
-    margin-bottom: 0;
+    margin-bottom: 4px;
     padding-bottom:0;
   }
   h4 {
@@ -58,12 +59,12 @@
   }
   .word {
     font-size: 1.1em;
-    line-height: 110%;
+    line-height: 120%;
   }
   .number {
     font-size: 2em;
     font-weight:$label-weight;
-    margin-top: -5px;
+    margin-top: -8px;
     &.GOOD { color: $rank-good; }
     &.MEDIUM { color: $rank-medium; }
     &.POOR { color: $rank-poor; }
