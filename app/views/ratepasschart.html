@@ -1,6 +1,6 @@
 <div class="widget first">
   <span class="widgettitle">{{'chart.title.passrate-2014'|translate}}</span>
-  <div class="row" ng-if="(passRate) && (passRate !== 0)">
+  <div class="row" ng-if="(passRate|exists)">
     <div ng-class="{'col-sm-4': passRate === 100, 'col-md-4': passRate !== 100}">
       <p class="widgetnumber percentNumber">{{ passRate| number:0}}%</p>
     </div>
