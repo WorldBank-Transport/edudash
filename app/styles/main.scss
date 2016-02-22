@@ -162,6 +162,9 @@ h1 {
     font-weight:$school-list-weight;
     width:120px;
     float:left;
+    &:hover {
+      color: $rank-good;
+    }
 }
 
 /*The content below this is all related to the tables*/
@@ -324,6 +327,7 @@ div.cartodb-share a{
 .nav-tabs{
   display:table;
   width:100%;
+  border-bottom: 2px solid $grey-lightest;
 }
 .nav-tabs > li {
   float: none;
@@ -359,16 +363,17 @@ div.cartodb-share a{
 .nav-tabs > li > a {
   box-sizing: border-box;
   height: $nav-height - $content-border-height;  // 1px for the bottom grey line
-  background:$menu-tab-grey;
+  background:$content-bg;
   padding: 0 15px;
   margin-right: 0px;
   border-right: 1px solid $navtabs-border-color;
   border-radius: 0;
   cursor: pointer;
   outline:none;
-  color:$unknown;
+  color:$theme-blue;
   margin-left:-1px;
-  font-size:17px;
+  font-size:$small-title;
+  font-weight: $tab-text-weight;
   line-height:20px;
   text-align:center;
   vertical-align: middle;
@@ -392,7 +397,16 @@ div.cartodb-share a{
 .link {
   color: $theme-blue;
   cursor: pointer;
+  outline: none;
 }
+
+.sidebar {
+  .link {
+    display: block;
+    margin: 5px 0 10px 0;
+  }
+}
+
 .show-sm{
     display: none;
 }
@@ -792,7 +806,7 @@ table.districts p {
 .navbar-brand{
   &.header-flag{
     float:left;
-    margin-right:10px;
+    margin-right:5px;
     padding-top:10px;
     padding-left:0;
   }
@@ -906,7 +920,7 @@ ul.main-nav li:last-child{
 ul.main-nav li a{
   line-height:$school-info-text;
   padding-top:0;
-  color:$body-text-color;
+  color:$top-nav-color;
 }
 ul.main-nav li a:hover,
 ul.main-nav li a:focus{
@@ -1266,12 +1280,12 @@ map-bottom-toggle.filters {
 
 .medium-small-character {
   position: absolute;
-  font-size: 0.5em;
+  font-size: 0.4em;
   font-weight: $school-list-weight;
   margin-bottom: 0px;
-  margin-left: 5px;
+  margin-left: 2px;
   white-space: nowrap;
-  top: 17px;
+  margin-top: 8px;
 }
 
 .chart-title {
@@ -1295,7 +1309,7 @@ map-bottom-toggle.filters {
 .gauge-title {
   white-space: nowrap;
   position: absolute;
-  left: -5px;
+  left: 0;
 
   .chart-title{
     margin-top: 10px;
@@ -1571,7 +1585,7 @@ span.ui-select-placeholder.text-muted.ng-binding.ng-hide{
     display: block;
     float: left;
     margin: 5px 10px 5px 0;
-    width: 180px;
+    width: 160px;
   }
 }
 gauge-chart.middle-chart{
@@ -1630,13 +1644,9 @@ gauge-chart.middle-chart{
 }
 
 .highcharts-highcharts-national-rank{
-  width: 100%;
+  width: 105%;
   height: 25px;
-  // margin-left: -10px;
-  // position: relative;
   padding:0;
-  // overflow: hidden;
-  // width: 100px;
   margin-left:0;
   .rank-widgetnumber{
     display:block;
@@ -1645,12 +1655,6 @@ gauge-chart.middle-chart{
     left: -3px;
     top: 6px;
   }
-}
-
-.highcharts-container svg{
-  position:absolute;
-  top:0;
-  left: -5px;
 }
 
 .bordered-col{
@@ -1663,10 +1667,6 @@ gauge-chart.middle-chart{
 }
 .bottom-space-5{
   margin-bottom: 5px;
-}
-
-.highcharts-national-rank{
-  background: #666;
 }
 
 .map-details-container{
@@ -1718,6 +1718,9 @@ gauge-chart.middle-chart{
   padding-bottom: 5px;
   border-bottom: 2px solid $border-grey;
   outline: none;
+  &:hover {
+    color:$rank-good;
+  }
 }
 
 .performance-nav .nav-tabs{
@@ -1731,4 +1734,11 @@ gauge-chart.middle-chart{
 
 .ratio-pupil-icons{
   padding-top: 5px;
+}
+.ratio-pupil-icons-bottom{
+  padding-top: 5px;
+  margin-left: 7px;
+}
+.last-gauge{
+  right: -8px;
 }
