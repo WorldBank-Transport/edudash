@@ -31,7 +31,7 @@ angular.module 'edudashAppDir'
             if (newValue.rank?)
               rank = newValue.rank
               worstRank = newValue.total
-              lineRange = width * 0.6;
+              lineRange = width * 0.52;
               startLine = width - lineRange;
               n=5
               section = lineRange/n
@@ -53,7 +53,7 @@ angular.module 'edudashAppDir'
               .attr({
                     'stroke-width': 4,
                     stroke: '#989898',
-                    dashstyle: 'Solid'
+                    dashstyle: 'Solid',
                   })
               .add(group);
               renderer.path(['M', startLine + section*(n-1), chartCenter, 'L', startLine + lineRange, chartCenter])
@@ -85,4 +85,3 @@ angular.module 'edudashAppDir'
             else
               element.html('<span class="medium-character missing-data" style="position: static">Missing Data</span>')
           )
-

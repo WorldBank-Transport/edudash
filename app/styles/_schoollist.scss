@@ -6,28 +6,43 @@
 @import "pupilsprite";
 
 .performance-header{
-  @include border-radius(4px);
+  @include border-radius(2px);
   font-size:13px;
   font-weight:bold;
-  padding:5px 10px;
-  line-height:20px;
+  padding:0 10px 5px 10px;
+  line-height:16px;
   color:$content-bg;
+
+  .performance-title {
+    display: block;
+  }
+
   &.best-perform{
     background:$rank-good;
   }
   &.poor-perform{
     background:$rank-poor;
   }
-
+  .glyphicon {
+    margin-top:0;
+  }
   .glyphicon-star::before{
     display: block;
     font-size:15px;
-    margin: 10px 5px 5px 5px;
+    line-height: 140%;
+    margin: 7px 5px 5px 5px;
   }
 }
 
+
 .school-performance{
   width:100%;
+
+  th{
+    line-height: 14px;
+    margin-top:5px;
+    margin-bottom: 5px;
+  }
 
   .name{
     font-size:11px;

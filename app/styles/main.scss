@@ -162,6 +162,9 @@ h1 {
     font-weight:$school-list-weight;
     width:120px;
     float:left;
+    &:hover {
+      color: $rank-good;
+    }
 }
 
 /*The content below this is all related to the tables*/
@@ -394,7 +397,16 @@ div.cartodb-share a{
 .link {
   color: $theme-blue;
   cursor: pointer;
+  outline: none;
 }
+
+.sidebar {
+  .link {
+    display: block;
+    margin: 5px 0 10px 0;
+  }
+}
+
 .show-sm{
     display: none;
 }
@@ -794,7 +806,7 @@ table.districts p {
 .navbar-brand{
   &.header-flag{
     float:left;
-    margin-right:10px;
+    margin-right:5px;
     padding-top:10px;
     padding-left:0;
   }
@@ -1297,7 +1309,7 @@ map-bottom-toggle.filters {
 .gauge-title {
   white-space: nowrap;
   position: absolute;
-  left: -5px;
+  left: 0;
 
   .chart-title{
     margin-top: 10px;
@@ -1632,13 +1644,9 @@ gauge-chart.middle-chart{
 }
 
 .highcharts-highcharts-national-rank{
-  width: 100%;
+  width: 105%;
   height: 25px;
-  // margin-left: -10px;
-  // position: relative;
   padding:0;
-  // overflow: hidden;
-  // width: 100px;
   margin-left:0;
   .rank-widgetnumber{
     display:block;
@@ -1647,12 +1655,6 @@ gauge-chart.middle-chart{
     left: -3px;
     top: 6px;
   }
-}
-
-.highcharts-container svg{
-  position:absolute;
-  top:0;
-  left: -5px;
 }
 
 .bordered-col{
@@ -1665,10 +1667,6 @@ gauge-chart.middle-chart{
 }
 .bottom-space-5{
   margin-bottom: 5px;
-}
-
-.highcharts-national-rank{
-  background: #666;
 }
 
 .map-details-container{
@@ -1720,6 +1718,9 @@ gauge-chart.middle-chart{
   padding-bottom: 5px;
   border-bottom: 2px solid $border-grey;
   outline: none;
+  &:hover {
+    color:$rank-good;
+  }
 }
 
 .performance-nav .nav-tabs{
@@ -1733,4 +1734,11 @@ gauge-chart.middle-chart{
 
 .ratio-pupil-icons{
   padding-top: 5px;
+}
+.ratio-pupil-icons-bottom{
+  padding-top: 5px;
+  margin-left: 7px;
+}
+.last-gauge{
+  right: -8px;
 }

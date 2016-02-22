@@ -4,7 +4,7 @@
     <div ng-class="{'col-sm-4': passRate === 100, 'col-md-4': passRate !== 100}">
       <p class="widgetnumber percentNumber">{{ passRate| number:0}}%</p>
     </div>
-    <div ng-class="{'col-sm-8': passRate === 100, 'col-ms-8': passRate !== 100}" class="ratio-pupil-icons">
+    <div ng-class="{'col-sm-8': passRate === 100, 'col-ms-8 col-md-8 col-xs-12': passRate !== 100}" class="ratio-pupil-icons">
       <div class="pass-rate"
           ng-class="getClass($index, passRate)"
           ng-repeat="i in getTimes(passRate/10) track by $index"></div>
