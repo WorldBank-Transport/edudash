@@ -1681,7 +1681,15 @@ gauge-chart.middle-chart{
 
     .share-url {
       > input {
-        color: #000000;
+      background-color: $content-bg;
+      border: 1px solid $theme-blue;
+      color: black;
+      float: left;
+      font-size: 10px;
+      height: 18px;
+      margin-bottom: 5px;
+      outline: none;
+      width: 85%;
       }
     }
   }
