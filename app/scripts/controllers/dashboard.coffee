@@ -50,6 +50,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           selectedPolyId: null
           selectedPoly: null
           selectedPolyLayer: null
+          showSubmenu: false
           rankBy: null  # performance or improvement for primary
           moreThan40: null  # students, for secondary schools
           polygons: null
