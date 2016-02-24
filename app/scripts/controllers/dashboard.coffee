@@ -268,7 +268,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 map
               ), {}
 
-        watchCompute 'polyRanks',
+        watchCompute 'polyRanks', 
           dependencies: ['detailedPolys']
           computer: ([polygons]) -> $q (resolve, reject) ->
             unless polygons?
@@ -380,8 +380,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                   when null then 'DISTRICT'  # not looking at polygons? then only a DISTRICT could be selected
                 $scope.allSchools.then (schools) ->
                   # Unlike angular.extend(), $.merge() recursively descends into object properties of source objects, performing a deep copy.
-                  $q.when $.merge $scope.selectedPoly,
-                    properties: getDetailsForPoly schools, id, polyGrouper, $scope.schoolType
+                  if $scope.selectedPoly?
+                    newPolyProperties = getDetailsForPoly schools, id, polyGrouper, $scope.schoolType
+                    merged = angular.extend $scope.selectedPoly.properties, newPolyProperties
+                    $scope.selectedPoly.properties = merged
+                  $q.when $scope.selectedPoly,
 
         watchCompute 'selectedSchoolLayer',
           dependencies: ['selectedSchool']
