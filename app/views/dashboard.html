@@ -178,12 +178,12 @@
               </a>
             </ul>
           </li>
-          <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" ng-click="showSubmenu=true">
+          <li role="presentation" class="dropdown" ng-class="{open: showSubmenu}">
+            <a class="dropdown-toggle" ng-click="showSubmenu=!showSubmenu">
               <span class="hide-sm" translate="tab.share">Share</span>
               <span class="show-sm" translate="tab.share">Share</span>
             </a>
-            <ul ng-show="showSubmenu" class="dropdown-menu dropdown-menu-right share-dropdown">
+            <ul ng-if="showSubmenu" class="dropdown-menu dropdown-menu-right share-dropdown">
               <a ng-click="share()">
                 <li>
                   <img class="share-icon" src="images/icon-share.png">
