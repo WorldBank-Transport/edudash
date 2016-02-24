@@ -363,3 +363,11 @@ ul.main-nav {
     width: 110%;
   }
 }
+
+.panel-title {
+  .glyphicon {
+    @media only screen and (max-width: $xs) {
+      display:none;
+    }
+  }
+}
