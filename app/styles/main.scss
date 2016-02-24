@@ -771,6 +771,9 @@ table.districts p {
   padding:20px 10px;
   width:95%;
 }
+#generalcontent a.boxlink:hover {
+  background: $best-perform;
+}
 .full-screen-height {
   // height: $xs;
   padding-bottom: 130px;
