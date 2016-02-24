@@ -771,6 +771,9 @@ table.districts p {
   padding:20px 10px;
   width:95%;
 }
+#generalcontent a.boxlink:hover {
+  background: $best-perform;
+}
 .full-screen-height {
   // height: $xs;
   padding-bottom: 130px;
@@ -1683,7 +1686,15 @@ gauge-chart.middle-chart{
 
     .share-url {
       > input {
-        color: #000000;
+      background-color: $content-bg;
+      border: 1px solid $theme-blue;
+      color: black;
+      float: left;
+      font-size: 10px;
+      height: 18px;
+      margin-bottom: 5px;
+      outline: none;
+      width: 85%;
       }
     }
   }
