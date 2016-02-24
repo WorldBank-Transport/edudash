@@ -3,13 +3,124 @@
         <div class="row">
           <div class="col-xs-12">
             <h2>{{'data.title'| translate}}</h2>
-            <p class="text">{{'data.paragh1'| translate}} <a class="link"
-            href="http://www.opendata.go.tz/dataset?groups=education-indiactors" target="_blank">open data
-            portal</a> {{'data.paragh2'| translate}}</p>
+            <p class="text">{{'data.paragh1'| translate}}</p>
+            <p class="text">{{'data.paragh2'| translate}}</p>
 
-            <a class="boxlink text-center"
-            href="http://www.opendata.go.tz/dataset?groups=education-indiactors" target="_blank">Open Data
-            Portal</a>
+            <div class="row boxlink-container">
+              <div class="col-sm-4 text-center">
+                <a class="boxlink text-center"
+                  href="http://www.opendata.go.tz/dataset?groups=education-indiactors" target="_blank">
+                  Open Data
+                  Portal
+                </a>
+              </div>
+
+                  <div class="col-sm-4 text-center">
+                    <a class="boxlink text-center"
+                    ng-href="#/data#datasets">
+                    {{'data.button-datalinks'| translate}}
+                    </a>
+                  </div>
+
+                  <div class="col-sm-4 text-center">
+                    <a class="boxlink text-center"
+                    ng-href="#/data#faq">
+                    {{'data.faq-button'| translate}}</a>
+                  </div>
+            </div>
+
+<div class="content-section">
+<h3 id="faq">{{'data.faq-title'| translate}}</h3>
+
+<div id="accordion" class="faq-list" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          {{'data.faq-q1'| translate}}
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      {{'data.faq-a1'| translate}}
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          {{'data.faq-q2'| translate}}
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      {{'data.faq-a2'| translate}}
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          {{'data.faq-q3'| translate}}
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      {{'data.faq-a3'| translate}}
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+          {{'data.faq-q4'| translate}}
+          <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      {{'data.faq-a4'| translate}}
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+        {{'data.faq-q5'| translate}}
+        <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        </a>
+      </h4>
+    </div>
+    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <p class="text"><a href="#/speakout">{{'data.faq-a5'| translate}}</a></p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<h3 id="datasets">{{'data.data-datasets'| translate}}</h3>
+<ul class="text-list">
+<li>
+  <a href="http://www.opendata.go.tz/dataset/primary-schools-leaving-certificate-examination-performance-ranking-with-location" target="_blank">
+  <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+  {{'data.data-datasets-school-locations'| translate}}
+</a>
+</li>
+<li>  <a href="http://www.necta.go.tz/brn" target="_blank">
+  <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+  {{'data.data-datasets-school-performance'| translate}}
+</a></li>
+<li><a href="http://www.opendata.go.tz/dataset/f38a1b56-ee27-4be2-bdb8-43a6810ea454/resource/34cc72bf-508a-4fbb-ba52-d3e9ac97710d/download/Primary-Schools-and-Teachers-Information-2015.csv" target="_blank">
+  <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+  {{'data.data-datasets-school-pt-ratio'| translate}}
+</a></li>
+</ul>
+
             </div>
         </div>
     </div>
