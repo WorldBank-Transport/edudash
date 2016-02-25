@@ -20,7 +20,6 @@ angular
     'ngTouch',
     'ui.select',
     'ui-rangeSlider',
-    'ngclipboard'
   ])
   .config ($routeProvider, uiSelectConfig) ->
     $routeProvider
