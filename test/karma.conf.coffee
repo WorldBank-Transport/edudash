@@ -32,6 +32,8 @@ module.exports = (config) ->
       'bower_components/jquery/dist/jquery.js'
       'bower_components/bootstrap/dist/js/bootstrap.js'
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
+      'bower_components/clipboard/dist/clipboard.js'
+      'bower_components/ngclipboard/dist/ngclipboard.js'
 
       # modules (must be added manually because they must be included first)
       'app/scripts/lib/leafletMap/leafletMap.coffee'

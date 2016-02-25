@@ -202,7 +202,13 @@
                   <span translate="tab.share.print"></span>
                 </li>
               </a>
-              <div class="share-url" ng-show="shareUrl|exists"><input value="{{shareUrl}}" /></div>
+              <div class="share-url" ng-show="shareUrl|exists">
+                <input id="urltext" value="{{shareUrl}}" />
+                <span class="copy-url" ngclipboard data-clipboard-target="#urltext">
+                  Copy
+                </span>
+
+              </div>
             </ul>
           </li>
         </ul>

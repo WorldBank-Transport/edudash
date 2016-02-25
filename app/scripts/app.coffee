@@ -26,6 +26,7 @@ angular
     'edudashAppCtrl',
     'edudashAppSrv',
     'edudashAppDir',
-    'edudashAppFil'
+    'edudashAppFil',
+    'ngclipboard',
   ])
 
