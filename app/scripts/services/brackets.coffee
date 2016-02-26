@@ -153,7 +153,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
         else 
           if visMode is 'combined'
             options.color = options.fillColor
-            options.fillColor = '#aaa'
+            options.fill = false
             options.weight = 2
           4
     options
