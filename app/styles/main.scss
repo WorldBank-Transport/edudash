@@ -80,6 +80,10 @@ body {
   background:$content-bg;
 }
 
+.navbar-brand>img {
+  height: 50px;
+}
+
 .browsehappy {
   margin: 1em 0;
   padding-top: 1em;
@@ -768,11 +772,8 @@ table.districts p {
   margin: 20px auto;
   display: block;
   max-width: 250px;
-  padding:20px 10px;
+  padding:15px 10px;
   width:95%;
-}
-#generalcontent a.boxlink:hover {
-  background: $best-perform;
 }
 .full-screen-height {
   // height: $xs;
@@ -1466,6 +1467,7 @@ map-bottom-toggle.filters {
   width: 100%;
   bottom:0;
   height: $footer-height;
+  overflow: hidden;
   a{
     color:$body-text-color-inverse;
     &:hover{
@@ -1703,7 +1705,7 @@ gauge-chart.middle-chart{
         font-size: 10px;
         font-weight: bold;
         margin-right: 8px;
-        vertical-align: middle; 
+        vertical-align: middle;
       }
     }
   }
@@ -1816,7 +1818,7 @@ gauge-chart.middle-chart{
 .text-list {
   font-size: 17px;
   list-style: none;
-  margin-bottom: 5px;
+  margin-bottom: 30px;
   padding-left: 0;
   a{
     color: $theme-blue;
@@ -1824,4 +1826,8 @@ gauge-chart.middle-chart{
   .glyphicon {
     font-size: 14px;
   }
+}
+
+.dataset-subtitle {
+  font-weight: bold;
 }
