@@ -1086,6 +1086,7 @@ map-bottom-toggle.legend {
     font-weight: $school-list-weight;
     color: $body-text-color;
     margin-bottom: 0;
+    margin-right: 4px;
     &:before {
       content: "";
       display: inline-block;
@@ -1159,7 +1160,7 @@ map-bottom-toggle.filters {
   padding-top:15px;
   a {
     display: inline-block;
-    margin: 0;
+    margin: 0 30px 0 0;
     color: desaturate($theme-blue, 20%);
     cursor: pointer;
     &:before {
