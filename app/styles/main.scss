@@ -358,10 +358,11 @@ div.cartodb-share a{
 
 #nav-tabs-dashboard.nav-tabs > li:last-child a{
   border-right: none;
-  background: $grey-light;
-  color:$content-bg;
+  background: $content-bg;
+  color: $theme-blue;
   &:hover{
     background: $theme-blue;
+    color: $content-bg ;
   }
 }
 .nav-tabs > li > a {
