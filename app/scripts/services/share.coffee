@@ -49,3 +49,11 @@ angular.module('edudashAppSrv').factory 'shareSrv',
     getShareData: () -> if isShare then data else throw Error('Share is not found')
 
     isShare: () -> isShare
+
+    pdfExport: (html) ->
+      $q (resolve, reject) ->        
+        api.postHtml2Pdf(html).then (response) ->
+          if (response.status is 200)
+            resolve response.data
+          else
+            reject response.status

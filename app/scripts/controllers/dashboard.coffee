@@ -94,6 +94,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           resetView: -> resetView()
           bestWorst: () -> bestWorst()
           share: () -> share()
+          print: () -> print()
 
         # view util functions
         angular.extend $scope,
@@ -751,6 +752,25 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             .then (map) ->
               shareSrv.saveShare($scope, map).then (url) ->
                 $scope.shareUrl = url
+
+        print = ->
+          map = (document.getElementById mapId).outerHTML
+          finalMap = map.replace(/\/\/a.tile.openstreetmap.org\//g, 'http://a.tile.openstreetmap.org/').replace(/\/\/b.tile.openstreetmap.org\//g, 'http://b.tile.openstreetmap.org/').replace(/\/\/c.tile.openstreetmap.org\//g, 'http://c.tile.openstreetmap.org/');
+          panel = (document.getElementById 'main-sidebar').outerHTML
+          links = '<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">';
+          styleLink = '';#<link rel="stylesheet" href="http://elimu.takwimu.org/styles/main.57b2adec.css">';
+          styles = "<style>#map {bottom: 0px;left: 0px;position: absolute;right: 0px;top: 0px;width: 100%;height:100%;}</style>#{styleLink}";
+          htmlContent = "<html><header>#{styles}</header><body id=\"pdf-body\">#{finalMap}#{panel}#{links}</body></html>";
+          console.log(htmlContent)
+          shareSrv.pdfExport(htmlContent).then (file) ->
+            a = document.createElement('a');
+            document.body.appendChild(a);
+            a.style = 'display: none';
+            url = window.URL.createObjectURL(file);
+            a.href = url;
+            a.download = 'dashboard.pdf';
+            a.click();
+            window.URL.revokeObjectURL(url);
 
         if(shareSrv.isShare())
           leafletData.getMap mapId

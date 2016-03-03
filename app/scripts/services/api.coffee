@@ -12,6 +12,7 @@ angular.module 'edudashAppSrv'
     ($http, $log, $location, $q, $window, topojson) ->
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       SHARE_API = '//api.takwimu.org/share'
+      PDF_EXPORT_API = '//api.takwimu.org/pdf'
       datasetMapping =
         primary:
           'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
@@ -169,3 +170,6 @@ angular.module 'edudashAppSrv'
 
       getShare: (shareId) =>
         xget SHARE_API, params: id: shareId
+
+      postHtml2Pdf: (html) =>
+        $http.post PDF_EXPORT_API, {content: html}, {responseType: 'blob'}
