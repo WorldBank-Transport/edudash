@@ -72,7 +72,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               max: GPA_MAX
               min_temp: GPA_MIN_TEMP
               max_temp: GPA_MAX_TEMP
-          shareUrl: null         
+          shareUrl: null
+          printing: false        
 
         # state transitioners
         angular.extend $scope,
@@ -754,6 +755,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 $scope.shareUrl = url
 
         print = ->
+          $scope.printing = true
           map = (document.getElementById mapId).outerHTML
           finalMap = map.replace(/\/\/a.tile.openstreetmap.org\//g, 'http://a.tile.openstreetmap.org/').replace(/\/\/b.tile.openstreetmap.org\//g, 'http://b.tile.openstreetmap.org/').replace(/\/\/c.tile.openstreetmap.org\//g, 'http://c.tile.openstreetmap.org/');
           panel = (document.getElementById 'main-sidebar').outerHTML
@@ -761,8 +763,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           styleLink = '';#<link rel="stylesheet" href="http://elimu.takwimu.org/styles/main.57b2adec.css">';
           styles = "<style>#map {bottom: 0px;left: 0px;position: absolute;right: 0px;top: 0px;width: 100%;height:100%;}</style>#{styleLink}";
           htmlContent = "<html><header>#{styles}</header><body id=\"pdf-body\">#{finalMap}#{panel}#{links}</body></html>";
-          console.log(htmlContent)
+          #console.log(htmlContent)
           shareSrv.pdfExport(htmlContent).then (file) ->
+            $scope.printing = false
             a = document.createElement('a');
             document.body.appendChild(a);
             a.style = 'display: none';
