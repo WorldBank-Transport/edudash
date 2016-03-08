@@ -198,6 +198,7 @@
               </a>
               <a ng-click="print()">
                 <li>
+                  <div ng-if="printing" class="loading" style="z-index: 1010"></div>
                   <img class="share-icon" src="images/icon-print.png">
                   <span translate="tab.share.print"></span>
                 </li>
