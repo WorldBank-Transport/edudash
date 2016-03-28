@@ -756,7 +756,15 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         print = ->
           $scope.printing = true
-          map = (document.getElementById mapId).outerHTML
+          originalMap = (document.getElementById mapId).cloneNode(true)
+          marks = originalMap.getElementsByClassName("leaflet-zoom-animated")
+          originalMarks = document.getElementsByClassName("leaflet-zoom-animated")
+          i = 0
+          while(i < marks.length) 
+            if (marks[i].localName == "svg" && originalMarks[i]._leaflet_pos?)
+              marks[i].style = "position: absolute;left: #{originalMarks[i]._leaflet_pos.x}px;top:#{originalMarks[i]._leaflet_pos.y};z-index:1000;";
+            i += 1
+          map = originalMap.outerHTML
           finalMap = map.replace(/\/\/a.tile.openstreetmap.org\//g, 'http://a.tile.openstreetmap.org/').replace(/\/\/b.tile.openstreetmap.org\//g, 'http://b.tile.openstreetmap.org/').replace(/\/\/c.tile.openstreetmap.org\//g, 'http://c.tile.openstreetmap.org/');
           panel = (document.getElementById 'main-sidebar').outerHTML
           links = '<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">';
