@@ -3,7 +3,7 @@
 
 .navbar-brand {
   @media only screen and (max-width: $lg-ish) {
-    padding-right: 20px;
+    padding-right: $general-space * 2;
   }
   @media only screen and (max-width: $xxs) {
     padding-right: 0;
@@ -30,7 +30,7 @@
 
 map-bottom-toggle.legend {
   @media only screen and (max-width: $xxs) {
-    width: 100%;  // filters are hidden
+    width: $full-width;  // filters are hidden
   }
 }
 map-bottom-toggle.filters {
@@ -51,10 +51,20 @@ map-bottom-toggle.filters {
 
   .nav {
     @media only screen and (max-width: $md-ish) {
-      bottom: $general-large-space * 3;
+      bottom: $general-space * 2;
       display: block;
+      margin-left: -$general-space;
       position: absolute;
-      width: $general-large-space * 6;
+      width: $general-large-space * 5;
+    }
+    @media only screen and (max-width: $xs-ish) {
+
+    }
+    li a {
+      @media only screen and (max-width: $md-ish) {
+        font-size: $smallest-text + 2;
+        margin-top: -$general-space*2.2;
+      }
     }
   }
 
@@ -69,8 +79,8 @@ map-bottom-toggle.filters {
       width: $full-width * 1.5;
     }
     @media (max-width: $xs-ish) {
-      font-size: 11px;
-      line-height: 12px;
+      font-size: $smallest-text + 1;
+      line-height: $smallest-text + 2;
     }
   }
 }
@@ -107,8 +117,8 @@ map-bottom-toggle.filters {
 #generalcontent a.boxlink {
   @media only screen and (max-width: $lg-ish) {
     font-size: $small-title - 2;
-    margin-right: 10px;
-    width: 112%;
+    margin-right: $general-space;
+    width: $full-width + 12;
   }
 }
 
@@ -139,9 +149,9 @@ map-bottom-toggle.filters {
 
 #schoolinfo .top-school-badge {
   @media screen and (max-width: $sm-ish) {
-    top: 30px;
+    top: $general-space * 3;
     img {
-      width: 60%;
+      width: $full-width - 40;
     }
   }
 }
@@ -154,12 +164,12 @@ map-bottom-toggle.filters {
   }
 
   @media only screen and (max-width: $md-ish) {
-    margin-right: 46px;
+    margin-right: $general-space + 36;
     margin-top: $general-space + 12;
   }
   @media only screen and (max-width: $xs) {
     top: 0;
-    right: 26px;
+    right: $general-space + 12;
     padding: 0;
     background: none;
     ul {
@@ -167,7 +177,7 @@ map-bottom-toggle.filters {
         float: left;
         a {
           padding: 0 21px 0 0;
-          margin-left: 21px;
+          margin-left: $general-space + 11;
           &:hover {
             background: none;
             color: darken($body-text-color, 25%);
@@ -182,7 +192,7 @@ map-bottom-toggle.filters {
   }
   @media only screen and (max-width: $xs-ish) {
     top: -13px;
-    right: 15px;
+    right: $general-space + 5;
   }
   @media only screen and (max-width: $xxs) {
     @include border-radius(0);
@@ -192,16 +202,16 @@ map-bottom-toggle.filters {
     z-index: 1;
     background: $menu-tab-grey;
     border-bottom: 1px solid $content-bg;
-    width: 100%;
+    width: $full-width;
     right: 0;
-    top: 19px;
+    top: $general-space + 9;
     ul {
       display: block;
       li {
-        width: 50%;
+        width: $full-width / 2;
         text-align: center;
         a {
-          font-size: 11px;
+          font-size: $smallest-text + 1;
           color: $body-text-color;
         }
         &.active a {
@@ -230,12 +240,12 @@ ul.main-nav {
       margin-bottom: 10px;
       text-align: right;
       a {
-        color: #ffffff;
+        color: $body-text-color-inverse;
         padding-right: 10px;
       }
       a:hover,
       a:focus {
-        color: #ffffff;
+        color: $body-text-color-inverse;
         outline: none;
       }
     }
