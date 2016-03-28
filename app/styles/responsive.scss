@@ -3,7 +3,7 @@
 
 .navbar-brand {
   @media only screen and (max-width: $lg-ish) {
-    padding-right: 20px;
+    padding-right: $general-space * 2;
   }
   @media only screen and (max-width: $xxs) {
     padding-right: 0;
@@ -30,7 +30,7 @@
 
 map-bottom-toggle.legend {
   @media only screen and (max-width: $xxs) {
-    width: 100%;  // filters are hidden
+    width: $full-width;  // filters are hidden
   }
 }
 map-bottom-toggle.filters {
@@ -42,24 +42,54 @@ map-bottom-toggle.filters {
 .footer {
   bottom: 0;
   display: fixed;
+  @media only screen and (max-width: $md-ish) {
+    bottom: $general-space * 3;
+  }
   @media only screen and (max-width: $xxs) {
     display: none;
   }
-  p {
-    @media only screen and (max-width: $lg-ish) {
-      margin-top: 8px;
+
+  .nav {
+    @media only screen and (max-width: $md-ish) {
+      bottom: $general-space * 2;
+      display: block;
+      margin-left: -$general-space;
+      position: absolute;
+      width: $general-large-space * 5;
     }
     @media only screen and (max-width: $xs-ish) {
-      font-size: 11px;
-      line-height: 12px;
+
+    }
+    li a {
+      @media only screen and (max-width: $md-ish) {
+        font-size: $smallest-text + 2;
+        margin-top: -$general-space*2.2;
+      }
+    }
+  }
+
+  p {
+    @media (max-width: $md-ish) {
+      margin-top: $general-space - 2;
+      width: $full-width / 1.2;
+    }
+    @media (max-width: $xs) {
+      margin-top: $general-space + 4;
+      margin-right: -$general-space*10;
+      width: $full-width * 1.5;
+    }
+    @media (max-width: $xs-ish) {
+      font-size: $smallest-text + 1;
+      line-height: $smallest-text + 2;
     }
   }
 }
 
+
 .google-form {
   @media only screen and (max-width: $lg-ish) {
-    width: 95%;
-    margin-top: 10px;
+    width: $full-width - 5;
+    margin-top: $general-space;
     overflow-x: no-scroll;
   }
 }
@@ -73,11 +103,22 @@ map-bottom-toggle.filters {
   }
 }
 
-#generalcontent a.boxlink {
+#generalcontent .boxlink-container {
   @media only screen and (max-width: $md-ish) {
-    font-size: 9px;
-    float: left;
-    margin-right:5px;
+    margin-left: 0;
+    width: $full-width;
+  }
+  @media only screen and (max-width: $sm-ish) {
+    margin-left: -1%;
+    width: $full-width - 8;
+  }
+}
+
+#generalcontent a.boxlink {
+  @media only screen and (max-width: $lg-ish) {
+    font-size: $small-title - 2;
+    margin-right: $general-space;
+    width: $full-width + 12;
   }
 }
 
@@ -108,18 +149,27 @@ map-bottom-toggle.filters {
 
 #schoolinfo .top-school-badge {
   @media screen and (max-width: $sm-ish) {
-    top: 30px;
+    top: $general-space * 3;
     img {
-      width: 60%;
+      width: $full-width - 40;
     }
   }
 }
 
 .navbar-lang {
-  @media only screen and (max-width: $xs) {
+  @media only screen and (max-width: $lg-ish) {
     position: absolute;
+    right: $general-large-space*2 + 20;
+    top: -$general-space*1.5;
+  }
+
+  @media only screen and (max-width: $md-ish) {
+    margin-right: $general-space + 36;
+    margin-top: $general-space + 12;
+  }
+  @media only screen and (max-width: $xs) {
     top: 0;
-    right: 26px;
+    right: $general-space + 12;
     padding: 0;
     background: none;
     ul {
@@ -127,7 +177,7 @@ map-bottom-toggle.filters {
         float: left;
         a {
           padding: 0 21px 0 0;
-          margin-left: 21px;
+          margin-left: $general-space + 11;
           &:hover {
             background: none;
             color: darken($body-text-color, 25%);
@@ -142,7 +192,7 @@ map-bottom-toggle.filters {
   }
   @media only screen and (max-width: $xs-ish) {
     top: -13px;
-    right: 15px;
+    right: $general-space + 5;
   }
   @media only screen and (max-width: $xxs) {
     @include border-radius(0);
@@ -152,16 +202,16 @@ map-bottom-toggle.filters {
     z-index: 1;
     background: $menu-tab-grey;
     border-bottom: 1px solid $content-bg;
-    width: 100%;
+    width: $full-width;
     right: 0;
-    top: 19px;
+    top: $general-space + 9;
     ul {
       display: block;
       li {
-        width: 50%;
+        width: $full-width / 2;
         text-align: center;
         a {
-          font-size: 11px;
+          font-size: $smallest-text + 1;
           color: $body-text-color;
         }
         &.active a {
@@ -190,12 +240,12 @@ ul.main-nav {
       margin-bottom: 10px;
       text-align: right;
       a {
-        color: #ffffff;
+        color: $body-text-color-inverse;
         padding-right: 10px;
       }
       a:hover,
       a:focus {
-        color: #ffffff;
+        color: $body-text-color-inverse;
         outline: none;
       }
     }

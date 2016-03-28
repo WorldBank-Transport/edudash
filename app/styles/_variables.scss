@@ -2,6 +2,7 @@
 $theme-blue: #05a2dc;
 $theme-blue-light: #8cd1ed;
 $theme-blue-lightest: #b9e5f5;
+$btn-hover: #0e7aaf;
 $grey-dark: #3a3a3a;
 $grey-light: #c0c0c0;
 $grey-lightest: #e3e3e3;
@@ -13,7 +14,7 @@ $rank-poor: #f56053;
 $best-perform: #82c675;
 $poor-perform: #f05e55;
 
-$body-text-color: #777777;
+$body-text-color: #555555;
 $top-nav-color: #555555;
 $body-text-color-inverse: #ffffff;
 $content-bg: #ffffff;
@@ -37,7 +38,7 @@ $school-list-weight:700;
 $tab-text-weight: 700;
 $light-text-weight: 400;
 $content-weight: 300;
-$district-text:11px;
+$district-text: 11px;
 $table-text: 13px;
 $panel-text: 14px;
 $school-info-text:16px;
@@ -51,6 +52,9 @@ $medium-text: 25px;
 $page-title: 30px;
 // Layout
 
+$full-width: 100%;
+$full-height: 100%;
+
 $header-height: 70px;
 
 $nav-height: 40px;  // including content-border  // 47
@@ -62,6 +66,7 @@ $flyout-width: 230px;
 
 $bottom-bar-height: 32px;
 $general-space: 10px;
+$general-large-space: 100px;
 $swahili-title-width: 120px;
 
 $legend-content-width: 360px;
