@@ -751,7 +751,12 @@ table.districts p {
     font-size: 15px;
     line-height: 120%;
     text-align: left;
+    &.helptext {
+      font-size: $smallest-text+1;
+    }
 }
+
+
 
 #generalcontent a:hover,
 #generalcontent a:hover a:visited,

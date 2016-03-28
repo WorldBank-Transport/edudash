@@ -102,6 +102,7 @@
     "data.data-datasets-school-locations": "Maeneo ya shule",
     "data.data-datasets-school-performance": "Kiwango cha kufuzo na matokeo ya mitihani",
     "data.data-datasets-school-pt-ratio": "Uwiano wa wanafunzi kwa walimu",
+    "data.data-datasets-school-pt-ratio-helptext": "Hesabu ya uwiano wa wanafunzi kwa walimu unapatikana kwa kugawa takwimu mbali mbali; haswa wanafunzi waliojiunga na walimu katika mashule mbali mbali.",
     "data.data-datasets-pr-school-teacher-distribution": "Idadi ya walimu katika shule za msingi 2015",
     "data.data-datasets-sec-school-enrollment": "Idadi ya walimu na waliojiunga na shule za upili 2015",
     "data.text": "Kuandaa takwimu ghafi ili kutiwa kwenye mitazamo, programu zenye leseni inayohamasisha matumizi-bure zimetumika. Mifano ikiwepo: Open Refine, Fusion Tables, na qGIS.",
