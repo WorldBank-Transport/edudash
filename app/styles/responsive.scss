@@ -42,24 +42,44 @@ map-bottom-toggle.filters {
 .footer {
   bottom: 0;
   display: fixed;
+  @media only screen and (max-width: $md-ish) {
+    bottom: $general-space * 3;
+  }
   @media only screen and (max-width: $xxs) {
     display: none;
   }
-  p {
-    @media only screen and (max-width: $lg-ish) {
-      margin-top: 8px;
+
+  .nav {
+    @media only screen and (max-width: $md-ish) {
+      bottom: $general-large-space * 3;
+      display: block;
+      position: absolute;
+      width: $general-large-space * 6;
     }
-    @media only screen and (max-width: $xs-ish) {
+  }
+
+  p {
+    @media (max-width: $md-ish) {
+      margin-top: $general-space - 2;
+      width: $full-width / 1.2;
+    }
+    @media (max-width: $xs) {
+      margin-top: $general-space + 4;
+      margin-right: -$general-space*10;
+      width: $full-width * 1.5;
+    }
+    @media (max-width: $xs-ish) {
       font-size: 11px;
       line-height: 12px;
     }
   }
 }
 
+
 .google-form {
   @media only screen and (max-width: $lg-ish) {
-    width: 95%;
-    margin-top: 10px;
+    width: $full-width - 5;
+    margin-top: $general-space;
     overflow-x: no-scroll;
   }
 }
@@ -73,11 +93,22 @@ map-bottom-toggle.filters {
   }
 }
 
-#generalcontent a.boxlink {
+#generalcontent .boxlink-container {
   @media only screen and (max-width: $md-ish) {
-    font-size: 9px;
-    float: left;
-    margin-right:5px;
+    margin-left: 0;
+    width: $full-width;
+  }
+  @media only screen and (max-width: $sm-ish) {
+    margin-left: -1%;
+    width: $full-width - 8;
+  }
+}
+
+#generalcontent a.boxlink {
+  @media only screen and (max-width: $lg-ish) {
+    font-size: $small-title - 2;
+    margin-right: 10px;
+    width: 112%;
   }
 }
 
@@ -116,8 +147,17 @@ map-bottom-toggle.filters {
 }
 
 .navbar-lang {
-  @media only screen and (max-width: $xs) {
+  @media only screen and (max-width: $lg-ish) {
     position: absolute;
+    right: $general-large-space*2 + 20;
+    top: -$general-space*1.5;
+  }
+
+  @media only screen and (max-width: $md-ish) {
+    margin-right: 46px;
+    margin-top: $general-space + 12;
+  }
+  @media only screen and (max-width: $xs) {
     top: 0;
     right: 26px;
     padding: 0;

@@ -747,9 +747,9 @@ table.districts p {
 
 #generalcontent p {
     color: $body-text-color;
-    font-weight: $content-weight;
-    font-size: 17px;
-    line-height: 21px;
+    font-weight: $content-weight - 100;
+    font-size: 15px;
+    line-height: 120%;
     text-align: left;
 }
 
@@ -760,10 +760,11 @@ table.districts p {
     text-decoration: none;
 }
 #generalcontent .boxlink-container{
-    margin: 20px 0;
+    width: 80%;
+    margin-left: 8%;
 }
 #generalcontent a.boxlink {
-  @include border-radius(5px);
+  @include border-radius(3px);
   background-color: $theme-blue;
   color: $content-bg;
   font-weight: $school-list-weight;
@@ -772,17 +773,18 @@ table.districts p {
   text-transform:uppercase;
   margin: 20px auto;
   display: block;
-  max-width: 250px;
-  padding:15px 10px;
-  width:95%;
+  // max-width: 250px;
+  padding:12px 0;
+  width:106%;
 }
+
 .full-screen-height {
   // height: $xs;
   padding-bottom: 130px;
 }
 
 #generalcontent a.boxlink:hover {
-    background-color: $theme-blue;
+    background-color: $btn-hover;
 }
 
 .ui-select-bootstrap > .ui-select-match {
@@ -1814,6 +1816,7 @@ gauge-chart.middle-chart{
   overflow: hidden;
   h3{
     color: $top-nav-color;
+    font-weight: $content-weight + 200;
   }
 }
 
