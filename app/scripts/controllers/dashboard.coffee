@@ -764,14 +764,20 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             if (marks[i].localName == "svg" && originalMarks[i]._leaflet_pos?)
               marks[i].style = "position: absolute;left: #{originalMarks[i]._leaflet_pos.x}px;top:#{originalMarks[i]._leaflet_pos.y};z-index:1000;";
             i += 1
+          selected = originalMap.getElementsByClassName("awesome-marker-icon-blue")
+          originalSelected = document.getElementsByClassName("awesome-marker-icon-blue")
+          if (selected.length > 0)
+            selected[0].style = "margin-left: #{originalSelected[0].style['margin-left']}; margin-top: #{originalSelected[0].style['margin-top']}; width: 35px; height: 45px; left: #{originalSelected[0]._leaflet_pos.x}px; top: #{originalSelected[0]._leaflet_pos.y}px; z-index: 440; position: absolute;"
           map = originalMap.outerHTML
           finalMap = map.replace(/\/\/a.tile.openstreetmap.org\//g, 'http://a.tile.openstreetmap.org/').replace(/\/\/b.tile.openstreetmap.org\//g, 'http://b.tile.openstreetmap.org/').replace(/\/\/c.tile.openstreetmap.org\//g, 'http://c.tile.openstreetmap.org/');
           panel = ''#(document.getElementById 'main-sidebar').outerHTML
+          styleMarker = '<style>.awesome-marker {background: url(\'http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/images/markers-soft.png\') no-repeat 0 0;width: 35px;height: 46px;display: block;text-align: center;}.awesome-marker-icon-blue {background-position: -108px 0;}</style>'
+          #<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
           links = '<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">';
           styleLink = '';#<link rel="stylesheet" href="http://elimu.takwimu.org/styles/main.57b2adec.css">';
           styles = "<style>#map {bottom: 0px;left: 0px;position: absolute;right: 0px;top: 0px;width: 100%;height:100%;}</style>#{styleLink}";
-          htmlContent = "<html><header>#{styles}</header><body id=\"pdf-body\">#{finalMap}#{panel}#{links}</body></html>";
-          #console.log(htmlContent)
+          htmlContent = "<html><header>#{styles}#{styleMarker}</header><body id=\"pdf-body\">#{finalMap}#{panel}#{links}</body></html>";
+          console.log(htmlContent)
           shareSrv.pdfExport(htmlContent).then (file) ->
             $scope.printing = false
             a = document.createElement('a');
