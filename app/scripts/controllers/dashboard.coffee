@@ -766,17 +766,22 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             i += 1
           selected = originalMap.getElementsByClassName("awesome-marker-icon-blue")
           originalSelected = document.getElementsByClassName("awesome-marker-icon-blue")
+          header = (document.getElementById "header-title").outerHTML
+          header = header.replace(/src="images\//g, 'src="http://elimu.takwimu.org/images/');
+          legend = document.getElementById "legend-div"
+          legendHtml = "<map-bottom-toggle class=\"legend\">#{legend.getElementsByClassName("body")[0].outerHTML}</map-bottom-toggle>"
           if (selected.length > 0)
             selected[0].style = "margin-left: #{originalSelected[0].style['margin-left']}; margin-top: #{originalSelected[0].style['margin-top']}; width: 35px; height: 45px; left: #{originalSelected[0]._leaflet_pos.x}px; top: #{originalSelected[0]._leaflet_pos.y}px; z-index: 440; position: absolute;"
           map = originalMap.outerHTML
           finalMap = map.replace(/\/\/a.tile.openstreetmap.org\//g, 'http://a.tile.openstreetmap.org/').replace(/\/\/b.tile.openstreetmap.org\//g, 'http://b.tile.openstreetmap.org/').replace(/\/\/c.tile.openstreetmap.org\//g, 'http://c.tile.openstreetmap.org/');
-          panel = ''#(document.getElementById 'main-sidebar').outerHTML
-          styleMarker = '<style>.awesome-marker {background: url(\'http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/images/markers-soft.png\') no-repeat 0 0;width: 35px;height: 46px;display: block;text-align: center;}.awesome-marker-icon-blue {background-position: -108px 0;}</style>'
+          panel = (document.getElementById 'main-sidebar').outerHTML
+          #styleMarker = '<style>.awesome-marker {background: url(\'http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/images/markers-soft.png\') no-repeat 0 0;width: 35px;height: 46px;display: block;text-align: center;}.awesome-marker-icon-blue {background-position: -108px 0;}</style>'
           #<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css">
-          links = '<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">';
-          styleLink = '';#<link rel="stylesheet" href="http://elimu.takwimu.org/styles/main.57b2adec.css">';
-          styles = "<style>#map {bottom: 0px;left: 0px;position: absolute;right: 0px;top: 0px;width: 100%;height:100%;}</style>#{styleLink}";
-          htmlContent = "<html><header>#{styles}#{styleMarker}</header><body id=\"pdf-body\">#{finalMap}#{panel}#{links}</body></html>";
+          #links = '<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css"><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">';
+          #styleLink = '<link rel="stylesheet" href="http://localhost:9000/main.b2c4cb07.css">';
+          documentHead = document.head.innerHTML.replace(/bower_components/g, "#{location.origin}\/bower_components").replace(/styles\//g, "#{location.origin}\/styles\/")
+          styles = "<style>#map {bottom: 0px;left: -100px;position: absolute;right: 0px;top: -70px;width: 70%;height:90%;} #header-title {z-index:10;left: 10px;position: absolute;top: 10px; font-size: 12px;} map-bottom-toggle {z-index:20000;right: 0px;position: absolute;bottom: 10px; overflow: visible; background: white; font-size:10px;background-color: #ffffff;} map-bottom-toggle.legend{ left: 10px; width: 35%;} map-bottom-toggle .body {background-color: white;background: white;}.performance-select {display: none} #main-sidebar{z-index:20000;right: 0px;position: absolute;top: 0px; width: 30% min-width: 400px;font-size: 9px;background: white;background-color: white;}</style>";
+          htmlContent = "<html><head>#{documentHead}#{styles}</head><body id=\"pdf-body\">#{header}#{finalMap}#{legendHtml}#{panel}</body></html>";
           console.log(htmlContent)
           shareSrv.pdfExport(htmlContent).then (file) ->
             $scope.printing = false

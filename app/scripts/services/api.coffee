@@ -13,6 +13,7 @@ angular.module 'edudashAppSrv'
       ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
       SHARE_API = '//api.takwimu.org/share'
       PDF_EXPORT_API = '//api.takwimu.org/pdf'
+      # PDF_EXPORT_API = '//localhost:9080/pdf'
       datasetMapping =
         primary:
           'performance': '59f06138-4ac9-454e-9c26-a1641c897279'

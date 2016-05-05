@@ -6,7 +6,7 @@
       school-type="schoolType">
     </div>
 
-    <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend">
+    <map-bottom-toggle title="{{ 'legend.title' | translate }}" class="legend" id="legend-div">
       <div class="performance-select">
         <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate and Pupil-Teacher Ratio</a>
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
