@@ -783,6 +783,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           styles = "<style>#map {bottom: 0px;left: -100px;position: absolute;right: 0px;top: -70px;width: 70%;height:90%;} #header-title {z-index:10;left: 10px;position: absolute;top: 10px; font-size: 12px;} map-bottom-toggle {z-index:20000;right: 0px;position: absolute;bottom: 10px; overflow: visible; background: white; font-size:10px;background-color: #ffffff;} map-bottom-toggle.legend{ left: 10px; width: 35%;} map-bottom-toggle .body {background-color: white;background: white;}.performance-select {display: none} #main-sidebar{z-index:20000;right: 0px;position: absolute;top: 0px; width: 30% min-width: 400px;font-size: 9px;background: white;background-color: white;}</style>";
           htmlContent = "<html><head>#{documentHead}#{styles}</head><body id=\"pdf-body\">#{header}#{finalMap}#{legendHtml}#{panel}</body></html>";
           console.log(htmlContent)
+          
           shareSrv.pdfExport(htmlContent).then (file) ->
             $scope.printing = false
             a = document.createElement('a');
