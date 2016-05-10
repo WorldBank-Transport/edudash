@@ -157,8 +157,10 @@
     "footer.link2": "source code",
     "footer.link3": "GPL 3.0 license",
 
-    "modal.open.good": "Show {{modalLimit}} best performing schools",
-    "modal.open.bad": "Show {{modalLimit}} worst performing schools",
+    "modal.open.performance.good": "Show {{modalLimit}} best performing schools",
+    "modal.open.performance.bad": "Show {{modalLimit}} worst performing schools",
+    "modal.open.improvement.good": "Show {{modalLimit}} best improved schools",
+    "modal.open.improvement.bad": "Show {{modalLimit}} worst improved schools",
     "modal.title.performance.good": "Best performing schools",
     "modal.title.improvement.good": "Best improved schools",
     "modal.title.performance.bad": "Worst performing schools",

@@ -154,8 +154,10 @@
     "footer.link2": "Programu imeandikwa",
     "footer.link3": "GPL 3.0",
 
-    "modal.open.good": "Onyesha {{modalLimit}} zenye matokeo bora zaidi",
-    "modal.open.bad": "Onyesha {{modalLimit}} zenye matokeo duni zaidi",
+    "modal.open.performance.good": "Onyesha {{modalLimit}} zenye matokeo bora zaidi",
+    "modal.open.performance.bad": "Onyesha {{modalLimit}} zenye matokeo duni zaidi",
+    "modal.open.improvement.good": "Onyesha {{modalLimit}} zilizoinua matokeo zaidi",
+    "modal.open.improvement.bad": "Onyesha {{modalLimit}} zilizoinua matokeo kiwango duni zaidi",
     "modal.title.performance.good": "Shule zenye matokeo bora zaidi",
     "modal.title.improvement.good": "Shule zilizoinua matokeo zaidi",
     "modal.title.performance.bad": "Shule zenye matokeo duni zaidi",
