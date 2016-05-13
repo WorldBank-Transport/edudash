@@ -766,8 +766,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             i += 1
           selected = originalMap.getElementsByClassName("awesome-marker-icon-blue")
           originalSelected = document.getElementsByClassName("awesome-marker-icon-blue")
+          subtitle = (document.getElementById "current-view").cloneNode(true)
+          subtitle.style = 'display: block; color: #1595d3;font-size: 14px; font-weight: 700; line-height: 18px;z-index:10;left: 10px;position: absolute;top: 9%;';
+
           header = (document.getElementById "header-title").outerHTML
-          header = header.replace(/src="images\//g, 'src="http://elimu.takwimu.org/images/');
+          header = header.replace(/src="images\//g, 'src="http://elimu.takwimu.org/images/') + subtitle.outerHTML;
+
           legend = document.getElementById "legend-div"
           legendHtml = "<map-bottom-toggle class=\"legend\">#{legend.getElementsByClassName("body")[0].outerHTML}</map-bottom-toggle>"
           if (selected.length > 0)

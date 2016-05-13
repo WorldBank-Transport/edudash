@@ -179,6 +179,9 @@
             </ul>
           </li>
           <li role="presentation" class="dropdown" ng-class="{open: showSubmenu}">
+            <div id="current-view" style="display: none;">
+              <span translate="{{'share.view.' + schoolType + '.'  + viewMode + '.' + polyType}}"></span> {{year}}
+            </div>  
             <a class="dropdown-toggle" ng-click="showSubmenu=!showSubmenu">
               <span class="hide-sm" translate="tab.share">Share</span>
               <span class="show-sm" translate="tab.share">Share</span>
