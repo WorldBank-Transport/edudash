@@ -1,3 +1,5 @@
+<div ng-if="printing" class="loading" style="z-index: 1010">
+</div>
 <div class="modal-header">
   <h3 class="modal-title" translate="modal.title.{{type}}.{{listType}}">Top Schools</h3>
   <h5 translate="modal.subtitle.{{school}}.{{type}}.{{listType}}">This is the list of the top 100 best performing schools published by the National Examination Council of Tanzania</h5>
@@ -20,4 +22,5 @@
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" type="button" ng-click="cancel()" translate="modal.cancel">Cancel</button>
+  <button class="btn btn-primary" type="button" ng-click="pdf()" translate="tab.share.print"><img class="share-icon" src="images/icon-print.png">PDF</button>
 </div>
