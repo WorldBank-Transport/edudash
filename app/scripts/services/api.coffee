@@ -16,7 +16,7 @@ angular.module 'edudashAppSrv'
       # PDF_EXPORT_API = '//localhost:9080/pdf'
       datasetMapping =
         primary:
-          'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
+          'performance': 'aba0d668-5693-4979-83fc-f58df99f7873'
           'improvement': 'd1b88ec0-236b-462c-b663-1d24bba7c4d4'
         secondary: '99bb9a93-d239-425e-bca8-7e4da3fa6d34'
 
