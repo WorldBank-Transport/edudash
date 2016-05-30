@@ -35,6 +35,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
     else
       if typeof val is 'string' # this is a hack since the negative come as string values
         val = parseInt val
+
       switch metric
 
         when 'AVG_MARK' then throw new Error "AVG_MARK shall not be bracket"
@@ -73,6 +74,10 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
           when val > PUPIL_TEACHER_RATIO_MID2 then 'POOR'
           else 'UNKNOWN'
 
+        when 'LOCATION_IS_APPROXIMATE' then switch
+          when val == 0 then 'GOOD'
+          else 'UNKNOWN'
+
         else throw new Error "Unknown metric: '#{metric}'"
 
   hasBadge: (badge, schoolType, school, allSchools) ->
@@ -105,6 +110,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
       when 'ptratio' then 'PUPIL_TEACHER_RATIO'
       when 'gpa' then 'AVG_GPA'
       when 'combined' then 'PASS_RATE'
+      when 'locaccuracy' then 'LOCATION_IS_APPROXIMATE'
       else throw new Error "Unknown vis mode '#{visMode}'"
 
   getSortMetric: (schoolType, criteria, inverse) ->
@@ -138,12 +144,12 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
   getMarkStyle: (school, visMode, options, color) ->
     unless school?
       throw new Error "Unknown school '#{school}'"
-    if visMode is 'ptratio'
+    if visMode in ['ptratio', 'locaccuracy']
       if color is '#aaa'
         options.fillColor = color
       else 
         options.fillColor = '#05a2dc'
-    else 
+    else
       options.fillColor = color
     if visMode in ['combined', 'ptratio']
       options.radius = switch this.getBracket school.PUPIL_TEACHER_RATIO, 'PUPIL_TEACHER_RATIO'
@@ -156,4 +162,7 @@ angular.module('edudashAppSrv').service 'bracketsSrv', ($q, utils) ->
             options.fill = false
             options.weight = 2
           4
+    if visMode is 'locaccuracy'
+      options.radius = 4
+
     options

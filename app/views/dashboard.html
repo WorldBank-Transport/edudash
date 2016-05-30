@@ -11,6 +11,7 @@
         <a ng-class="{active: visMode==='combined'}" ng-click="setVisMode('combined');" translate="legend.combined">Pass Rate and Pupil-Teacher Ratio</a>
         <a ng-class="{active: visMode==='passrate'}" ng-click="setVisMode('passrate');" translate="legend.passrate">Pass Rate (%)</a>
         <a ng-class="{active: visMode==='ptratio'}" ng-click="setVisMode('ptratio');" translate="legend.ptratio">Pupil-Teacher Ratio</a>
+        <a ng-class="{active: visMode==='locaccuracy'}" ng-click="setVisMode('locaccuracy');" translate="legend.locaccuracy">Location accuracy</a>
         <a ng-if="schoolType==='secondary'"
           ng-class="{active: visMode==='gpa'}" ng-click="setVisMode('gpa')" translate="legend.avggpa">GPA </a>
       </div>
@@ -44,6 +45,12 @@
           <li class="ptr-medium blue-fill">&lt; 35</li>
           <li class="ptr-good blue-fill">35&ndash;50</li>
           <li class="ptr-poor blue-fill">&gt; 50</li>
+        </ol>
+      </div>
+      <div ng-if="visMode==='locaccuracy'">
+        <ol class="ptratio">
+          <li class="unknown" translate="legend.approximate-location">Approximate location</li>
+          <li class="blue-fill" translate="legend.actual-location">Actual location</li>
         </ol>
       </div>
       <div ng-if="visMode==='combined'">

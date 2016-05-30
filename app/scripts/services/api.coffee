@@ -10,15 +10,15 @@
 angular.module 'edudashAppSrv'
   .service 'api',
     ($http, $log, $location, $q, $window, topojson) ->
-      ckanQueryURL = '//data.takwimu.org/api/action/datastore_search_sql'
+      ckanQueryURL = '//datahub.tehamalab.com/api/action/datastore_search_sql'
       SHARE_API = '//api.takwimu.org/share'
       PDF_EXPORT_API = '//api.takwimu.org/pdf'
       # PDF_EXPORT_API = '//localhost:9080/pdf'
       datasetMapping =
         primary:
-          'performance': '59f06138-4ac9-454e-9c26-a1641c897279'
-          'improvement': 'd1b88ec0-236b-462c-b663-1d24bba7c4d4'
-        secondary: '99bb9a93-d239-425e-bca8-7e4da3fa6d34'
+          'performance': 'b8777069-a7ed-4d69-9108-630ae328b2c9'
+          'improvement': '3845948d-ba01-40a6-9296-400f88dc5a88'
+        secondary: '2e7479a6-8c5c-4ddd-93d9-ae9aade30659'
 
       xget = switch
         when $window.OLDIE? then (url, opts, otherArgs...) ->
@@ -92,7 +92,8 @@ angular.module 'edudashAppSrv'
             \"RANK\",
             \"REGION\",
             \"WARD\",
-            \"PUPIL_TEACHER_RATIO\"
+            \"PUPIL_TEACHER_RATIO\",
+            \"LOCATION_IS_APPROXIMATE\"
             #{extraFields}
             FROM \"#{getTable schoolType, subtype}\"
           #{getConditions schoolType, moreThan40, year}"
