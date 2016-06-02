@@ -1148,6 +1148,14 @@ map-bottom-toggle.legend {
       border: 1px solid #fff;
       background-color: $theme-blue;
     }
+    &.blue-fill.ring:before {
+      border: 2px solid $theme-blue;
+      background-color: $content-bg;
+    }
+    &.unknown.ring:before {
+      border: 2px solid $unknown;
+      background-color: $content-bg;
+    }
   }
 }
 map-bottom-toggle.filters {

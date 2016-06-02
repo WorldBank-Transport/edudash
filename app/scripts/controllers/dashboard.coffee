@@ -8,7 +8,7 @@
  # Controller of the edudashApp
 ###
 angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
-  $location, $log, $q, $routeParams, $scope, $timeout,
+  $location, $log, $q, $routeParams, $scope, $timeout, $filter,
   _, api, bracketsSrv, colorSrv, layersSrv, leafletData, loadingSrv,
   utils, watchComputeSrv, shareSrv) ->
 
@@ -50,6 +50,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           selectedPolyId: null
           selectedPoly: null
           selectedPolyLayer: null
+          locationIsApproximate: null
           showSubmenu: false
           rankBy: null  # performance or improvement for primary
           moreThan40: null  # students, for secondary schools
@@ -296,9 +297,9 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 bracketsSrv.getSortMetric schoolType, 'improvement', true
 
         watchCompute 'filteredSchools',
-          dependencies: ['viewMode', 'allSchools', 'range.passrate.min',
+          dependencies: ['viewMode', 'allSchools', 'locationIsApproximate', 'range.passrate.min',
                          'range.passrate.max', 'range.ptratio.min', 'range.ptratio.max', 'range.gpa.min', 'range.gpa.max']
-          computer: ([viewMode, allSchools, prMin, prMax, ptMin, ptMax, gpaMin, gpaMax]) ->
+          computer: ([viewMode, allSchools, locationIsApproximate, prMin, prMax, ptMin, ptMax, gpaMin, gpaMax]) ->
             unless (viewMode in ['schools', 'rank-schools']) and allSchools?
               null
             else
@@ -308,6 +309,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                   .filter utils.rangeFilter 'PUPIL_TEACHER_RATIO', ptMin, ptMax, PTR_MIN, PTR_MAX
                 if $scope.schoolType is 'secondary'
                   filtered = filtered.filter utils.rangeFilter 'AVG_GPA', gpaMin, gpaMax, GPA_MIN, GPA_MAX
+                if locationIsApproximate?
+                    filtered = $filter('filter')(filtered, { LOCATION_IS_APPROXIMATE: locationIsApproximate });
                 resolve filtered
               ), reject
 
@@ -809,4 +812,18 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               ), 2000
             .catch (e) ->
               $log.log(e)
-          
+
+        $scope.showLocationIsApproximate =  (val) ->
+          if val in [0, 1]
+            if $scope.locationIsApproximate == val
+              if val == 1
+                $scope.locationIsApproximate = 0
+              else
+                $scope.locationIsApproximate = 1
+            else
+              if $scope.locationIsApproximate?
+                $scope.locationIsApproximate = null
+              else
+                $scope.locationIsApproximate = val
+          else
+            $scope.locationIsApproximate = null
