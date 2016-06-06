@@ -1849,3 +1849,17 @@ gauge-chart.middle-chart{
 .dataset-subtitle {
   font-weight: bold;
 }
+
+.blue-bg{
+  background: #05a2dc;
+}
+
+.grey-bg{
+  background: #aaa;
+}
+
+.table-header{
+    color: $body-text-color-inverse;
+    padding: 10px;
+    font-weight: bold;
+}

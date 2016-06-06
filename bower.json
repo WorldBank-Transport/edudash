@@ -25,6 +25,7 @@
     "leaflet": "~0.7.3",
     "Leaflet.awesome-markers": "~2.0.2",
     "highcharts": "~4.1.7",
+    "angular-nvd3":  "~1.0.5",
     "angular-rangeslider": "~0.0.14",
     "fast-circles": "~0.0.5",
     "topojson": "~1.6.19",

@@ -33,6 +33,7 @@ angular.module 'edudashAppSrv'
       converters =
         text: (t) -> t
         numeric: (n) -> +n
+        int8: (n) -> +n
 
       ckanResp = (httpPromise) ->
         $q (resolve, reject) ->
@@ -148,6 +149,20 @@ angular.module 'edudashAppSrv'
           FROM \"#{getTable(educationLevel, subtype)}\"
           WHERE \"CODE\" = '#{code}'
           ORDER BY \"YEAR_OF_RESULT\" ASC"
+
+      getLocationCountByGroup: (educationLevel, group, year) ->
+        ckanResp xget ckanQueryURL, params: sql: "
+          SELECT \"#{group}\",\"LOCATION_IS_APPROXIMATE\",COUNT(*)
+          FROM \"#{getTable(educationLevel, 'performance')}\"
+          WHERE \"YEAR_OF_RESULT\" = #{year}
+          GROUP BY \"#{group}\",\"LOCATION_IS_APPROXIMATE\" ORDER BY \"#{group}\""
+
+      getSchoolsCountByGroup: (educationLevel, group, year) ->
+        ckanResp xget ckanQueryURL, params: sql: "
+          SELECT \"#{group}\",COUNT(*)
+          FROM \"#{getTable(educationLevel, 'performance')}\"
+          WHERE \"YEAR_OF_RESULT\" = #{year}
+          GROUP BY \"#{group}\""
 
       getRegions: ->
         getStaticData '/layers/tz_regions.json'

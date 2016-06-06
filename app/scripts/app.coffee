@@ -28,5 +28,6 @@ angular
     'edudashAppDir',
     'edudashAppFil',
     'ngclipboard',
+    'nvd3'
   ])
 

@@ -241,7 +241,7 @@
           <div class="row">
             <div class="col-lg-12 bordered-col" id="schoolinfo" ng-include="'views/polygonPanel.html'" ng-show="(selectedPolyId|exists) && !(selectedSchoolCode|exists)"></div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools')">
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools') || (visMode === 'locaccuracy')">
             <div class="row col-lg-12">
               <div class="col-xs-4 text-center">
                 <pass-rate-change
@@ -270,7 +270,7 @@
               </div>
             </div>
           </div>
-          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools')">
+          <div class="container-fluid perfomance-gauges" ng-hide="(selectedSchoolCode|exists) || (selectedPolyId|exists) || (viewMode === 'rank-schools') || (visMode === 'locaccuracy')">
             <div class="row col-xs-12 passrate-time-chart">
               <pass-rate-time
                   chart-title="{{'chart.pass-rate-time'| translate}}"
@@ -460,6 +460,57 @@
                   selectpoly="selectPoly"
                   hover="hover"
                   unhover="unHover"></top-district-list>
+            </div>
+          </div>
+
+          <div
+            ng-if="visMode === 'locaccuracy' && viewMode === 'schools' && !(selectedSchool|exists)">
+            <div class="container-fluid">
+                <div ng-if="countByLocationAccuracy">
+                    <nvd3
+                        options="countByLocationAccuracyChart"
+                        data="countByLocationAccuracy">
+                    </nvd3>
+                </div>
+
+                <div ng-if="locationAccuracyByRegion">
+                    <h4 translate="tab.regional-view">Regions</h4>
+                    <nvd3
+                        options="locationAccuracyByRegionChart"
+                        data="[
+                            {values: locationAccuracyByRegion.actual, key: 'Actual locations'},
+                            {values: locationAccuracyByRegion.approximate, key: 'Approximate locations'}
+                        ]"
+                        config="{refreshDataOnly: true}">
+                    </nvd3>
+                </div>
+
+                <div ng-if="locationAccuracyByDistrict" class="container-fluid">
+                    <div class="district-schoollist">
+                        <div class="table-header blue-bg">
+                          Disticts with more actual school locations
+                        </div>
+
+                        <table class="districts school-performance">
+                            <tr ng-repeat="district in (locationAccuracyByDistrict.actual | orderBy:'-count').slice(0, 10)">
+                                <td class="name">{{district.DISTRICT}}</td>
+                                <td class="rank">{{district.count}}</td></tr>
+                        </table>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="district-schoollist" style="margin-top: 30px">
+                        <div class="table-header grey-bg">
+                          Disticts with more approximated school locations
+                        </div>
+
+                        <table class="districts school-performance">
+                            <tr ng-repeat="district in (locationAccuracyByDistrict.approximate | orderBy:'-count').slice(0, 10)">
+                                <td class="name">{{district.DISTRICT}}</td>
+                                <td class="rank">{{district.count}}</td></tr>
+                        </table>
+                    </div>
+                </div>
             </div>
           </div>
 

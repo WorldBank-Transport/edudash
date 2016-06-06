@@ -27,7 +27,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         GPA_MIN = 0
         GPA_MAX_TEMP = 5
         GPA_MIN_TEMP = 0
-       
+
 
         # app state
         angular.extend $scope,
@@ -51,6 +51,11 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           selectedPoly: null
           selectedPolyLayer: null
           locationIsApproximate: null
+          locationAccuracyByDistrict: null
+          locationAccuracyByRegion: null
+          locationAccuracyByRegionChart: null
+          countByLocationAccuracy: null
+          countByLocationAccuracyChart: null
           showSubmenu: false
           rankBy: null  # performance or improvement for primary
           moreThan40: null  # students, for secondary schools
@@ -80,7 +85,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
         angular.extend $scope,
           setYear: (newYear) -> $scope.year = newYear
           setViewMode: (newMode) -> $scope.viewMode = newMode
-          setVisMode: (newMode) -> $scope.visMode = newMode
+          setVisMode: (newMode) -> setVisMode newMode
           setPolyType: (polyType) -> $scope.polyType = polyType
           togglePolygons: (polyType) -> togglePolygons polyType
           hover: (id) -> hoverThing id
@@ -813,6 +818,34 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
             .catch (e) ->
               $log.log(e)
 
+        setVisMode = (newMode) ->
+          $scope.visMode = newMode
+          if newMode = 'locaccuracy'
+            setLocationAccuracyVisMode()
+            drawLocationAccuracyCharts()
+
+        setLocationAccuracyVisMode = () ->
+          api.getSchoolsCountByGroup $scope.schoolType, 'LOCATION_IS_APPROXIMATE', $scope.year
+            .then (data)->
+              $scope.countByLocationAccuracy = data
+            .catch (e) ->
+              $log.log(e)
+          api.getLocationCountByGroup $scope.schoolType, 'REGION', $scope.year
+            .then (data)->
+              $scope.locationAccuracyByRegion =
+                actual: $filter('filter')(data, {LOCATION_IS_APPROXIMATE: 0})
+                approximate: $filter('filter')(data, {LOCATION_IS_APPROXIMATE: 1})
+            .catch (e) ->
+              $log.log(e)
+          api.getLocationCountByGroup $scope.schoolType, 'DISTRICT', $scope.year
+            .then (data)->
+              $scope.locationAccuracyByDistrict =
+                actual: $filter('filter')(data, {LOCATION_IS_APPROXIMATE: 0})
+                approximate: $filter('filter')(data, {LOCATION_IS_APPROXIMATE: 1})
+            .catch (e) ->
+              $log.log(e)
+
+
         $scope.showLocationIsApproximate =  (val) ->
           if val in [0, 1]
             if $scope.locationIsApproximate == val
@@ -827,3 +860,59 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
                 $scope.locationIsApproximate = val
           else
             $scope.locationIsApproximate = null
+
+        drawLocationAccuracyCharts = ->
+          $scope.countByLocationAccuracyChart =
+            chart:
+              type: 'pieChart'
+              height: 220
+              x: (d) ->
+                if d.LOCATION_IS_APPROXIMATE == 1
+                  return 'Approximated locations'
+                if d.LOCATION_IS_APPROXIMATE == 0
+                  return 'Actual locations'
+                return ''
+              y: (d) ->
+                if !d.count
+                  return 0
+                d.count
+              color: (d) ->
+                if d.LOCATION_IS_APPROXIMATE == 1
+                  '#aaa'
+                else
+                  if d.LOCATION_IS_APPROXIMATE == 0
+                    '#05a2dc'
+                  else
+                    d3.scale.aColors().range()
+              labelType: 'percent'
+              callback: ->
+                d3.selectAll('.nv-pieLabels text').style
+                  'fill': 'white'
+                  'font-size': 14
+
+          $scope.locationAccuracyByRegionChart =
+            chart:
+              type: 'multiBarHorizontalChart'
+              margin:
+                top: 20
+                right: 20
+                bottom: 45
+                left: 90
+              height: 700
+              duration: 500
+              x: (d) ->
+                if d.REGION.toUpperCase() is 'DAR ES SALAAM'
+                  return d.REGION.substr(0, 3) + "'"
+                d.REGION
+              y: (d) ->
+                if !d.count
+                  return 0
+                d.count
+              color: [
+                '#05a2dc'
+                '#aaa'
+              ]
+              showValues: true
+              showControls: true
+          return
+
