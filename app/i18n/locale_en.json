@@ -11,7 +11,7 @@
     "menu.primary": "Primary",
     "menu.secondary": "Secondary",
     "menu.data": "Data",
-    "menu.speakout": "Speak Out",
+    "menu.speakout": "Feedback",
     "menu.healthdash": "Health Dashboard",
     "menu.waterdash": "Water Dashboard",
     "menu.showdata": "Show Data",
@@ -137,7 +137,7 @@
     "main.paragh1": "This Education Dashboard visualizes key information from Tanzania's open data portal. Use it to view the latest national exam results and monitor the information that is important to you. You can also use the menu options above to see original ",
     "main.paragh2": " about missing or wrong data.",
     "main.paragh.connector": "and",
-    "main.link.speakout": "speak out",
+    "main.link.speakout": "feedback",
     "main.link.data": "data",
     "speakout.title": "Your voice matters! Complete this form to share feedback about the data.",
 
