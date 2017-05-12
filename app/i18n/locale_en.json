@@ -114,7 +114,7 @@
     "data.faq-a4": "The dashboard can say “Missing Data” for a number of reasons. One common reason is because different datasets about similar information might record that information differently. For instance, the Ministry of Education and Vocational Training keeps information about the pupil-teacher ratio in schools, while the National Bureau of Statistics keeps information about the location of schools. Because these are in separate datasets, the two of them must be merged, often by joining the two datasets using a common field (the school name). But if the school name is not recorded identically in both datasets, then the match will not be made and that school’s pupil teacher ratio will not be matched or displayed in this dashboard. ",
     "data.faq-q5": "I found some data that looks incorrect. How can I provide feedback?",
     "data.faq-a5": "Please use the feedback form to explain the issue.",
-    "data.link.opendata": "Open Data Portal",
+    "data.link.opendata": "Government's Open Data Portal",
     "data.data-datasets": "Direct Links to the Raw Data",
     "data.data-datasets-school-locations": "School locations",
     "data.data-datasets-sec-schools": "Secondary school locations",
