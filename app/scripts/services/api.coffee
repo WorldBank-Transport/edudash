@@ -10,15 +10,15 @@
 angular.module 'edudashAppSrv'
   .service 'api',
     ($http, $log, $location, $q, $window, topojson) ->
-      ckanQueryURL = '//datahub.tehamalab.com/api/action/datastore_search_sql'
+      ckanQueryURL = '//opendata.go.tz/api/action/datastore_search_sql'
       SHARE_API = '//api.takwimu.org/share'
       PDF_EXPORT_API = '//api.takwimu.org/pdf'
       # PDF_EXPORT_API = '//localhost:9080/pdf'
       datasetMapping =
         primary:
-          'performance': 'b8777069-a7ed-4d69-9108-630ae328b2c9'
-          'improvement': '3845948d-ba01-40a6-9296-400f88dc5a88'
-        secondary: '2e7479a6-8c5c-4ddd-93d9-ae9aade30659'
+          'performance': '199db4b3-0068-4d6d-b7e8-c055cac83be5'
+          'improvement': '962c6563-419a-4c79-95bb-da7bf12595ab'
+        secondary: '92d5b7ec-a4ce-4e8a-a461-72ca47663cbd'
 
       xget = switch
         when $window.OLDIE? then (url, opts, otherArgs...) ->

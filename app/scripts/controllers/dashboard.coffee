@@ -552,6 +552,12 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
               when 'polygons' then getPolyLayer(oldThing.id).then (layer) ->
                 layer.setStyle colorSrv.polygonOff()
 
+        $scope.$watch 'year', ->
+          if $scope.visMode == 'locaccuracy'
+            setLocationAccuracyVisMode()
+            drawLocationAccuracyCharts()
+          return
+
         # hack to adjust flyout bottom spacing to not overlap filters when present
         $scope.$on 'filtersToggle', (event, opts) ->
           $scope.filtersHeight = opts.height
@@ -597,6 +603,8 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
           # in every case, deselect any schools and polygons
           $scope.selectSchool null
           $scope.selectPoly null
+          if $scope.visMode == 'locaccuracy'
+            $scope.visMode = 'combined'
           if polyType == $scope.polyType  # un-toggle
             $scope.setPolyType null
             $scope.setViewMode 'schools'
@@ -820,7 +828,7 @@ angular.module('edudashAppCtrl').controller 'DashboardCtrl', (
 
         setVisMode = (newMode) ->
           $scope.visMode = newMode
-          if newMode = 'locaccuracy'
+          if newMode == 'locaccuracy' and ($scope.viewMode == 'schools' or $scope.viewMode == 'rank-schools')
             setLocationAccuracyVisMode()
             drawLocationAccuracyCharts()
 
